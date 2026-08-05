@@ -1151,8 +1151,9 @@ The directive never holds a color map. It writes `--tsui-tooltip-bg` as
 list to keep in sync — a project that redefines `--color-primary-*` gets its own primary
 here for free. `black` maps to `var(--color-black)`.
 
-A colored balloon keeps its color in both themes. Only the default one inverts, dark on
-light themes and light on dark ones.
+A colored balloon keeps its color in both themes, and so does the default one: dark on
+light and dark themes alike. An application that wants a light balloon on its dark theme
+opts in through the `invert` setting below.
 
 ### Added — `data-tooltip-disabled`
 
@@ -1174,12 +1175,19 @@ the balloon has to disappear right then.
     [
         'delay' => null,
         'color' => null,
+        'invert' => false,
     ],
 ],
 ```
 
-Both reach every `x-tooltip` on the page, including the ones rendered by Button, Kbd,
-Breadcrumbs, Editor and the sidebar. These are defaults: the inline prop always wins.
+All of them reach every `x-tooltip` on the page, including the ones rendered by Button,
+Kbd, Breadcrumbs, Editor and the sidebar. `delay` and `color` are defaults: the inline
+prop always wins.
+
+`invert` flips the default balloon in dark mode — light background, dark text — which is
+how some design systems draw a tooltip on a dark canvas. It is off unasked, so the
+balloon keeps its dark look in both themes, exactly as it did on `3.x`. A colored
+balloon never inverts, whatever the setting says.
 
 The tooltip lives in a directive, not in a component, so those anchors have no PHP
 instance to read the config from. `@tallStackUiScript` publishes it as attributes on the

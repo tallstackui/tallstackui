@@ -261,10 +261,6 @@ return [
             | min_height, max_height: the editable boundaries, in any CSS unit.
             | upload: the constraints checked in the browser before uploading.
             | sanitization: the whitelist applied to any pasted content.
-            |
-            | The sanitization whitelist is a defense in depth measure, not the
-            | defense itself. Always sanitize the content on the server before
-            | persisting it and before rendering it back.
             */
             [
                 'markdown' => false,
@@ -667,12 +663,14 @@ return [
             |
             | delay: controls the pointer delay before opening (Allowed: slow, fast, faster, flash).
             | color: controls the balloon color (Allowed: any palette key, or black).
+            | invert: controls the dark mode inversion of the default balloon.
             |
             | These are defaults for every x-tooltip: the inline prop always wins.
             */
             [
                 'delay' => null,
                 'color' => null,
+                'invert' => false,
             ],
         ],
         'upload' => Components\Form\Upload\Component::class,

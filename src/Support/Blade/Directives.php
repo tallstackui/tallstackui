@@ -105,6 +105,7 @@ class Directives
         return collect([
             'tooltip-delay' => $tooltip['delay'] ?? null,
             'tooltip-color' => $tooltip['color'] ?? null,
+            'tooltip-invert' => ($tooltip['invert'] ?? false) ? 'true' : null,
         ])->filter(fn (?string $value): bool => filled($value))
             ->map(fn (string $value, string $key): string => ' data-tsui-'.$key.'="'.e($value).'"')
             ->implode('');
