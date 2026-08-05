@@ -23,18 +23,19 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 
 ## Attributes
 
-| Attribute  | Type             | Default       | Description                                                      |
-|------------|------------------|---------------|------------------------------------------------------------------|
-| label      | string\|null     | null          | Label text displayed above the signature pad                     |
-| hint       | string\|null     | null          | Hint text displayed below the signature pad                      |
-| invalidate | bool             | null          | Displays validation error state                                  |
-| color      | string\|null     | '#000000'     | Pen stroke color (hex format)                                    |
-| background | string\|null     | 'transparent' | Canvas background color                                          |
-| line       | int\|float\|null | 2             | Pen stroke width in pixels                                       |
-| height     | int\|null        | 150           | Canvas height in pixels                                          |
-| jpeg       | bool             | null          | Exports the signature as JPEG instead of the default PNG         |
-| clearable  | bool             | null          | Shows a clear (trash) button to erase the entire canvas          |
-| exportable | bool             | null          | Shows a download button to export the signature as an image file |
+| Attribute       | Type             | Default       | Description                                                      |
+|-----------------|------------------|---------------|------------------------------------------------------------------|
+| label           | string\|null     | null          | Label text displayed above the signature pad                     |
+| hint            | string\|null     | null          | Hint text displayed below the signature pad                      |
+| invalidate      | bool             | null          | Displays validation error state                                  |
+| color           | string\|null     | '#000000'     | Pen stroke color (hex format)                                    |
+| background      | string\|null     | 'transparent' | Canvas background color                                          |
+| line            | int\|float\|null | 2             | Pen stroke width in pixels                                       |
+| height          | int\|null        | 150           | Canvas height in pixels                                          |
+| jpeg            | bool             | null          | Exports the signature as JPEG instead of the default PNG         |
+| clearable       | bool             | null          | Shows a clear (trash) button to erase the entire canvas          |
+| exportable      | bool             | null          | Shows a download button to export the signature as an image file |
+| persistent      | bool             | null          | Keeps the drawing when the canvas is resized instead of erasing  |
 
 ## Alpine.js Events
 
@@ -44,12 +45,26 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 
 ## Resizing
 
-The canvas tracks the width of its container, so a window resize, a device rotation or
-the mobile keyboard opening all reflow it. A drawing already on the canvas is carried
-over and scaled to the new size instead of being cleared.
+The canvas tracks the width of its container, so a window resize, a device rotation, the
+mobile keyboard opening or a collapsing sidebar all reflow it.
 
-Because the undo history is stored as pixel data sized for the old canvas, it restarts
-from the reflowed drawing: undo is available again from that point on, not before it.
+By default a reflow that changes the width erases the drawing, along with the undo and
+redo history, and sets the model back to `null`. A resize that leaves the width untouched
+does nothing.
+
+Use `persistent` to keep the drawing instead:
+
+```blade
+<x-signature wire:model="signature" persistent />
+```
+
+The strokes are stored as points rather than pixels and redrawn at the new width, so the
+drawing stays sharp however many times the container changes, and the undo/redo history
+survives with it. Only the width reflows — `height` is fixed — so a drawing carried across
+a resize is stretched horizontally in proportion to the new width.
+
+An untouched canvas keeps the model `null` either way: a resize before anything is drawn
+never stores a blank data URL.
 
 ## Validation Constraints
 

@@ -27,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $jpeg = null,
         public ?bool $clearable = null,
         public ?bool $exportable = null,
+        public ?bool $persistent = null,
     ) {
         //
     }

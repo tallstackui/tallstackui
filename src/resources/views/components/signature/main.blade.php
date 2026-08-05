@@ -3,7 +3,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height), @js($jpeg))"
+    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height), @js($jpeg), @js($persistent))"
          class="{{ $customization['wrapper.first'] }}" x-cloak>
         <div class="{{ $customization['wrapper.second'] }}">
             <div class="{{ $customization['wrapper.button'] }}">
