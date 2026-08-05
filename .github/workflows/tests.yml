@@ -12,7 +12,17 @@ on:
   pull_request:
     branches:
       - 4.x
+    paths-ignore:
+      - '.github/**'
+      - '.claude/**'
+      - '.ai/**'
+      - '**.md'
   workflow_dispatch:
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   checks:
