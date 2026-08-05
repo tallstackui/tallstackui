@@ -520,6 +520,20 @@ return [
         'pin' => Components\Form\Pin\Component::class,
         'progress' => Components\Progress\Bar\Component::class,
         'progress.circle' => Components\Progress\Circle\Component::class,
+        'qr-code' => [
+            Components\QrCode\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | QrCode Global Settings
+            |----------------------------------------------------------------------
+            | size: default rendered size (Allowed: xs, sm, md, lg, xl, 2xl).
+            | pixels: width, in pixels, of the image produced by copy and download.
+            */
+            [
+                'size' => 'md',
+                'pixels' => 1024,
+            ],
+        ],
         'radio' => Components\Form\Radio\Component::class,
         'radio.group' => Components\Form\Radio\Group\Component::class,
         'range' => Components\Form\Range\Component::class,

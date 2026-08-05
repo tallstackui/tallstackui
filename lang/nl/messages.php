@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'Kopiëren',
+        'download' => 'Downloaden',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'Verwacht Wachtwoord format:',

@@ -32,6 +32,7 @@ import spinner from '../src/Components/Spinner/alpine';
 import stats from '../src/Components/Stats/alpine';
 import password from '../src/Components/Form/Password/alpine';
 import pin from '../src/Components/Form/Pin/alpine';
+import qrCode from '../src/Components/QrCode/alpine';
 import tab from '../src/Components/Tab/Main/alpine';
 import table from '../src/Components/Table/alpine';
 import tag from '../src/Components/Form/Tag/alpine';
@@ -83,6 +84,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_list', list);
   Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
+  Alpine.data('tallstackui_qrCode', qrCode);
   Alpine.data('tallstackui_rating', rating);
   Alpine.data('tallstackui_reaction', reaction);
   Alpine.data('tallstackui_signature', signature);

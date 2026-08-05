@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'Kopyala',
+        'download' => 'İndir',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'Beklenen Şifre Formatı:',

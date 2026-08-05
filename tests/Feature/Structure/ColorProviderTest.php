@@ -27,6 +27,7 @@ use TallStackUi\Components\KeyValue\Component as KeyValue;
 use TallStackUi\Components\Link\Component as Link;
 use TallStackUi\Components\Progress\Bar\Component as Progress;
 use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
+use TallStackUi\Components\QrCode\Component as QrCode;
 use TallStackUi\Components\Rating\Component as Rating;
 use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Stats\Component as Stats;
@@ -69,6 +70,7 @@ test('should use attribute', function (string $component) {
     Rating::class,
     Progress::class,
     ProgressCircle::class,
+    QrCode::class,
     Spinner::class,
     Stats::class,
     Timeline::class,
@@ -110,6 +112,7 @@ test('attribute should only be used in the components', function () {
             Rating::class,
             Progress::class,
             ProgressCircle::class,
+            QrCode::class,
             Spinner::class,
             Stats::class,
             Timeline::class,

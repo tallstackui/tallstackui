@@ -15,6 +15,7 @@ use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Gallery\Component as Gallery;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
+use TallStackUi\Components\QrCode\Component as QrCode;
 use TallStackUi\Components\Slide\Component as Slide;
 use TallStackUi\Components\Toast\Component as Toast;
 
@@ -38,6 +39,7 @@ class CompileConfigurations
             $component instanceof Gallery => fn () => self::gallery($component),
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
+            $component instanceof QrCode => fn () => self::qrCode($component),
             $component instanceof SelectStyled => fn () => self::select($component),
             $component instanceof Slide => fn () => self::slide($component),
             $component instanceof Toast => fn () => Toast::class,
@@ -288,6 +290,20 @@ class CompileConfigurations
             'scrollable' => $component->scrollable,
             'scrollbar' => $configuration['scrollbar'] ?? null,
         ];
+    }
+
+    /**
+     * Define the QrCode component configurations.
+     *
+     * @throws Exception
+     */
+    private static function qrCode(QrCode $component): array
+    {
+        $configuration = __ts_get_component_configuration(QrCode::class);
+
+        $component->size ??= $configuration['size'] ?? 'md';
+
+        return ['pixels' => $configuration['pixels'] ?? 1024];
     }
 
     private static function select(SelectStyled $component): array

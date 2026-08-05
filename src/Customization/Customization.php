@@ -75,6 +75,7 @@ use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\Progress\Bar\Component as Progress;
 use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
+use TallStackUi\Components\QrCode\Component as QrCode;
 use TallStackUi\Components\Rating\Component as Rating;
 use TallStackUi\Components\Reaction\Component as Reaction;
 use TallStackUi\Components\Signature\Component as Signature;
@@ -497,6 +498,13 @@ class Customization
         };
 
         return $this->component($class);
+    }
+
+    public function qrCode(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(QrCode::class);
     }
 
     public function rating(?string $scope = null): CustomizationFactory

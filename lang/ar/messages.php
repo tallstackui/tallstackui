@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'نسخ',
+        'download' => 'تنزيل',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'كلمة المرور يجب أن تحتوي على:',

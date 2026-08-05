@@ -27,6 +27,7 @@ class IconGuide
                 'arrow-path' => 'arrow-path',
                 'arrow-trending-up' => 'arrow-trending-up',
                 'arrow-trending-down' => 'arrow-trending-down',
+                'arrow-down-tray' => 'arrow-down-tray',
                 'arrow-up-tray' => 'arrow-up-tray',
                 'arrows-pointing-in' => 'arrows-pointing-in',
                 'arrows-pointing-out' => 'arrows-pointing-out',
