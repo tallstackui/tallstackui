@@ -6,7 +6,7 @@
      x-data="tallstackui_dialog(@js(session()->pull('ts-ui:dialog')), @js(trans('ts-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:ts-ui:dialog.window="add($event.detail)"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && remove(true)" @endif
-     x-on:keydown.enter.window="top_ui && !$el.contains($event.target) && $refs.confirm?.click()"
+     x-on:keydown.enter.window="enter($event)"
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"
      role="dialog"
@@ -127,10 +127,14 @@
                         @endif
                     </div>
                     @if ($ts_ui__colorful)
-                        <button class="{{ $customization['buttons.confirm'] }}" x-bind:class="{
+                        <button @class([$customization['buttons.confirm'], $colors['colorful']['confirm']['base']]) x-bind:class="{
                                 '{{ $customization['buttons.confirm-grid.with-cancel'] }}' : dialog.options?.cancel,
                                 '{{ $customization['buttons.confirm-grid.without-cancel'] }}' : !dialog.options?.cancel,
-                                '{{ $customization['colorful.confirm'] }}': true,
+                                '{{ $colors['colorful']['confirm']['success'] }}': dialog.type === 'success',
+                                '{{ $colors['colorful']['confirm']['error'] }}': dialog.type === 'error',
+                                '{{ $colors['colorful']['confirm']['info'] }}': dialog.type === 'info',
+                                '{{ $colors['colorful']['confirm']['warning'] }}': dialog.type === 'warning',
+                                '{{ $colors['colorful']['confirm']['question'] }}': dialog.type === 'question',
                             }" dusk="tallstackui_dialog_confirmation"
                                 x-on:click="accept(dialog, $el)"
                                 x-ref="confirm"

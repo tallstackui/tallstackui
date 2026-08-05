@@ -63,7 +63,6 @@ class Component extends TallStackUiComponent implements Customization
                 'close' => 'h-5 w-5 cursor-pointer text-white',
                 'title' => 'text-lg font-semibold leading-6 text-white',
                 'description' => 'text-sm text-white/80',
-                'confirm' => 'bg-white/20 hover:bg-white/30 text-white font-bold! focus:ring-white/50',
                 'cancel' => 'w-full',
             ],
         ]);

@@ -26,7 +26,10 @@ class DialogColors
                 'icon' => array_merge($this->icon()['icon'], array_filter($icon['icon'])),
             ],
             'background' => array_merge($this->background(), array_filter($background)),
-            'colorful' => array_merge($this->colorful(), array_filter($colorful)),
+            'colorful' => [
+                'cancel' => $colorful['cancel'] ?? $this->colorful()['cancel'],
+                'confirm' => array_merge($this->colorful()['confirm'], array_filter($colorful['confirm'] ?? [])),
+            ],
         ];
     }
 
@@ -37,7 +40,7 @@ class DialogColors
             'error' => 'bg-red-500! dark:bg-red-500!',
             'info' => 'bg-blue-500! dark:bg-blue-500!',
             'warning' => 'bg-yellow-500! dark:bg-yellow-500!',
-            'question' => 'bg-neutral-500! dark:bg-neutral-500!',
+            'question' => 'bg-primary-500! dark:bg-primary-500!',
         ];
     }
 
@@ -49,7 +52,15 @@ class DialogColors
     private function colorful(): array
     {
         return [
-            'cancel' => 'bg-white/10 hover:bg-white/20 text-white/80',
+            'cancel' => 'bg-transparent text-white/80! hover:bg-white/20 hover:text-white! focus:bg-white/20 focus:text-white! focus:ring-white/50',
+            'confirm' => [
+                'base' => 'bg-white hover:bg-white/90 focus:ring-white/50',
+                'success' => 'text-green-700!',
+                'error' => 'text-red-700!',
+                'info' => 'text-blue-700!',
+                'warning' => 'text-yellow-700!',
+                'question' => 'text-primary-700!',
+            ],
         ];
     }
 

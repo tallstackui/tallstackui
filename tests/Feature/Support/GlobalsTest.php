@@ -267,7 +267,7 @@ it('applies colorful background classes to toast', function () {
         ->toContain('bg-red-500')
         ->toContain('bg-blue-500')
         ->toContain('bg-yellow-500')
-        ->toContain('bg-stone-500');
+        ->toContain('bg-primary-500');
 });
 
 it('changes icon to white when colorful is active', function () {
@@ -350,7 +350,7 @@ it('applies colorful background classes to dialog', function () {
         ->toContain('bg-red-500')
         ->toContain('bg-blue-500')
         ->toContain('bg-yellow-500')
-        ->toContain('bg-neutral-500');
+        ->toContain('bg-primary-500');
 });
 
 it('changes dialog icon to white when colorful is active', function () {
@@ -392,17 +392,27 @@ it('uses colorful cancel button classes from DialogColors', function () {
 
     expect('<x-dialog />')
         ->render()
-        ->toContain('bg-white/10')
-        ->toContain('hover:bg-white/20')
-        ->toContain('text-white/80');
+        ->toContain('bg-transparent text-white/80! hover:bg-white/20 hover:text-white!');
 });
 
-it('uses colorful confirm button with white bold in dialog', function () {
+it('uses colorful confirm button with a solid white background in dialog', function () {
     TallStackUi::customize()->globals()->colorful();
 
     expect('<x-dialog />')
         ->render()
-        ->toContain('bg-white/20 hover:bg-white/30 text-white font-bold!');
+        ->toContain('bg-white hover:bg-white/90');
+});
+
+it('uses a typed text color on the colorful confirm button in dialog', function () {
+    TallStackUi::customize()->globals()->colorful();
+
+    expect('<x-dialog />')
+        ->render()
+        ->toContain('text-green-700!')
+        ->toContain('text-red-700!')
+        ->toContain('text-blue-700!')
+        ->toContain('text-yellow-700!')
+        ->toContain('text-primary-700!');
 });
 
 it('does not apply colorful to dialog when global is not active', function () {

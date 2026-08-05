@@ -10,12 +10,13 @@ class ToastColors
 
     public function colors(): array
     {
-        [$icon, $text, $background] = $this->get('icon', 'text', 'background');
+        [$icon, $text, $background, $colorful] = $this->get('icon', 'text', 'background', 'colorful');
 
         return [
             'icon' => array_merge($this->icon(), array_filter($icon)),
             'text' => array_merge($this->text(), array_filter($text)),
             'background' => array_merge($this->background(), array_filter($background)),
+            'colorful' => array_merge($this->colorful(), array_filter($colorful)),
         ];
     }
 
@@ -26,7 +27,15 @@ class ToastColors
             'error' => 'bg-red-500! dark:bg-red-500!',
             'info' => 'bg-blue-500! dark:bg-blue-500!',
             'warning' => 'bg-yellow-500! dark:bg-yellow-500!',
-            'question' => 'bg-stone-500! dark:bg-stone-500!',
+            'question' => 'bg-primary-500! dark:bg-primary-500!',
+        ];
+    }
+
+    private function colorful(): array
+    {
+        return [
+            'confirm' => 'text-white font-bold!',
+            'cancel' => 'text-white/80',
         ];
     }
 

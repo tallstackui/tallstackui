@@ -95,12 +95,12 @@
                             <div class="{{ $customization['buttons.wrapper.first'] }}"
                                  x-bind:class="{ '{{ $customization['buttons.wrapper.first-with-actions'] }}' : toast.options.confirm && toast.options.cancel }">
                                 <button dusk="tallstackui_toast_confirmation"
-                                        @class([$customization['buttons.confirm'], $ts_ui__colorful ? $customization['colorful.confirm'] : $colors['text']['confirm']])
+                                        @class([$customization['buttons.confirm'], $ts_ui__colorful ? $colors['colorful']['confirm'] : $colors['text']['confirm']])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options?.confirm?.text"></button>
                                 <div x-show="toast.options.cancel">
                                     <button dusk="tallstackui_toast_rejection"
-                                            @class([$customization['buttons.cancel'], $ts_ui__colorful ? $customization['colorful.cancel'] : $colors['text']['cancel']])
+                                            @class([$customization['buttons.cancel'], $ts_ui__colorful ? $colors['colorful']['cancel'] : $colors['text']['cancel']])
                                             x-on:click="reject(toast)"
                                             x-text="toast.options?.cancel?.text"></button>
                                 </div>

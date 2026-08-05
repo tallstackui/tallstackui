@@ -3390,12 +3390,18 @@ the element on top of it.
 It fires only while the focus is **outside** the dialog:
 
 ```blade
-x-on:keydown.enter.window="top_ui && !$el.contains($event.target) && $refs.confirm?.click()"
+x-on:keydown.enter.window="enter($event)"
 ```
 
 A `<button>` already activates on `Enter` while focused, so without that guard a
 dialog whose cancel button had been reached with `Tab` would cancel *and* confirm on
 a single keystroke.
+
+For the same reason the handler calls `preventDefault()` once it decides to claim
+the keystroke. The element that opened the dialog keeps the focus after the click
+that opened it, and the guard above is precisely what lets `Enter` through while
+that is the case — so leaving the default action alone made the keystroke both
+confirm the dialog and click the trigger again, closing and reopening it in one go.
 
 `Enter` works on a `persistent()` dialog, where `Escape` does not. Persistence exists
 to stop a dialog from being dismissed by accident — pressing the confirm button is
@@ -3628,6 +3634,77 @@ that merely contain `rounded` are left alone.
 calling it twice registered duplicate entries and narrowing it never took effect:
 `colorful()` followed by `colorful(toast: false)` still left Toast enabled. It now
 replaces the list, matching the other two globals.
+
+### Changed — the `colorful` palette of the `question` type follows `primary`
+
+The `question` type painted itself with a grayscale palette, `bg-neutral-500` on
+Dialog and `bg-stone-500` on Toast. Since `question` is the type behind every
+confirmation dialog, the most common way to see `colorful()` was also the only
+one that produced no color at all, which reads as a broken global ([#1203](https://github.com/tallstackui/tallstackui/issues/1203)).
+
+| Component | 3.x               | 4.x                 |
+|-----------|-------------------|---------------------|
+| Dialog    | `bg-neutral-500!` | `bg-primary-500!`   |
+| Toast     | `bg-stone-500!`   | `bg-primary-500!`   |
+
+`primary` is what the confirm button of the `question` type already used outside
+of `colorful()`, so the two modes now agree with each other. The palette remains
+overridable through the published `DialogColors` and `ToastColors` classes.
+
+### Changed — the `colorful` dialog buttons no longer share the same background
+
+Cancel was `bg-white/10` and confirm `bg-white/20` over the colored panel, two
+translucent whites four percent apart. The destructive action lost the weight it
+has outside of `colorful()`, where cancel is red and confirm carries the type
+color:
+
+| Button  | 3.x                                     | 4.x                                       |
+|---------|-----------------------------------------|-------------------------------------------|
+| Cancel  | `bg-white/10 ... text-white/80`         | `bg-transparent` + `hover:bg-white/20`    |
+| Confirm | `bg-white/20 ... font-bold! text-white` | `bg-white` + `text-{type}-700!`           |
+
+The pair now reads as one filled button and one flat button, the same
+relationship `<x-button flat>` has with a solid one: confirm is solid white with
+the type color as its text, and cancel carries no background until it is hovered
+or focused, where it picks up `bg-white/20` and its label goes from `text-white/80`
+to full white.
+
+The `font-bold!` override went away with the translucent confirm: the solid
+background already carries the weight, so confirm keeps the `font-semibold` it has
+outside of `colorful()`.
+
+### Changed — every `colorful` button color moved into the published color classes
+
+The colors of the `colorful` buttons lived in the components' customization
+blocks, so the only way to change them was `customize()->block()`. Everything
+that varies by type already lived in the color classes instead — `background`,
+`confirm`, `icon` — and the `colorful` cancel of Dialog was there too. The
+confirm followed the cancel, and Toast gained the same treatment:
+
+| Was (customization block) | Is now (color class)             |
+|---------------------------|----------------------------------|
+| `dialog.colorful.confirm` | `DialogColors::colorfulColors()` |
+| `toast.colorful.confirm`  | `ToastColors::colorfulColors()`  |
+| `toast.colorful.cancel`   | `ToastColors::colorfulColors()`  |
+
+Those three blocks no longer exist, so `customize()->block()` on them now throws.
+Publish the color classes with `php artisan tallstackui:setup-color` and override
+`colorfulColors()` instead — partial overrides are merged over the defaults, so
+naming a single key leaves the rest untouched:
+
+```php
+public function colorfulColors(Component $component): array
+{
+    return [
+        'cancel' => null,                            // keeps the default
+        'confirm' => ['success' => 'text-lime-900!'],// the other types stay
+    ];
+}
+```
+
+The blocks that do not depend on the type — `colorful.icon`, `colorful.title`,
+`colorful.description`, `colorful.close` and friends — stay where they are and
+remain reachable through `customize()->block()`.
 
 ---
 

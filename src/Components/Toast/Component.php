@@ -87,8 +87,6 @@ class Component extends TallStackUiComponent implements Customization
                 'icon' => 'text-white',
                 'title' => 'text-sm font-medium text-white',
                 'description' => 'mt-1 text-sm text-white/80',
-                'confirm' => 'text-white font-bold!',
-                'cancel' => 'text-white/80',
                 'close' => 'inline-flex text-white focus:outline-hidden focus:ring-0 cursor-pointer',
                 'expand' => 'inline-flex text-white focus:outline-hidden focus:ring-0',
                 'progress' => [

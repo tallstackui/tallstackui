@@ -44,4 +44,15 @@ class ToastColors
             'question' => null,
         ];
     }
+
+    /**
+     * Colorful colors (used by colorful global).
+     */
+    public function colorfulColors(Component $component): array
+    {
+        return [
+            'confirm' => null,
+            'cancel' => null,
+        ];
+    }
 }

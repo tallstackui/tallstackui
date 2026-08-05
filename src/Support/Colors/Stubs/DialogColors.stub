@@ -70,6 +70,14 @@ class DialogColors
     {
         return [
             'cancel' => null,
+            'confirm' => [
+                'base' => null,
+                'success' => null,
+                'error' => null,
+                'info' => null,
+                'warning' => null,
+                'question' => null,
+            ],
         ];
     }
 }

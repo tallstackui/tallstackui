@@ -160,6 +160,24 @@ export default (flash, texts, overflowing) => ({
 
     return this.remove(false, true);
   },
+  /**
+   * Confirm through the enter key, which is only claimed while the focus sits
+   * outside the dialog. The default action must be prevented, otherwise the
+   * same keystroke also clicks whatever element holds the focus, typically the
+   * button that opened the dialog, reopening it right after it closes.
+   *
+   * @param {KeyboardEvent} event
+   * @return {void}
+   */
+  enter(event) {
+    if (!this.top_ui || this.$el.contains(event.target)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.$refs.confirm?.click();
+  },
   /** @return {Boolean} Whether this dialog is the topmost UI element. */
   get top_ui() {
     return top_ui_element(this.id);

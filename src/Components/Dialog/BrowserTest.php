@@ -57,6 +57,45 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_accept_interaction_dialog_with_enter_without_reopening_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Foo bar confirmation', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function confirmed(): void
+            {
+                //
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            // The trigger keeps the focus after the click, so the enter key must not
+            // reach it as a click once the dialog has already consumed the keystroke.
+            ->keys('@confirm', '{enter}')
+            ->pause(1500)
+            ->assertDontSee('Foo bar confirmation');
+    }
+
+    #[Test]
     public function can_accept_persistent_interaction_dialog_with_confirmation(): void
     {
         Livewire::visit(new class extends Component
