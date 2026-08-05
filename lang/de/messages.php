@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'Kopieren',
+        'download' => 'Herunterladen',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'Passwortanforderungen:',

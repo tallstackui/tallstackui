@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'Salin',
+        'download' => 'Muat turun',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'Format Kata Laluan:',

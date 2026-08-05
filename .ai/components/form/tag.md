@@ -39,21 +39,21 @@ over the key.
 
 ## Attributes
 
-| Attribute  | Type                        | Default | Description                                                                                                                              |
-|------------|-----------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------|
-| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                                     |
-| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                                      |
-| prefix     | string\|null                | null    | A single character prefix automatically prepended to each tag                                                                            |
-| limit      | int\|null                   | null    | Maximum number of tags allowed                                                                                                           |
-| lazy       | int\|null                   | null    | Minimum length the typed content must reach before a tag is accepted on Enter or comma. The `prefix` character does not count toward it. |
-| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                                                                                            |
-| options    | Collection\|array\|null     | null    | Tags offered for reuse in a floating list. Values are cast to strings and de-duplicated.                                                 |
-| placeholders | array\|null               | null    | Overrides the list messages. Only `empty` is used.                                                                                       |
+| Attribute    | Type                        | Default | Description                                                                                                                              |
+|--------------|-----------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------|
+| label        | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                                     |
+| hint         | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                                      |
+| prefix       | string\|null                | null    | A single character prefix automatically prepended to each tag                                                                            |
+| limit        | int\|null                   | null    | Maximum number of tags allowed                                                                                                           |
+| lazy         | int\|null                   | null    | Minimum length the typed content must reach before a tag is accepted on Enter or comma. The `prefix` character does not count toward it. |
+| invalidate   | bool\|null                  | null    | Prevents displaying validation error messages                                                                                            |
+| options      | Collection\|array\|null     | null    | Tags offered for reuse in a floating list. Values are cast to strings and de-duplicated.                                                 |
+| placeholders | array\|null                 | null    | Overrides the list messages. Only `empty` is used.                                                                                       |
 
 ## Slots
 
-| Slot  | Description                                                                                                                                                                       |
-|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Slot  | Description                                                                                                                                                                    |
+|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | after | Rendered under the floating list, always — including when the list is empty. The slot on its own is enough to open the list, so a field with no reusable tags still offers it. |
 
 > Note the difference from the slot of the same name on `Form/Select/Styled` and
@@ -139,24 +139,24 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name             | Purpose                                        |
-|------------------------|------------------------------------------------|
-| wrapper                | Flex container for tags and input              |
-| label.base             | Individual tag badge styles                    |
-| label.icon             | Tag remove icon size and color                 |
-| input.base             | Inner text input styles                        |
-| input.color.base       | Default ring and text colors                   |
-| input.color.background | Background color                               |
-| input.color.disabled   | Disabled/readonly background color             |
-| input.slot             | Slot text styles (prefix/suffix area)          |
-| input.wrapper          | Outer input wrapper with ring and focus styles |
-| button.wrapper         | Erase button positioning                       |
-| button.icon            | Erase button icon size and hover color         |
-| floating.default       | Floating panel surface                         |
+| Block Name             | Purpose                                                                                                             |
+|------------------------|---------------------------------------------------------------------------------------------------------------------|
+| wrapper                | Flex container for tags and input                                                                                   |
+| label.base             | Individual tag badge styles                                                                                         |
+| label.icon             | Tag remove icon size and color                                                                                      |
+| input.base             | Inner text input styles                                                                                             |
+| input.color.base       | Default ring and text colors                                                                                        |
+| input.color.background | Background color                                                                                                    |
+| input.color.disabled   | Disabled/readonly background color                                                                                  |
+| input.slot             | Slot text styles (prefix/suffix area)                                                                               |
+| input.wrapper          | Outer input wrapper with ring and focus styles                                                                      |
+| button.wrapper         | Erase button positioning                                                                                            |
+| button.icon            | Erase button icon size and hover color                                                                              |
+| floating.default       | Floating panel surface                                                                                              |
 | floating.class         | Floating panel overflow and stacking. Carries `w-full`, which opts the panel into the Floating's anchor width sync. |
-| box.wrapper            | Scrollable list wrapper                        |
-| box.item               | One option in the list                         |
-| box.highlighted        | Option under the cursor or the arrow keys      |
-| box.empty              | Message shown when nothing matches             |
-| box.after              | Divider above the `after` slot                 |
-| error                  | Error state ring and text styles               |
+| box.wrapper            | Scrollable list wrapper                                                                                             |
+| box.item               | One option in the list                                                                                              |
+| box.highlighted        | Option under the cursor or the arrow keys                                                                           |
+| box.empty              | Message shown when nothing matches                                                                                  |
+| box.after              | Divider above the `after` slot                                                                                      |
+| error                  | Error state ring and text styles                                                                                    |

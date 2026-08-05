@@ -32,6 +32,7 @@
 - [Link](components/link.md)
 - [List](components/list/main.md)
 - [List Items](components/list/items.md)
+- [QrCode](components/qr-code.md)
 - [Stats](components/stats.md)
 - [Table](components/table.md)
 - [Timeline](components/timeline/main.md)

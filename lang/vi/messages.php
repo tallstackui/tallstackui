@@ -63,6 +63,11 @@ return [
         ],
     ],
 
+    'qr-code' => [
+        'copy' => 'Sao chép',
+        'download' => 'Tải xuống',
+    ],
+
     'password' => [
         'rules' => [
             'title' => 'Định dạng mật khẩu mong đợi:',

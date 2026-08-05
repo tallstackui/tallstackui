@@ -60,6 +60,7 @@ test('contains method', function (string $method) {
     'loading',
     'modal',
     'progress',
+    'qrCode',
     'rating',
     'reaction',
     'select',
