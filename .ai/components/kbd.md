@@ -25,16 +25,16 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 
 ## Attributes
 
-| Attribute  | Type         | Default | Description                                            |
-|------------|--------------|---------|--------------------------------------------------------|
-| text       | string\|null | null    | Key label text                                         |
-| xs         | bool         | null    | Extra-small size                                       |
-| sm         | bool         | null    | Small size (default)                                   |
-| md         | bool         | null    | Medium size                                            |
-| lg         | bool         | null    | Large size                                             |
-| borderless | bool         | false   | Removes the border, keeping the shadow                 |
-| shadowless | bool         | false   | Removes the shadow, keeping the border                 |
-| tooltip    | string\|null | null    | Tooltip text shown on hover                            |
+| Attribute  | Type         | Default | Description                            |
+|------------|--------------|---------|----------------------------------------|
+| text       | string\|null | null    | Key label text                         |
+| xs         | bool         | null    | Extra-small size                       |
+| sm         | bool         | null    | Small size (default)                   |
+| md         | bool         | null    | Medium size                            |
+| lg         | bool         | null    | Large size                             |
+| borderless | bool         | false   | Removes the border, keeping the shadow |
+| shadowless | bool         | false   | Removes the shadow, keeping the border |
+| tooltip    | string\|null | null    | Tooltip text shown on hover            |
 
 Combine `borderless` and `shadowless` to strip both.
 
@@ -66,12 +66,12 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name       | Purpose                                                                       |
-|------------------|-------------------------------------------------------------------------------|
-| wrapper.class    | Base key styles (inline-flex, rounded, border, shadow, colors)                |
-| wrapper.sizes.xs | Extra-small text and padding                                                  |
-| wrapper.sizes.sm | Small text and padding                                                        |
-| wrapper.sizes.md | Medium text and padding                                                       |
-| wrapper.sizes.lg | Large text and padding                                                        |
-| borderless       | Applied when borderless is active (transparent border)                        |
-| shadowless       | Applied when shadowless is active (no shadow)                                 |
+| Block Name       | Purpose                                                        |
+|------------------|----------------------------------------------------------------|
+| wrapper.class    | Base key styles (inline-flex, rounded, border, shadow, colors) |
+| wrapper.sizes.xs | Extra-small text and padding                                   |
+| wrapper.sizes.sm | Small text and padding                                         |
+| wrapper.sizes.md | Medium text and padding                                        |
+| wrapper.sizes.lg | Large text and padding                                         |
+| borderless       | Applied when borderless is active (transparent border)         |
+| shadowless       | Applied when shadowless is active (no shadow)                  |

@@ -288,53 +288,53 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                           | Purpose                                                                      |
-|--------------------------------------|------------------------------------------------------------------------------|
-| input.wrapper.base                   | Button trigger base styles (cursor, padding, ring, background)               |
-| input.wrapper.color                  | Default focus ring and text color                                            |
-| input.wrapper.error                  | Error state ring styles                                                      |
-| input.wrapper.round.left             | Removes left border radius when used as right-side addon                     |
-| input.wrapper.round.right            | Removes right border radius when used as left-side addon                     |
-| input.wrapper.borderless             | Removes ring/border when used as a side addon                                |
-| input.content.wrapper.first          | Content area outer wrapper with overflow handling                            |
-| input.content.wrapper.second         | Content area inner wrapper for items                                         |
-| buttons.wrapper                      | Clear/chevron button container                                               |
-| buttons.size                         | Clear/chevron icon dimensions                                                |
-| buttons.base                         | Clear/chevron icon default color and hover                                   |
-| buttons.error                        | Clear/chevron icon error state color                                         |
-| floating.default                     | Floating panel wrapper styles                                                |
+| Block Name                           | Purpose                                                                                                                  |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| input.wrapper.base                   | Button trigger base styles (cursor, padding, ring, background)                                                           |
+| input.wrapper.color                  | Default focus ring and text color                                                                                        |
+| input.wrapper.error                  | Error state ring styles                                                                                                  |
+| input.wrapper.round.left             | Removes left border radius when used as right-side addon                                                                 |
+| input.wrapper.round.right            | Removes right border radius when used as left-side addon                                                                 |
+| input.wrapper.borderless             | Removes ring/border when used as a side addon                                                                            |
+| input.content.wrapper.first          | Content area outer wrapper with overflow handling                                                                        |
+| input.content.wrapper.second         | Content area inner wrapper for items                                                                                     |
+| buttons.wrapper                      | Clear/chevron button container                                                                                           |
+| buttons.size                         | Clear/chevron icon dimensions                                                                                            |
+| buttons.base                         | Clear/chevron icon default color and hover                                                                               |
+| buttons.error                        | Clear/chevron icon error state color                                                                                     |
+| floating.default                     | Floating panel wrapper styles                                                                                            |
 | floating.class                       | Floating panel overflow and width. Carries `w-full`, which is what opts the panel into the Floating's anchor width sync. |
-| floating.side                        | Floating panel min-width when used as side addon                             |
-| box.button.class                     | Search clear button positioning                                              |
-| box.button.icon                      | Search clear button icon styles                                              |
-| box.list.wrapper                     | Options list scrollable container                                            |
-| box.list.loading.wrapper             | Loading spinner container                                                    |
-| box.list.loading.class               | Loading spinner icon styles                                                  |
-| box.list.grouped.wrapper             | Group header wrapper styles                                                  |
-| box.list.grouped.options             | Group header flex layout                                                     |
-| box.list.grouped.base                | Group header content alignment                                               |
-| box.list.grouped.image               | Group header image styles                                                    |
-| box.list.grouped.description.text    | Group header description text                                                |
-| box.list.grouped.description.wrapper | Group header description container                                           |
-| box.list.item.wrapper                | Option item base styles (cursor, padding, hover)                             |
-| box.list.item.options                | Option item flex layout. Also used by loose options sitting alongside groups |
-| box.list.item.grouped                | Indented layout, applied only to rows nested inside a group                  |
-| box.list.item.base                   | Option item content alignment                                                |
-| box.list.item.selected               | Selected option highlight styles                                             |
-| box.list.item.disabled               | Disabled option styles                                                       |
-| box.list.item.image                  | Option item image styles                                                     |
-| box.list.item.check                  | Checkmark icon for selected items                                            |
-| box.list.item.description.text       | Option description text styles                                               |
-| box.list.item.description.wrapper    | Option description container                                                 |
-| box.list.empty                       | Empty state text styles                                                      |
-| box.searchable.wrapper               | Search input container                                                       |
-| items.wrapper                        | Selected items display container                                             |
-| items.placeholder.text               | Placeholder text styles                                                      |
-| items.placeholder.wrapper            | Placeholder wrapper                                                          |
-| items.single                         | Single selected item text styles                                             |
-| items.multiple.item                  | Multiple selection tag/chip styles                                           |
-| items.multiple.label                 | Multiple selection tag label text                                            |
-| items.multiple.label.wrapper         | Multiple selection tag label container                                       |
-| items.multiple.icon                  | Multiple selection tag remove icon                                           |
-| items.multiple.image                 | Multiple selection tag image                                                 |
-| items.image                          | Selected item image in single mode                                           |
+| floating.side                        | Floating panel min-width when used as side addon                                                                         |
+| box.button.class                     | Search clear button positioning                                                                                          |
+| box.button.icon                      | Search clear button icon styles                                                                                          |
+| box.list.wrapper                     | Options list scrollable container                                                                                        |
+| box.list.loading.wrapper             | Loading spinner container                                                                                                |
+| box.list.loading.class               | Loading spinner icon styles                                                                                              |
+| box.list.grouped.wrapper             | Group header wrapper styles                                                                                              |
+| box.list.grouped.options             | Group header flex layout                                                                                                 |
+| box.list.grouped.base                | Group header content alignment                                                                                           |
+| box.list.grouped.image               | Group header image styles                                                                                                |
+| box.list.grouped.description.text    | Group header description text                                                                                            |
+| box.list.grouped.description.wrapper | Group header description container                                                                                       |
+| box.list.item.wrapper                | Option item base styles (cursor, padding, hover)                                                                         |
+| box.list.item.options                | Option item flex layout. Also used by loose options sitting alongside groups                                             |
+| box.list.item.grouped                | Indented layout, applied only to rows nested inside a group                                                              |
+| box.list.item.base                   | Option item content alignment                                                                                            |
+| box.list.item.selected               | Selected option highlight styles                                                                                         |
+| box.list.item.disabled               | Disabled option styles                                                                                                   |
+| box.list.item.image                  | Option item image styles                                                                                                 |
+| box.list.item.check                  | Checkmark icon for selected items                                                                                        |
+| box.list.item.description.text       | Option description text styles                                                                                           |
+| box.list.item.description.wrapper    | Option description container                                                                                             |
+| box.list.empty                       | Empty state text styles                                                                                                  |
+| box.searchable.wrapper               | Search input container                                                                                                   |
+| items.wrapper                        | Selected items display container                                                                                         |
+| items.placeholder.text               | Placeholder text styles                                                                                                  |
+| items.placeholder.wrapper            | Placeholder wrapper                                                                                                      |
+| items.single                         | Single selected item text styles                                                                                         |
+| items.multiple.item                  | Multiple selection tag/chip styles                                                                                       |
+| items.multiple.label                 | Multiple selection tag label text                                                                                        |
+| items.multiple.label.wrapper         | Multiple selection tag label container                                                                                   |
+| items.multiple.icon                  | Multiple selection tag remove icon                                                                                       |
+| items.multiple.image                 | Multiple selection tag image                                                                                             |
+| items.image                          | Selected item image in single mode                                                                                       |

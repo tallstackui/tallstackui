@@ -31,18 +31,18 @@ A dynamic key-value pair editor that allows users to add, edit, and remove entri
 
 ## Attributes
 
-| Attribute     | Type                        | Default | Description                                                                                       |
-|---------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------|
-| label         | string\|null                | null    | Custom header label for the key column (defaults to translation)                                  |
-| value         | string\|null                | null    | Custom header label for the value column (defaults to translation)                                |
+| Attribute     | Type                        | Default | Description                                                                                                                                        |
+|---------------|-----------------------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| label         | string\|null                | null    | Custom header label for the key column (defaults to translation)                                                                                   |
+| value         | string\|null                | null    | Custom header label for the value column (defaults to translation)                                                                                 |
 | color         | string\|null                | null    | Accent for the header and the add button. Any TallStackUI color, or `black`. Without it the header stays neutral and the button follows `primary`. |
-| colorless     | bool\|null                  | null    | Drops the accent entirely, in light and dark. Wins over `color`.                                  |
-| limit         | int\|null                   | null    | Maximum number of rows allowed                                                                    |
-| static        | bool                        | null    | Makes all inputs read-only and hides the add button                                               |
-| deletable     | bool                        | null    | Shows a delete button on each row                                                                 |
-| delete-method | string\|null                | null    | Livewire method name to call when a row is deleted                                                |
-| placeholders  | bool                        | true    | Shows placeholder text in the key and value inputs                                                |
-| icon          | ComponentSlot\|string\|null | null    | Custom icon for the delete button (defaults to 'trash'), or a slot for fully custom delete markup |
+| colorless     | bool\|null                  | null    | Drops the accent entirely, in light and dark. Wins over `color`.                                                                                   |
+| limit         | int\|null                   | null    | Maximum number of rows allowed                                                                                                                     |
+| static        | bool                        | null    | Makes all inputs read-only and hides the add button                                                                                                |
+| deletable     | bool                        | null    | Shows a delete button on each row                                                                                                                  |
+| delete-method | string\|null                | null    | Livewire method name to call when a row is deleted                                                                                                 |
+| placeholders  | bool                        | true    | Shows placeholder text in the key and value inputs                                                                                                 |
+| icon          | ComponentSlot\|string\|null | null    | Custom icon for the delete button (defaults to 'trash'), or a slot for fully custom delete markup                                                  |
 
 ## Slots
 
@@ -80,7 +80,7 @@ TallStackUi::customize()
 |------------------|--------------------------------------------------------------|
 | wrapper          | Outer container styles (background, border, rounded corners) |
 | header.wrapper   | Header row layout (grid, border, padding)                    |
-| header.neutral   | Header text color, applied when no accent resolves            |
+| header.neutral   | Header text color, applied when no accent resolves           |
 | header.key       | Header key column text style                                 |
 | header.value     | Header value column text style                               |
 | empty.wrapper    | Empty state container (centered flex)                        |
@@ -89,7 +89,7 @@ TallStackUi::customize()
 | list.input.key   | Input styles for the key field                               |
 | list.input.value | Input styles for the value field                             |
 | button.add       | Add row button layout (full-width, border, padding)          |
-| button.neutral   | Add row button color under `colorless`                        |
+| button.neutral   | Add row button color under `colorless`                       |
 | button.delete    | Delete icon button styles (positioning, color)               |
 
 ## Color Personalization
