@@ -56,6 +56,8 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 | decrease       | bool                                   | false     | Downward trend arrow on the right (mutually exclusive with `increase`)                        |
 | navigate       | bool                                   | null      | Livewire `wire:navigate` when using `href`                                                    |
 | navigate-hover | bool                                   | null      | Livewire `wire:navigate.hover` when using `href`                                              |
+| shadowless     | bool                                   | null      | Removes the wrapper shadow                                                                    |
+| bordered       | bool                                   | null      | Adds a border to the wrapper. Combine with `shadowless` for a flat look                       |
 | chart          | array\|Collection\|ComponentSlot\|null | null      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
 | skeleton       | bool\|null                             | null      | Renders a structural placeholder instead of the content. Flag only — an integer throws        |
 
@@ -165,6 +167,8 @@ TallStackUi::customize()
 | Block Name                 | Purpose                                                                   |
 |----------------------------|---------------------------------------------------------------------------|
 | wrapper.first              | Outer card container (flex column, rounded, shadow)                       |
+| shadowless                 | Shadow reset applied when `shadowless` is set                             |
+| bordered                   | Border classes applied when `bordered` is set                             |
 | wrapper.first-clickable    | Cursor style when the card is clickable                                   |
 | wrapper.first-chart        | Stacking context on the card, applied only when a chart is present        |
 | chart.wrapper              | Full-bleed chart layer: placement, clipping and opacity                   |
@@ -205,3 +209,4 @@ TallStackUi::customize()
 ### Predefined scope
 
 `scope="stats-shadowless"` — removes card shadow and adds a light border (registered in the service provider).
+The `shadowless` and `bordered` attributes produce the same look without the scope: `<x-stats shadowless bordered />`.

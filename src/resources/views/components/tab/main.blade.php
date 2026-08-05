@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="tallstackui_tab(@if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif)"
-     class="{{ $customization['base.wrapper'] }}">
+     @class([$customization['base.wrapper'], $customization['shadowless'] => $shadowless, $customization['bordered'] => $bordered])>
     @if (!$scrollOnMobile)
         <div class="{{ $customization['base.padding'] }}">
             <select x-model="selected" class="{{ $customization['base.select'] }}" aria-label="Select a tab"

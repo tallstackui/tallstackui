@@ -36,6 +36,61 @@ it('can render centered', function () {
         ->toContain('justify-center');
 });
 
+it('can render with shadow and without border by default', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A">
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('shadow-md')
+        ->not->toContain('shadow-none!')
+        ->not->toContain('border border-gray-200');
+});
+
+it('can render shadowless', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A" shadowless>
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('shadow-none!');
+});
+
+it('can render bordered', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A" bordered>
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('border border-gray-200 dark:border-dark-600');
+});
+
+it('can render shadowless and bordered together', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A" shadowless bordered>
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('shadow-none!')
+        ->toContain('border border-gray-200 dark:border-dark-600');
+});
+
 it('can render with title', function () {
     $component = <<<'HTML'
     <x-tab selected="A">

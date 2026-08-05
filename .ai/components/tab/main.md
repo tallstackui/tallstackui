@@ -75,6 +75,8 @@ around the slot, so the flag reaches every panel:
 | scroll-on-mobile | bool\|null   | null    | Shows horizontal scrollable tabs on mobile instead of a select dropdown                                                                     |
 | centered         | bool\|null   | null    | Centers the tab navigation items                                                                                                            |
 | paddingless      | bool\|null   | null    | When true, removes the padding of the content area. The padding sits on the single wrapper around the slot, so the flag reaches every panel |
+| shadowless       | bool\|null   | null    | Removes the wrapper shadow                                                                                                                  |
+| bordered         | bool\|null   | null    | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                                     |
 
 ## Slots
 
@@ -173,6 +175,8 @@ TallStackUi::customize()
 | Block Name               | Purpose                                             |
 |--------------------------|-----------------------------------------------------|
 | base.wrapper             | Outer card container with background and shadow     |
+| shadowless               | Shadow reset applied when `shadowless` is set       |
+| bordered                 | Border classes applied when `bordered` is set       |
 | base.padding             | Padding wrapper for the mobile select dropdown      |
 | base.body                | Flex container for the tab navigation list          |
 | base.content             | Content area padding and text color                 |

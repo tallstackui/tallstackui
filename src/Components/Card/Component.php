@@ -25,6 +25,8 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?string $color = null,
         public ?bool $light = null,
+        public ?bool $accent = null,
+        public ?bool $shadowless = null,
         public ?bool $bordered = null,
         public ?string $minimize = null,
         public ?bool $close = null,
@@ -49,7 +51,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $footer = null
     ) {
         $this->style = $this->light ? 'light' : 'solid';
-        $this->variation = $this->bordered ? 'border' : 'background';
+        $this->variation = $this->accent ? 'border' : 'background';
         $this->rounded = is_string($this->round) ? $this->round : 'lg';
 
         if ($this->minimize === 'mount') {
@@ -69,6 +71,8 @@ class Component extends TallStackUiComponent implements Customization
                 'first' => 'flex justify-center gap-4 min-w-full',
                 'second' => 'dark:bg-dark-700 flex w-full flex-col overflow-hidden bg-white shadow-md',
             ],
+            'shadowless' => 'shadow-none!',
+            'bordered' => 'border border-gray-200 dark:border-dark-600',
             'header' => [
                 'wrapper' => [
                     'base' => 'flex items-center justify-between p-4',

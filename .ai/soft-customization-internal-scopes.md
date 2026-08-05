@@ -36,8 +36,8 @@ TallStackUi::customize()
 | Scope               | Target           | Line(s) |
 |---------------------|------------------|---------|
 | `calendar.label`    | `<x-label />`    | 32      |
-| `calendar.floating` | `<x-floating />` | 63, 92  |
-| `calendar.hint`     | `<x-hint />`     | 262     |
+| `calendar.floating` | `<x-floating />` | 65, 94  |
+| `calendar.hint`     | `<x-hint />`     | 264     |
 
 ### `clipboard`
 

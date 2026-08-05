@@ -38,6 +38,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $decrease = false,
         public ?bool $navigate = null,
         public ?bool $navigateHover = null,
+        public ?bool $shadowless = null,
+        public ?bool $bordered = null,
         public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?string $style = null,
@@ -75,6 +77,8 @@ class Component extends TallStackUiComponent implements Customization
                 'second-no-footer' => 'mb-4',
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
+            'shadowless' => 'shadow-none!',
+            'bordered' => 'border border-gray-200 dark:border-dark-600',
             'slots' => [
                 'header' => [
                     'wrapper' => 'mx-2',

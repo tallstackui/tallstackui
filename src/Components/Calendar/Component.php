@@ -39,6 +39,8 @@ class Component extends TallStackUiComponent implements Customization
         public int|string|null $only = null,
         public ?bool $weekdays = false,
         public ?bool $weekends = false,
+        public ?bool $shadowless = null,
+        public ?bool $bordered = null,
     ) {
         $this->disable = collect($this->disable)
             ->flatten()
@@ -72,6 +74,8 @@ class Component extends TallStackUiComponent implements Customization
                 'days-header' => 'grid grid-cols-7 mb-3',
                 'days-grid' => 'grid grid-cols-7',
             ],
+            'shadowless' => 'shadow-none!',
+            'bordered' => 'border border-gray-200 dark:border-dark-600',
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[17rem] h-[17rem]',

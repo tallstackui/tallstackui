@@ -54,3 +54,24 @@ it('throws when lock-month-year and month-year-only are both set', function () {
 
     expect('<x-calendar lock-month-year month-year-only />')->render();
 });
+
+it('renders with shadow and without border by default', function () {
+    expect('<x-calendar />')->render()
+        ->toContain('shadow-md')
+        ->not->toContain('shadow-none!')
+        ->not->toContain('border border-gray-200');
+});
+
+it('renders shadowless', function () {
+    expect('<x-calendar shadowless />')->render()->toContain('shadow-none!');
+});
+
+it('renders bordered', function () {
+    expect('<x-calendar bordered />')->render()->toContain('border border-gray-200 dark:border-dark-600');
+});
+
+it('renders shadowless and bordered together', function () {
+    expect('<x-calendar shadowless bordered />')->render()
+        ->toContain('shadow-none!')
+        ->toContain('border border-gray-200 dark:border-dark-600');
+});

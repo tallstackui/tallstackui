@@ -3,7 +3,7 @@
 @endphp
 
 <div aria-busy="true" aria-live="polite"
-     {{ $attributes->class([$customization['wrapper.first'], $customization['skeleton.animation']]) }}>
+     {{ $attributes->class([$customization['wrapper.first'], $customization['skeleton.animation'], $customization['shadowless'] => $shadowless, $customization['bordered'] => $bordered]) }}>
     @if ($header)
         <div class="{{ $customization['slots.header.wrapper'] }}">
             <div class="{{ $customization['slots.header.text'] }}">

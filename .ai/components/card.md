@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A versatile card container with optional header, footer, image, color styling, minimize/expand toggle, close button, and Livewire loading indicator. Supports both solid and light color variants with bordered or background variations.
+A versatile card container with optional header, footer, image, color styling, minimize/expand toggle, close button, and Livewire loading indicator. Supports both solid and light color variants with accent (colored top border) or background variations.
 
 ## Basic Usage
 
@@ -91,7 +91,9 @@ A versatile card container with optional header, footer, image, color styling, m
 |-------------|--------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | color       | string\|null       | null    | Color theme for the header background                                                                                                                              |
 | light       | bool               | null    | Uses the light color style variant                                                                                                                                 |
-| bordered    | bool               | null    | Uses a bordered variation instead of background fill                                                                                                               |
+| accent      | bool               | null    | Uses a colored top border on the header instead of background fill                                                                                                 |
+| shadowless  | bool               | null    | Removes the wrapper shadow                                                                                                                                         |
+| bordered    | bool               | null    | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                                                            |
 | minimize    | string\|null       | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                                                                |
 | close       | bool               | null    | Shows a close button to hide the entire card                                                                                                                       |
 | loading     | string\|bool\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction                                      |
@@ -203,6 +205,8 @@ TallStackUi::customize()
 |-------------------------|-----------------------------------------------------------|
 | wrapper.first           | Outer flex container                                      |
 | wrapper.second          | Inner card container with background and shadow           |
+| shadowless              | Shadow reset applied when `shadowless` is set             |
+| bordered                | Border classes applied when `bordered` is set             |
 | header.wrapper.base     | Header flex layout and padding                            |
 | header.wrapper.border   | Bottom border shown when card is expanded                 |
 | header.wrapper.minimize | Border radius applied when card is minimized              |

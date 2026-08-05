@@ -16,6 +16,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $scrollOnMobile = null,
         public ?bool $centered = null,
         public ?bool $paddingless = null,
+        public ?bool $shadowless = null,
+        public ?bool $bordered = null,
     ) {
         //
     }
@@ -40,6 +42,8 @@ class Component extends TallStackUiComponent implements Customization
                 'divider-mobile-show' => 'sm:block',
                 'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-dark-400 sm:hidden',
             ],
+            'shadowless' => 'shadow-none!',
+            'bordered' => 'border border-gray-200 dark:border-dark-600',
             'item' => [
                 'wrapper' => 'inline-flex items-center gap-2 whitespace-nowrap p-4 transition-all',
                 'mobile-show' => 'sm:flex',

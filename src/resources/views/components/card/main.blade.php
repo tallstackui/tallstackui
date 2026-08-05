@@ -4,7 +4,7 @@
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" class="{{ $customization['wrapper.first'] }}" x-cloak
      @if ($close) x-show="show" @endif wire:ignore.self {{ $attributes->whereStartsWith('x-on:') }}>
-    <div @class([$customization['wrapper.second'], $customization['border.radius.'.$rounded], 'relative' => $loading])>
+    <div @class([$customization['wrapper.second'], $customization['border.radius.'.$rounded], $customization['shadowless'] => $shadowless, $customization['bordered'] => $bordered, 'relative' => $loading])>
         @if ($loading)
             <div class="{{ $customization['loading.wrapper'] }}"
                  @if (!$delay)
