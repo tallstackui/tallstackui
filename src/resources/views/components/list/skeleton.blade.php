@@ -10,7 +10,10 @@
 
     <div class="{{ $customization['box'] }}">
         @if ($searchable)
-            <div class="{{ $customization['search.wrapper'] }}">
+            <div @class([
+                    $customization['search.wrapper'] => ! $compact,
+                    $customization['search.wrapper-compact'] => $compact,
+                 ])>
                 <div @class([$customization['skeleton.bar'], $customization['skeleton.search']])></div>
             </div>
         @endif
@@ -21,7 +24,10 @@
             ($customization['items.height.'.$height] ?? '') => $height !== null,
         ])>
             @for ($line = 1; $line <= $lines; $line++)
-                <div class="{{ $customization['skeleton.items.row'] }}">
+                <div @class([
+                        $customization['skeleton.items.row'] => ! $compact,
+                        $customization['skeleton.items.row-compact'] => $compact,
+                     ])>
                     <div class="{{ $customization['skeleton.items.content'] }}">
                         <div @class([$customization['skeleton.bar'], $customization['skeleton.name']])></div>
                         <div @class([$customization['skeleton.bar'], $customization['skeleton.caption']])></div>

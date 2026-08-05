@@ -12,7 +12,10 @@
     <div x-data="tallstackui_list(@js($slice ?? []))"
          class="{{ $customization['box'] }}">
         @if ($searchable)
-            <div class="{{ $customization['search.wrapper'] }}">
+            <div @class([
+                    $customization['search.wrapper'] => ! $compact,
+                    $customization['search.wrapper-compact'] => $compact,
+                 ])>
                 <span class="{{ $customization['search.icon.wrapper'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('magnifying-glass')"
@@ -63,7 +66,10 @@
 
             <div x-show="!hasResults"
                  x-cloak
-                 class="{{ $customization['empty.wrapper'] }}"
+                 @class([
+                    $customization['empty.wrapper'] => ! $compact,
+                    $customization['empty.wrapper-compact'] => $compact,
+                 ])
                  dusk="tallstackui_list_empty">
                 @if (isset($empty) && ! $empty->isEmpty())
                     {{ $empty }}

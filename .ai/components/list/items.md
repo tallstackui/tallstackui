@@ -119,6 +119,10 @@ When the caption comes from `<x-slot:caption>`, the value handed to `register()`
 
 The row also carries `data-list-on`, an attribute bound to the same search predicate. Alpine removes it while the row is filtered out, and the parent's `items.wrapper` block keys its inter-row dividers on it (`[&>[data-list-on]~[data-list-on]]:border-t`). This is what keeps the first *visible* row free of a top border when the rows above it are hidden by a search — a DOM-position selector cannot do that, since `display: none` siblings still count for `+`/`:not(:first-child)`.
 
+The row reads the parent's `compact` flag through `@aware`, so `<x-list compact>` tightens
+every row without the flag being repeated on each `<x-list.items>`. There is no `compact`
+attribute on the row itself — density is a property of the list, not of one entry.
+
 When `<x-slot:menu>` is provided, the row renders a self-contained dropdown menu (NOT `<x-dropdown>`) with a borderless `ellipsis-vertical` trigger and a floating panel pinned at `z-40` so Dialog/Modal/Slide/Toast overlays (all `z-50`) always render above it. The menu auto-closes when a `<x-dropdown.items>` entry is selected (via the `select` event) or when the user clicks outside.
 
 ### Size and width
@@ -166,7 +170,7 @@ The size flags (`xs`, `sm`, `md`, `lg`) are mutually exclusive — the first tru
 
 When the parent runs in [lazy mode](main.md#lazy-mode) it renders `<x-list.items lazy />` once, inside its `x-for` template. That row switches to `list/items-lazy.blade.php`: the name and caption become `x-text` bindings against the `item` of the loop, `data-list-name` becomes an `x-bind`, and `register()`/`match()` are dropped since the parent filters the array instead of the DOM.
 
-It resolves `customization()` from this same component, so overrides of `wrapper`, `name` and `caption` reach the lazy rows unchanged. The slots do not — `caption`, `action`, `menu` and the default slot have no per-row Blade to render in this mode, which is why the parent rejects `lazy` together with any `@interact('item_*')` hook.
+It resolves `customization()` from this same component, so overrides of `wrapper`, `wrapper-compact`, `name` and `caption` reach the lazy rows unchanged, and `@aware` still carries the parent's `compact` into the template. The slots do not — `caption`, `action`, `menu` and the default slot have no per-row Blade to render in this mode, which is why the parent rejects `lazy` together with any `@interact('item_*')` hook.
 
 `lazy` also lifts the `name` requirement, since the name only exists on the client in that mode.
 
@@ -188,6 +192,7 @@ The menu trigger and floating panel are exposed as customization blocks under th
 | Block                 | Default                                                                                                         |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------|
 | `wrapper`             | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                   |
+| `wrapper-compact`     | Row used instead of `wrapper` when the parent `<x-list>` carries `compact` (`py-1`, `contain-intrinsic-size:auto 1.75rem`) |
 | `content.aside`       | `flex shrink-0 items-center gap-x-2` — right-side group holding the `action` slot and the menu trigger          |
 | `menu.wrapper`        | `shrink-0`                                                                                                      |
 | `menu.trigger`        | Borderless icon button styling                                                                                  |

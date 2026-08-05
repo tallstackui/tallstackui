@@ -96,6 +96,7 @@ Custom empty state:
 | hint               | string\|null           | null                               | Renders as `<x-hint>` below the box                                                                                                                              |
 | searchable         | bool                   | false                              | When true, renders a search input above the items (Alpine-filtered, client-side)                                                                                 |
 | search-placeholder | string\|null           | i18n `ts-ui::messages.list.search` | Placeholder for the search input; falls back to translation key                                                                                                  |
+| compact            | bool                   | false                              | Tightens the vertical padding of the rows, the search bar and the empty message. Reaches `<x-list.items>` through `@aware`                                       |
 | height             | string\|null           | null                               | Tailwind size token (`'40'`, `'60'`, `'80'`, `'96'`) → `max-h-{n} overflow-y-auto`. `null` = no max height                                                       |
 | :items             | array\|Arrayable\|null | null                               | Data-driven mode. Iterated to render rows. When set, default slot children are ignored                                                                           |
 | lazy               | bool\|int\|null        | null                               | Renders the rows on the client, revealing a slice at a time on scroll. A bare flag starts at 20; an integer sets the first slice. Requires `:items` and `height` |
@@ -172,6 +173,35 @@ The condition reads the overflow rather than the sentinel's position on purpose.
 
 `<x-tag>` and `<x-autocomplete>` also take a `lazy` attribute, meaning a minimum number of typed characters before they act. The `lazy` here is a render slice, matching `<x-select.styled>`.
 
+## Compact
+
+`compact` tightens the vertical padding so more rows fit on a screen. It reaches the
+rows, the search bar and the empty message; the horizontal padding, the type scale and
+the colors are untouched.
+
+```blade
+<x-list compact :items="$tags" />
+```
+
+The flag lives on `<x-list>` alone. `<x-list.items>` reads it through `@aware`, so it
+holds across all three ways of writing rows — `:items`, `lazy` and rows spelled out in
+the slot — without repeating it on every row:
+
+```blade
+<x-list compact searchable>
+    <x-list.items name="production" caption="12 servers" />
+    <x-list.items name="staging" caption="3 servers" />
+</x-list>
+```
+
+The skeleton follows the flag too, so a list that opens as a placeholder does not change
+height when the real rows arrive.
+
+Each affected block has a `-compact` twin, and `compact` swaps the whole string rather
+than layering on top of it. Customizing `search.wrapper` therefore leaves a compact list
+alone; customize `search.wrapper-compact` as well when both modes are in use. The same
+holds for the `wrapper` of `<x-list.items>`.
+
 ## Skeleton
 
 Renders a placeholder shaped like the list, for the first paint before any items
@@ -218,7 +248,8 @@ component, not on the view. Whatever you already changed applies to the
 placeholder too, so the box keeps matching the box it stands in for. Scopes
 work the same, including when they target the placeholder alone.
 
-List reuses `wrapper`, `box`, `search.wrapper`, `items.scroll` and `items.height.*`.
+List reuses `wrapper`, `box`, `search.wrapper` (or `search.wrapper-compact`),
+`items.scroll` and `items.height.*`.
 
 Blocks the placeholder does not render have nothing to act on there.
 Customizing them is not an error; it simply has no effect while the skeleton
@@ -243,6 +274,7 @@ is on screen.
 | `skeleton.search`        | Search input placeholder dimensions              |
 | `skeleton.items.wrapper` | Divider between placeholder rows                 |
 | `skeleton.items.row`     | Row layout and padding                           |
+| `skeleton.items.row-compact` | Row layout used instead of `skeleton.items.row` under `compact` |
 | `skeleton.items.content` | Name and caption grouping                        |
 | `skeleton.name`          | Name bar dimensions                              |
 | `skeleton.caption`       | Caption bar dimensions                           |
@@ -256,7 +288,7 @@ See [`.ai/soft-customization-internal-scopes.md`](../../soft-customization-inter
 
 The component is designed for **small to medium lists (~500 items)**. Three optimizations are available:
 
-- **`content-visibility: auto`** on every `<x-list.items>` row — the browser skips layout and paint for rows scrolled off-screen. With `contain-intrinsic-size: auto 2.5rem` reserving the row's intrinsic height, scrolling stays smooth even with hundreds of items. Native browser feature; no JS overhead.
+- **`content-visibility: auto`** on every `<x-list.items>` row — the browser skips layout and paint for rows scrolled off-screen. With `contain-intrinsic-size: auto 2.5rem` reserving the row's intrinsic height (`auto 1.75rem` under `compact`, matching the shorter row), scrolling stays smooth even with hundreds of items. Native browser feature; no JS overhead.
 - **Debounced search input** (`150ms`) so reactive filtering doesn't fire on every keystroke.
 - **`lazy`** (data-driven mode only) — trades N Blade components for one JSON array, so the response that opens the screen stops scaling with the item count. See [Lazy mode](#lazy-mode).
 

@@ -463,6 +463,73 @@ class BrowserTest extends BrowserTestCase
             ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-primary-600")')
             ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-green-600")');
     }
+
+    #[Test]
+    public function keeps_the_roomy_rhythm_by_default(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [['key' => 'foo', 'value' => 'bar']];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitFor('@tallstackui_input_key')
+            ->assertScript('document.querySelector("[dusk=tallstackui_input_key]").closest(".grid").className.includes("py-4")')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").parentElement.firstElementChild.className.includes("py-2")')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("py-2")');
+    }
+
+    #[Test]
+    public function tightens_the_empty_state_on_compact(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" compact />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_empty_message]").className.includes("py-3")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_empty_message]").className.includes("py-5")');
+    }
+
+    #[Test]
+    public function tightens_the_header_the_rows_and_the_button_on_compact(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [['key' => 'foo', 'value' => 'bar']];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" compact />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitFor('@tallstackui_input_key')
+            ->assertScript('document.querySelector("[dusk=tallstackui_input_key]").closest(".grid").className.includes("py-2.5")')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").parentElement.firstElementChild.className.includes("py-1")')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("py-1")');
+    }
 }
 
 class KeyValueForm extends Form
