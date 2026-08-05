@@ -48,10 +48,10 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
-                'wrapper' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-2 text-xs tracking-wide',
+                'wrapper' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
                 'neutral' => 'dark:text-dark-400 text-gray-400',
-                'key' => 'font-medium',
-                'value' => 'font-medium',
+                'key' => 'font-semibold',
+                'value' => 'font-semibold',
             ],
             'empty' => [
                 'wrapper' => 'flex items-center justify-center py-5',
@@ -69,7 +69,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'button' => [
-                'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2.5 text-center font-medium',
+                'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2 text-center',
                 'neutral' => 'dark:text-dark-300 dark:hover:bg-dark-600 text-gray-600 hover:bg-gray-50',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],

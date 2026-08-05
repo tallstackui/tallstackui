@@ -205,10 +205,13 @@ The component stacked three grays: a gray body, a darker gray header and footer,
 inputs sharing the body's gray. The last one was the real problem — nothing read as
 editable, because the fields had the same fill as the thing behind them.
 
-It is now a white surface with hairline rules. The header is a small caption over a
-bottom border rather than a filled bar, the footer is an action rather than a gray
-strip, and the inputs are transparent, so the only thing drawing a box is the component
-itself.
+It is now a white surface with hairline rules. The header is a caption over a bottom
+border rather than a filled bar, the footer is an action rather than a gray strip, and
+the inputs are transparent, so the only thing drawing a box is the component itself.
+
+Only the fills moved. The header keeps the size and the weight it had on `3.x`, because
+a flat surface already tells it apart from the rows: taking the type down as well left
+it reading as a footnote beside content it is supposed to label.
 
 **Migration.** The blocks kept their names, but four of them changed shape and two are
 new. An application that customized the old palette has to revisit it:
