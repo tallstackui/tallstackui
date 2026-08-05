@@ -10,10 +10,10 @@
     @if ($configurations['overlay'])
         <div x-show="show"
              @if (!$ts_ui__flash)
-                 x-transition:enter="ease-out duration-200"
+                 x-transition:enter="ease-emphasized-decelerate duration-400"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
-                 x-transition:leave="ease-in duration-150"
+                 x-transition:leave="ease-emphasized-accelerate duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
              @endif
@@ -23,12 +23,19 @@
          x-on:click.self="close()"
          x-on:keydown.escape.window="close()"
          @if (!$ts_ui__flash)
-             x-transition:enter="ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
+             x-transition:enter="ease-emphasized-decelerate duration-400"
+             x-transition:leave="ease-emphasized-accelerate duration-200"
+             @if ($configurations['centered'])
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+             @else
+                 x-transition:enter-start="translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95"
+                 x-transition:enter-end="translate-y-0 motion-reduce:opacity-100 sm:opacity-100 sm:scale-100"
+                 x-transition:leave-start="translate-y-0 motion-reduce:opacity-100 sm:opacity-100 sm:scale-100"
+                 x-transition:leave-end="translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95"
+             @endif
          @endif
          @class([
              $customization['wrapper'],
