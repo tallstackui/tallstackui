@@ -100,40 +100,40 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                 | Purpose                                                      |
-|----------------------------|--------------------------------------------------------------|
-| group.button               | Collapsible group toggle button styles                       |
-| group.button.gap           | Gap between the group icon, text and badge                   |
-| group.button.collapsed     | Centered alignment when sidebar is collapsed                 |
-| group.icon.base            | Group icon dimensions and color                              |
-| group.icon.collapse.base   | Chevron icon for group expand/collapse                       |
-| group.icon.collapse.rotate | Chevron rotation when group is expanded                      |
-| group.group                | Nested items list padding                                    |
-| group.text                 | Group text with overflow and transition handling             |
-| group.text.visible         | Group text visible state (sidebar expanded)                  |
-| group.text.hidden          | Group text hidden state (sidebar collapsed)                  |
-| group.badge                | Group badge overflow and transition                          |
-| group.badge.visible        | Group badge visible state                                    |
-| group.badge.hidden         | Group badge hidden state                                     |
-| group.flyout.wrapper       | Floating panel frame shown when a collapsed group is hovered |
-| group.flyout.scroll        | Scroll container inside the panel frame, with its height cap |
-| group.flyout.scrollbar.thin | Thin scrollbar, when the sidebar asks for one               |
-| group.flyout.scrollbar.thick | Thick scrollbar, when the sidebar asks for one             |
-| group.dot                  | Dot replacing the group badge on the collapsed rail          |
-| group.flyout.header        | Sticky group label at the top of the floating panel          |
-| group.flyout.items         | List wrapper for the items inside the floating panel         |
-| item.wrapper.base          | Single item list-item wrapper padding                        |
-| item.wrapper.border        | Left border for nested items within a group                  |
-| item.state.base            | Base styles for the item link (flex, font, transition)       |
-| item.state.gap             | Gap between the item icon, text and badge                    |
-| item.state.current         | Active/current state background and text color               |
-| item.state.normal          | Default/hover state text color                               |
-| item.state.collapsed       | Centered alignment when sidebar is collapsed                 |
-| item.icon                  | Item icon dimensions and color                               |
-| item.text                  | Item text overflow and transition                            |
-| item.text.visible          | Item text visible state                                      |
-| item.text.hidden           | Item text hidden state                                       |
-| item.badge                 | Item badge wrapper overflow and transition                   |
-| item.badge.visible         | Item badge visible state                                     |
-| item.badge.hidden          | Item badge hidden state                                      |
-| item.dot                   | Dot replacing the item badge on the collapsed rail           |
+| Block Name                   | Purpose                                                      |
+|------------------------------|--------------------------------------------------------------|
+| group.button                 | Collapsible group toggle button styles                       |
+| group.button.gap             | Gap between the group icon, text and badge                   |
+| group.button.collapsed       | Centered alignment when sidebar is collapsed                 |
+| group.icon.base              | Group icon dimensions and color                              |
+| group.icon.collapse.base     | Chevron icon for group expand/collapse                       |
+| group.icon.collapse.rotate   | Chevron rotation when group is expanded                      |
+| group.group                  | Nested items list padding                                    |
+| group.text                   | Group text with overflow and transition handling             |
+| group.text.visible           | Group text visible state (sidebar expanded)                  |
+| group.text.hidden            | Group text hidden state (sidebar collapsed)                  |
+| group.badge                  | Group badge overflow and transition                          |
+| group.badge.visible          | Group badge visible state                                    |
+| group.badge.hidden           | Group badge hidden state                                     |
+| group.flyout.wrapper         | Floating panel frame shown when a collapsed group is hovered |
+| group.flyout.scroll          | Scroll container inside the panel frame, with its height cap |
+| group.flyout.scrollbar.thin  | Thin scrollbar, when the sidebar asks for one                |
+| group.flyout.scrollbar.thick | Thick scrollbar, when the sidebar asks for one               |
+| group.dot                    | Dot replacing the group badge on the collapsed rail          |
+| group.flyout.header          | Sticky group label at the top of the floating panel          |
+| group.flyout.items           | List wrapper for the items inside the floating panel         |
+| item.wrapper.base            | Single item list-item wrapper padding                        |
+| item.wrapper.border          | Left border for nested items within a group                  |
+| item.state.base              | Base styles for the item link (flex, font, transition)       |
+| item.state.gap               | Gap between the item icon, text and badge                    |
+| item.state.current           | Active/current state background and text color               |
+| item.state.normal            | Default/hover state text color                               |
+| item.state.collapsed         | Centered alignment when sidebar is collapsed                 |
+| item.icon                    | Item icon dimensions and color                               |
+| item.text                    | Item text overflow and transition                            |
+| item.text.visible            | Item text visible state                                      |
+| item.text.hidden             | Item text hidden state                                       |
+| item.badge                   | Item badge wrapper overflow and transition                   |
+| item.badge.visible           | Item badge visible state                                     |
+| item.badge.hidden            | Item badge hidden state                                      |
+| item.dot                     | Dot replacing the item badge on the collapsed rail           |

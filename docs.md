@@ -44,6 +44,19 @@ the bottom.
 `wrapper.second.footer` (the full-height column) and `main.grow` (what pushes the footer
 down). An application that wants the old flush-left footer removes them.
 
+### Fixed — filling the `footer` slot shrank the content to its natural width
+
+Introduced and closed inside this same branch. The `main` block carried `mx-auto
+max-w-full`, where `mx-auto` had always been inert: in block layout an auto margin
+does nothing without a real width cap. The full-height column that a filled `footer`
+slot introduces is a flex container, and on a flex item an auto margin on the cross
+axis overrides `align-items: stretch` — so `<main>` shrink-wrapped to its content
+and floated centered in the page.
+
+`w-full` joined the block, restoring the stretch. `mx-auto` stays, so an application
+that swaps `max-w-full` for a real cap through customization still gets a centered
+column.
+
 ### Fixed — the content was padded for a sidebar that was not there
 
 `<x-layout>` applied `md:pl-72` from the sidebar store whether or not a `menu` slot was

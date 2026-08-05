@@ -38,7 +38,7 @@ class Component extends TallStackUiComponent implements Customization
                     'footer' => 'flex min-h-dvh flex-col',
                 ],
             ],
-            'main' => 'mx-auto max-w-full p-10',
+            'main' => 'mx-auto w-full max-w-full p-10',
             'main.grow' => 'grow',
         ]);
     }
