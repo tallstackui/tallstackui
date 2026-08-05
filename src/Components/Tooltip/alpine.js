@@ -35,7 +35,7 @@ let globals = null;
 const global = (key) => {
   if (globals === null) {
     const tag = document.querySelector(
-      'script[data-tsui-tooltip-delay], script[data-tsui-tooltip-color]'
+      'script[data-tsui-tooltip-delay], script[data-tsui-tooltip-color], script[data-tsui-tooltip-invert]'
     );
 
     globals = tag ? { ...tag.dataset } : {};
@@ -53,6 +53,12 @@ const build = () => {
   balloon.id = `tsui-tooltip-${unique()}`;
   balloon.setAttribute('data-tsui-tooltip', '');
   balloon.setAttribute('role', 'tooltip');
+
+  // Inverting the default balloon in dark mode is opt-in through the
+  // [tooltip.invert] setting.
+  if (global('tsuiTooltipInvert')) {
+    balloon.setAttribute('data-invert', '');
+  }
 
   content = document.createElement('span');
 

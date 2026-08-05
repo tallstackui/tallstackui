@@ -49,12 +49,12 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Dark mode styles */
-.dark [data-tsui-tooltip]:not([data-color]) {
+/* Dark mode inversion, opt-in through the [tooltip.invert] setting. */
+.dark [data-tsui-tooltip][data-invert]:not([data-color]) {
     background-color: var(--color-white);
     color: var(--color-dark-900);
 }
 
-.dark [data-tsui-tooltip]:not([data-color]) > [data-arrow] {
+.dark [data-tsui-tooltip][data-invert]:not([data-color]) > [data-arrow] {
     background-color: var(--color-white);
 }
