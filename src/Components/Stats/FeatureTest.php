@@ -256,6 +256,29 @@ it('keeps the shadowless scope working alongside a chart')
     ->toContain('isolate')
     ->not->toContain('shadow-md');
 
+it('can render with shadow and without border by default')
+    ->expect('<x-stats number="1" />')
+    ->render()
+    ->toContain('shadow-md')
+    ->not->toContain('shadow-none!')
+    ->not->toContain('border-gray-200');
+
+it('can render shadowless')
+    ->expect('<x-stats number="1" shadowless />')
+    ->render()
+    ->toContain('shadow-none!');
+
+it('can render bordered')
+    ->expect('<x-stats number="1" bordered />')
+    ->render()
+    ->toContain('border border-gray-200 dark:border-dark-600');
+
+it('can render shadowless and bordered together')
+    ->expect('<x-stats number="1" shadowless bordered />')
+    ->render()
+    ->toContain('shadow-none!')
+    ->toContain('border border-gray-200 dark:border-dark-600');
+
 it('can render the skeleton instead of the content')
     ->expect('<x-stats skeleton number="1234" title="Users" />')
     ->render()

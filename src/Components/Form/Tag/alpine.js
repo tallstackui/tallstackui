@@ -1,4 +1,14 @@
-export default (model, limit, lazy, prefixes, livewire, property, value, options = [], listable = false) => ({
+export default (
+  model,
+  limit,
+  lazy,
+  prefixes,
+  livewire,
+  property,
+  value,
+  options = [],
+  listable = false
+) => ({
   model: model,
   limit: limit,
   lazy: lazy,
@@ -34,8 +44,7 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
 
     return this.options.filter(
       (option) =>
-        !tags.includes(option.toLowerCase()) &&
-        (term === '' || option.toLowerCase().includes(term))
+        !tags.includes(option.toLowerCase()) && (term === '' || option.toLowerCase().includes(term))
     );
   },
   open() {

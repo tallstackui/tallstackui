@@ -12,6 +12,58 @@ such change is listed under **Migration**.
 
 ---
 
+## Card, Stats, Calendar & Tab
+
+### Added — `shadowless` and `bordered` flags for the flat look
+
+The flat look — no shadow, a border in its place — could only be reached through the
+predefined scopes (`card-shadowless`, `stats-shadowless`, `calendar-shadowless`,
+`tab-shadowless`), which bundle both changes and live in the service provider. The same
+result is now a pair of attributes on the component itself:
+
+```blade
+<x-card shadowless bordered>...</x-card>
+<x-stats :number="100" shadowless bordered />
+<x-calendar shadowless bordered />
+<x-tab selected="A" shadowless bordered>...</x-tab>
+```
+
+The flags are independent: `shadowless` alone drops the shadow, `bordered` alone draws
+`border border-gray-200 dark:border-dark-600` around the wrapper while keeping the
+shadow. Each one is a block of its own — `shadowless` (`shadow-none!`) and `bordered` —
+so soft customization can retarget them. On Card and Stats the flags also reach the
+skeleton view, keeping the placeholder shaped like the card it stands in for.
+
+The predefined scopes keep working unchanged.
+
+### Changed — Card's `bordered` became `accent`
+
+`bordered` on Card never drew a border around the card: combined with `color`, it
+switched the header from a filled background to a colored top border. That name now
+belongs to the wrapper border above, so the header variation moved to `accent`.
+
+```blade
+{{-- was --}}
+<x-card color="red" bordered header="Report">...</x-card>
+
+{{-- is --}}
+<x-card color="red" accent header="Report">...</x-card>
+```
+
+**Migration.** Replace `bordered` with `accent` on cards that combine it with `color`.
+A `bordered` flag left behind stops coloring the header and draws the neutral wrapper
+border instead.
+
+### Removed — the `table-shadowless` scope had nothing left to remove
+
+The Table wrapper lost its `shadow` when it moved to `ring-1 ring-gray-200`, so the
+scope's single `remove('shadow')` matched nothing and the scope was a no-op. It is gone
+from `registerPredefinedScopes()`.
+
+**Migration.** Drop `scope="table-shadowless"` from tables — the rendering does not
+change. Extending it through `extend(scope: 'table-shadowless')` now throws, since the
+scope no longer exists.
+
 ## Layout
 
 ### Changed — the header lost its shadow and its translucent border

@@ -11,6 +11,8 @@
    $customization['wrapper.first'],
    $customization['wrapper.first-clickable'] => $clickable,
    $customization['wrapper.first-chart'] => $charted,
+   $customization['shadowless'] => $shadowless,
+   $customization['bordered'] => $bordered,
 ]) }}
 x-data="tallstackui_stats(@js($number), @js($animate), @js($duration))"
 x-intersect:enter.full="visible = true"

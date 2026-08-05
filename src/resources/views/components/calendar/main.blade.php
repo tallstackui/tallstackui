@@ -36,6 +36,8 @@
         $customization['wrapper.body'],
         $customization['wrapper.single'] => ! $double,
         $customization['wrapper.dual'] => $double,
+        $customization['shadowless'] => $shadowless,
+        $customization['bordered'] => $bordered,
     ])>
         <div @class(['relative', $customization['wrapper.single'] => $double])>
             <div class="{{ $customization['box.picker.button'] }}">

@@ -4,7 +4,7 @@
 
 <div class="{{ $customization['wrapper.first'] }}" aria-busy="true" aria-live="polite"
      {{ $attributes->whereDoesntStartWith('x-on:')->class([$customization['skeleton.animation']]) }}>
-    <div @class([$customization['wrapper.second'], $customization['border.radius.'.$rounded]])>
+    <div @class([$customization['wrapper.second'], $customization['border.radius.'.$rounded], $customization['shadowless'] => $shadowless, $customization['bordered'] => $bordered])>
         @if ($image && $position !== 'bottom')
             <div class="{{ $customization['image.wrapper'] }}">
                 <div @class([$customization['skeleton.bar'], $customization['skeleton.image']])></div>

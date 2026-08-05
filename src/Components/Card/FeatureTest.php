@@ -121,6 +121,41 @@ it('can render with body padding by default', function () {
         ->not->toContain('p-0!');
 });
 
+it('can render with shadow and without border by default')
+    ->expect('<x-card>Foo bar</x-card>')
+    ->render()
+    ->toContain('shadow-md')
+    ->not->toContain('shadow-none!')
+    ->not->toContain('border-gray-200');
+
+it('can render shadowless')
+    ->expect('<x-card shadowless>Foo bar</x-card>')
+    ->render()
+    ->toContain('shadow-none!');
+
+it('can render bordered')
+    ->expect('<x-card bordered>Foo bar</x-card>')
+    ->render()
+    ->toContain('border border-gray-200 dark:border-dark-600');
+
+it('can render shadowless and bordered together')
+    ->expect('<x-card shadowless bordered>Foo bar</x-card>')
+    ->render()
+    ->toContain('shadow-none!')
+    ->toContain('border border-gray-200 dark:border-dark-600');
+
+it('can render the accent header variation')
+    ->expect('<x-card color="red" accent header="Foo">Bar</x-card>')
+    ->render()
+    ->toContain('border-t-4')
+    ->toContain('border-t-red-600');
+
+it('can render the background header variation by default')
+    ->expect('<x-card color="red" header="Foo">Bar</x-card>')
+    ->render()
+    ->toContain('bg-red-600')
+    ->not->toContain('border-t-4');
+
 it('can align the footer slot', function (string $attribute, string $class) {
     $component = <<<'HTML'
     <x-card>
