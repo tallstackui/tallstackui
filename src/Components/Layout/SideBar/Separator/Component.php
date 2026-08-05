@@ -34,14 +34,18 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'simple' => [
-                'wrapper' => 'flex py-2 pl-2',
+                'wrapper' => 'flex pl-2 overflow-hidden transition-all duration-150',
+                'wrapper.visible' => 'max-h-12 py-2 opacity-100',
+                'wrapper.hidden' => 'max-h-0 py-0 opacity-0',
                 'base' => 'text-primary-600 dark:text-dark-100 text-base font-semibold leading-6 whitespace-nowrap overflow-hidden transition-all duration-150',
                 'base.visible' => 'opacity-100 max-w-48',
                 'base.hidden' => 'opacity-0 max-w-0',
             ],
             'line' => [
                 'wrapper' => [
-                    'first' => 'relative',
+                    'first' => 'relative overflow-hidden transition-all duration-150',
+                    'first.visible' => 'max-h-12 opacity-100',
+                    'first.hidden' => 'max-h-0 opacity-0',
                     'second' => 'absolute inset-0 flex items-center',
                     'third' => 'relative flex justify-center',
                 ],
@@ -52,7 +56,9 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'line-right' => [
                 'wrapper' => [
-                    'first' => 'relative',
+                    'first' => 'relative overflow-hidden transition-all duration-150',
+                    'first.visible' => 'max-h-12 opacity-100',
+                    'first.hidden' => 'max-h-0 opacity-0',
                     'second' => 'absolute inset-0 flex items-center',
                     'third' => 'relative flex justify-start',
                 ],

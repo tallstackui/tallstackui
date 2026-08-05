@@ -180,9 +180,10 @@ TallStackUi::customize()
 
 ### `layout/sidebar/item`
 
-| Scope                | Target        | Line(s)          |
-|----------------------|---------------|------------------|
-| `sidebar.item.badge` | `<x-badge />` | 38, 49, 107, 118 |
+| Scope                 | Target           | Line(s)          |
+|-----------------------|------------------|------------------|
+| `sidebar.item.badge`  | `<x-badge />`    | 63, 71, 165, 173 |
+| `sidebar.item.flyout` | `<x-floating />` | 91               |
 
 ### `list/items`
 
@@ -221,6 +222,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 66
-- Distinct scopes: 58
+- Total internal scope occurrences: 67
+- Distinct scopes: 59
 - Files declaring scopes: 26

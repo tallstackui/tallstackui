@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
@@ -38,7 +39,9 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'group' => [
-                'button' => 'text-primary-500 hover:bg-primary-50/50 dark:hover:bg-dark-600/50 flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold transition-all dark:text-white cursor-pointer',
+                'button' => 'text-primary-500 hover:bg-primary-50/50 dark:hover:bg-dark-600/50 flex w-full items-center rounded-md p-2 text-left text-sm font-semibold transition-all dark:text-white cursor-pointer',
+                'button.gap' => 'gap-x-3',
+                'button.collapsed' => 'relative justify-center',
                 'icon' => [
                     'base' => 'text-primary-500 h-6 w-6 shrink-0 dark:text-white',
                     'collapse' => [
@@ -51,8 +54,20 @@ class Component extends TallStackUiComponent implements Customization
                 'text.visible' => 'opacity-100 max-w-48',
                 'text.hidden' => 'opacity-0 max-w-0',
                 'badge' => 'overflow-hidden transition-all duration-150',
-                'badge.visible' => 'opacity-100 scale-100',
-                'badge.hidden' => 'opacity-0 scale-0',
+                'badge.visible' => 'max-w-24 opacity-100',
+                'badge.hidden' => 'max-w-0 opacity-0',
+                'dot' => 'absolute top-1.5 left-1/2 translate-x-1.5',
+                'flyout' => [
+                    // The frame is kept out of the scrolling element on purpose: a
+                    // scrollbar is painted in the border box, so a radius only shapes
+                    // it when an ancestor clips along with it.
+                    'wrapper' => collect(app(Floating::class)->customization())->get('wrapper').' w-60 overflow-hidden',
+                    'scroll' => 'max-h-[min(24rem,calc(100dvh-2rem))] overflow-y-auto px-2 pb-2',
+                    'scrollbar.thin' => 'soft-scrollbar',
+                    'scrollbar.thick' => 'custom-scrollbar',
+                    'header' => 'dark:bg-dark-700 text-secondary-500 dark:text-dark-300 sticky top-0 -mx-2 bg-white px-2 pt-2 pb-1 text-xs font-semibold tracking-wide uppercase',
+                    'items' => 'flex flex-col gap-y-0.5',
+                ],
             ],
             'item' => [
                 'wrapper' => [
@@ -60,18 +75,20 @@ class Component extends TallStackUiComponent implements Customization
                     'border' => 'border-outline border-l border-primary-200 dark:border-dark-500 pl-2',
                 ],
                 'state' => [
-                    'base' => 'group flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold transition-all',
+                    'base' => 'group flex items-center rounded-md p-2 text-sm font-semibold transition-all',
+                    'gap' => 'gap-x-3',
                     'current' => 'text-primary-500 bg-primary-50 dark:bg-dark-600 dark:text-white',
                     'normal' => 'text-primary-500 hover:bg-primary-50 dark:hover:bg-dark-600 dark:text-white',
-                    'collapsed' => 'justify-center text-center',
+                    'collapsed' => 'relative justify-center text-center',
                 ],
                 'icon' => 'text-primary-500 h-6 w-6 shrink-0 transition-all dark:text-white',
                 'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
                 'text.visible' => 'opacity-100 max-w-48',
                 'text.hidden' => 'opacity-0 max-w-0',
-                'badge' => 'ml-auto overflow-hidden transition-all duration-150',
-                'badge.visible' => 'opacity-100 scale-100',
-                'badge.hidden' => 'opacity-0 scale-0',
+                'badge' => 'overflow-hidden transition-all duration-150',
+                'badge.visible' => 'ml-auto max-w-24 opacity-100',
+                'badge.hidden' => 'max-w-0 opacity-0',
+                'dot' => 'absolute top-1.5 left-1/2 translate-x-1.5',
             ],
         ]);
     }

@@ -3,6 +3,8 @@
 @endphp
 
 <div class="{{ $customization['mobile.wrapper.first'] }}"
+     x-data="{ railed : false }"
+     x-on:keydown.escape.window="tallStackUiMenuMobile && !window.tallstackui_escapeClaimed($event) && (tallStackUiMenuMobile = false)"
      x-show="tallStackUiMenuMobile">
     <div @if (!$ts_ui__flash)
              x-transition:enter="transition-opacity ease-linear duration-300"
@@ -36,7 +38,7 @@
                      x-transition:leave-end="opacity-0"
                      @endif
                      class="{{ $customization['mobile.button.wrapper'] }}">
-                    <button x-on:click="tallStackUiMenuMobile = false" type="button" class="cursor-pointer">
+                    <button x-on:click="tallStackUiMenuMobile = false" type="button" aria-label="Close menu" class="cursor-pointer">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon($customization['mobile.button.icon'])"
                                              internal
@@ -55,7 +57,7 @@
                         $customization['mobile.scrollbar.thick'] => $thickScroll,
                      ])>
                     <div @class([$customization['mobile.wrapper.third'], $customization['mobile.wrapper.brand.margin'] => blank($brand)])>
-                        <nav class="{{ $customization['mobile.wrapper.fifth'] }}">
+                        <nav aria-label="Sidebar" class="{{ $customization['mobile.wrapper.fifth'] }}">
                             <ul role="list" class="{{ $customization['mobile.wrapper.sixth'] }}">
                                 {{ $slot }}
                             </ul>
@@ -71,21 +73,27 @@
         </div>
     </div>
 </div>
-<div class="{{ $customization['desktop.wrapper.first.base'] }}"
-     x-bind:class="{ '{{ $customization['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }"
-     @if ($collapsible) x-init="$store['tsui.side-bar'].collapsible = true" @endif>
+<div @class([
+        $customization['desktop.wrapper.first.base'],
+        $customization['desktop.wrapper.first.size'] => ! $collapsible,
+     ])
+     x-data="{ get railed() { return $store['tsui.side-bar'].collapsed } }"
+     x-init="$store['tsui.side-bar'].collapsible = @js((bool) $collapsible)"
+     @if ($collapsible)
+         x-bind:class="{ '{{ $customization['desktop.wrapper.first.size'] }}' : ! railed }"
+     @endif>
     <div @class([
             $customization['desktop.wrapper.second'],
         ]) @if ($collapsible) x-bind:class="{
-            '{{ $customization['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open,
-            '{{ $customization['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
+            '{{ $customization['desktop.sizes.expanded'] }}' : ! railed,
+            '{{ $customization['desktop.sizes.collapsed'] }}' : railed,
         }" @endif x-cloak>
         @if ($brand)
             @if ($brandCollapsed && $collapsible)
-                <div x-show="$store['tsui.side-bar'].open" x-cloak>
+                <div x-show="! railed" x-cloak>
                     {{ $brand }}
                 </div>
-                <div x-show="!$store['tsui.side-bar'].open" x-cloak>
+                <div x-show="railed" x-cloak>
                     {{ $brandCollapsed }}
                 </div>
             @else
@@ -98,7 +106,7 @@
                 $customization['desktop.scrollbar.thick'] => $thickScroll,
              ])>
             <div @class([$customization['desktop.wrapper.third'], $customization['desktop.wrapper.brand.margin'] => blank($brand)])>
-                <nav class="{{ $customization['desktop.wrapper.fourth'] }}">
+                <nav aria-label="Sidebar" class="{{ $customization['desktop.wrapper.fourth'] }}">
                     <ul role="list" class="{{ $customization['desktop.wrapper.fifth'] }}">
                         {{ $slot }}
                     </ul>

@@ -66,23 +66,29 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                | Purpose                                        |
-|---------------------------|------------------------------------------------|
-| simple.wrapper            | Wrapper for the simple text separator          |
-| simple.base               | Text styling for simple separator              |
-| simple.base.visible       | Visible state (sidebar expanded)               |
-| simple.base.hidden        | Hidden state (sidebar collapsed)               |
-| line.wrapper.first        | Outer wrapper for centered line separator      |
-| line.wrapper.second       | Absolute-positioned line container             |
-| line.wrapper.third        | Centered text wrapper                          |
-| line.border               | Horizontal line border styling                 |
-| line.base                 | Text styling for centered line separator       |
-| line.base.visible         | Visible state (sidebar expanded)               |
-| line.base.hidden          | Hidden state (sidebar collapsed)               |
-| line-right.wrapper.first  | Outer wrapper for right-aligned line separator |
-| line-right.wrapper.second | Absolute-positioned line container             |
-| line-right.wrapper.third  | Left-aligned text wrapper                      |
-| line-right.border         | Horizontal line border styling                 |
-| line-right.base           | Text styling for right-aligned line separator  |
-| line-right.base.visible   | Visible state (sidebar expanded)               |
-| line-right.base.hidden    | Hidden state (sidebar collapsed)               |
+| Block Name                       | Purpose                                        |
+|----------------------------------|------------------------------------------------|
+| simple.wrapper                   | Wrapper for the simple text separator          |
+| simple.wrapper.visible           | Wrapper spacing when the sidebar is expanded   |
+| simple.wrapper.hidden            | Wrapper collapsed to no height when railed     |
+| simple.base                      | Text styling for simple separator              |
+| simple.base.visible              | Visible state (sidebar expanded)               |
+| simple.base.hidden               | Hidden state (sidebar collapsed)               |
+| line.wrapper.first               | Outer wrapper for centered line separator      |
+| line.wrapper.first.visible       | Wrapper visible state (sidebar expanded)       |
+| line.wrapper.first.hidden        | Wrapper collapsed to no height when railed     |
+| line.wrapper.second              | Absolute-positioned line container             |
+| line.wrapper.third               | Centered text wrapper                          |
+| line.border                      | Horizontal line border styling                 |
+| line.base                        | Text styling for centered line separator       |
+| line.base.visible                | Visible state (sidebar expanded)               |
+| line.base.hidden                 | Hidden state (sidebar collapsed)               |
+| line-right.wrapper.first         | Outer wrapper for right-aligned line separator |
+| line-right.wrapper.first.visible | Wrapper visible state (sidebar expanded)       |
+| line-right.wrapper.first.hidden  | Wrapper collapsed to no height when railed     |
+| line-right.wrapper.second        | Absolute-positioned line container             |
+| line-right.wrapper.third         | Left-aligned text wrapper                      |
+| line-right.border                | Horizontal line border styling                 |
+| line-right.base                  | Text styling for right-aligned line separator  |
+| line-right.base.visible          | Visible state (sidebar expanded)               |
+| line-right.base.hidden           | Hidden state (sidebar collapsed)               |

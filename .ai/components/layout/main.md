@@ -57,13 +57,13 @@ A full-page application layout component that provides a structured shell with o
 
 ## Slots
 
-| Slot      | Description                                            |
-|-----------|--------------------------------------------------------|
-| (default) | Main page content rendered inside the `<main>` element |
-| top       | Content rendered at the very top of the layout         |
-| menu      | Sidebar navigation component                           |
-| header    | Header component rendered above the main content       |
-| footer    | Footer content rendered below the main content         |
+| Slot      | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| (default) | Main page content rendered inside the `<main>` element             |
+| top       | Content rendered at the very top of the layout                     |
+| menu      | Sidebar navigation component                                       |
+| header    | Header component rendered above the main content                   |
+| footer    | Footer content pinned to the bottom, aligned with the main content |
 
 ## Configuration
 
@@ -87,9 +87,11 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name               | Purpose                                   |
-|--------------------------|-------------------------------------------|
-| wrapper.first            | Outer wrapper with minimum height         |
-| wrapper.second.expanded  | Padding applied when sidebar is expanded  |
-| wrapper.second.collapsed | Padding applied when sidebar is collapsed |
-| main                     | Main content area padding and max-width   |
+| Block Name               | Purpose                                                |
+|--------------------------|--------------------------------------------------------|
+| wrapper.first            | Outer wrapper with minimum height                      |
+| wrapper.second.expanded  | Padding applied when sidebar is expanded               |
+| wrapper.second.collapsed | Padding applied when sidebar is collapsed              |
+| wrapper.second.footer    | Full height column used when the footer slot is filled |
+| main                     | Main content area padding and max-width                |
+| main.grow                | Makes the main area push the footer to the bottom      |

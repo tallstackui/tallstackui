@@ -34,9 +34,11 @@ class Component extends TallStackUiComponent implements Customization
                 'second' => [
                     'expanded' => 'md:pl-72 transition-[padding] duration-300',
                     'collapsed' => 'md:pl-22 transition-[padding] duration-300',
+                    'footer' => 'flex min-h-dvh flex-col',
                 ],
             ],
             'main' => 'mx-auto max-w-full p-10',
+            'main.grow' => 'grow',
         ]);
     }
 }

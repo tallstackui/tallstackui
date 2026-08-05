@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A responsive sidebar navigation component with mobile slide-out drawer and desktop fixed panel. Supports collapsible mode, custom branding, scroll styling, Livewire navigation, and a footer slot.
+A responsive sidebar navigation component with mobile slide-out drawer and desktop fixed panel. Supports collapsible mode, custom branding, scroll styling, Livewire navigation, and a footer slot. The mobile drawer locks the page scroll while it is open and closes on Escape, unless a floating element on top of it owns the key.
 
 ## Basic Usage
 

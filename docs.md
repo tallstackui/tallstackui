@@ -12,6 +12,162 @@ such change is listed under **Migration**.
 
 ---
 
+## Layout
+
+### Changed — the header lost its shadow and its translucent border
+
+```php
+// was
+'wrapper' => '... border-b border-gray-300/10 bg-white px-4 shadow-sm ...'
+// is
+'wrapper' => '... border-b border-gray-200 bg-white px-4 ...'
+```
+
+The `shadow-sm` and a border at 10% opacity were doing the same job twice, and neither
+did it well: the shadow bled over the content on scroll while the border was too faint
+to draw the line on its own. A solid `border-gray-200` draws it once.
+
+**Migration.** Applications restoring the old look append `shadow-sm` and replace the
+border through `layout.header` → `wrapper`.
+
+### Changed — the `footer` slot sits with the content, and holds the bottom of the page
+
+The slot rendered as a sibling of the padded column, so on desktop it started at x=0,
+under the fixed sidebar — a footer with anything on its left had that part swallowed by
+the menu. It also sat immediately under the content, floating mid-screen on short pages.
+
+It now renders inside the same column as `<main>`, which puts it past the sidebar, and
+the column becomes a full-height flex when the slot is filled, which pins the footer to
+the bottom.
+
+**Migration.** Two new blocks, both applied only when the slot is filled:
+`wrapper.second.footer` (the full-height column) and `main.grow` (what pushes the footer
+down). An application that wants the old flush-left footer removes them.
+
+### Fixed — the content was padded for a sidebar that was not there
+
+`<x-layout>` applied `md:pl-72` from the sidebar store whether or not a `menu` slot was
+given, so a layout used only for its header indented its content by 18rem. The padding
+is now bound only when the slot is filled.
+
+### Fixed — the drawer's scroll lock leaked and fought the other overlays
+
+Opening the mobile drawer added `overflow-hidden` to the `html` element by hand. That
+blocks the page in a standards-mode document, but it is the only case it covers: it
+hands the scroll over to `body` in quirks mode, it reserves nothing where the scrollbar
+took layout width, so the page shifts sideways as it locks, and it knows nothing about
+the lock a modal or a slide may already hold.
+
+The drawer now goes through the same `overflow()` helper as every other overlay, under
+the `side-bar` key, so the lock is refcounted against the others, the scrollbar gutter is
+compensated, and a drawer torn down while open (`wire:navigate`) releases it instead of
+leaving the body locked for good.
+
+## Layout / SideBar
+
+### Added — a floating panel for the groups of a collapsed sidebar
+
+A group has nothing to show on a collapsed sidebar: its items live in a list that only
+opens inline, and the rail has no room for it. The icon was a dead end.
+
+Hovering — or clicking, for touch — a collapsed group now opens its items in a panel
+anchored beside the icon, headed by the group name. It closes on leave, on click outside,
+on Escape, and when the sidebar is expanded again. Single items keep their tooltip;
+groups no longer show one, since the panel names itself.
+
+The panel is an `<x-floating>`, so it is teleported out of the sidebar and is not clipped
+by the scroll container, and it is capped at `min(24rem, 100dvh - 2rem)` with its own
+scroll: a group of thirty items neither runs off the screen nor stretches the page. The
+frame and the scroll are separate elements on purpose — a scrollbar is painted in the
+border box, so a radius only shapes it when an ancestor clips along with it.
+
+Four new blocks: `group.flyout.wrapper` (frame), `group.flyout.scroll` (the height cap
+and the scroll), `group.flyout.header` (the sticky group name) and `group.flyout.items`.
+
+### Added — a badge becomes a dot on the collapsed rail
+
+A badge is the one thing on an item that carries information the icon cannot: a count of
+things waiting. Collapsing the sidebar dropped it, so the compact mode was also the mode
+that hid what needed attention.
+
+It now degrades to a dot on the corner of the icon, in the color the badge was given, so
+the signal survives at rail width. Two new blocks, `item.dot` and `group.dot`.
+
+### Added — the drawer closes on Escape, and the panel follows the sidebar scrollbar
+
+Escape closes the mobile drawer, unless a floating element opened on top of it claimed
+the key first. The flyout of a group takes the `thin-scroll` and `thick-scroll` of the
+sidebar instead of a scrollbar of its own, through the new `group.flyout.scrollbar.thin`
+and `group.flyout.scrollbar.thick`.
+
+### Fixed — the collapsed rail was a column of gaps and misaligned icons
+
+Three things pushed the icons off center. The gap between icon, label and badge stayed
+in the layout after the label collapsed to zero width; the badge used `scale-0`, which
+hides an element without taking it out of the flow, and kept an `ml-auto` that ate the
+remaining space; and a group button never had the centering the item links had.
+
+Separators left their own hole: the text collapsed but the wrapper kept its padding, so
+the rail showed gaps where the sections used to be.
+
+The gap is now a block of its own, applied only while the sidebar is expanded; the badge
+animates through a wrapper that collapses its width; and separators animate to no height.
+
+**Migration.** The keys kept their names, but three changed shape and three are new:
+
+| Block                                   | Was                                | Is                                      |
+|-----------------------------------------|------------------------------------|-----------------------------------------|
+| `item.state.base` / `group.button`      | carried `gap-x-3`                  | no gap                                  |
+| `item.state.gap` / `group.button.gap`   | —                                  | new: the gap, while expanded            |
+| `group.button.collapsed`                | —                                  | new: the centering, while collapsed     |
+| `item.badge` / `group.badge`            | classes of the badge itself        | classes of the wrapper around the badge |
+| `simple.wrapper`                        | carried `py-2`                     | no padding                              |
+| `simple.wrapper.visible` / `.hidden`    | —                                  | new: the padding and the height         |
+| `line[-right].wrapper.first.visible` / `.hidden` | —                         | new: the height, while collapsing       |
+
+### Fixed — the collapsed state was a side effect, not a preference
+
+The store forced `open` to `false` on a mobile viewport and never gave it back, so a
+window crossing the breakpoint from mobile to desktop left the sidebar as a rail for
+someone who had never collapsed it. Opening the mobile drawer went the other way: it
+called `toggle(true)`, which writes to `localStorage`, so the drawer wiped the collapse
+preference of the desktop.
+
+`open` is now the desktop preference alone, and a new `collapsed` getter answers whether
+the sidebar is drawn as a rail — `collapsible && !open && !mobile`. The drawer is expanded
+by definition, so it no longer has an opinion about `open`.
+
+### Fixed — a non-collapsible sidebar could render with no width
+
+The desktop width was bound to `open` with no regard for `collapsible`, and `open` is
+persisted globally. A sidebar without `collapsible` therefore lost its `md:w-72` — and had
+the layout indent the content by the collapsed width — for anyone who had collapsed a
+collapsible sidebar on another page. The width is now static unless the sidebar collapses.
+
+### Fixed — the mobile drawer borrowed the collapsed look
+
+Inside the drawer the brand slot rendered its `brand-collapsed` variant, and the line of
+a separator was hidden, both because they were bound to `open`, which is false on mobile.
+The drawer now declares itself expanded and its items read that instead of the store.
+
+### Fixed — an item dropped the class it was given
+
+The item link wrote its own `class` attribute and then printed the remaining attributes,
+which emitted a second `class` for anything passed in — the browser keeps the first, so
+`<x-side-bar.item class="uppercase" />` did nothing. The classes are merged now.
+
+### Changed — the item states no longer overlap
+
+An item matched by `smart` was given the normal state and the current state at once, so
+it carried a hover treatment it should not have. Both states are decided by one flag now,
+which also cuts the route matching from three calls to one.
+
+### Added — the navigation says what it is
+
+`aria-current="page"` on the active item, `aria-expanded` on a group and on both header
+buttons, `aria-haspopup` on a group that opens as a flyout, `aria-label` on the toggle,
+the mobile trigger and the drawer close, and a label on each `<nav>`.
+
 ## KeyValue
 
 ### Changed — a lighter surface, and the fields stop hiding in it

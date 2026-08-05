@@ -5,6 +5,8 @@
 
 A sidebar navigation item component that renders as either a single link or a collapsible group containing nested items. Supports active state detection via route matching, icons, badges, tooltips in collapsed mode, and visibility control.
 
+On a collapsed sidebar the nested items are unreachable inline, so a group opens them in a floating panel anchored to its icon, on hover or click. Single items keep the tooltip. A badge has no room on the collapsed rail either, and degrades to a dot on the corner of the icon, keeping its color.
+
 ## Basic Usage
 
 Single navigation item:
@@ -98,29 +100,40 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                 | Purpose                                                |
-|----------------------------|--------------------------------------------------------|
-| group.button               | Collapsible group toggle button styles                 |
-| group.icon.base            | Group icon dimensions and color                        |
-| group.icon.collapse.base   | Chevron icon for group expand/collapse                 |
-| group.icon.collapse.rotate | Chevron rotation when group is expanded                |
-| group.group                | Nested items list padding                              |
-| group.text                 | Group text with overflow and transition handling       |
-| group.text.visible         | Group text visible state (sidebar expanded)            |
-| group.text.hidden          | Group text hidden state (sidebar collapsed)            |
-| group.badge                | Group badge overflow and transition                    |
-| group.badge.visible        | Group badge visible state                              |
-| group.badge.hidden         | Group badge hidden state                               |
-| item.wrapper.base          | Single item list-item wrapper padding                  |
-| item.wrapper.border        | Left border for nested items within a group            |
-| item.state.base            | Base styles for the item link (flex, font, transition) |
-| item.state.current         | Active/current state background and text color         |
-| item.state.normal          | Default/hover state text color                         |
-| item.state.collapsed       | Centered alignment when sidebar is collapsed           |
-| item.icon                  | Item icon dimensions and color                         |
-| item.text                  | Item text overflow and transition                      |
-| item.text.visible          | Item text visible state                                |
-| item.text.hidden           | Item text hidden state                                 |
-| item.badge                 | Item badge margin and overflow transition              |
-| item.badge.visible         | Item badge visible state                               |
-| item.badge.hidden          | Item badge hidden state                                |
+| Block Name                 | Purpose                                                      |
+|----------------------------|--------------------------------------------------------------|
+| group.button               | Collapsible group toggle button styles                       |
+| group.button.gap           | Gap between the group icon, text and badge                   |
+| group.button.collapsed     | Centered alignment when sidebar is collapsed                 |
+| group.icon.base            | Group icon dimensions and color                              |
+| group.icon.collapse.base   | Chevron icon for group expand/collapse                       |
+| group.icon.collapse.rotate | Chevron rotation when group is expanded                      |
+| group.group                | Nested items list padding                                    |
+| group.text                 | Group text with overflow and transition handling             |
+| group.text.visible         | Group text visible state (sidebar expanded)                  |
+| group.text.hidden          | Group text hidden state (sidebar collapsed)                  |
+| group.badge                | Group badge overflow and transition                          |
+| group.badge.visible        | Group badge visible state                                    |
+| group.badge.hidden         | Group badge hidden state                                     |
+| group.flyout.wrapper       | Floating panel frame shown when a collapsed group is hovered |
+| group.flyout.scroll        | Scroll container inside the panel frame, with its height cap |
+| group.flyout.scrollbar.thin | Thin scrollbar, when the sidebar asks for one               |
+| group.flyout.scrollbar.thick | Thick scrollbar, when the sidebar asks for one             |
+| group.dot                  | Dot replacing the group badge on the collapsed rail          |
+| group.flyout.header        | Sticky group label at the top of the floating panel          |
+| group.flyout.items         | List wrapper for the items inside the floating panel         |
+| item.wrapper.base          | Single item list-item wrapper padding                        |
+| item.wrapper.border        | Left border for nested items within a group                  |
+| item.state.base            | Base styles for the item link (flex, font, transition)       |
+| item.state.gap             | Gap between the item icon, text and badge                    |
+| item.state.current         | Active/current state background and text color               |
+| item.state.normal          | Default/hover state text color                               |
+| item.state.collapsed       | Centered alignment when sidebar is collapsed                 |
+| item.icon                  | Item icon dimensions and color                               |
+| item.text                  | Item text overflow and transition                            |
+| item.text.visible          | Item text visible state                                      |
+| item.text.hidden           | Item text hidden state                                       |
+| item.badge                 | Item badge wrapper overflow and transition                   |
+| item.badge.visible         | Item badge visible state                                     |
+| item.badge.hidden          | Item badge hidden state                                      |
+| item.dot                   | Dot replacing the item badge on the collapsed rail           |
