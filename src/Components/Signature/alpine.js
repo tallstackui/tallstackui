@@ -1,13 +1,12 @@
-export default (model, color, background, line, height, jpeg) => ({
+export default (model, color, background, line, height, jpeg, persistent) => ({
   model: model,
   canvas: null,
   context: null,
   drawing: false,
-  lastX: 0,
-  lastY: 0,
-  stacks: {},
-  resizing: null,
-  drawn: false,
+  strokes: [],
+  undone: [],
+  stroke: null,
+  observer: null,
   color: color,
   background: background,
   line: line,
@@ -15,49 +14,31 @@ export default (model, color, background, line, height, jpeg) => ({
   init() {
     this.canvas = this.$refs.canvas;
 
-    this.context = this.canvas.getContext('2d', { willReadFrequently: true });
-    this.context.line = this.line;
+    this.context = this.canvas.getContext('2d');
     this.context.lineCap = 'round';
     this.context.lineJoin = 'round';
 
-    this.stacks = {
-      undo: [],
-      redo: [],
-    };
+    // Observing the container rather than the window: a collapsing sidebar resizes
+    // the canvas without firing a resize event. The first observation sizes it.
+    this.observer = new ResizeObserver(() => this.size());
 
-    this.$nextTick(() => this.size(true));
-
-    // Not size.bind(this): the listener would forward the Event as the `clear`
-    // argument and wipe the drawing on every resize.
-    this.resizing = () => this.size();
-
-    window.addEventListener('resize', this.resizing);
+    this.observer.observe(this.canvas.parentElement);
   },
   destroy() {
-    window.removeEventListener('resize', this.resizing);
+    this.observer.disconnect();
 
-    this.stacks = { undo: [], redo: [] };
+    this.strokes = [];
+    this.undone = [];
+    this.stroke = null;
   },
-  /**
-   * Clean the drawing on the canvas.
-   *
-   * @return {void}
-   */
   clear() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.strokes = [];
+    this.undone = [];
+    this.stroke = null;
 
-    this.backgroundColor();
-    this.store();
-
-    this.drawn = false;
-    this.model = null;
+    this.paint();
+    this.save();
   },
-  /**
-   * Start drawing on the canvas.
-   *
-   * @param {Event} event
-   * @return {void}
-   */
   start(event) {
     event.preventDefault();
 
@@ -65,124 +46,63 @@ export default (model, color, background, line, height, jpeg) => ({
 
     const { offsetX, offsetY } = this.coordinates(event);
 
-    this.lastX = offsetX;
-    this.lastY = offsetY;
+    this.stroke = { color: this.color, line: this.line, points: [] };
 
-    this.draw(event);
+    this.point(offsetX, offsetY);
+    this.dot(this.stroke, offsetX, offsetY);
   },
-  /**
-   * Draws on the canvas.
-   *
-   * @param {Event} event
-   * @return {void}
-   */
   draw(event) {
-    if (!this.drawing) return;
+    if (!this.drawing) {
+      return;
+    }
 
     event.preventDefault();
 
     const { offsetX, offsetY } = this.coordinates(event);
+    const previous = this.absolute(this.stroke.points[this.stroke.points.length - 1]);
 
-    const distance = Math.sqrt(
-      Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2)
-    );
+    this.segment(this.stroke, previous, { x: offsetX, y: offsetY });
 
-    const angle = Math.atan2(offsetY - this.lastY, offsetX - this.lastX);
-
-    for (let i = 0; i < distance; i += this.line / 3) {
-      const x = this.lastX + Math.cos(angle) * i;
-      const y = this.lastY + Math.sin(angle) * i;
-      this.dots(x, y);
-    }
-
-    this.lastX = offsetX;
-    this.lastY = offsetY;
+    this.point(offsetX, offsetY);
   },
-  /**
-   * Draws dots on the canvas.
-   *
-   * @param {Number} x
-   * @param {Number} y
-   * @return {void}
-   */
-  dots(x, y) {
-    this.context.beginPath();
-    this.context.arc(x, y, this.line / 2, 0, Math.PI * 2);
-    this.context.fillStyle = this.color;
-    this.context.fill();
-    this.context.closePath();
-  },
-  /**
-   * Stops drawing on the canvas
-   *
-   * @param {Event} event
-   * @return {void}
-   */
   stop(event) {
-    if (!this.drawing) return;
+    if (!this.drawing) {
+      return;
+    }
 
     event.preventDefault();
 
     this.drawing = false;
-    this.drawn = true;
 
-    this.store();
+    this.strokes.push(this.stroke);
+    this.stroke = null;
+    this.undone = [];
+
+    this.save();
   },
-  /**
-   * Undoes the last action.
-   *
-   * @return {void}
-   */
   undo() {
-    if (this.stacks.undo.length > 1) {
-      this.stacks.redo.push(this.stacks.undo.pop());
-      this.context.putImageData(this.stacks.undo[this.stacks.undo.length - 1], 0, 0);
-      this.save();
-
+    if (this.strokes.length === 0) {
       return;
     }
 
-    this.stacks.redo.push(this.stacks.undo.pop());
-    this.clear();
+    this.undone.push(this.strokes.pop());
+
+    this.paint();
+    this.save();
   },
-  /**
-   * Redoes the last undone action/
-   *
-   * @return {void}
-   */
   redo() {
-    if (this.stacks.redo.length > 0) {
-      this.stacks.undo.push(this.stacks.redo.pop());
-      this.context.putImageData(this.stacks.undo[this.stacks.undo.length - 1], 0, 0);
+    if (this.undone.length === 0) {
+      return;
     }
 
+    this.strokes.push(this.undone.pop());
+
+    this.paint();
     this.save();
   },
-  /**
-   * Sync canvas to the model.
-   *
-   * @return {void}
-   */
   save() {
-    this.model = this.canvas.toDataURL(`image/${this.extension}`);
+    this.model = this.strokes.length > 0 ? this.canvas.toDataURL(`image/${this.extension}`) : null;
   },
-  /**
-   * Store the current state of the canvas to allow the actions of undoing and redoing.
-   *
-   * @return {void}
-   */
-  store() {
-    this.stacks.undo.push(this.context.getImageData(0, 0, this.canvas.width, this.canvas.height));
-
-    this.stacks.redo = [];
-
-    this.save();
-  },
-  /**
-   * Download the canvas as an image.
-   *
-   * @return {void}
-   */
   download() {
     const url = this.canvas.toDataURL(`image/${this.extension}`);
     const link = document.createElement('a');
@@ -198,11 +118,6 @@ export default (model, color, background, line, height, jpeg) => ({
 
     this.$el.dispatchEvent(new CustomEvent('export', { detail: { signature: url } }));
   },
-  /**
-   * Updates the background color of the canvas.
-   *
-   * @return {void}
-   */
   backgroundColor() {
     if (jpeg && this.background === 'transparent') {
       this.background = '#FFFFFF';
@@ -212,71 +127,78 @@ export default (model, color, background, line, height, jpeg) => ({
 
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   },
-  /**
-   * Updates the size of the canvas
-   *
-   * @param {Boolean} clear
-   * @return {void}
-   */
-  size(clear = false) {
+  size() {
     const width = this.$refs.canvas.parentElement.clientWidth;
-    const resized = this.canvas.width !== width || this.canvas.height !== this.height;
 
-    if (!clear && !resized) {
+    if (this.canvas.width === width && this.canvas.height === this.height) {
       return;
     }
 
-    // Nothing drawn means nothing worth carrying over, and going through clear()
-    // keeps the model null instead of turning a blank canvas into a data URL.
-    if (clear || !this.drawn) {
-      this.canvas.width = width;
-      this.canvas.height = this.height;
-
-      this.clear();
-
-      return;
+    if (!persistent) {
+      this.drawing = false;
+      this.strokes = [];
+      this.undone = [];
+      this.stroke = null;
     }
 
-    // Assigning width or height wipes the canvas, so the drawing is copied out
-    // first and painted back scaled to the new size.
-    const snapshot = document.createElement('canvas');
-
-    snapshot.width = this.canvas.width;
-    snapshot.height = this.canvas.height;
-    snapshot.getContext('2d').drawImage(this.canvas, 0, 0);
-
+    // Assigning width or height wipes the canvas, and the context resets with it.
     this.canvas.width = width;
     this.canvas.height = this.height;
 
     this.context.lineCap = 'round';
     this.context.lineJoin = 'round';
 
+    this.paint();
+    this.save();
+  },
+  paint() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
     this.backgroundColor();
 
-    this.context.drawImage(
-      snapshot,
-      0,
-      0,
-      snapshot.width,
-      snapshot.height,
-      0,
-      0,
-      this.canvas.width,
-      this.canvas.height
-    );
-
-    // The undo stack holds ImageData sized for the old canvas, which putImageData
-    // would paint back unscaled, so it restarts from what is on screen now.
-    this.stacks = { undo: [], redo: [] };
-
-    this.store();
+    this.strokes.forEach((stroke) => this.replay(stroke));
   },
-  /**
-   * Gets the event (mouse or touch) coordinates on the canvas
-   *
-   * @param event
-   * @returns {{offsetX: number, offsetY: number}}
-   */
+  replay(stroke) {
+    if (stroke.points.length === 0) {
+      return;
+    }
+
+    let previous = this.absolute(stroke.points[0]);
+
+    this.dot(stroke, previous.x, previous.y);
+
+    for (let index = 1; index < stroke.points.length; index++) {
+      const point = this.absolute(stroke.points[index]);
+
+      this.segment(stroke, previous, point);
+
+      previous = point;
+    }
+  },
+  // The horizontal axis is stored as a fraction of the canvas width so a stroke can
+  // be redrawn at any width instead of resampled from pixels, which is what blurred
+  // the drawing on every resize. The height never changes.
+  point(x, y) {
+    this.stroke.points.push({ x: x / this.canvas.width, y: y });
+  },
+  absolute(point) {
+    return { x: point.x * this.canvas.width, y: point.y };
+  },
+  segment(stroke, from, to) {
+    const distance = Math.sqrt(Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2));
+    const angle = Math.atan2(to.y - from.y, to.x - from.x);
+
+    for (let step = 0; step < distance; step += stroke.line / 3) {
+      this.dot(stroke, from.x + Math.cos(angle) * step, from.y + Math.sin(angle) * step);
+    }
+  },
+  dot(stroke, x, y) {
+    this.context.beginPath();
+    this.context.arc(x, y, stroke.line / 2, 0, Math.PI * 2);
+    this.context.fillStyle = stroke.color;
+    this.context.fill();
+    this.context.closePath();
+  },
   coordinates(event) {
     const rect = this.canvas.getBoundingClientRect();
 
@@ -293,11 +215,6 @@ export default (model, color, background, line, height, jpeg) => ({
       offsetY: (event.clientY - rect.top) * (this.canvas.height / rect.height),
     };
   },
-  /**
-   * Gets the extension of the image.
-   *
-   * @returns {String}
-   */
   get extension() {
     return jpeg ? 'jpeg' : 'png';
   },

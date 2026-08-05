@@ -231,7 +231,7 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                     <div>
-                        <x-signature wire:model="signature" clearable />
+                        <x-signature wire:model="signature" clearable persistent />
                     </div>
                 HTML;
             }

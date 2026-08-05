@@ -542,26 +542,62 @@ The reading is folded into the 12-hour range when the format asks for it, and th
 
 ## Signature
 
-### Fixed — resizing the window erased the signature
+### Fixed — the canvas was erased by resizes that never changed its width
 
 `window.addEventListener('resize', this.size.bind(this))` forwards the event object as
 the first argument, and `size(clear = false)` takes a flag there. Every resize therefore
 ran `size(Event)`, which is truthy, and called `clear()`.
 
-Rotating a phone, opening the mobile keyboard or dragging the window edge wiped the
-drawing and set the model to `null`, so a save right after went out empty.
+Clearing on resize is the intended behaviour — assigning `width` or `height` wipes a
+canvas by specification, and a signature captured at one width is no longer the geometry
+the person drew once the width changes. What was wrong is that it happened
+unconditionally: scrolling on a phone with a collapsing address bar, or any resize that
+left the canvas exactly as wide as it already was, wiped a finished signature and set the
+model to `null`, so a save right after went out empty.
 
-Assigning `width` or `height` clears a canvas by specification, so the fix is not just
-the listener: the drawing is copied to an offscreen canvas, the canvas is resized, and
-the copy is painted back scaled to the new size. A `drawn` flag distinguishes a real
-stroke from a blank canvas, so a resize before anything is drawn still leaves the model
-`null` rather than storing a blank data URL.
+The width is compared before anything is touched, so a resize that does not change it is
+now a no-op.
 
-The undo stack holds `ImageData` sized for the old canvas, which `putImageData` would
-paint back unscaled, so it restarts from the reflowed drawing.
+The canvas is `w-full`, and the window is not the only thing that changes its width. A
+collapsing sidebar, an opening slide or any reflow of the container resizes it without
+firing a resize event, which left the bitmap stretched by CSS. A `ResizeObserver` on the
+container replaced the listener and covers all of them. It also delivers the first
+measurement on its own, which is what used to be a `$nextTick`.
 
 The component also had no `destroy()`, leaving the listener — and the canvas and undo
-stack behind it — alive across morphs and `wire:navigate`. It has one now.
+stack behind it — alive across morphs and `wire:navigate`. It disconnects the observer
+now.
+
+### Added — `persistent`, for a signature that must survive the reflow
+
+Clearing is the default, but a long form that reflows while it is being filled — a slide
+opening, a sidebar collapsing, a phone rotating — has no business throwing away a
+signature the person already drew.
+
+```blade
+<x-signature wire:model="signature" persistent />
+```
+
+The name is the one Modal, Slide and Toast already use for the same idea: the component
+stays where it is instead of dismissing itself.
+
+Carrying a canvas across a resize used to mean copying it to an offscreen canvas and
+painting it back scaled, which resamples a bitmap: the drawing returns blurred, and every
+further resize resamples the previous resample.
+
+The strokes are stored as points instead, with the horizontal axis kept as a fraction of
+the canvas width, and redrawn at the new width. Nothing is resampled, so the signature
+stays as sharp as it was drawn however many times the container changes. Only the width
+reflows — `height` is fixed — so the drawing is stretched horizontally in proportion to
+the new width, which is the trade this attribute accepts.
+
+Undo and redo hold strokes rather than `ImageData`, which drops a full RGBA bitmap per
+state and lets both survive the resize with the drawing. Pixel stacks could not:
+`putImageData` would have painted them back unscaled, so they had to be discarded.
+
+An empty stroke list is what tells a real signature from a blank canvas, so a resize
+before anything is drawn leaves the model `null` rather than storing a blank data URL —
+with or without the attribute.
 
 ---
 
