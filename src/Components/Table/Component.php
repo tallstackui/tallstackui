@@ -74,7 +74,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg shadow ring-1 ring-gray-300',
+            'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg ring-1 ring-gray-200',
             'table' => [
                 'wrapper' => 'relative soft-scrollbar overflow-auto',
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
