@@ -63,10 +63,10 @@ class BrowserTest extends BrowserTestCase
         })
             ->resize(1400, 900)
             ->waitForText('Footer')
-            // The footer is server rendered, so the text is on screen before Alpine
-            // binds the padding that clears the sidebar: the offset is only worth
-            // reading once that padding is there.
-            ->waitUntil('getComputedStyle(document.querySelector("main").parentElement).paddingLeft !== "0px"')
+            // The browser starts narrower than the md breakpoint, so the resize is what
+            // brings the padding in, and the padding transitions: the offset is only
+            // worth reading once that transition is over.
+            ->pause(600)
             ->tap(function (Browser $browser): void {
                 $footer = $browser->script('return document.querySelector("#footer").getBoundingClientRect().left')[0];
 

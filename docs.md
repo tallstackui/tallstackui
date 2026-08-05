@@ -50,15 +50,16 @@ down). An application that wants the old flush-left footer removes them.
 given, so a layout used only for its header indented its content by 18rem. The padding
 is now bound only when the slot is filled.
 
-### Fixed — the content slid in from under the sidebar on every page load
+### Fixed — the content could slide in from under the sidebar on load
 
 The padding that clears the sidebar is bound, so it only lands once Alpine boots, and the
-transition declared alongside it turned that first application into an animation: the
-content painted flush left, under the menu, and then slid 18rem into place. The slower the
-boot, the longer the page kept moving after it looked settled.
+transition was declared on the same class. A transition starts whenever the property and
+the `transition-property` covering it arrive together, so on a boot that lands after the
+first paint — a heavy page, a cold cache, a busy main thread — the content painted flush
+left, under the menu, and then slid 18rem into place.
 
-The transition is now attached a frame after the padding, so the first application is
-instant and only a collapse or an expand animates.
+The transition is now attached two frames after the padding, so the first application is
+always instant and only a collapse or an expand animates.
 
 **Migration.** `transition-[padding] duration-300` left `wrapper.second.expanded` and
 `wrapper.second.collapsed`, which now carry the padding alone, and moved to the new

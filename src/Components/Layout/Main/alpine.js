@@ -5,10 +5,11 @@ export default () => ({
   tallStackUiSettled: false,
   init() {
     // The padding that clears the sidebar is bound, so it only lands once Alpine
-    // boots. A transition declared alongside it animates that first application,
-    // sliding the whole content in on every page load, so it is only attached
-    // after the browser has painted the padding: two frames, because a single
-    // one still runs before the style recalc of the frame the padding landed on.
+    // boots. A transition declared alongside it animates that first application
+    // whenever the boot lands after the first paint, sliding the content in from
+    // under the menu, so it is only attached after the padding has been painted:
+    // two frames, because a single one still runs before the style recalc of the
+    // frame the padding landed on.
     requestAnimationFrame(() => requestAnimationFrame(() => (this.tallStackUiSettled = true)));
 
     this.$watch('tallStackUiMenuMobile', (value) => {
