@@ -50,6 +50,21 @@ down). An application that wants the old flush-left footer removes them.
 given, so a layout used only for its header indented its content by 18rem. The padding
 is now bound only when the slot is filled.
 
+### Fixed — the content slid in from under the sidebar on every page load
+
+The padding that clears the sidebar is bound, so it only lands once Alpine boots, and the
+transition declared alongside it turned that first application into an animation: the
+content painted flush left, under the menu, and then slid 18rem into place. The slower the
+boot, the longer the page kept moving after it looked settled.
+
+The transition is now attached a frame after the padding, so the first application is
+instant and only a collapse or an expand animates.
+
+**Migration.** `transition-[padding] duration-300` left `wrapper.second.expanded` and
+`wrapper.second.collapsed`, which now carry the padding alone, and moved to the new
+`wrapper.second.transition` block. An application that changed the duration through either
+of the two targets the new block instead.
+
 ### Fixed — the drawer's scroll lock leaked and fought the other overlays
 
 Opening the mobile drawer added `overflow-hidden` to the `html` element by hand. That

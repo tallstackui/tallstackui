@@ -87,11 +87,12 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name               | Purpose                                                |
-|--------------------------|--------------------------------------------------------|
-| wrapper.first            | Outer wrapper with minimum height                      |
-| wrapper.second.expanded  | Padding applied when sidebar is expanded               |
-| wrapper.second.collapsed | Padding applied when sidebar is collapsed              |
-| wrapper.second.footer    | Full height column used when the footer slot is filled |
-| main                     | Main content area padding and max-width                |
-| main.grow                | Makes the main area push the footer to the bottom      |
+| Block Name                | Purpose                                                |
+|---------------------------|--------------------------------------------------------|
+| wrapper.first             | Outer wrapper with minimum height                      |
+| wrapper.second.expanded   | Padding applied when sidebar is expanded               |
+| wrapper.second.collapsed  | Padding applied when sidebar is collapsed              |
+| wrapper.second.transition | Padding transition, attached after the first paint     |
+| wrapper.second.footer     | Full height column used when the footer slot is filled |
+| main                      | Main content area padding and max-width                |
+| main.grow                 | Makes the main area push the footer to the bottom      |

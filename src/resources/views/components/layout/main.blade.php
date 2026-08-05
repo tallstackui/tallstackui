@@ -15,6 +15,7 @@
                  x-bind:class="{
                      '{{ $customization['wrapper.second.expanded'] }}' : !$store['tsui.side-bar'].collapsed,
                      '{{ $customization['wrapper.second.collapsed'] }}' : $store['tsui.side-bar'].collapsed,
+                     '{{ $customization['wrapper.second.transition'] }}' : tallStackUiSettled,
                  }"
              @endif>
             @if ($header)
