@@ -40,7 +40,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'dark:bg-dark-800 dark:border-dark-600 rounded-lg border border-gray-300 bg-white',
+                'first' => 'dark:bg-dark-800 dark:border-dark-600 rounded-lg border border-gray-200 bg-white',
                 'second' => 'dark:border-dark-600 flex items-center justify-between space-x-4 border-b border-gray-300 px-4 py-2',
                 'button' => 'flex items-center space-x-4',
             ],
