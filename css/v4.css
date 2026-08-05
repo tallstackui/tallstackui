@@ -76,11 +76,14 @@
     --animate-banner-rotate-normal: ts-banner-rotate 18s linear infinite;
     --animate-banner-rotate-fast: ts-banner-rotate 8s linear infinite;
 
-    --animate-spinner-dots: ts-spinner-dots 0.7s ease-in-out infinite;
+    /* The four staggered variants need `backwards`: during the animation-delay
+       window the element would otherwise render at its static state instead of
+       the 0% keyframe, flashing at full scale before the stagger kicks in. */
+    --animate-spinner-dots: ts-spinner-dots 0.7s ease-in-out infinite backwards;
     --animate-spinner-pulse: ts-spinner-pulse 1s ease-in-out infinite;
-    --animate-spinner-typing: ts-spinner-typing 1.2s ease-in-out infinite;
-    --animate-spinner-bars: ts-spinner-bars 1s ease-in-out infinite;
-    --animate-spinner-wave: ts-spinner-wave 1s ease-in-out infinite;
+    --animate-spinner-typing: ts-spinner-typing 1.2s ease-in-out infinite backwards;
+    --animate-spinner-bars: ts-spinner-bars 1s ease-in-out infinite backwards;
+    --animate-spinner-wave: ts-spinner-wave 1s ease-in-out infinite backwards;
     --animate-spinner-shimmer: ts-spinner-shimmer 1.5s linear infinite;
     --animate-spinner-caret: ts-spinner-caret 1s steps(1, end) infinite;
 

@@ -47,6 +47,61 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function staggered_variants_start_at_the_first_keyframe(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-spinner wave />
+                    <x-spinner bars />
+                    <x-spinner typing />
+                    <x-spinner dots />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->waitFor('@spinner-wave');
+
+        // Cloning restarts the animations, so reading the clone synchronously
+        // captures the state before any of them has advanced. Without
+        // `backwards` the delayed children render at their static state
+        // instead of the 0% keyframe, flashing at full scale.
+        $probe = json_decode($browser->script(<<<'JS'
+            const read = (name) => {
+                const clone = document.querySelector(`[dusk="spinner-${name}"]`).cloneNode(true);
+
+                document.body.appendChild(clone);
+
+                const children = [...clone.children].map((child) => {
+                    const style = getComputedStyle(child);
+
+                    return { fill: style.animationFillMode, transform: style.transform };
+                });
+
+                clone.remove();
+
+                return [name, children];
+            };
+
+            return JSON.stringify(Object.fromEntries(['wave', 'bars', 'typing', 'dots'].map(read)));
+        JS)[0], true);
+
+        foreach ($probe as $variant => $children) {
+            foreach ($children as $index => $child) {
+                $this->assertSame('backwards', $child['fill'], "{$variant}[{$index}] must fill backwards");
+                $this->assertNotSame('none', $child['transform'], "{$variant}[{$index}] must start at the 0% keyframe");
+            }
+
+            $this->assertCount(1, array_unique(array_column($children, 'transform')),
+                "every {$variant} child must start from the same keyframe");
+        }
+    }
+
+    #[Test]
     public function thinking_cycles_the_braille_frames(): void
     {
         $browser = Livewire::visit(new class extends Component

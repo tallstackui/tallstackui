@@ -1956,6 +1956,22 @@ TallStackUi::customize('spinner', scope: 'chat')->block('typing.dot', 'size-2');
 block. `ring`, `throbber` and `gradient` reuse `animate-spin`, `ping` reuses
 `animate-ping`, and `terminal` shares the caret keyframe with `caret`.
 
+The four staggered variants — `dots`, `typing`, `bars` and `wave` — declare
+`backwards` in the animation shorthand. `animation-fill-mode` defaults to `none`,
+and an animation is *not executing* during its `animation-delay`, so without it the
+delayed children render at their static state rather than at the `0%` keyframe: five
+`wave` bars stand at full height and collapse into the wave one by one as each delay
+expires, the last of them 480ms in. The artifact is easy to miss inline, because it
+plays once while the page boots, and impossible to miss inside `<x-loading>`, where
+going from `display: none` to visible restarts the animation on every request.
+
+`dots` does not strictly need it — its `0%` is `translateY(0)`, which is what the
+element already renders — but the rule is "everything that consumes the `delays`
+block", not the coincidence that one keyframe happens to start at rest.
+`staggered_variants_start_at_the_first_keyframe` asserts the computed
+`animation-fill-mode` and the computed transform of every child, so removing
+`backwards` fails rather than degrading quietly.
+
 ---
 
 ## Toast
