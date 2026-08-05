@@ -4094,3 +4094,103 @@ anchor.
 
 `increase` and `decrease` can no longer be used together; doing so throws
 `InvalidArgumentException` (surfaced by Blade as `ViewException`).
+
+## QrCode
+
+### Added — `<x-qr-code />`, a dependency-free QR code
+
+The whole of ISO/IEC 18004 lives in `src/Support/QrCode/`: Reed-Solomon over
+GF(256), the version and error correction tables, data placement, the eight
+masks and their penalty rules. Nothing is fetched, nothing is shelled out to,
+and no encoding library is involved:
+
+```blade
+<x-qr-code link="https://tallstackui.com" />
+
+<x-qr-code link="https://tallstackui.com"
+          color="blue"
+          size="xl"
+          watermark="bolt"
+          copy
+          download="svg" />
+```
+
+`size` takes `xs` through `2xl` and only sets the rendered box — the module
+count comes from the payload. Both `size` and the export resolution take an
+application-wide default from the config.
+
+**The grid ships as a single SVG path** with consecutive dark modules merged
+into one run. One node per module would put thousands of elements on the page
+for a mid sized code, which is what makes a list of them stutter.
+
+**The error correction level is not a prop.** It is `M` normally and `H` when a
+watermark is present, because removing modules from the middle of the symbol is
+exactly what the highest level pays for. Offering it as a choice would let a
+watermark be combined with a level that cannot carry it.
+
+**Without `color` the modules follow the theme** — dark on a light page, light
+on a dark one. A named color is the same color under both themes, because a
+brand is. Note that the dark theme therefore inverts the symbol: the
+specification asks for dark modules on a light background, and while the iOS
+camera, Google Lens and Apple Vision all read an inverted code, the default
+reader in ZXing does not. Pass an explicit `color` where conformance matters
+more than the theme.
+
+**`watermark` resolves to an icon or to text from the same attribute.** A value
+backed by an existing icon view draws the icon; anything else is drawn as
+`<text>`, capped at eight characters so it still fits the strip. Arbitrary
+Blade is deliberately not accepted: `<foreignObject>` is dropped when the SVG
+is rasterized, so a watermark expressed as HTML would vanish from every
+exported file.
+
+The modules under a watermark are **removed rather than covered**. The
+component draws no background, so anything painted over them would still show
+them through. The region is bounded so it never reaches the timing patterns or
+either format information block.
+
+**`copy` and `download` export the code as a file.** Copy always writes a PNG,
+because pasting a vector into a chat or a document does not work anywhere it
+matters; download takes `png` or `svg`. The exported file is rendered without
+the page stylesheet, so the color the classes resolved to is inlined into the
+clone before it is serialized. There is no background, so the PNG is
+transparent.
+
+**`skeleton` renders a placeholder and stops requiring a `link`**, which is
+what a placeholder stands in for:
+
+```blade
+<x-qr-code :link="$resolved" :skeleton="$resolved === null" size="lg" />
+```
+
+### Scannability
+
+`size` sets the box and the payload sets the module count, so a long link
+inside a small box leaves very few pixels per module. Below roughly three the
+code stops being readable from a one-times display:
+
+| payload | version | xs   | sm   | md   | lg   | xl   | 2xl  |
+|---------|---------|------|------|------|------|------|------|
+| 23 B    | v2      | 2.91 | 3.88 | 4.85 | 5.82 | 6.79 | 7.76 |
+| 120 B   | v7      | 1.81 | 2.42 | 3.02 | 3.62 | 4.23 | 4.83 |
+| 330 B   | v13     | 1.25 | 1.66 | 2.08 | 2.49 | 2.91 | 3.32 |
+| 800 B   | v23     | 0.82 | 1.09 | 1.37 | 1.64 | 1.91 | 2.19 |
+
+A retina display doubles every number. Shorten the link or raise the size when
+a code has to be scanned off a screen or printed small.
+
+### Verification
+
+An encoder that silently produces the wrong symbol is worse than one that
+throws, so correctness is asserted rather than assumed:
+
+- Every one of the 160 version and level combinations has its block table
+  cross-checked against a geometric count of the modules a version leaves for
+  data. The two derivations are independent.
+- The check codewords are verified against the worked example of the
+  specification, and, for every error correction degree the tables use, against
+  the defining property of a Reed-Solomon codeword: it is a multiple of the
+  generator polynomial, so it evaluates to zero at each of its roots. The test
+  reaches GF(256) through carry-less multiplication rather than the log tables
+  the encoder builds, so a fault in those cannot hide behind itself.
+- Every version at every level was rendered and read back with an independent
+  decoder outside the test suite.
