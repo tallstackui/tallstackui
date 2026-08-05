@@ -199,6 +199,28 @@ the mobile trigger and the drawer close, and a label on each `<nav>`.
 
 ## KeyValue
 
+### Added — `compact`, a denser row rhythm
+
+```blade
+<x-key-value wire:model="metadata" compact />
+```
+
+Tightens the vertical padding of the header, the rows, the empty message and the add
+button, leaving the horizontal padding, the type scale and the colors alone. A compact
+row carries the same `py-2.5` as a compact `<x-table>` data cell, so a page holding both
+reads as one rhythm.
+
+Each affected block gained a `-compact` twin — `header.wrapper-compact`,
+`list.wrapper-default-padding-compact`, `empty.wrapper-compact` and `button.add-compact`
+— and the flag swaps the whole string instead of layering an override on top of it. An
+application customizing `header.wrapper` has to customize `header.wrapper-compact` too
+if it uses both modes.
+
+`deletable` is the exception. Those rows already carry no vertical padding — the delete
+button is absolutely positioned against the row and the padding was dropped to make room
+for it — so there is nothing left for `compact` to take. The header, the empty message
+and the add button still tighten.
+
 ### Changed — a lighter surface, and the fields stop hiding in it
 
 The component stacked three grays: a gray body, a darker gray header and footer, and
@@ -1497,6 +1519,30 @@ never got as far as the server. Naming the button is what surfaced it.
 ---
 
 ## List
+
+### Added — `compact`, a denser row rhythm
+
+```blade
+<x-list compact :items="$tags" />
+```
+
+Tightens the vertical padding of the rows, the search bar and the empty message, leaving
+the horizontal padding, the type scale and the colors alone. The skeleton follows the
+flag, so a list that opens as a placeholder does not change height when the rows arrive.
+
+The flag lives on `<x-list>` alone and reaches the rows through `@aware`, so it holds
+across all three ways of writing them — `:items`, `lazy` and rows spelled out in the
+slot — without repeating it on every `<x-list.items>`.
+
+Each affected block gained a `-compact` twin — `search.wrapper-compact`,
+`empty.wrapper-compact` and `skeleton.items.row-compact` on `<x-list>`, plus
+`wrapper-compact` on `<x-list.items>` — and the flag swaps the whole string instead of
+layering an override on top of it. An application customizing the `wrapper` of
+`list.items` has to customize `wrapper-compact` too if it uses both modes.
+
+`wrapper-compact` also lowers the reserved `contain-intrinsic-size` from `2.5rem` to
+`1.75rem`, matching the height a compact row actually lays out at, so a long lazy list
+does not overstate its scroll height before the rows are painted.
 
 ### Added — `lazy`, rendering the rows on the client
 

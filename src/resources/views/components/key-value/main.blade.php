@@ -6,7 +6,8 @@
      x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
      class="{{ $customization['wrapper'] }}">
     <div @class([
-            $customization['header.wrapper'],
+            $customization['header.wrapper'] => ! $compact,
+            $customization['header.wrapper-compact'] => $compact,
             $customization['header.neutral'] => blank($colors['header'] ?? null),
             $colors['header'] ?? '' => true,
         ])>
@@ -17,13 +18,19 @@
         @endif
     </div>
     <div x-bind:class="{ '{{ $customization['list.divider'] }}' : rows.length > 0 }">
-        <div class="{{ $customization['empty.wrapper'] }}" dusk="tallstackui_empty_message" x-show="rows.length === 0">
+        <div @class([
+                $customization['empty.wrapper'] => ! $compact,
+                $customization['empty.wrapper-compact'] => $compact,
+             ])
+             dusk="tallstackui_empty_message"
+             x-show="rows.length === 0">
             <p class="{{ $customization['empty.text'] }}">{{ trans('ts-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
             <div @class([
                     $customization['list.wrapper'],
-                    $customization['list.wrapper-default-padding'] => ! $deletable,
+                    $customization['list.wrapper-default-padding'] => ! $deletable && ! $compact,
+                    $customization['list.wrapper-default-padding-compact'] => ! $deletable && $compact,
                 ])>
                 <div>
                     <input x-model="row.key"
@@ -75,7 +82,8 @@
             dusk="tallstackui_add_row_button"
             {{ $attributes->only('x-on:add') }}
             @class([
-                $customization['button.add'],
+                $customization['button.add'] => ! $compact,
+                $customization['button.add-compact'] => $compact,
                 $customization['button.neutral'] => blank($colors['button'] ?? null),
                 $colors['button'] ?? '' => true,
             ])

@@ -724,3 +724,58 @@ it('cannot render the skeleton with a count below one', function () {
 
     expect('<x-list skeleton="0" />')->render();
 });
+
+describe('compact', function () {
+    it('tightens the rows, the search and the empty state', function () {
+        $component = <<<'HTML'
+        <x-list compact searchable :items="[['name' => 'Foo', 'caption' => 'Bar']]" />
+        HTML;
+
+        expect($component)->render()
+            ->toContain('px-3 py-1 [content-visibility:auto]')
+            ->toContain('flex h-9 items-center')
+            ->toContain('justify-center px-3 py-3')
+            ->not->toContain('px-3 py-2 [content-visibility:auto]')
+            ->not->toContain('flex h-11 items-center')
+            ->not->toContain('justify-center px-3 py-6');
+    });
+
+    it('keeps the roomy rhythm by default', function () {
+        $component = <<<'HTML'
+        <x-list searchable :items="[['name' => 'Foo', 'caption' => 'Bar']]" />
+        HTML;
+
+        expect($component)->render()
+            ->toContain('px-3 py-2 [content-visibility:auto]')
+            ->toContain('flex h-11 items-center')
+            ->toContain('justify-center px-3 py-6')
+            ->not->toContain('px-3 py-1 [content-visibility:auto]')
+            ->not->toContain('flex h-9 items-center');
+    });
+
+    it('reaches the items written in the slot', function () {
+        $component = <<<'HTML'
+        <x-list compact>
+            <x-list.items name="Foo" />
+        </x-list>
+        HTML;
+
+        expect($component)->render()->toContain('px-3 py-1 [content-visibility:auto]');
+    });
+
+    it('reaches the lazy rows', function () {
+        $component = <<<'HTML'
+        <x-list compact height="60" :lazy="2" :items="[['name' => 'Foo'], ['name' => 'Bar']]" />
+        HTML;
+
+        expect($component)->render()->toContain('px-3 py-1 [content-visibility:auto]');
+    });
+
+    it('tightens the skeleton too', function () {
+        expect('<x-list skeleton searchable compact />')
+            ->render()
+            ->toContain('gap-x-2 px-3 py-1.5')
+            ->toContain('flex h-9 items-center')
+            ->not->toContain('gap-x-2 px-3 py-2.5');
+    });
+});

@@ -45,6 +45,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => 'flex items-center gap-x-4 px-3 py-2 [content-visibility:auto] [contain-intrinsic-size:auto_2.5rem]',
+            'wrapper-compact' => 'flex items-center gap-x-4 px-3 py-1 [content-visibility:auto] [contain-intrinsic-size:auto_1.75rem]',
             'content' => [
                 'wrapper' => 'flex grow items-center justify-between',
                 'inner' => 'flex flex-row items-center gap-2',

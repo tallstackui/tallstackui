@@ -27,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $hint = null,
         public ?bool $searchable = false,
         public ?string $searchPlaceholder = null,
+        public ?bool $compact = false,
         public ?string $height = null,
         public array|Arrayable|null $items = null,
         public bool|int|null $lazy = null,
@@ -61,6 +62,7 @@ class Component extends TallStackUiComponent implements Customization
             'box' => 'dark:bg-dark-700 dark:border-dark-600 rounded-md border border-secondary-200 bg-white',
             'search' => [
                 'wrapper' => 'dark:border-dark-600 relative flex h-11 items-center border-b border-secondary-200',
+                'wrapper-compact' => 'dark:border-dark-600 relative flex h-9 items-center border-b border-secondary-200',
                 'icon.wrapper' => 'pointer-events-none absolute left-3 flex size-5 items-center justify-center text-secondary-400 dark:text-dark-400',
                 'icon.size' => 'size-5',
                 'input' => 'h-full w-full border-0 bg-transparent pl-10 pr-3 text-sm text-secondary-700 placeholder:text-secondary-400 focus:outline-none focus:ring-0 dark:text-dark-100 dark:placeholder:text-dark-400',
@@ -77,6 +79,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'empty' => [
                 'wrapper' => 'flex items-center justify-center px-3 py-6',
+                'wrapper-compact' => 'flex items-center justify-center px-3 py-3',
                 'text' => 'text-sm text-secondary-500 dark:text-dark-400',
             ],
             'skeleton' => [
@@ -87,6 +90,7 @@ class Component extends TallStackUiComponent implements Customization
                 'items' => [
                     'wrapper' => 'dark:divide-dark-600 divide-y divide-secondary-200',
                     'row' => 'flex items-center justify-between gap-x-2 px-3 py-2.5',
+                    'row-compact' => 'flex items-center justify-between gap-x-2 px-3 py-1.5',
                     'content' => 'flex items-center gap-x-2',
                 ],
                 'name' => 'h-4 w-32',

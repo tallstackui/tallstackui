@@ -26,6 +26,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $value = null,
         public ?string $color = null,
         public ?bool $colorless = null,
+        public ?bool $compact = false,
         public ?int $limit = null,
         public ?bool $static = null,
         public ?bool $deletable = null,
@@ -49,17 +50,20 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
                 'wrapper' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
+                'wrapper-compact' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-1',
                 'neutral' => 'dark:text-dark-300 text-gray-600',
                 'key' => 'font-semibold',
                 'value' => 'font-semibold',
             ],
             'empty' => [
                 'wrapper' => 'flex items-center justify-center py-5',
+                'wrapper-compact' => 'flex items-center justify-center py-3',
                 'text' => 'dark:text-dark-400 text-gray-500',
             ],
             'list' => [
                 'wrapper' => 'grid grid-cols-2 px-4 items-center relative dark:text-dark-200 text-gray-600',
                 'wrapper-default-padding' => 'py-4',
+                'wrapper-default-padding-compact' => 'py-2.5',
                 'divider' => 'divide-y divide-gray-100 dark:divide-dark-600',
                 'value-wrapper' => 'pr-8 mr-2',
                 'value-wrapper-deletable' => 'top-2',
@@ -70,6 +74,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'button' => [
                 'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2 text-center',
+                'add-compact' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-1 text-center',
                 'neutral' => 'dark:text-dark-300 dark:hover:bg-dark-600 text-gray-600 hover:bg-gray-50',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],

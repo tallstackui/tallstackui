@@ -1,8 +1,13 @@
+@aware(['compact' => false])
+
 @php
     $customization = $classes();
 @endphp
 
-<div class="{{ $customization['wrapper'] }}"
+<div @class([
+        $customization['wrapper'] => ! $compact,
+        $customization['wrapper-compact'] => $compact,
+     ])
      data-list-row
      data-list-on
      x-bind:data-list-name="item.name">
