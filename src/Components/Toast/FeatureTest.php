@@ -64,9 +64,19 @@ it('aligns the centered positions through their own block')
 it('does not pile the toasts by default')
     ->expect('<x-toast />')
     ->render()
-    ->toContain("tallstackui_toastBase(null, 'top-right', false, false, false)")
+    ->toContain("tallstackui_toastBase(null, 'top-right', false, false, false)");
+
+it('always renders the pile bindings, inert until stacked turns on')
+    ->expect('<x-toast />')
+    ->render()
+    ->toContain('x-on:mouseenter="expand()"')
+    ->toContain('x-on:mouseleave="collapse()"')
+    ->toContain('x-on:ts-ui:toast-measured="register($event.detail)"')
+    ->toContain('x-bind:style="style(index)"')
+    ->toContain('x-effect="freeze(expanded)"')
+    ->toContain('opacity: content(index)')
     ->toContain('contents')
-    ->not->toContain('x-on:mouseenter="expand()"');
+    ->toContain('tallstackui_toastLoop(toast)');
 
 it('piles the toasts when stacked is enabled', function () {
     config()->set('ts-ui.components.toast.1.stacked', true);
@@ -74,14 +84,7 @@ it('piles the toasts when stacked is enabled', function () {
 
     expect('<x-toast />')
         ->render()
-        ->toContain("tallstackui_toastBase(null, 'top-right', false, true, false)")
-        ->toContain('x-on:mouseenter="expand()"')
-        ->toContain('x-on:mouseleave="collapse()"')
-        ->toContain('x-on:ts-ui:toast-measured="register($event.detail)"')
-        ->toContain('x-bind:style="style(index)"')
-        ->toContain('x-effect="freeze(expanded)"')
-        ->toContain('opacity: content(index)')
-        ->toContain('tallstackui_toastLoop(toast, true)');
+        ->toContain("tallstackui_toastBase(null, 'top-right', false, true, false)");
 });
 
 it('hands the pile its own wrapper instead of the inert one', function () {

@@ -29,7 +29,9 @@ export default (
     if (flash)
       document.addEventListener('livewire:navigated', () => this.add(flash), { once: true });
 
-    if (this.stacked && this.topOnMobile) {
+    // Tracked whenever the flag is on, not just when stacked
+    // starts on: the pile can now be switched on per event.
+    if (this.topOnMobile) {
       const query = window.matchMedia(DESKTOP);
 
       this.desktop = query.matches;
@@ -57,6 +59,9 @@ export default (
       // sending to prevent duplication.
       this.flush();
 
+      this.position = flash.position ?? this.position;
+      this.stacked = flash.stacked ?? this.stacked;
+
       this.toasts.push(flash);
     }
 
@@ -68,6 +73,7 @@ export default (
       event.detail.id ??= `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
       this.position = event.detail.position ?? this.position;
+      this.stacked = event.detail.stacked ?? this.stacked;
 
       this.toasts.push(event.detail);
     }
@@ -168,7 +174,7 @@ export default (
    * @return {Number}
    */
   content(index) {
-    if (this.expanded || this.depth(index) === 0) {
+    if (!this.stacked || this.expanded || this.depth(index) === 0) {
       return 1;
     }
 
@@ -207,6 +213,20 @@ export default (
    * @return {Object}
    */
   style(index) {
+    // The keys are nulled instead of omitted: a pile switched off per event
+    // leaves inline styles behind, and visibility would keep cards hidden.
+    if (!this.stacked) {
+      return {
+        top: null,
+        bottom: null,
+        zIndex: null,
+        opacity: null,
+        visibility: null,
+        transformOrigin: null,
+        transform: null,
+      };
+    }
+
     const reversed = this.reversed;
     const anchor = reversed ? 'bottom' : 'top';
 

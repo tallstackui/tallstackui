@@ -1,9 +1,10 @@
 import { event } from '../../../js/helpers';
 
-export default (toast, stacked = false) => ({
+// stacked is not mirrored here on purpose: reads fall through to the
+// parent pile scope, staying live when the mode flips per event.
+export default (toast) => ({
   toast: toast,
   show: false,
-  stacked: stacked,
   paused: false,
   piled: false,
   observer: null,
@@ -54,17 +55,24 @@ export default (toast, stacked = false) => ({
 
       // While piled, the hover belongs to the pile wrapper: the cards slide
       // under a still pointer, so mouseout on them never fires reliably.
-      if (!this.stacked) {
-        this.$refs.toast.addEventListener('mouseover', () => {
-          this.paused = true;
-          this.animate(false);
-        });
+      // Guarded per event instead of skipped, since the mode can flip.
+      this.$refs.toast.addEventListener('mouseover', () => {
+        if (this.stacked) {
+          return;
+        }
 
-        this.$refs.toast.addEventListener('mouseout', () => {
-          this.paused = false;
-          this.animate(!this.frozen);
-        });
-      }
+        this.paused = true;
+        this.animate(false);
+      });
+
+      this.$refs.toast.addEventListener('mouseout', () => {
+        if (this.stacked) {
+          return;
+        }
+
+        this.paused = false;
+        this.animate(!this.frozen);
+      });
 
       this.listener = () => {
         if (document.hidden) {
@@ -154,10 +162,8 @@ export default (toast, stacked = false) => ({
    * @return {void}
    */
   measure() {
-    if (!this.stacked) {
-      return;
-    }
-
+    // Always observed, even outside stacked mode: the pile needs every
+    // height already known when a later toast switches the mode on.
     // ResizeObserver notifies once on observe, with the settled height, so
     // there is no initial value to report by hand.
     this.observer = new ResizeObserver(() =>

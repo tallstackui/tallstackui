@@ -10,25 +10,22 @@
         $configurations['z-index'],
         $customization['wrapper.position.top-on-mobile'] => $configurations['top-on-mobile'],
     ]) x-bind:class="{ '{{ $customization['wrapper.position.top-x'] }}' : position.includes('top-') === true, '{{ $customization['wrapper.position.bottom-x'] }}' : position.includes('bottom-') === true }">
-    <div @class([$configurations['stacked'] ? $customization['stack.wrapper'] : $customization['stack.inert']])
-         @if ($configurations['stacked'])
-             dusk="tallstackui_toast_stack"
-             x-on:mouseenter="expand()"
-             x-on:mouseleave="collapse()"
-             x-on:ts-ui:toast-measured="register($event.detail)"
-             x-bind:style="{ height: `${container}px` }"
-             x-bind:class="{ '{{ $customization['stack.align.left'] }}' : position.includes('-left') === true, '{{ $customization['stack.align.right'] }}' : position.includes('-right') === true, '{{ $customization['stack.align.center'] }}' : position.includes('-center') === true }"
-        @endif>
+    <div dusk="tallstackui_toast_stack"
+         x-on:mouseenter="expand()"
+         x-on:mouseleave="collapse()"
+         x-on:ts-ui:toast-measured="register($event.detail)"
+         x-bind:style="{ height: stacked ? `${container}px` : null }"
+         x-bind:class="{ '{{ $customization['stack.wrapper'] }}' : stacked === true, '{{ $customization['stack.inert'] }}' : stacked === false, '{{ $customization['stack.align.left'] }}' : stacked && position.includes('-left') === true, '{{ $customization['stack.align.right'] }}' : stacked && position.includes('-right') === true, '{{ $customization['stack.align.center'] }}' : stacked && position.includes('-center') === true }">
     <template x-for="(toast, index) in toasts" :key="toast.id">
-        <div @class([$configurations['stacked'] ? $customization['stack.item'] : $customization['stack.inert']])
-             @if ($configurations['stacked']) x-bind:style="style(index)" @endif>
-        <div x-data="tallstackui_toastLoop(toast, @js($configurations['stacked']))"
+        <div x-bind:class="stacked ? '{{ $customization['stack.item'] }}' : '{{ $customization['stack.inert'] }}'"
+             x-bind:style="style(index)">
+        <div x-data="tallstackui_toastLoop(toast)"
              x-show="show"
              x-ref="toast"
              x-on:mouseenter="toast.expandable = false"
              class="{{ $customization['wrapper.second'] }}"
              x-bind="transition"
-             @if ($configurations['stacked']) x-effect="freeze(expanded)" @endif
+             x-effect="freeze(expanded)"
              x-bind:class="{ '{{ $customization['wrapper.position.x-left'] }}' : position.includes('-left') === true, '{{ $customization['wrapper.position.x-right'] }}' : position.includes('-right') === true, '{{ $customization['wrapper.position.x-center'] }}' : position.includes('-center') === true }">
             <div class="{{ $customization['wrapper.third'] }}"
                  @if($ts_ui__colorful)
@@ -42,9 +39,9 @@
                     @endif>
                 <div @class([
                         $customization['wrapper.fourth'],
-                        $customization['stack.content'] => $configurations['stacked'],
+                        $customization['stack.content'],
                      ])
-                     @if ($configurations['stacked']) x-bind:style="{ opacity: content(index) }" @endif>
+                     x-bind:style="{ opacity: content(index) }">
                     <div class="shrink-0">
                         <div x-show="toast.type === 'success'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -136,9 +133,9 @@
                     <div x-show="!toast.persistent"
                          @class([
                             $ts_ui__colorful ? $customization['colorful.progress.wrapper'] : $customization['progress.wrapper'],
-                            $customization['stack.content'] => $configurations['stacked'],
+                            $customization['stack.content'],
                          ])
-                         @if ($configurations['stacked']) x-bind:style="{ opacity: content(index) }" @endif>
+                         x-bind:style="{ opacity: content(index) }">
                         <span x-ref="progress" x-bind:style="`animation-duration:${toast.timeout * 1000}ms`"
                               @class([$customization['progress.animation'], $ts_ui__colorful ? $customization['colorful.progress.bar'] : $customization['progress.bar']]) x-cloak></span>
                     </div>

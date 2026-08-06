@@ -1,6 +1,9 @@
 import Interaction from '../../../js/globals/interaction';
 import { error } from '../../../js/helpers';
 
+// Mirror of Toast\Component::POSITIONS.
+const POSITIONS = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
+
 export default class ToastInteraction extends Interaction {
   /**
    * @param title {String}
@@ -98,6 +101,36 @@ export default class ToastInteraction extends Interaction {
   };
 
   /**
+   * @param position {String}
+   * @return {ToastInteraction}
+   */
+  position = (position) => {
+    this._data.position = position;
+
+    return this;
+  };
+
+  /**
+   * @param sole {Boolean}
+   * @return {ToastInteraction}
+   */
+  sole = (sole = true) => {
+    this._data.sole = sole;
+
+    return this;
+  };
+
+  /**
+   * @param stacked {Boolean}
+   * @return {ToastInteraction}
+   */
+  stacked = (stacked = true) => {
+    this._data.stacked = stacked;
+
+    return this;
+  };
+
+  /**
    * Return the event name for this interaction type.
    *
    * @return {String}
@@ -113,6 +146,11 @@ export default class ToastInteraction extends Interaction {
    */
   validate() {
     const options = this._data.options ?? null;
+
+    if (this._data.position && !POSITIONS.includes(this._data.position)) {
+      error(`Invalid position: ${this._data.position}. Allowed: ${POSITIONS.join(', ')}.`);
+      return false;
+    }
 
     if (options.cancel && !options.cancel.text) {
       error('You must set the text of [cancel] action.');
@@ -146,6 +184,7 @@ export default class ToastInteraction extends Interaction {
       timeout: this._data.timeout ?? 3,
       expandable: this._data.expandable ?? false,
       persistent: this._data.persistent ?? false,
+      sole: this._data.sole ?? false,
     };
   }
 }

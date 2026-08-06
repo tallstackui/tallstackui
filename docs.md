@@ -2782,6 +2782,42 @@ mouse. What the unification fixes in both modes is the bar disagreeing with the 
 `progress` set to `false` the span is never rendered, and the old hover handler reached
 into `undefined` on every hover.
 
+### Added — `stacked`, `position` and `sole` reached the fluent APIs
+
+`stacked` was born as a configuration switch, resolved when the Blade rendered: the
+markup either was a pile or it was not, and no toast could say otherwise. Both fluent
+APIs now carry it per toast:
+
+```php
+$this->toast()->stacked()->success('Saved!')->send();
+```
+
+```js
+$tsui.interaction('toast').stacked().success('Saved!').send();
+```
+
+The JavaScript API also gained `position` and `sole`, which the PHP side already had.
+`position` is validated against the same allowed list, mirrored as a constant next to
+the interaction class — the third home of that list, after the two the centered
+positions already forced together.
+
+Making the flag travel per event meant the render-time fork had to go: the template
+always renders the pile bindings, and the Alpine state decides between them. With
+`stacked` off the wrappers keep their `display: contents` classes and the style
+bindings resolve to nothing, so the layout is still the plain list. A pile switched
+off mid-flight nulls the inline styles it wrote, since a leftover `visibility: hidden`
+would keep a buried card invisible in the list.
+
+The semantics follow `position`: the last event wins for the whole container, and the
+PHP side resolves the configuration default into every payload, so a toast that says
+nothing falls back to the config. Each card now reports its height regardless of the
+mode, which lets a pile switched on later find every height already known — and the
+flashed toast applies its `position` and `stacked` too, which the flash path used to
+ignore.
+
+`toast-loop` no longer mirrors `stacked` into its own scope: reads fall through to the
+pile's state, staying live when the mode flips.
+
 ### Migration
 
 `wrapper.position` gained `x-center`, and a new `stack` group was added:

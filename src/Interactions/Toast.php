@@ -32,6 +32,11 @@ class Toast extends AbstractInteraction
     protected ?bool $sole = false;
 
     /**
+     * Determines if the toasts should be piled instead of listed.
+     */
+    protected ?bool $stacked = null;
+
+    /**
      * Control the timeout seconds.
      */
     protected ?int $timeout = 3;
@@ -123,6 +128,16 @@ class Toast extends AbstractInteraction
     }
 
     /**
+     * Determines if the toasts should be piled instead of listed.
+     */
+    public function stacked(bool $stacked = true): self
+    {
+        $this->stacked = $stacked;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function success(string $title, ?string $description = null): self
@@ -173,6 +188,7 @@ class Toast extends AbstractInteraction
             'persistent' => $this->persistent,
             'position' => $this->position ?? $configuration['position'] ?? 'top-right',
             'sole' => $this->sole,
+            'stacked' => $this->stacked ?? $configuration['stacked'] ?? false,
         ];
     }
 

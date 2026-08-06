@@ -82,10 +82,16 @@ class ItemController extends Controller
 | persistent | `persistent()`                                                              | Removes timeout and progress bar, toast stays until manually closed                                   |
 | position   | `position(string $position)`                                                | Sets position dynamically (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
 | sole       | `sole(bool $sole = true)`                                                   | When true, flushes all previous toasts and shows only this one                                        |
+| stacked    | `stacked(bool $stacked = true)`                                             | Piles the toasts instead of listing them, switching the whole container per event                     |
 | timeout    | `timeout(?int $seconds = null)`                                             | Sets the auto-dismiss timeout in seconds                                                              |
 | hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `close`, `timeout`)                                               |
 | flash      | `flash(bool $dispatch = false)`                                             | Flashes the interaction to session for display after redirect                                         |
 | send       | `send()`                                                                    | Dispatches the toast                                                                                  |
+
+The same fluent surface exists in JavaScript through `$tsui.interaction('toast')`,
+including `position`, `sole` and `stacked` — `position` validated against the same
+allowed list. `hook` and `flash` are server-side only; `wireable(id)` takes their
+place to point the confirm/cancel methods at a Livewire component.
 
 ## Configuration
 
@@ -118,10 +124,20 @@ points at. Three layers peek out; deeper toasts wait at `opacity: 0` and reappea
 the ones in front leave. In the closed pile only the front card renders content — the
 ones behind are reduced to their card shape.
 
-It is a global switch only: there is no per-toast opt-in and the geometry (16px step
-per layer, 12px gap when expanded, three visible layers) is not configurable. There is
-also no cap on how many toasts the expanded pile shows, so a long queue can overflow
-the viewport — the same as the plain list does today.
+The configuration is the default, not the only switch: both fluent APIs carry
+`stacked` per toast, and the last event wins for the whole container — like `position`:
+
+```php
+$this->toast()->stacked()->success('Saved!')->send();
+```
+
+```js
+$tsui.interaction('toast').stacked().success('Saved!').send();
+```
+
+The geometry (16px step per layer, 12px gap when expanded, three visible layers) is
+not configurable. There is also no cap on how many toasts the expanded pile shows, so
+a long queue can overflow the viewport — the same as the plain list does today.
 
 Since the front of the pile is always the newest toast, the switch reverses the reading
 order of the `top-*` positions: the plain list puts the oldest toast at the edge, the
@@ -182,6 +198,9 @@ $this->toast()->position('top-left')->success('...')->send();
 
 // Sole (only one toast at a time)
 $this->toast()->sole()->success('...')->send();
+
+// Stacked (piles the toasts instead of listing them)
+$this->toast()->stacked()->success('...')->send();
 ```
 
 ### Flash (Redirect Support)
@@ -197,6 +216,7 @@ return $this->redirect(route('dashboard'));
 
 A flashed toast is shown once, on the page it lands on. It is not replayed when a later
 toast is dispatched on that same page, and it does not clear toasts already on screen.
+It applies its `position` and `stacked` to the container when it lands.
 
 ### Controller Usage
 
