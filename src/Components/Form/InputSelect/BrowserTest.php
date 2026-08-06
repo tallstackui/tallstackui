@@ -616,6 +616,35 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_use_floating_to_control_panel_width(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $email = null;
+
+            public ?string $provider = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input.select label="Email" dusk="email_input" wire:model.live="email" floating="min-w-40">
+                        <x-slot:right>
+                            <x-select.styled :options="['@gmail.com', '@yahoo.com']" wire:model.live="provider" />
+                        </x-slot:right>
+                    </x-input.select>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_select_open_close')
+            ->waitFor('@tallstackui_select_options')
+            ->assertScript("document.querySelector('[dusk=tallstackui_select_options]').closest('.min-w-40') !== null")
+            ->assertScript("document.querySelector('[dusk=tallstackui_select_options]').closest('.min-w-72') === null");
+    }
+
+    #[Test]
     public function can_use_icon(): void
     {
         Livewire::visit(new class extends Component

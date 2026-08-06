@@ -31,12 +31,13 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 
 | Attribute  | Type                        | Default | Description                                     |
 |------------|-----------------------------|---------|-------------------------------------------------|
-| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input            |
-| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input             |
-| icon       | string\|null                | null    | Icon name displayed inside the input            |
-| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value |
-| invalidate | bool\|null                  | null    | Prevents displaying validation error messages   |
-| position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                |
+| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                       |
+| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                        |
+| icon       | string\|null                | null    | Icon name displayed inside the input                                       |
+| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value                            |
+| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                              |
+| position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                                           |
+| floating   | string\|null                | null    | Class(es) replacing the styled select panel's `min-w-72` width floor       |
 
 ## Slots
 
@@ -46,6 +47,28 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 | right  | Right addon content, typically a `<x-select.native>` with `side="right"` |
 | prefix | Text or component slot rendered inside the input on the left             |
 | suffix | Text or component slot rendered inside the input on the right            |
+
+## Panel Width (`floating`)
+
+A `<x-select.styled>` inside the `left`/`right` slot opens a floating panel whose
+width follows the trigger (Floating's width sync), guarded by a `min-w-72` floor
+(288px) so a narrow trigger does not collapse the panel. `floating` replaces that
+floor with your own class(es):
+
+```blade
+<x-input.select wire:model="email" label="E-mail Provider" floating="min-w-40">
+    <x-slot:right>
+        <x-select.styled wire:model="provider" :options="['@gmail.com', '@yahoo.com']" />
+    </x-slot:right>
+</x-input.select>
+```
+
+- The panel never sits below the trigger's width, so the value acts as a floor
+  (`min-w-*`) or a cap (`max-w-*`), not an exact width.
+- Multiple classes are accepted: `floating="min-w-40 max-w-56"`.
+- No-op with `<x-select.native>` in the slot — the native select has no panel.
+- Read only when the select detects side mode; a standalone `<x-select.styled>`
+  never inherits `floating` from an unrelated ancestor.
 
 ## Validation Constraints
 

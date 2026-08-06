@@ -12,6 +12,37 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / InputSelect
+
+### Added — `floating`, the panel width floor as an attribute
+
+Inside `<x-input.select>`, a styled select's panel follows its trigger through
+Floating's width sync, and a `min-w-72` floor keeps a narrow trigger — a phone
+code, a bare "Select an option" — from collapsing the panel into something
+unreadable. The floor was one-size: 288px reads fine around a search input,
+oversized next to a short list of e-mail providers. It is now an attribute on
+the wrapper:
+
+```blade
+<x-input.select label="E-mail Provider" wire:model="email" floating="min-w-40">
+    <x-slot:right>
+        <x-select.styled :options="['@gmail.com', '@yahoo.com']" wire:model="provider" />
+    </x-slot:right>
+</x-input.select>
+```
+
+The value is a class string and lands in place of `min-w-72` — the styled
+select's `floating.side` block — so it can carry more than one class
+(`min-w-40 max-w-56`). The width sync stays on and the panel never sits below
+the trigger's width, which makes the value a floor (`min-w-*`) or a cap
+(`max-w-*`), not an exact width. A `<x-select.native>` in the slot opens the
+browser's own list and has no panel, so the attribute is a no-op there.
+
+The value travels from the wrapper to the select through Blade's consumable
+component data — the `@aware` channel — and is read only when the select
+detects side mode, so a standalone `<x-select.styled>` never inherits a
+`floating` from an unrelated ancestor.
+
 ## Card, Stats, Calendar & Tab
 
 ### Added — `shadowless` and `bordered` flags for the flat look
