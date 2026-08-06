@@ -46,7 +46,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-checkbox dark:border-dark-600 border-1 dark:bg-dark-800 rounded border-gray-300 bg-white ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0',
+                'class' => 'form-checkbox dark:border-dark-600/50 border-1 dark:bg-dark-800 rounded border-gray-200 bg-white ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0',
                 'sizes' => [
                     'xs' => 'h-3 w-3',
                     'sm' => 'h-4 w-4',

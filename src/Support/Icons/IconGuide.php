@@ -48,6 +48,7 @@ class IconGuide
                 'clipboard-document' => 'clipboard-document',
                 'cloud-arrow-up' => 'cloud-arrow-up',
                 'clock' => 'clock',
+                'computer-desktop' => 'computer-desktop',
                 'code-bracket' => 'code-bracket',
                 'code-bracket-square' => 'code-bracket-square',
                 'document-check' => 'document-check',

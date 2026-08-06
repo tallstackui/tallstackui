@@ -63,10 +63,10 @@ class Component extends TallStackUiComponent implements Customization
                 'class' => 'w-[18rem] overflow-auto',
             ],
             'box' => [
-                'base' => 'shadow-sm dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
+                'base' => 'shadow-sm dark:bg-dark-800 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [
                     'wrapper' => 'px-4',
-                    'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-600',
+                    'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-dark-700',
                     'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 ],
                 'button' => [

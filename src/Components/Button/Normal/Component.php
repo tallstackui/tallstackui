@@ -66,7 +66,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'class' => 'focus:shadow-outline group inline-flex items-center justify-center gap-x-2 border outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm focus:border-transparent focus:ring-2 focus:ring-offset-white enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-80',
+                'class' => 'focus:shadow-outline group inline-flex items-center justify-center gap-x-2 border outline-hidden transition-all duration-200 ease-in-out focus:border-transparent focus:ring-2 focus:ring-offset-white enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-80',
                 'sizes' => [
                     'xs' => 'text-xs px-1 py-0.5',
                     'sm' => 'text-sm px-2 py-1',

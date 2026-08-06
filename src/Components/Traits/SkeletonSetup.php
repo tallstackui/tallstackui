@@ -11,7 +11,7 @@ trait SkeletonSetup
     {
         return [
             'animation' => 'animate-pulse',
-            'bar' => 'dark:bg-dark-600 rounded bg-gray-200',
+            'bar' => 'dark:bg-dark-700 rounded bg-gray-200',
         ];
     }
 

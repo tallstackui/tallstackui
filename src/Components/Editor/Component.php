@@ -46,13 +46,13 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'dark:border-dark-600 dark:bg-dark-800 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white',
+                'base' => 'dark:border-dark-700 dark:bg-dark-800 flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white',
                 'fullscreen' => 'fixed inset-0 z-40 rounded-none border-0',
                 'disabled' => 'pointer-events-none opacity-60',
             ],
             'toolbar' => [
-                'wrapper' => 'dark:border-dark-600 dark:bg-dark-900 flex items-center gap-x-1 overflow-x-auto border-b border-gray-300 bg-gray-50 px-2 py-1.5 soft-scrollbar',
-                'divider' => 'dark:bg-dark-600 mx-1 h-5 w-px shrink-0 bg-gray-300',
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-900 flex items-center gap-x-1 overflow-x-auto border-b border-gray-200 bg-gray-50 px-2 py-1.5 soft-scrollbar',
+                'divider' => 'dark:bg-dark-700 mx-1 h-5 w-px shrink-0 bg-gray-200',
                 'button' => [
                     'base' => 'dark:text-dark-300 dark:hover:bg-dark-700 inline-flex h-8 min-w-8 shrink-0 cursor-pointer items-center justify-center rounded px-2 text-sm text-gray-600 transition hover:bg-gray-200',
                     'active' => 'dark:bg-primary-900/40 dark:text-primary-300 bg-primary-50 text-primary-700',
@@ -81,12 +81,12 @@ class Component extends TallStackUiComponent implements Customization
                     'link' => 'dark:[&_a]:text-primary-400 [&_a]:text-primary-600 [&_a]:underline',
                     'image' => '[&_img]:my-2 [&_img]:inline-block [&_img]:max-w-full [&_img]:rounded',
                     'paragraph' => '[&_p]:my-1',
-                    'quote' => 'dark:[&_blockquote]:border-dark-600 dark:[&_blockquote]:text-dark-400 [&_blockquote]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic',
-                    'rule' => 'dark:[&_hr]:border-dark-600 [&_hr]:my-4 [&_hr]:border-t [&_hr]:border-gray-300',
+                    'quote' => 'dark:[&_blockquote]:border-dark-700 dark:[&_blockquote]:text-dark-400 [&_blockquote]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-gray-200 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic',
+                    'rule' => 'dark:[&_hr]:border-dark-700 [&_hr]:my-4 [&_hr]:border-t [&_hr]:border-gray-200',
                 ],
             ],
             'footer' => [
-                'wrapper' => 'dark:border-dark-600 dark:bg-dark-900 dark:text-dark-400 flex items-center justify-end gap-x-3 border-t border-gray-300 bg-gray-50 px-3 py-1.5 text-xs text-gray-500',
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-900 dark:text-dark-400 flex items-center justify-end gap-x-3 border-t border-gray-200 bg-gray-50 px-3 py-1.5 text-xs text-gray-500',
                 'counter' => 'tabular-nums',
             ],
             'dialog' => [
@@ -95,16 +95,16 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'image' => [
                 'upload' => [
-                    'area' => 'dark:border-dark-600 dark:text-dark-400 hover:border-primary-400 hover:text-primary-600 flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-md border-2 border-dashed border-gray-300 px-4 py-6 text-center text-sm text-gray-500 transition',
+                    'area' => 'dark:border-dark-700 dark:text-dark-400 hover:border-primary-400 hover:text-primary-600 flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-md border-2 border-dashed border-gray-200 px-4 py-6 text-center text-sm text-gray-500 transition',
                     'button' => 'inline-flex items-center gap-x-1.5 text-sm font-medium',
                     'hint' => 'dark:text-dark-500 text-xs text-gray-400',
                     'progress' => [
-                        'wrapper' => 'dark:bg-dark-700 mt-2 h-1 w-full overflow-hidden rounded bg-gray-200',
+                        'wrapper' => 'dark:bg-dark-800 mt-2 h-1 w-full overflow-hidden rounded bg-gray-200',
                         'bar' => 'bg-primary-500 h-full transition-all',
                     ],
                 ],
-                'divider' => 'dark:text-dark-500 dark:[&>span]:border-dark-600 flex items-center gap-x-2 text-xs text-gray-400 uppercase [&>span]:flex-1 [&>span]:border-t [&>span]:border-gray-200',
-                'preview' => 'dark:border-dark-600 max-h-48 w-full rounded border border-gray-200 object-contain',
+                'divider' => 'dark:text-dark-500 dark:[&>span]:border-dark-700 flex items-center gap-x-2 text-xs text-gray-400 uppercase [&>span]:flex-1 [&>span]:border-t [&>span]:border-gray-200',
+                'preview' => 'dark:border-dark-700 max-h-48 w-full rounded border border-gray-200 object-contain',
             ],
         ]);
     }

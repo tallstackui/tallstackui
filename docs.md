@@ -64,6 +64,110 @@ from `registerPredefinedScopes()`.
 change. Extending it through `extend(scope: 'table-shadowless')` now throws, since the
 scope no longer exists.
 
+## Theme
+
+### Changed — the dark ladder dropped one step across the library
+
+With the near-black palette in place, the dark layering was recalibrated everywhere
+to keep a visible step between each layer:
+
+- **Page background:** `dark-900`.
+- **Component surfaces:** `dark-800` (was `dark-700`) — Card, Stats, Accordion,
+  Floating, KeyValue, Dialog, Toast, Modal, Slide, List, Table body, the Date and
+  Calendar panels, the Layout header and sidebar.
+- **Borders, dividers, tracks and hover/focus states:** `dark-700` (was `dark-600`) —
+  including the Toast timeout track, Kbd, ThemeSwitch rail, skeleton bars, Chart
+  tooltip ring, Editor chrome, Upload tiles, the Timeline connector and the table
+  paginators.
+- **Input borders:** `dark-600/50` — a translucent half-step (Input, Checkbox, Radio,
+  Pin, Selection cards, Clipboard rings) that reads softer than a solid line.
+- **Light mode followed:** structural borders moved from `gray-300` to `gray-200`.
+- **Loading scrim:** `dark-900/70`, so the overlay actually darkens a near-black page.
+
+**Migration** — soft customization keys are unchanged; only class strings inside the
+blocks moved. A customization that `replace()`s one of the old `dark-700`/`dark-600`
+values in these blocks should target the new step.
+
+### Changed — the dark palette dropped Slate for a neutral near-black scale
+
+`--color-dark-*` was an exact copy of Slate — the same values as `--color-secondary-*`,
+blue tint included — so every dark surface, border and text leaned cold. The scale is
+now pure neutral (chroma `0`), declared in `oklch()` and anchored near black:
+
+```css
+/* was (Slate) */                /* now (neutral) */
+--color-dark-700: #334155;      --color-dark-700: oklch(0.253 0 0); /* #242424 */
+--color-dark-800: #1e293b;      --color-dark-800: oklch(0.185 0 0); /* #141414 */
+--color-dark-900: #0f172a;      --color-dark-900: oklch(0.145 0 0); /* #0a0a0a */
+```
+
+The lighter shades follow Tailwind Neutral with two adjustments — `400` sits at
+`#999999` and `500` at `#666666` — so muted and disabled text keep their contrast on
+the darker surfaces. The dark steps are deliberately tighter than a uniform ladder:
+`600` → `950` spans hover surfaces, default surfaces, lowered surfaces and the page
+background with a visible step between each.
+
+Components using `color="secondary"` are untouched on purpose: those variants follow
+`--color-secondary-*` (still Slate) in both modes, and remain customizable on their own.
+
+**Migration** — no class or token was renamed; markup needs no change. Applications
+that override `--color-dark-*` in their own `@theme` keep winning and see no
+difference. Applications on the stock palette render darker and neutral; a page
+background chosen to match the old Slate look (`dark:bg-gray-800`,
+`dark:bg-slate-900`) now sits better as `dark:bg-dark-900`.
+
+### Fixed — components that ignored the dark palette
+
+A handful of components carried hardcoded `gray-*`/`slate-*` classes inside `dark:`
+variants, so they kept their old tint no matter what `--color-dark-*` said. Twelve
+occurrences were moved to the equivalent `dark-*` shade, 1:1: the Progress bar and
+Upload progress tracks (`dark:bg-dark-700`), the Number separator and the Color
+slider track (`dark:border-dark-600` / `dark:bg-dark-600`), the Step chip surface
+(`dark:bg-dark-800`, hover `dark:bg-dark-700`, border `dark:border-dark-600`), the
+Timeline description and date texts (`dark:text-dark-300` / `dark:text-dark-400`),
+and the Gallery and Carousel broken-image alt text (`dark:text-dark-300`).
+
+The color-variant maps are untouched: `color="gray"`, `color="slate"`, `color="zinc"`,
+`color="stone"` and `color="neutral"` still resolve to their own Tailwind palettes —
+picking a palette by name is the point of those options.
+
+**Migration** — soft customization keys are unchanged. Only the class strings inside
+the blocks above differ; a customization that `replace()`s one of the old
+`dark:*-gray-*` classes in those blocks no longer finds it and should target the
+`dark-*` equivalent.
+
+### Changed — secondary is a true accent now, and the chrome stopped borrowing it
+
+`secondary` used to be three things at once: the light-mode neutral scale the
+components' own chrome was built on (`text-secondary-600`, `border-secondary-200`…),
+the palette behind `color="secondary"`, and the color pitched to applications as the
+second brand color. Overriding `--color-secondary-*` therefore repainted text,
+borders and dividers across the library — the long-standing complaint. On top of
+that, the chrome mixed `gray-*` and `secondary-*` for the same roles depending on
+the component.
+
+Two changes untangle it:
+
+- `--color-secondary-*` is now Tailwind **Violet** (in `oklch()`), sitting next to
+  the Indigo primary as a real accent. The intended pairing: **primary carries the
+  main action and active states; secondary carries supporting actions and subtle
+  emphasis.** `color="secondary"` renders violet exactly the way `color="red"`
+  renders red — no special-cased shades.
+- Component chrome no longer references `secondary-*` at all. The ~30 base usages
+  across Card, Modal, Slide, List, Dropdown, Accordion, Tab, Toggle, Tag and the
+  sidebar moved to the equivalent `gray-*` shade, 1:1 (Slate → Gray, near-identical
+  values). Light mode now has a single neutral system (`gray-*`), mirroring `dark-*`
+  in dark mode. The question dialog icon followed along
+  (`text-gray-600 dark:text-dark-500`) so it does not turn violet.
+
+**Migration** — `color="secondary"` on any component now renders violet instead of
+slate-gray; applications that relied on the gray look should switch those calls to
+`color="slate"` or `color="gray"`, which are unchanged. Applications that override
+`--color-secondary-*` with a brand color get exactly what they always expected —
+accents change, chrome does not. Customizations that `replace()` a `*-secondary-*`
+class inside a component block should target the `gray-*` equivalent now. Feature
+tests asserting the old chrome strings were updated accordingly.
+
 ## Layout
 
 ### Changed — the header lost its shadow and its translucent border
@@ -1251,6 +1355,13 @@ carrying every application on plain HTTP.
 
 ## Icon
 
+### Fixed — `computer-desktop` was missing from the Heroicons guide
+
+The segmented ThemeSwitch asks for `computer-desktop` for its system segment, but
+the key was absent from `IconGuide::heroicons()` — every render raised an
+"Undefined array key" warning and the segment came out without an icon. The key is
+registered now.
+
 ### Added — size and color shorthands
 
 Sizing an icon meant writing the utilities by hand every single time, which is why
@@ -1753,6 +1864,30 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 ---
 
 ## Table
+
+### Changed — `simple-pagination` alone turns pagination on
+
+Enabling the prev/next-only footer used to take both flags:
+
+```blade
+{{-- was --}}
+<x-table :rows="$rows" paginate simple-pagination />
+
+{{-- is --}}
+<x-table :rows="$rows" simple-pagination />
+```
+
+`simple-pagination` now implies `paginate`. An explicit `:paginate="false"` still
+wins, and the global config default keeps working. Nothing breaks for tables that
+pass both — the extra flag is just redundant now.
+
+### Changed — the simple paginator's disabled buttons went ghost
+
+The disabled Previous/Next of the `simple` paginator carried a filled pill
+(`bg-gray-50` / `dark:bg-dark-800`) that weighed more on the eye than the enabled
+button next to it. It now renders as faded text only
+(`text-gray-300 dark:text-dark-500`), the same treatment the disabled chevrons and
+the `minimal` and `compact` paginators already used.
 
 ### Added — `compact`, a denser row rhythm
 
@@ -3436,6 +3571,13 @@ Covered by 52 feature tests and 6 browser tests. Full reference in
 
 ## Gallery
 
+### Fixed — a tile without `ratio` raised a PHP 8.4 deprecation
+
+The tile view used `$ratioClass` directly as an `@class` array key. Without a
+`ratio` the value is `null`, and PHP 8.4 deprecates null array offsets — six
+warnings per render. The key now falls back to an empty string, which
+`Arr::toCssClasses()` discards.
+
 ### Fixed — soft customization was unreachable
 
 `<x-gallery>` carries `#[SoftCustomization('gallery')]` and declares its blocks, but
@@ -4056,6 +4198,28 @@ remain reachable through `customize()->block()`.
 
 ## Step
 
+### Changed — the three variations share one visual language on a card
+
+Sitting on a `dark-800` card, the variations disagreed with each other: `simple`
+drew its inactive bars in `dark-700` (invisible on the card), `panels` did the same
+with its outlines and used lighter rings and a pink inactive title, while `circles`
+was the only one that read correctly. They now share one scale:
+
+- **Inactive rings** (circles and panels): `gray-300` / `dark:border-dark-500`, with
+  the pending number in `gray-500 dark:text-dark-300`.
+- **Structure** — inactive bars, panel outlines, row borders and the chevron
+  separator: `gray-200` / `dark:*-dark-600`.
+- **Inactive titles**: `gray-600 dark:text-dark-300` in all three variations; the
+  completed title stays green in both modes.
+- **Navigate chips**: `dark:bg-dark-700` with a `dark-600` border (they sat at
+  `dark-800` and vanished into the card), hovering one step lighter — the same
+  treatment as the Date and Calendar helper chips.
+
+**Migration** — key names are unchanged. Customizations replacing the old
+`border-dark-200`, `dark:border-dark-700`, `dark:border-dark-300` or the pink
+`text-primary-500` inactive title inside the `step` blocks should target the new
+values.
+
 ### Fixed — the horizontal scrollbar of the `panels` variation squared off the rounded corners
 
 With enough steps to overflow, the `panels` variation grows a horizontal scrollbar
@@ -4103,6 +4267,18 @@ list separates its items with `border-b` on `panels.li`, never with `divide-*`.
 ---
 
 ## Form / Select / Styled
+
+### Fixed — arrow keys stopped landing on disabled options
+
+Keyboard navigation advanced by plain index arithmetic, so ArrowUp/ArrowDown happily
+focused options a `disabled` flag was supposed to fence off — selection was blocked,
+but the focus ring still parked there. Navigation now walks in the pressed direction
+skipping disabled options, wrapping around, and stands still when every option is
+disabled.
+
+The keyboard highlight also disagreed with the mouse: hovering painted
+`dark:bg-dark-700` while focusing painted `dark:bg-dark-500`. Both paths now use
+`dark-700`.
 
 ### Fixed — the search only reached the lazy window
 
@@ -4291,6 +4467,16 @@ expect the qualified form.
 ---
 
 ## Form / Autocomplete
+
+### Fixed — keyboard highlight skips disabled items and matches the hover color
+
+The same two defects the styled select had, plus one: ArrowUp/ArrowDown moved the
+highlight by modulo without checking `disabled`; the initial highlight landed on
+index `0` even when that item was disabled (both on open and after a `request`
+response); and the highlighted row painted `dark:bg-dark-600` while hovering painted
+`dark:bg-dark-700`. Navigation now skips disabled items with wrap-around, the
+initial highlight finds the first enabled item, and highlight and hover share
+`dark-700`.
 
 ### Changed — the panel width comes from the Floating now
 

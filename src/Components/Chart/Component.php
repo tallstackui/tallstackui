@@ -97,7 +97,7 @@ class Component extends TallStackUiComponent implements Customization
                 'text' => 'dark:text-dark-300 text-gray-600',
             ],
             'tooltip' => [
-                'wrapper' => 'dark:bg-dark-800 dark:ring-dark-600 pointer-events-none absolute z-10 rounded-md bg-white px-2.5 py-1.5 shadow-lg ring-1 ring-gray-200',
+                'wrapper' => 'dark:bg-dark-800 dark:ring-dark-700 pointer-events-none absolute z-10 rounded-md bg-white px-2.5 py-1.5 shadow-lg ring-1 ring-gray-200',
                 'title' => 'dark:text-dark-200 mb-1 text-xs font-medium text-gray-700',
                 'row' => 'flex items-center gap-1.5 text-xs whitespace-nowrap',
                 'dot' => 'size-2 shrink-0 rounded-sm bg-current',

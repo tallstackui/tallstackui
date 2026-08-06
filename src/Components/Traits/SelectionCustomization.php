@@ -29,7 +29,7 @@ trait SelectionCustomization
                 4 => 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
             ],
             'item' => [
-                'base' => 'dark:border-dark-600 group relative flex cursor-pointer border border-gray-200 has-focus-visible:z-10 has-focus-visible:ring-2 has-focus-visible:ring-primary-500 has-focus-visible:ring-offset-2 dark:has-focus-visible:ring-offset-dark-900',
+                'base' => 'dark:border-dark-700 group relative flex cursor-pointer border border-gray-200 has-focus-visible:z-10 has-focus-visible:ring-2 has-focus-visible:ring-primary-500 has-focus-visible:ring-offset-2 dark:has-focus-visible:ring-offset-dark-900',
                 'list' => 'items-start gap-3 p-4 first:rounded-t-md last:rounded-b-md has-checked:z-10 sm:items-center',
                 'card' => 'flex-col gap-2 rounded-lg p-4',
                 'panel' => 'flex-col gap-2 rounded-lg p-4',
@@ -38,7 +38,7 @@ trait SelectionCustomization
                 'error' => 'border-red-300 dark:border-red-500',
             ],
             'control' => [
-                'base' => 'dark:border-dark-600 dark:bg-dark-800 border-1 shrink-0 border-gray-300 bg-white ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0',
+                'base' => 'dark:border-dark-600/50 dark:bg-dark-800 border-1 shrink-0 border-gray-200 bg-white ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0',
                 'shape' => $shape,
                 'hidden' => 'sr-only',
                 'sizes' => [

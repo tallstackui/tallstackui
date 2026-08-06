@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'flex flex-col gap-2',
             'dropzone' => [
-                'base' => 'group relative flex w-full cursor-pointer flex-col justify-center gap-3 overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-3 transition dark:border-dark-500 dark:bg-dark-700',
+                'base' => 'group relative flex w-full cursor-pointer flex-col justify-center gap-3 overflow-hidden rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-3 transition dark:border-dark-600 dark:bg-dark-700',
                 'dragging' => 'border-primary-500 bg-primary-50 scale-[1.01] dark:bg-primary-900/20',
                 'disabled' => 'opacity-60 cursor-not-allowed',
                 'input' => 'pointer-events-none absolute inset-0 h-full w-full opacity-0 outline-hidden',
@@ -97,7 +97,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'tile' => [
-                'wrapper' => 'group/tile relative aspect-square overflow-hidden rounded-md bg-gray-100 dark:bg-dark-600',
+                'wrapper' => 'group/tile relative aspect-square overflow-hidden rounded-md bg-gray-100 dark:bg-dark-700',
                 'image' => 'h-full w-full cursor-pointer object-cover',
                 'document' => 'flex h-full w-full flex-col items-center justify-center gap-1',
                 'document-icon' => 'h-12 w-12 text-gray-400 dark:text-dark-300',
@@ -113,7 +113,7 @@ class Component extends TallStackUiComponent implements Customization
                 'error-msg' => 'absolute inset-x-0 bottom-0 z-10 truncate bg-red-500 px-2 py-1 text-center text-xs font-medium text-white',
             ],
             'lightbox' => [
-                'backdrop' => 'fixed inset-0 z-50 flex items-center justify-center bg-gray-500/80',
+                'backdrop' => 'fixed inset-0 z-50 flex items-center justify-center bg-gray-500/80 dark:bg-dark-600/75',
                 'positioner' => 'relative m-5 max-h-[90vh] max-w-3xl',
                 'wrapper' => 'overflow-hidden rounded shadow-lg',
                 'image' => 'block h-auto max-h-[90vh] w-auto max-w-full object-contain',
@@ -122,7 +122,7 @@ class Component extends TallStackUiComponent implements Customization
                 'close-icon' => 'dark:text-dark-300 h-5 w-5 text-white',
             ],
             'footer' => [
-                'wrapper' => 'mt-3 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-dark-600',
+                'wrapper' => 'mt-3 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-dark-700',
                 'summary' => 'text-xs text-gray-500 dark:text-dark-400',
                 'actions' => 'flex items-center gap-2',
             ],

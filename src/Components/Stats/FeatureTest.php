@@ -271,13 +271,13 @@ it('can render shadowless')
 it('can render bordered')
     ->expect('<x-stats number="1" bordered />')
     ->render()
-    ->toContain('border border-gray-200 dark:border-dark-600');
+    ->toContain('border border-gray-200 dark:border-dark-700');
 
 it('can render shadowless and bordered together')
     ->expect('<x-stats number="1" shadowless bordered />')
     ->render()
     ->toContain('shadow-none!')
-    ->toContain('border border-gray-200 dark:border-dark-600');
+    ->toContain('border border-gray-200 dark:border-dark-700');
 
 it('can render the skeleton instead of the content')
     ->expect('<x-stats skeleton number="1234" title="Users" />')

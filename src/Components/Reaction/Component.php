@@ -113,7 +113,7 @@ class Component extends TallStackUiComponent implements Customization
                 'grid' => 'grid grid-cols-5 gap-2',
                 'inline' => 'flex justify-center gap-2',
             ],
-            'image' => 'dark:ring-dark-800 dark:bg-dark-700 inline-block h-5 w-5 rounded-full bg-white p-0.5',
+            'image' => 'dark:ring-dark-800 dark:bg-dark-800 inline-block h-5 w-5 rounded-full bg-white p-0.5',
             'icon' => 'h-5 w-5',
             'quantity' => 'text-sm font-bold text-gray-700 dark:text-white',
         ]);

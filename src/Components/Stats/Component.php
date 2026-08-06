@@ -69,7 +69,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
+                'first' => 'dark:bg-dark-800 flex w-full flex-col rounded-lg bg-white shadow-md',
                 'first-clickable' => 'cursor-pointer',
                 'first-chart' => 'relative isolate',
                 'second' => 'mx-4 flex h-full items-center justify-center gap-4',
@@ -78,7 +78,7 @@ class Component extends TallStackUiComponent implements Customization
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
             'shadowless' => 'shadow-none!',
-            'bordered' => 'border border-gray-200 dark:border-dark-600',
+            'bordered' => 'border border-gray-200 dark:border-dark-700',
             'slots' => [
                 'header' => [
                     'wrapper' => 'mx-2',

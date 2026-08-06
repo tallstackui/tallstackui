@@ -28,7 +28,7 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                 'second' => 'flex w-full flex-col items-center space-y-4',
-                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5',
+                'third' => 'dark:bg-dark-800 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5',
                 'fourth' => 'flex p-4',
                 'position' => [
                     'top-x' => 'md:justify-start',
@@ -79,7 +79,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'progress' => [
-                'wrapper' => 'dark:bg-dark-600 relative h-1 w-full rounded-full bg-neutral-100',
+                'wrapper' => 'dark:bg-dark-700 relative h-1 w-full rounded-full bg-gray-100',
                 'bar' => 'bg-primary-500 dark:bg-dark-400 absolute h-full w-24 duration-300 ease-linear',
                 'animation' => 'animate-progress',
             ],

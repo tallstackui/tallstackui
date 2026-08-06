@@ -66,10 +66,10 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'segmented' => [
-                'wrapper' => 'dark:bg-dark-600 inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1',
+                'wrapper' => 'dark:bg-dark-900 inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1',
                 'wrapper-block' => 'w-full',
                 'button' => 'cursor-pointer rounded-md p-1.5 transition-colors',
-                'active' => 'dark:bg-dark-500 bg-white',
+                'active' => 'dark:bg-dark-700 bg-white',
                 'inactive' => 'dark:text-dark-300 dark:hover:text-dark-100 text-gray-500 hover:text-gray-700',
                 'colors' => [
                     'moon' => 'text-blue-500',

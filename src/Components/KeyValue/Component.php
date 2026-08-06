@@ -47,10 +47,10 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
+            'wrapper' => 'dark:bg-dark-800 dark:border-dark-700 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
-                'wrapper' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
-                'wrapper-compact' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-1',
+                'wrapper' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
+                'wrapper-compact' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-100 px-4 py-1',
                 'neutral' => 'dark:text-dark-300 text-gray-600',
                 'key' => 'font-semibold',
                 'value' => 'font-semibold',
@@ -64,16 +64,16 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'grid grid-cols-2 px-4 items-center relative dark:text-dark-200 text-gray-600',
                 'wrapper-default-padding' => 'py-4',
                 'wrapper-default-padding-compact' => 'py-2.5',
-                'divider' => 'divide-y divide-gray-100 dark:divide-dark-600',
+                'divider' => 'divide-y divide-gray-100 dark:divide-dark-700',
                 'value-wrapper' => 'pr-8 mr-2',
                 'value-wrapper-deletable' => 'top-2',
                 'input' => [
-                    'key' => 'dark:bg-dark-700 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
-                    'value' => 'dark:bg-dark-700 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
+                    'key' => 'dark:bg-dark-800 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
+                    'value' => 'dark:bg-dark-800 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
                 ],
             ],
             'button' => [
-                'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2 text-center',
+                'add' => 'dark:border-dark-700 w-full cursor-pointer border-t border-gray-100 px-4 py-2 text-center',
                 'add-compact' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-1 text-center',
                 'neutral' => 'dark:text-dark-300 dark:hover:bg-dark-600 text-gray-600 hover:bg-gray-50',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',

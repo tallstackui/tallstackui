@@ -90,7 +90,7 @@ class DialogColors
                 'error' => 'text-red-600 dark:text-red-500',
                 'info' => 'text-blue-600 dark:text-blue-500',
                 'warning' => 'text-yellow-600 dark:text-yellow-500',
-                'question' => 'text-secondary-600 dark:text-secondary-500',
+                'question' => 'text-gray-600 dark:text-dark-500',
             ],
         ];
     }

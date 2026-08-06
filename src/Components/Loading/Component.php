@@ -35,10 +35,10 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'fixed inset-0 bg-gray-300 dark:bg-dark-600',
+                'first' => 'fixed inset-0 bg-gray-300 dark:bg-dark-900',
                 'second' => 'flex h-full items-center justify-center',
             ],
-            'opacity' => 'bg-gray-300/75 dark:bg-dark-600/70',
+            'opacity' => 'bg-gray-300/75 dark:bg-dark-900/70',
             'blur' => 'backdrop-blur-sm',
             'spinner' => 'h-12 w-12 animate-spin text-primary-700 dark:text-white',
             'text' => 'inline-flex items-center text-lg font-semibold text-primary-500',

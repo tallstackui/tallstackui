@@ -66,7 +66,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
                 'divider' => [
                     'wrapper' => 'h-full w-0.5 transition-colors group-last:hidden md:mt-0 md:h-0.5 md:w-full md:flex-1',
-                    'inactive' => 'bg-gray-200 dark:bg-dark-500',
+                    'inactive' => 'bg-gray-200 dark:bg-dark-600',
                     'active' => 'bg-green-600',
                 ],
                 'text' => [
@@ -79,7 +79,7 @@ class Component extends TallStackUiComponent implements Customization
                 'li' => 'transition-all md:flex-1',
                 'bar' => [
                     'wrapper' => 'flex flex-col py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4',
-                    'inactive' => 'group border-l-4 border-dark-200 dark:border-dark-700',
+                    'inactive' => 'group border-l-4 border-gray-200 dark:border-dark-600',
                     'current' => 'border-l-4 border-primary-500',
                     'active' => 'border-l-4 border-green-600',
                 ],
@@ -95,38 +95,38 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'panels' => [
                 'text-layout' => 'flex-col',
-                'li' => 'relative md:flex md:flex-1 border-b last:border-b-0 border-gray-300 dark:border-dark-700 md:border-0',
+                'li' => 'relative md:flex md:flex-1 border-b last:border-b-0 border-gray-200 dark:border-dark-600 md:border-0',
                 'wrapper' => 'group flex w-full items-center',
                 'check' => 'h-5 w-5 text-white',
                 'item' => 'flex items-center px-6 py-4 text-sm font-medium',
                 'circle' => [
                     'wrapper' => 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
-                    'inactive' => 'border-2 border-primary-500 dark:border-dark-300',
+                    'inactive' => 'border-2 border-gray-300 dark:border-dark-500',
                     'current' => 'bg-primary-500 dark:border-primary-500',
                     'active' => 'bg-green-600 dark:border-green-600',
                 ],
                 'divider' => [
                     'wrapper' => 'absolute right-0 top-0 hidden h-full w-5 md:block',
-                    'svg' => 'h-full w-full text-dark-300 dark:text-dark-700',
+                    'svg' => 'h-full w-full text-gray-200 dark:text-dark-600',
                 ],
                 'text' => [
                     'number' => [
-                        'active' => 'text-primary-500 dark:text-dark-300',
+                        'active' => 'text-gray-500 dark:text-dark-300',
                         'inactive' => 'text-white',
                     ],
                     'title' => [
                         'wrapper' => 'ml-4 whitespace-nowrap text-base font-bold',
-                        'inactive' => 'text-primary-500 dark:text-dark-100',
-                        'active' => 'text-green-600 dark:text-dark-100',
+                        'inactive' => 'text-gray-600 dark:text-dark-300',
+                        'active' => 'text-green-600',
                     ],
                     'description' => 'ml-4 whitespace-nowrap text-xs font-medium text-gray-500 dark:text-dark-400',
                 ],
             ],
-            'panels-shape' => 'mb-2 rounded-md border border-gray-300 dark:border-dark-700',
+            'panels-shape' => 'mb-2 rounded-md border border-gray-200 dark:border-dark-600',
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
             'button' => [
-                'base' => 'cursor-pointer dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
+                'base' => 'cursor-pointer dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-hidden dark:border-dark-600 dark:bg-dark-700 dark:hover:border-dark-600 dark:hover:bg-dark-600/50',
                 'icon' => 'dark:text-dark-300 h-4 w-4',
                 'icon-spacing' => [
                     'left' => 'mr-1',

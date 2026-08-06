@@ -271,7 +271,7 @@ export default (
       this.fetch();
     } else {
       this.recompute();
-      this.highlighted = this.available.length > 0 ? 0 : -1;
+      this.highlighted = this.available.findIndex((item) => !item.disabled);
     }
   },
 
@@ -355,7 +355,21 @@ export default (
         return;
       }
 
-      this.highlighted = (this.highlighted + 1) % this.available.length;
+      // Walk down skipping disabled items, wrapping around.
+      // Bail out when every option is disabled.
+      const max = this.available.length - 1;
+
+      let next = this.highlighted;
+
+      for (let step = 0; step <= max; step++) {
+        next = next >= max ? 0 : next + 1;
+
+        if (!this.available[next]?.disabled) break;
+
+        if (step === max) return;
+      }
+
+      this.highlighted = next;
 
       return;
     }
@@ -367,7 +381,21 @@ export default (
         return;
       }
 
-      this.highlighted = this.highlighted <= 0 ? this.available.length - 1 : this.highlighted - 1;
+      // Walk up skipping disabled items, wrapping around.
+      // Bail out when every option is disabled.
+      const max = this.available.length - 1;
+
+      let next = this.highlighted;
+
+      for (let step = 0; step <= max; step++) {
+        next = next <= 0 ? max : next - 1;
+
+        if (!this.available[next]?.disabled) break;
+
+        if (step === max) return;
+      }
+
+      this.highlighted = next;
 
       return;
     }
@@ -449,7 +477,7 @@ export default (
 
           this.items = this.normalizeItems(list);
           this.available = this.items;
-          this.highlighted = this.available.length > 0 ? 0 : -1;
+          this.highlighted = this.available.findIndex((item) => !item.disabled);
         })
         .catch((reason) => {
           if (reason?.name === 'AbortError') {

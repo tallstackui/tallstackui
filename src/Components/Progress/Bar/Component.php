@@ -54,19 +54,19 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'simple' => [
-                'wrapper' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'wrapper' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-800',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],
             'floating' => [
                 'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 mb-2 inline-block rounded-lg border border-gray-300 bg-gray-200 px-1.5 py-0.5 text-xs font-medium text-gray-700 dark:text-dark-300',
-                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-700',
                 'float' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],
             'title' => [
                 'wrapper' => 'mb-2 flex items-center justify-between',
                 'title' => 'dark:text-dark-400 block text-sm font-semibold text-gray-600',
                 'bar' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
-                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-700',
                 'percent' => 'dark:text-dark-400 text-sm font-medium text-gray-600',
             ],
             'sizes' => [

@@ -31,7 +31,7 @@ class KeyValueColors
     private function button(): array
     {
         return [
-            'black' => 'text-black hover:bg-gray-100 dark:text-white dark:hover:bg-dark-600',
+            'black' => 'text-black hover:bg-gray-100 dark:text-white dark:hover:bg-dark-700',
             'primary' => 'text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-950/30',
             'secondary' => 'text-secondary-600 hover:bg-secondary-50 dark:text-secondary-400 dark:hover:bg-secondary-950/30',
             'slate' => 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-950/30',

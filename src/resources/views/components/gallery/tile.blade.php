@@ -3,7 +3,7 @@
     $customization['tile.performance'],
     $customization['tile.rounded'] => $round,
     $customization['masonry.tile'] => $layout === 'masonry',
-    $ratioClass => filled($ratioClass),
+    ($ratioClass ?? '') => filled($ratioClass),
 ])>
     @if ($clickable)
         <button type="button"
