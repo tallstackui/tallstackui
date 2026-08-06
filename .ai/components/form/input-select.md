@@ -29,15 +29,15 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 
 ## Attributes
 
-| Attribute  | Type                        | Default | Description                                     |
-|------------|-----------------------------|---------|-------------------------------------------------|
-| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                       |
-| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                        |
-| icon       | string\|null                | null    | Icon name displayed inside the input                                       |
-| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value                            |
-| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                              |
-| position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                                           |
-| floating   | string\|null                | null    | Class(es) replacing the styled select panel's `min-w-72` width floor       |
+| Attribute  | Type                        | Default | Description                                                          |
+|------------|-----------------------------|---------|----------------------------------------------------------------------|
+| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                 |
+| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                  |
+| icon       | string\|null                | null    | Icon name displayed inside the input                                 |
+| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value                      |
+| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                        |
+| position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                                     |
+| floating   | string\|null                | null    | Class(es) replacing the styled select panel's `min-w-72` width floor |
 
 ## Slots
 

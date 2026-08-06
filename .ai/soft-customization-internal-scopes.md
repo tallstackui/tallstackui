@@ -68,9 +68,9 @@ TallStackUi::customize()
 
 | Scope            | Target           | Line(s) |
 |------------------|------------------|---------|
-| `editor-toolbar` | `<x-dropdown />` | 42, 200 |
-| `editor-link`    | `<x-modal />`    | 413     |
-| `editor-image`   | `<x-modal />`    | 452     |
+| `editor-toolbar` | `<x-dropdown />` | 42, 211 |
+| `editor-link`    | `<x-modal />`    | 434     |
+| `editor-image`   | `<x-modal />`    | 474     |
 
 ### `form/autocomplete`
 
@@ -158,7 +158,7 @@ TallStackUi::customize()
 |----------------------|------------------|---------|
 | `form.time.input`    | `<x-input />`    | 21      |
 | `form.time.floating` | `<x-floating />` | 55      |
-| `form.time.button`   | `<x-button />`   | 114     |
+| `form.time.button`   | `<x-button />`   | 133     |
 
 ### `form/upload`
 

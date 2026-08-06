@@ -202,6 +202,8 @@ The cost is that nothing else about the editor reacts to the server either. Chan
 
 The sanitizer strips tags, attributes and style properties outside the configured whitelist. It runs over pasted markup and over any HTML arriving from the bound property, including the value the editor boots with: setting `innerHTML` never runs a `<script>`, but it does fire an `<img onerror>`, and stored content is the path that reaches every reader. It is defense in depth, not the defense.
 
+`href` and `src` are additionally checked by scheme: `javascript:`, `vbscript:` and `data:` are dropped — `data:image/` stays allowed on an `img` src — with whitespace stripped before the check, so an entity-obfuscated scheme does not slip past. The link dialog refuses the same schemes.
+
 Markdown mode is not the safer path it reads as: Markdown permits raw HTML. The parser refuses to emit any it finds, and the sanitizer runs over the result anyway. Both are defense in depth.
 
 **Sanitize the content on the server before persisting it and before rendering it back.** Use `mews/purifier`, `HTMLPurifier` or an equivalent, and sanitize the HTML your Markdown renderer produces. Nothing the browser does can be trusted by the time it reaches a database.
@@ -238,6 +240,7 @@ Dispatched on the component root, so `x-on:` on the tag itself picks them up.
 | Ctrl/Cmd + Enter in a code block | Leaves the block                                |
 | Escape                           | Closes the dialog, then leaves fullscreen       |
 | Arrow keys on the toolbar        | Moves between buttons                           |
+| Enter, Space on a toolbar button | Activates it                                    |
 
 The indentation applied by the toolbar outside a list sits outside the browser's own undo stack: reverting it is a press of the opposite button rather than Ctrl+Z.
 

@@ -13,6 +13,14 @@ const escapeBlock = (line) =>
     .replace(/^(\s*)(#{1,6}|>|[-+*])(\s|$)/, '$1\\$2$3')
     .replace(/^(\s*)(\d+)\.(\s)/, '$1$2\\.$3');
 
+// A destination holding a space or a parenthesis closes the () early on the
+// way back in, so both are percent-encoded, which the browser reads the same.
+const destination = (value) =>
+  String(value).replace(
+    /[()\s]/g,
+    (character) => `%${character.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0')}`
+  );
+
 // `** bold **` is literal text: the space has to sit outside the markers.
 const wrap = (marker, content) => {
   const [, lead, core, trail] = content.match(/^(\s*)([\s\S]*?)(\s*)$/);
@@ -55,10 +63,10 @@ const inline = (nodes) => {
         output += child.textContent === '' ? '' : `\`${child.textContent}\``;
         break;
       case 'A':
-        output += `[${inline(child.childNodes)}](${child.getAttribute('href') ?? ''})`;
+        output += `[${inline(child.childNodes)}](${destination(child.getAttribute('href') ?? '')})`;
         break;
       case 'IMG':
-        output += `![${child.getAttribute('alt') ?? ''}](${child.getAttribute('src') ?? ''})`;
+        output += `![${escapeInline(child.getAttribute('alt') ?? '')}](${destination(child.getAttribute('src') ?? '')})`;
         break;
       // Handled by the list walker.
       case 'UL':

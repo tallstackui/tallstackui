@@ -40,11 +40,11 @@
                         @switch($item['slug'])
                             @case('style')
                                 <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor-toolbar"
-                                                     width="sm" size="sm">
+                                                     width="xs" size="sm">
                                     <x-slot:action>
                                         <button type="button"
-                                                x-on:mousedown.prevent="capture()"
-                                                x-on:click="show = !show"
+                                                x-on:mousedown.prevent
+                                                x-on:click="capture(); show = !show"
                                                 x-bind:aria-expanded="show"
                                                 aria-haspopup="true"
                                                 x-tooltip="{{ $i18n['tooltip']['style'] }}"
@@ -62,19 +62,22 @@
                                                              :text="$i18n['style'][$level]"
                                                              :class="$customization['toolbar.dropdown.style.'.$level]"
                                                              x-on:mousedown.prevent="toggleBlock('{{ $level }}'); show = false"
+                                                             x-on:keydown.enter.prevent="toggleBlock('{{ $level }}'); show = false"
                                                              x-bind:class="blockType === '{{ $level }}' && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                     @endforeach
                                     <x-dynamic-component :component="TallStackUi::prefix('dropdown.items')"
                                                          :text="$i18n['style']['paragraph']"
                                                          :class="$customization['toolbar.dropdown.style.paragraph']"
                                                          x-on:mousedown.prevent="toggleBlock('p'); show = false"
+                                                         x-on:keydown.enter.prevent="toggleBlock('p'); show = false"
                                                          x-bind:class="blockType === 'p' && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                 </x-dynamic-component>
                                 @break
 
                             @case('blockquote')
                                 <button type="button"
-                                        x-on:mousedown.prevent="toggleBlockquote()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="toggleBlockquote()"
                                         x-bind:aria-pressed="activeFormats.blockquote"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.blockquote }"
                                         x-tooltip="{{ $i18n['tooltip']['blockquote'] }}"
@@ -87,7 +90,8 @@
 
                             @case('bold')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('bold')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('bold')"
                                         x-bind:aria-pressed="activeFormats.bold"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.bold }"
                                         x-tooltip="{{ $i18n['tooltip']['bold'] }}"
@@ -101,7 +105,8 @@
 
                             @case('italic')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('italic')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('italic')"
                                         x-bind:aria-pressed="activeFormats.italic"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.italic }"
                                         x-tooltip="{{ $i18n['tooltip']['italic'] }}"
@@ -115,7 +120,8 @@
 
                             @case('underline')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('underline')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('underline')"
                                         x-bind:aria-pressed="activeFormats.underline"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.underline }"
                                         x-tooltip="{{ $i18n['tooltip']['underline'] }}"
@@ -129,7 +135,8 @@
 
                             @case('strikethrough')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('strikeThrough')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('strikeThrough')"
                                         x-bind:aria-pressed="activeFormats.strikethrough"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.strikethrough }"
                                         x-tooltip="{{ $i18n['tooltip']['strikethrough'] }}"
@@ -142,7 +149,8 @@
 
                             @case('ordered-list')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('insertOrderedList')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('insertOrderedList')"
                                         x-bind:aria-pressed="activeFormats.orderedList"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.orderedList }"
                                         x-tooltip="{{ $i18n['tooltip']['ordered_list'] }}"
@@ -157,7 +165,8 @@
 
                             @case('unordered-list')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('insertUnorderedList')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('insertUnorderedList')"
                                         x-bind:aria-pressed="activeFormats.unorderedList"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.unorderedList }"
                                         x-tooltip="{{ $i18n['tooltip']['unordered_list'] }}"
@@ -172,7 +181,8 @@
 
                             @case('indent')
                                 <button type="button"
-                                        x-on:mousedown.prevent="shiftIndent(1)"
+                                        x-on:mousedown.prevent
+                                        x-on:click="shiftIndent(1)"
                                         x-tooltip="{{ $i18n['tooltip']['indent'] }}"
                                         data-position="bottom"
                                         dusk="tallstackui_editor_indent"
@@ -185,7 +195,8 @@
 
                             @case('outdent')
                                 <button type="button"
-                                        x-on:mousedown.prevent="shiftIndent(-1)"
+                                        x-on:mousedown.prevent
+                                        x-on:click="shiftIndent(-1)"
                                         x-tooltip="{{ $i18n['tooltip']['outdent'] }}"
                                         data-position="bottom"
                                         dusk="tallstackui_editor_outdent"
@@ -201,8 +212,8 @@
                                                      width="sm" size="sm">
                                     <x-slot:action>
                                         <button type="button"
-                                                x-on:mousedown.prevent="capture()"
-                                                x-on:click="show = !show"
+                                                x-on:mousedown.prevent
+                                                x-on:click="capture(); show = !show"
                                                 x-bind:aria-expanded="show"
                                                 aria-haspopup="true"
                                                 x-tooltip="{{ $i18n['tooltip']['align'] }}"
@@ -218,6 +229,7 @@
                                         <x-dynamic-component :component="TallStackUi::prefix('dropdown.items')"
                                                              :text="$i18n['align'][$side]"
                                                              x-on:mousedown.prevent="exec('{{ $command }}'); show = false"
+                                                             x-on:keydown.enter.prevent="exec('{{ $command }}'); show = false"
                                                              x-bind:class="activeFormats.{{ $command }} && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                     @endforeach
                                 </x-dynamic-component>
@@ -225,7 +237,8 @@
 
                             @case('code')
                                 <button type="button"
-                                        x-on:mousedown.prevent="toggleCode()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="toggleCode()"
                                         x-bind:aria-pressed="activeFormats.code"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.code }"
                                         x-tooltip="{{ $i18n['tooltip']['code'] }}"
@@ -240,7 +253,8 @@
 
                             @case('code-block')
                                 <button type="button"
-                                        x-on:mousedown.prevent="toggleCodeBlock()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="toggleCodeBlock()"
                                         x-bind:aria-pressed="activeFormats.codeBlock"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.codeBlock }"
                                         x-tooltip="{{ $i18n['tooltip']['code_block'] }}"
@@ -255,7 +269,8 @@
 
                             @case('clear-format')
                                 <button type="button"
-                                        x-on:mousedown.prevent="clearFormat()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="clearFormat()"
                                         x-tooltip="{{ $i18n['tooltip']['clear_format'] }}"
                                         data-position="bottom"
                                         data-tsui-shortcut="mod+backslash"
@@ -269,7 +284,8 @@
 
                             @case('link')
                                 <button type="button"
-                                        x-on:mousedown.prevent="openLink()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="openLink()"
                                         x-bind:aria-pressed="activeFormats.link"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.link }"
                                         x-tooltip="{{ $i18n['tooltip']['link'] }}"
@@ -285,7 +301,8 @@
 
                             @case('image')
                                 <button type="button"
-                                        x-on:mousedown.prevent="openImage()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="openImage()"
                                         x-tooltip="{{ $i18n['tooltip']['image'] }}"
                                         data-position="bottom"
                                         dusk="tallstackui_editor_image"
@@ -298,7 +315,8 @@
 
                             @case('hr')
                                 <button type="button"
-                                        x-on:mousedown.prevent="insertRule()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="insertRule()"
                                         x-tooltip="{{ $i18n['tooltip']['hr'] }}"
                                         data-position="bottom"
                                         dusk="tallstackui_editor_hr"
@@ -311,7 +329,8 @@
 
                             @case('undo')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('undo')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('undo')"
                                         x-tooltip="{{ $i18n['tooltip']['undo'] }}"
                                         data-position="bottom"
                                         data-tsui-shortcut="mod+z"
@@ -325,7 +344,8 @@
 
                             @case('redo')
                                 <button type="button"
-                                        x-on:mousedown.prevent="exec('redo')"
+                                        x-on:mousedown.prevent
+                                        x-on:click="exec('redo')"
                                         x-tooltip="{{ $i18n['tooltip']['redo'] }}"
                                         data-position="bottom"
                                         data-tsui-shortcut="mod+shift+z"
@@ -339,7 +359,8 @@
 
                             @case('fullscreen')
                                 <button type="button"
-                                        x-on:mousedown.prevent="toggleFullscreen()"
+                                        x-on:mousedown.prevent
+                                        x-on:click="toggleFullscreen()"
                                         x-bind:aria-pressed="fullscreen"
                                         x-bind:class="{ @js($customization['toolbar.button.active']): fullscreen }"
                                         x-tooltip="{{ $i18n['tooltip']['fullscreen'] }}"
@@ -412,9 +433,8 @@
                                  :id="$dialogs['link']"
                                  scope="editor-link"
                                  size="sm"
-                                 center
+                                 center="md"
                                  :title="$i18n['link']['title']"
-                                 x-on:open="$nextTick(() => $refs.linkText?.focus())"
                                  x-on:close="dialogClosed()">
                 <div class="{{ $customization['dialog.fields'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('input')"
@@ -430,19 +450,21 @@
                                          x-on:keydown.enter.prevent="insertLink()" />
                 </div>
 
-                <x-slot:footer>
+                <x-slot:footer between>
                     <x-dynamic-component :component="TallStackUi::prefix('button')"
                                          color="secondary"
                                          sm
                                          round
+                                         block
                                          x-on:click="closeDialog()"
                                          :text="$i18n['link']['cancel']" />
                     <x-dynamic-component :component="TallStackUi::prefix('button')"
                                          x-on:click="insertLink()"
-                                         x-bind:disabled="!linkUrl"
+                                         x-bind:disabled="!linkUrl || !validLinkUrl"
                                          dusk="tallstackui_editor_link_insert"
                                          sm
                                          round
+                                         block
                                          :text="$i18n['link']['insert']" />
                 </x-slot:footer>
             </x-dynamic-component>
@@ -451,9 +473,8 @@
                                  :id="$dialogs['image']"
                                  scope="editor-image"
                                  size="md"
-                                 center
+                                 center="md"
                                  :title="$i18n['image']['title']"
-                                 x-on:open="$nextTick(() => $refs.imageUrl?.focus())"
                                  x-on:close="dialogClosed()">
                 <div class="{{ $customization['dialog.fields'] }}">
                     @if ($upload['enabled'])
@@ -494,6 +515,7 @@
                                          :label="$i18n['image']['url']"
                                          type="url"
                                          x-model="imageUrl"
+                                         x-on:keydown.enter.prevent="insertImage()"
                                          x-ref="imageUrl" />
 
                     <x-dynamic-component :component="TallStackUi::prefix('input')"
@@ -515,11 +537,12 @@
                     </template>
                 </div>
 
-                <x-slot:footer>
+                <x-slot:footer between>
                     <x-dynamic-component :component="TallStackUi::prefix('button')"
                                          color="secondary"
                                          sm
                                          round
+                                         block
                                          x-on:click="closeDialog()"
                                          :text="$i18n['image']['cancel']" />
                     <x-dynamic-component :component="TallStackUi::prefix('button')"
@@ -527,6 +550,7 @@
                                          x-bind:disabled="!imageUrl || !validImageUrl || uploading"
                                          dusk="tallstackui_editor_image_insert"
                                          sm
+                                         block
                                          round
                                          :text="$i18n['image']['insert']" />
                 </x-slot:footer>
