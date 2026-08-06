@@ -23,19 +23,19 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 
 ## Attributes
 
-| Attribute       | Type             | Default       | Description                                                      |
-|-----------------|------------------|---------------|------------------------------------------------------------------|
-| label           | string\|null     | null          | Label text displayed above the signature pad                     |
-| hint            | string\|null     | null          | Hint text displayed below the signature pad                      |
-| invalidate      | bool             | null          | Displays validation error state                                  |
-| color           | string\|null     | '#000000'     | Pen stroke color (hex format)                                    |
-| background      | string\|null     | 'transparent' | Canvas background color                                          |
-| line            | int\|float\|null | 2             | Pen stroke width in pixels                                       |
-| height          | int\|null        | 150           | Canvas height in pixels                                          |
-| jpeg            | bool             | null          | Exports the signature as JPEG instead of the default PNG         |
-| clearable       | bool             | null          | Shows a clear (trash) button to erase the entire canvas          |
-| exportable      | bool             | null          | Shows a download button to export the signature as an image file |
-| persistent      | bool             | null          | Keeps the drawing when the canvas is resized instead of erasing  |
+| Attribute  | Type             | Default       | Description                                                      |
+|------------|------------------|---------------|------------------------------------------------------------------|
+| label      | string\|null     | null          | Label text displayed above the signature pad                     |
+| hint       | string\|null     | null          | Hint text displayed below the signature pad                      |
+| invalidate | bool             | null          | Displays validation error state                                  |
+| color      | string\|null     | '#000000'     | Pen stroke color (hex format)                                    |
+| background | string\|null     | 'transparent' | Canvas background color                                          |
+| line       | int\|float\|null | 2             | Pen stroke width in pixels                                       |
+| height     | int\|null        | 150           | Canvas height in pixels                                          |
+| jpeg       | bool             | null          | Exports the signature as JPEG instead of the default PNG         |
+| clearable  | bool             | null          | Shows a clear (trash) button to erase the entire canvas          |
+| exportable | bool             | null          | Shows a download button to export the signature as an image file |
+| persistent | bool             | null          | Keeps the drawing when the canvas is resized instead of erasing  |
 
 ## Alpine.js Events
 

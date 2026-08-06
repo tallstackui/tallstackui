@@ -103,7 +103,7 @@ The panel is created by JavaScript, so it is **not** reachable through `TallStac
 }
 ```
 
-Its position is resolved by the same placement helper the tooltip uses: the requested `position` flips to the opposite side when it does not fit and slides along the cross axis to stay inside the viewport. Clicking outside or pressing <kbd>Escape</kbd> closes it.
+Its position is resolved by the same placement helper the tooltip uses: the requested `position` flips to the opposite side when it does not fit and slides along the cross axis to stay inside the viewport. Clicking outside or pressing <kbd>Escape</kbd> closes it. The panel carries an arrow pointing at the trigger; it inherits the panel's background and border color, so the override above restyles it as well.
 
 The emoji grid inside the panel is regular soft customization, through the `box.*` and `icon` blocks below.
 

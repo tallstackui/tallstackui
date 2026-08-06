@@ -2,9 +2,12 @@ import { place } from '../../../js/helpers/placement';
 
 const OFFSET = 10;
 const PADDING = 8;
+const ARROW = 8;
+const INSET = 12;
 
 export default (model, content, position) => {
   let popover = null;
+  let arrow = null;
   let frame = null;
   let follow = null;
   let outside = null;
@@ -61,6 +64,11 @@ export default (model, content, position) => {
       popover.setAttribute('dusk', 'tallstackui_reaction_popover');
       popover.innerHTML = content;
 
+      arrow = document.createElement('span');
+      arrow.setAttribute('data-arrow', '');
+
+      popover.append(arrow);
+
       this.$refs.button.parentElement.append(popover);
     },
     close() {
@@ -75,6 +83,7 @@ export default (model, content, position) => {
 
       popover?.remove();
       popover = null;
+      arrow = null;
     },
     detach() {
       window.removeEventListener('scroll', follow, { capture: true });
@@ -97,13 +106,39 @@ export default (model, content, position) => {
         return;
       }
 
-      const { x, y } = place(this.$refs.button, popover, {
+      const {
+        x,
+        y,
+        side,
+        arrow: point,
+      } = place(this.$refs.button, popover, {
         placement: position,
         offset: OFFSET,
         padding: PADDING,
+        arrow: INSET,
       });
 
       popover.style.translate = `${x}px ${y}px`;
+      popover.setAttribute('data-side', side);
+
+      const half = ARROW / 2;
+
+      const edge = {
+        top: popover.offsetHeight - half,
+        bottom: -half,
+        left: popover.offsetWidth - half,
+        right: -half,
+      }[side];
+
+      if (side === 'top' || side === 'bottom') {
+        arrow.style.left = `${point - half}px`;
+        arrow.style.top = `${edge}px`;
+
+        return;
+      }
+
+      arrow.style.top = `${point - half}px`;
+      arrow.style.left = `${edge}px`;
     },
   };
 };
