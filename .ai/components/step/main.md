@@ -54,33 +54,33 @@ Panel variation with finish button:
 
 ## Attributes
 
-| Attribute         | Type            | Default | Description                                                                                                      |
-|-------------------|-----------------|---------|------------------------------------------------------------------------------------------------------------------|
-| selected          | int\|null       | null    | Initially selected step number (or use `wire:model` for Livewire binding)                                        |
-| panels            | bool            | false   | Uses the bordered panels variation                                                                               |
-| circles           | bool            | false   | Uses the numbered circles variation                                                                              |
-| simple            | bool            | false   | Uses the simple bar indicators variation (default)                                                               |
+| Attribute         | Type            | Default | Description                                                                                                                                                        |
+|-------------------|-----------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| selected          | int\|null       | null    | Initially selected step number (or use `wire:model` for Livewire binding)                                                                                          |
+| panels            | bool            | false   | Uses the bordered panels variation                                                                                                                                 |
+| circles           | bool            | false   | Uses the numbered circles variation                                                                                                                                |
+| simple            | bool            | false   | Uses the simple bar indicators variation (default)                                                                                                                 |
 | helpers           | bool\|string    | false   | Shows the navigation bar. `true` renders the `default` variant; a string picks `minimal`, `compact` or a custom view path. See [Helper Variants](#helper-variants) |
-| navigate          | bool            | false   | Allows forward navigation by clicking step indicators                                                            |
-| navigate-previous | bool            | false   | Shows a "Previous" button in the helpers area                                                                    |
-| variation         | string\|null    | null    | Visual variation type (automatically set from panels/circles/simple)                                             |
-| skeleton          | bool\|int\|null | null    | Renders a structural placeholder instead of the steps. A bare flag draws 3 indicators; an integer sets the count |
+| navigate          | bool            | false   | Allows forward navigation by clicking step indicators                                                                                                              |
+| navigate-previous | bool            | false   | Shows a "Previous" button in the helpers area                                                                                                                      |
+| variation         | string\|null    | null    | Visual variation type (automatically set from panels/circles/simple)                                                                                               |
+| skeleton          | bool\|int\|null | null    | Renders a structural placeholder instead of the steps. A bare flag draws 3 indicators; an integer sets the count                                                   |
 
 ## Slots
 
-| Slot      | Description                                                                        |
-|-----------|------------------------------------------------------------------------------------|
-| (default) | `<x-step.items>` children defining each step's content                             |
+| Slot      | Description                                                                                                             |
+|-----------|-------------------------------------------------------------------------------------------------------------------------|
+| (default) | `<x-step.items>` children defining each step's content                                                                  |
 | previous  | Replaces the built-in previous button (requires `helpers`). See [Custom Navigation Buttons](#custom-navigation-buttons) |
-| next      | Replaces the built-in next button (requires `helpers`). See [Custom Navigation Buttons](#custom-navigation-buttons) |
-| finish    | Custom finish button content shown when on the last step (requires `helpers`)      |
+| next      | Replaces the built-in next button (requires `helpers`). See [Custom Navigation Buttons](#custom-navigation-buttons)     |
+| finish    | Custom finish button content shown when on the last step (requires `helpers`)                                           |
 
 ## Events
 
-| Event       | Detail           | Description                                                                              |
-|-------------|------------------|-------------------------------------------------------------------------------------------|
+| Event       | Detail           | Description                                                                                             |
+|-------------|------------------|---------------------------------------------------------------------------------------------------------|
 | x-on:change | `{step: number}` | Fired when the active step changes via the built-in buttons or the `next()`/`previous()` Alpine methods |
-| x-on:finish | `{step: number}` | Fired when the finish button is clicked (string `finish` attribute only)                 |
+| x-on:finish | `{step: number}` | Fired when the finish button is clicked (string `finish` attribute only)                                |
 
 ## Helper Variants
 

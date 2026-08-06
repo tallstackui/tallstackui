@@ -186,6 +186,27 @@ it('can render the sanitization whitelist', function () {
         ->toContain('allowed_styles');
 });
 
+it('can render the style dropdown narrow', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('data-tsui-dropdown-width="xs"');
+});
+
+it('can render the toolbar activatable by keyboard', function () {
+    // The actions live on click and keydown rather than mousedown alone, so
+    // Enter and Space reach them through the roving tabindex.
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('x-on:click="exec(\'bold\')"')
+        ->toContain('x-on:keydown.enter.prevent="toggleBlock(\'h1\'); show = false"');
+});
+
+it('can render the link dialog guarding the url scheme', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('validLinkUrl');
+});
+
 it('can render the toolbar dropdown', function () {
     expect('<x-editor name="content" />')
         ->render()

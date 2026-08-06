@@ -3525,6 +3525,93 @@ opening with `- ` or `1. `, which becomes the list it reads as.
 **Migration:** nothing, unless an application relied on pasting raw Markdown
 into a Markdown editor and getting literal characters back.
 
+### Fixed — the counters measured `innerText`, which lies twice
+
+`innerText` writes two breaks between paragraphs and one more for the filler
+`<br>` engines keep inside an empty block, so "teste" followed by Enter counted
+three lines where the screen shows two, and a document booted as
+`<p>foo</p><p>bar</p>` counted three. Behind `x-cloak` — which is exactly where
+the boot count runs — `innerText` degrades to `textContent`, which holds no
+breaks at all: the same document booted as one line, and its words fused across
+the block boundary into `foobar`, one word.
+
+Both counters now read off the DOM: one line per block, plus one per `<br>`
+that actually ends a line, and the text with a break at every block boundary.
+A trailing empty paragraph counts once, a paragraph boundary counts once, and
+the count is the same whether it runs at boot or mid-typing.
+
+### Fixed — the toolbar took the mouse but not the keyboard
+
+Every button acted on `x-on:mousedown.prevent="..."` — the prevent is what keeps
+the selection in the editable while the mouse clicks — so the roving tabindex
+walked the buttons and Enter did nothing on any of them. The actions moved to
+`click`, which both the mouse and the keyboard raise, and `mousedown` keeps only
+the prevent. The dropdown entries listen on `keydown.enter` instead, since their
+`click` already belongs to the dropdown's own close-on-select.
+
+### Fixed — a `javascript:` destination survived the sanitizer
+
+The whitelist filters attributes by name, and `href` and `src` are legitimate
+names: `<a href="javascript:alert(1)">` passed through untouched, on paste and
+on boot. The scheme is now checked on both attributes — `javascript:`,
+`vbscript:` and `data:` are dropped, with `data:image/` kept on an `img` src,
+where the image dialog already accepts it. Whitespace is stripped before the
+check, since `jav&#x09;ascript:` decodes to a scheme the browser runs and a
+prefix test misses. The link dialog refuses the same schemes, disabling its
+insert button.
+
+This stays defense in depth: the server must still sanitize before persisting
+and before rendering back.
+
+### Fixed — a parenthesis in a link destination broke the Markdown round trip
+
+The serializer wrote `href` and `src` verbatim into `[text](...)`, where `)`
+closes the destination early: a Wikipedia-style URL — `.../Foo_(bar)` — came
+back truncated, with the leftover parenthesis as text. Destinations now
+percent-encode `(`, `)` and whitespace, which the browser reads identically,
+and an image `alt` rides the same inline escapes the link text already had.
+
+### Changed — the style dropdown slimmed down
+
+The panel holds four short entries and followed the generic `sm` width
+(`w-48`). It is `xs` (`w-40`) now. Longer locales — `Überschrift 1` — wrap
+rather than clip.
+
+### Added — Enter in the image dialog's URL field inserts
+
+The link dialog already submitted on Enter; the image dialog now does the same,
+guarded by the same URL validation as its insert button.
+
+### Fixed — the caret opened at minimum height beside the placeholder
+
+An editor booted empty set the editable's `innerHTML` to an empty string, and a
+contenteditable with no line box draws its caret at a minimum height — a short
+blinking bar next to a full-size "Start writing…". Engines avoid this themselves
+by keeping a filler `<br>` once the field has been typed in; the editor now
+seeds the same filler on boot and whenever the bound property is cleared. Every
+filler shape reads as an empty document on the way out, so the seed never
+reaches the bound property: it stays `''`, not `'<br>'`.
+
+### Added — the toolbar shows where the keyboard is
+
+The roving tabindex moved the focus between the buttons, but nothing painted
+it: reaching the toolbar with Shift+Tab landed on a button that looked exactly
+like its neighbours. The buttons and the dropdown triggers now carry a
+`focus-visible` ring — inset, so the scrolling toolbar does not clip it — in
+the two blocks that already styled them, `toolbar.button.base` and
+`toolbar.dropdown.trigger`.
+
+### Fixed — opening a dialog on a small screen jolted it before it settled
+
+The dialogs focus their first field as soon as they open. Under the `sm`
+breakpoint the panel enters as a bottom sheet, translated below the screen for
+the length of the transition — and focusing a field that is still off-screen
+makes the browser scroll the dialog's wrapper to reveal it. The panel snapped
+up, drifted back down as that scroll unwound alongside the animation, then
+settled: a three-beat stutter on every open, and on iOS a residual offset that
+left the sheet floating mid-screen. The focus now passes `preventScroll`, which
+is enough — the panel ends its transition fully visible, field and all.
+
 ---
 
 ## Form / Radio & Checkbox / Group

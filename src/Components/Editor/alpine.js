@@ -26,6 +26,108 @@ const normalize = (root) => {
   }
 };
 
+// innerText is no measure for the counters: it writes two breaks between
+// paragraphs plus one for the filler <br> engines keep inside an empty block,
+// and while the component is still hidden behind x-cloak it degrades to
+// textContent, which holds no breaks at all.
+const BLOCKS = [
+  'P',
+  'DIV',
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'H5',
+  'LI',
+  'UL',
+  'OL',
+  'PRE',
+  'BLOCKQUOTE',
+  'HR',
+];
+
+const rows = (element) => {
+  let lines = 0;
+  let content = false;
+
+  for (const child of element.childNodes) {
+    if (child.nodeType === 3) {
+      content = content || child.textContent.trim() !== '';
+
+      continue;
+    }
+
+    if (child.nodeType !== 1) {
+      continue;
+    }
+
+    if (child.tagName === 'BR') {
+      lines++;
+      content = false;
+
+      continue;
+    }
+
+    if (!BLOCKS.includes(child.tagName)) {
+      content = true;
+
+      continue;
+    }
+
+    if (content) {
+      lines++;
+      content = false;
+    }
+
+    lines +=
+      child.tagName === 'PRE'
+        ? child.textContent.replace(/\n$/, '').split('\n').length
+        : Math.max(rows(child), 1);
+  }
+
+  return content ? lines + 1 : lines;
+};
+
+const textual = (element) => {
+  let output = '';
+
+  for (const child of element.childNodes) {
+    if (child.nodeType === 3) {
+      output += child.textContent;
+
+      continue;
+    }
+
+    if (child.nodeType !== 1) {
+      continue;
+    }
+
+    if (child.tagName === 'BR') {
+      output += '\n';
+
+      continue;
+    }
+
+    output += BLOCKS.includes(child.tagName) ? `\n${textual(child)}\n` : textual(child);
+  }
+
+  return output;
+};
+
+// A contenteditable is never truly empty: engines keep a filler node to hold
+// the caret, and without one the caret collapses to a minimum height beside
+// the placeholder.
+const FILLERS = ['', '<br>', '<p><br></p>', '<div><br></div>'];
+
+const seeded = (html) => (html === '' ? '<br>' : html);
+
+// Attribute filtering keeps href and src, and the scheme is what carries the
+// script. Whitespace survives entity decoding and hides the scheme from a
+// plain prefix check while the browser ignores it, so it is stripped first.
+const compacted = (value) => String(value).replace(/\s/g, '').toLowerCase();
+
+const dangerous = (value) => /^(javascript|vbscript|data):/.test(compacted(value));
+
 export default (options) => ({
   // Holds Markdown or HTML, whichever the component was told to store.
   content: options.entangle ?? options.value ?? '',
@@ -73,7 +175,7 @@ export default (options) => ({
   config: options,
 
   init() {
-    this.$refs.editable.innerHTML = this.sanitize(this.incoming(this.content ?? ''));
+    this.$refs.editable.innerHTML = seeded(this.sanitize(this.incoming(this.content ?? '')));
 
     this.refreshEmpty();
     this.recount();
@@ -98,7 +200,7 @@ export default (options) => ({
         return;
       }
 
-      this.$refs.editable.innerHTML = this.sanitize(this.incoming(value ?? ''));
+      this.$refs.editable.innerHTML = seeded(this.sanitize(this.incoming(value ?? '')));
 
       this.refreshEmpty();
       this.recount();
@@ -111,6 +213,12 @@ export default (options) => ({
   },
 
   outgoing() {
+    // The seeded filler is presentation, not content: it never reaches the
+    // bound property.
+    if (FILLERS.includes(this.$refs.editable.innerHTML.trim())) {
+      return '';
+    }
+
     return this.config.markdown ? serialize(this.$refs.editable) : this.$refs.editable.innerHTML;
   },
 
@@ -174,20 +282,14 @@ export default (options) => ({
   },
 
   refreshEmpty() {
-    const html = this.$refs.editable.innerHTML.trim();
-
-    // A contenteditable is never truly empty: engines keep a filler node to
-    // hold the caret.
-    this.empty =
-      html === '' || html === '<br>' || html === '<p><br></p>' || html === '<div><br></div>';
+    this.empty = FILLERS.includes(this.$refs.editable.innerHTML.trim());
   },
 
   recount() {
-    const text = this.$refs.editable.innerText ?? '';
-    const trimmed = text.trim();
+    const text = textual(this.$refs.editable).trim();
 
-    this.words = trimmed === '' ? 0 : trimmed.split(/\s+/).filter(Boolean).length;
-    this.lines = trimmed === '' ? 0 : text.split('\n').length;
+    this.words = text === '' ? 0 : text.split(/\s+/).filter(Boolean).length;
+    this.lines = text === '' ? 0 : Math.max(rows(this.$refs.editable), 1);
   },
 
   formatCount(count, template) {
@@ -597,6 +699,20 @@ export default (options) => ({
         }
       }
 
+      for (const attribute of ['href', 'src']) {
+        const value = node.getAttribute(attribute);
+
+        if (value === null || !dangerous(value)) {
+          continue;
+        }
+
+        if (tag === 'img' && attribute === 'src' && compacted(value).startsWith('data:image/')) {
+          continue;
+        }
+
+        node.removeAttribute(attribute);
+      }
+
       for (const property of [...node.style]) {
         if (!styles.includes(property)) {
           node.style.removeProperty(property);
@@ -672,7 +788,7 @@ export default (options) => ({
   },
 
   insertLink() {
-    if (!this.linkUrl) {
+    if (!this.linkUrl || !this.validLinkUrl) {
       return;
     }
 
@@ -728,6 +844,10 @@ export default (options) => ({
 
   get validImageUrl() {
     return /^(https?:\/\/|data:image\/|\/)/.test(this.imageUrl);
+  },
+
+  get validLinkUrl() {
+    return !dangerous(this.linkUrl);
   },
 
   escapeHtml(value) {

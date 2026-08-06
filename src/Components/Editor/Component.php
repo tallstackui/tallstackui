@@ -54,11 +54,11 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'dark:border-dark-700 dark:bg-dark-900 flex items-center gap-x-1 overflow-x-auto border-b border-gray-200 bg-gray-50 px-2 py-1.5 soft-scrollbar',
                 'divider' => 'dark:bg-dark-700 mx-1 h-5 w-px shrink-0 bg-gray-200',
                 'button' => [
-                    'base' => 'dark:text-dark-300 dark:hover:bg-dark-700 inline-flex h-8 min-w-8 shrink-0 cursor-pointer items-center justify-center rounded px-2 text-sm text-gray-600 transition hover:bg-gray-200',
+                    'base' => 'dark:text-dark-300 dark:hover:bg-dark-700 focus-visible:ring-primary-500 inline-flex h-8 min-w-8 shrink-0 cursor-pointer items-center justify-center rounded px-2 text-sm text-gray-600 transition outline-none hover:bg-gray-200 focus-visible:ring-2 focus-visible:ring-inset',
                     'active' => 'dark:bg-primary-900/40 dark:text-primary-300 bg-primary-50 text-primary-700',
                 ],
                 'dropdown' => [
-                    'trigger' => 'dark:text-dark-300 dark:hover:bg-dark-700 inline-flex h-8 shrink-0 cursor-pointer items-center gap-x-1 rounded px-2 text-sm whitespace-nowrap text-gray-600 transition hover:bg-gray-200',
+                    'trigger' => 'dark:text-dark-300 dark:hover:bg-dark-700 focus-visible:ring-primary-500 inline-flex h-8 shrink-0 cursor-pointer items-center gap-x-1 rounded px-2 text-sm whitespace-nowrap text-gray-600 transition outline-none hover:bg-gray-200 focus-visible:ring-2 focus-visible:ring-inset',
                     'active' => 'dark:text-primary-300 text-primary-700',
                     'style' => [
                         'paragraph' => 'text-sm!',
@@ -95,9 +95,9 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'image' => [
                 'upload' => [
-                    'area' => 'dark:border-dark-700 dark:text-dark-400 hover:border-primary-400 hover:text-primary-600 flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-md border-2 border-dashed border-gray-200 px-4 py-6 text-center text-sm text-gray-500 transition',
-                    'button' => 'inline-flex items-center gap-x-1.5 text-sm font-medium',
-                    'hint' => 'dark:text-dark-500 text-xs text-gray-400',
+                    'area' => 'dark:border-dark-600 dark:text-dark-400 hover:border-primary-400 hover:text-primary-600 flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-md border-2 border-dashed border-gray-300 px-4 py-6 text-center text-sm text-gray-500 transition',
+                    'button' => 'inline-flex items-center gap-x-1.5 text-sm text-gray-600 dark:text-dark-100 font-medium',
+                    'hint' => 'dark:text-dark-400 text-xs text-gray-600',
                     'progress' => [
                         'wrapper' => 'dark:bg-dark-800 mt-2 h-1 w-full overflow-hidden rounded bg-gray-200',
                         'bar' => 'bg-primary-500 h-full transition-all',
