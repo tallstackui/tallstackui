@@ -19,18 +19,24 @@ class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
 
+    public const HELPERS = ['default', 'minimal', 'compact'];
+
     public function __construct(
         public ?int $selected = null,
         public ?bool $panels = false,
         public ?bool $circles = false,
         public ?bool $simple = false,
-        public ?bool $helpers = false,
+        public bool|string|null $helpers = false,
         public ?bool $navigate = false,
         public ?bool $navigatePrevious = false,
         public ?string $variation = null,
         public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $previous = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $next = null,
     ) {
         $this->variation = $this->panels ? 'panels' : ($this->circles ? 'circles' : 'simple');
     }
@@ -125,14 +131,6 @@ class Component extends TallStackUiComponent implements Customization
             'panels-shape' => 'mb-2 rounded-md border border-gray-200 dark:border-dark-600',
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
-            'button' => [
-                'base' => 'cursor-pointer dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-hidden dark:border-dark-600 dark:bg-dark-700 dark:hover:border-dark-600 dark:hover:bg-dark-600/50',
-                'icon' => 'dark:text-dark-300 h-4 w-4',
-                'icon-spacing' => [
-                    'left' => 'mr-1',
-                    'right' => 'ml-1',
-                ],
-            ],
             'skeleton' => [
                 ...$this->blocks(),
                 'circle' => 'size-8 rounded-full',
@@ -146,8 +144,28 @@ class Component extends TallStackUiComponent implements Customization
         ]);
     }
 
+    public function helper(): string
+    {
+        return str_contains($this->helpers, '::') || str_contains($this->helpers, '.')
+            ? $this->helpers
+            : 'ts-ui::components.step.helpers.'.$this->helpers;
+    }
+
+    protected function setup(): void
+    {
+        if ($this->helpers === true) {
+            $configured = __ts_get_component_configuration(self::class, 'helpers');
+
+            $this->helpers = is_string($configured) ? $configured : 'default';
+        }
+    }
+
     protected function validate(): void
     {
         $this->guard();
+
+        if (is_string($this->helpers) && ! str_contains($this->helpers, '::') && ! str_contains($this->helpers, '.') && ! in_array($this->helpers, self::HELPERS, true)) {
+            __ts_validation_exception($this, 'The [helpers] must be one of ['.implode(', ', self::HELPERS).'] or a view path.');
+        }
     }
 }

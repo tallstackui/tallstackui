@@ -12,6 +12,81 @@ such change is listed under **Migration**.
 
 ---
 
+## Step
+
+### Added — the navigation bar learned variants, like the Table paginator
+
+`helpers` was a flag that produced one fixed pair of buttons. It now behaves
+like the Table's `paginator`: a bare `helpers` renders the `default` variant, a
+string picks another look, and a value containing `.` or `::` is treated as a
+view path so an application can ship its own bar. Anything else throws.
+
+```blade
+<x-step selected="1" helpers>              {{-- default: bordered buttons --}}
+<x-step selected="1" helpers="minimal">    {{-- borderless ghost buttons --}}
+<x-step selected="1" helpers="compact">    {{-- grouped shell + position indicator --}}
+<x-step selected="1" helpers="app.steps.custom">
+```
+
+- **default** — individual bordered buttons (`rounded-lg border shadow-xs`,
+  hover fill, focus ring), label + chevron.
+- **minimal** — the same layout with borderless text buttons.
+- **compact** — a single shell anchored right with icon-only buttons and a
+  `current/total` indicator drawn with tabular figures. At the edges the
+  buttons disable instead of hiding, so the shell never changes width; the
+  finish button/slot renders to the left of the shell.
+
+The variant behind a bare `helpers` comes from the new
+`tallstackui.components.step.helpers` config default (`default` out of the
+box), so an application can switch every wizard at once. The bundled views
+live in `components/step/helpers/`, one file per variant, mirroring
+`table/paginators/`.
+
+### Added — `previous` and `next` slots for fully custom buttons
+
+Each slot replaces its built-in button entirely. The component keeps only the
+visibility wrapper (previous hides on the first step, next on the last; in
+`compact` slot content stays always visible) — the click behavior belongs to
+the application. Two Alpine methods, `next()` and `previous()`, are exposed in
+the component scope: they move `selected` and dispatch the `change` event, so
+a custom button behaves exactly like the built-in one. Mutating `selected`
+directly also works and skips the event. Guarding is one expression away:
+`x-on:click="if (valid()) next()"`.
+
+```blade
+<x-step selected="1" helpers>
+    <x-step.items step="1" title="Account">...</x-step.items>
+    <x-step.items step="2" title="Review">...</x-step.items>
+    <x-slot:previous>
+        <x-button color="secondary" outline icon="arrow-left" x-on:click="previous()">Back</x-button>
+    </x-slot:previous>
+    <x-slot:next>
+        <x-button icon="arrow-right" position="right" x-on:click="next()">Continue</x-button>
+    </x-slot:next>
+</x-step>
+```
+
+A custom `previous` slot shows without requiring `navigate-previous` — passing
+the slot already states the intent.
+
+### Changed — navigation logic moved into named Alpine methods
+
+The two inline `x-on:click` handlers duplicated on the buttons (floating-flush
+dispatch, `selected` mutation, `change` event) became the `next()` and
+`previous()` methods above. To free the `previous` name, the internal `x-data`
+flag that carried `navigate-previous` was renamed to `navigatePrevious` — the
+step variations' click guard reads the new name.
+
+**Migration.** The navigation buttons left soft customization: the
+`button.base`, `button.icon` and `button.icon-spacing.*` blocks are gone.
+Restyle the bar by picking a variant, replacing the buttons through the
+`previous`/`next` slots, or pointing `helpers` at your own view.
+`helpers.wrapper` survives, now only laying out the skeleton's helper row.
+`previous` and `next` on `<x-step>` are slot names now — a stray bare
+`previous`/`next` attribute (which previously fell through to the attribute
+bag) lands on a `ComponentSlot|string|null` prop and throws; use
+`navigate-previous` for the previous-button flag.
+
 ## Card, Stats, Calendar & Tab
 
 ### Added — `shadowless` and `bordered` flags for the flat look

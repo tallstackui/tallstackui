@@ -593,7 +593,21 @@ return [
             ],
         ],
         'stats' => Components\Stats\Component::class,
-        'step' => Components\Step\Main\Component::class,
+        'step' => [
+            Components\Step\Main\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Step Global Settings
+            |----------------------------------------------------------------------
+            |
+            | helpers: controls the navigation buttons look (Allowed: default, minimal, compact, or a view path).
+            |
+            | This is a default: the inline prop always wins.
+            */
+            [
+                'helpers' => 'default',
+            ],
+        ],
         'step.items' => Components\Step\Items\Component::class,
         'tab' => Components\Tab\Main\Component::class,
         'tag' => Components\Form\Tag\Component::class,

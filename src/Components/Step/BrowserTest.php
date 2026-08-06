@@ -10,6 +10,96 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_navigate_with_a_custom_next_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-step selected="1" helpers>
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                        <x-slot:next>
+                            <button type="button" dusk="custom_next" x-on:click="next()">Advance</button>
+                        </x-slot:next>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo bar baz')
+            ->assertDontSee('Baz bar foo')
+            ->click('@custom_next')
+            ->waitForText('Baz bar foo')
+            ->assertDontSee('Foo bar baz');
+    }
+
+    #[Test]
+    public function can_navigate_with_the_compact_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-step selected="1" helpers="compact" navigate-previous>
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo bar baz')
+            ->assertDontSee('Baz bar foo')
+            ->click('@tallstackui_step_next')
+            ->waitForText('Baz bar foo')
+            ->assertDontSee('Foo bar baz')
+            ->click('@tallstackui_step_previous')
+            ->waitForText('Foo bar baz')
+            ->assertDontSee('Baz bar foo');
+    }
+
+    #[Test]
+    public function can_navigate_with_the_minimal_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-step selected="1" helpers="minimal">
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo bar baz')
+            ->assertDontSee('Baz bar foo')
+            ->click('@tallstackui_step_next')
+            ->waitForText('Baz bar foo')
+            ->assertDontSee('Foo bar baz');
+    }
+
+    #[Test]
     public function can_render_finish_slot(): void
     {
         Livewire::visit(new class extends Component

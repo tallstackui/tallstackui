@@ -70,6 +70,80 @@ it('can render without id on step items', function () {
         ->toContain('id: null');
 });
 
+it('can render the default helpers variant', function () {
+    $component = <<<'HTML'
+    <x-step selected="1" helpers>
+        <x-step.items step="1" title="Foo">
+            Foo
+        </x-step.items>
+        <x-step.items step="2" title="Bar">
+            Bar
+        </x-step.items>
+    </x-step>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('dusk="tallstackui_step_next"')
+        ->toContain('shadow-xs');
+});
+
+it('can render the minimal helpers variant', function () {
+    $component = <<<'HTML'
+    <x-step selected="1" helpers="minimal">
+        <x-step.items step="1" title="Foo">
+            Foo
+        </x-step.items>
+    </x-step>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('dusk="tallstackui_step_next"')
+        ->toContain('hover:underline')
+        ->not->toContain('shadow-xs');
+});
+
+it('can render the compact helpers variant', function () {
+    $component = <<<'HTML'
+    <x-step selected="1" helpers="compact" navigate-previous>
+        <x-step.items step="1" title="Foo">
+            Foo
+        </x-step.items>
+    </x-step>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('tabular-nums')
+        ->toContain('dusk="tallstackui_step_previous"')
+        ->toContain('dusk="tallstackui_step_next"');
+});
+
+it('cannot render with an invalid helpers variant', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-step selected="1" helpers="foo" />')->render();
+});
+
+it('can render custom previous and next slots', function () {
+    $component = <<<'HTML'
+    <x-step selected="1" helpers>
+        <x-step.items step="1" title="Foo">
+            Foo
+        </x-step.items>
+        <x-slot:previous>
+            <button x-on:click="previous()">Custom Back</button>
+        </x-slot:previous>
+        <x-slot:next>
+            <button x-on:click="next()">Custom Advance</button>
+        </x-slot:next>
+    </x-step>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Custom Back', 'Custom Advance')
+        ->not->toContain('dusk="tallstackui_step_next"')
+        ->not->toContain('dusk="tallstackui_step_previous"');
+});
+
 it('can render the skeleton instead of the content')
     ->expect('<x-step skeleton><x-step.items step="1" title="Account">Real content</x-step.items></x-step>')
     ->render()
