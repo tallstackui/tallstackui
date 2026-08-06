@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A multi-step wizard component with three visual variations: simple bar indicators, numbered circles with dividers, and bordered panels. Supports navigation helpers (next/previous/finish buttons), Livewire property binding, and step-change events.
+A multi-step wizard component with three visual variations: simple bar indicators, numbered circles with dividers, and bordered panels. The navigation bar (`helpers`) ships in three looks — `default`, `minimal` and `compact` — and accepts fully custom previous/next buttons through slots. Supports Livewire property binding and step-change events.
 
 ## Basic Usage
 
@@ -60,7 +60,7 @@ Panel variation with finish button:
 | panels            | bool            | false   | Uses the bordered panels variation                                                                               |
 | circles           | bool            | false   | Uses the numbered circles variation                                                                              |
 | simple            | bool            | false   | Uses the simple bar indicators variation (default)                                                               |
-| helpers           | bool            | false   | Shows next/previous/finish navigation buttons                                                                    |
+| helpers           | bool\|string    | false   | Shows the navigation bar. `true` renders the `default` variant; a string picks `minimal`, `compact` or a custom view path. See [Helper Variants](#helper-variants) |
 | navigate          | bool            | false   | Allows forward navigation by clicking step indicators                                                            |
 | navigate-previous | bool            | false   | Shows a "Previous" button in the helpers area                                                                    |
 | variation         | string\|null    | null    | Visual variation type (automatically set from panels/circles/simple)                                             |
@@ -68,17 +68,70 @@ Panel variation with finish button:
 
 ## Slots
 
-| Slot      | Description                                                                   |
-|-----------|-------------------------------------------------------------------------------|
-| (default) | `<x-step.items>` children defining each step's content                        |
-| finish    | Custom finish button content shown when on the last step (requires `helpers`) |
+| Slot      | Description                                                                        |
+|-----------|------------------------------------------------------------------------------------|
+| (default) | `<x-step.items>` children defining each step's content                             |
+| previous  | Replaces the built-in previous button (requires `helpers`). See [Custom Navigation Buttons](#custom-navigation-buttons) |
+| next      | Replaces the built-in next button (requires `helpers`). See [Custom Navigation Buttons](#custom-navigation-buttons) |
+| finish    | Custom finish button content shown when on the last step (requires `helpers`)      |
 
 ## Events
 
-| Event       | Detail           | Description                                                              |
-|-------------|------------------|--------------------------------------------------------------------------|
-| x-on:change | `{step: number}` | Fired when the active step changes via helper buttons                    |
-| x-on:finish | `{step: number}` | Fired when the finish button is clicked (string `finish` attribute only) |
+| Event       | Detail           | Description                                                                              |
+|-------------|------------------|-------------------------------------------------------------------------------------------|
+| x-on:change | `{step: number}` | Fired when the active step changes via the built-in buttons or the `next()`/`previous()` Alpine methods |
+| x-on:finish | `{step: number}` | Fired when the finish button is clicked (string `finish` attribute only)                 |
+
+## Helper Variants
+
+`helpers` selects the navigation bar look the same way the Table's `paginator` does:
+
+```blade
+<x-step selected="1" helpers>              {{-- default: bordered buttons --}}
+<x-step selected="1" helpers="minimal">    {{-- borderless ghost buttons --}}
+<x-step selected="1" helpers="compact">    {{-- grouped shell with a position indicator --}}
+<x-step selected="1" helpers="app.steps.custom"> {{-- your own view --}}
+```
+
+- **default** — individual bordered buttons with label + chevron, hidden at the
+  edges (`x-show`).
+- **minimal** — same layout, borderless text buttons.
+- **compact** — a single shell anchored right with icon-only buttons and a
+  `current/total` indicator. Buttons are disabled at the edges instead of
+  hidden, so the shell never changes width. The finish button/slot renders to
+  the left of the shell.
+
+A string containing `.` or `::` is treated as a view path, letting an
+application ship its own bar. Anything else must be one of the bundled
+variants, or the component throws.
+
+The variant used by a bare `helpers` flag comes from
+`config('tallstackui.components.step.helpers')` (`default` out of the box), so
+an application can switch every wizard at once.
+
+## Custom Navigation Buttons
+
+The `previous` and `next` slots fully replace the built-in buttons. The
+component keeps only the visibility wrapper (previous hides on the first step,
+next hides on the last — in `compact` slot content stays always visible); the
+click behavior is yours. Call the `next()` / `previous()` methods available in
+the Alpine scope to navigate — they also dispatch the `change` event — or
+mutate `selected` directly to skip the event:
+
+```blade
+<x-step selected="1" helpers>
+    <x-step.items step="1" title="Account">...</x-step.items>
+    <x-step.items step="2" title="Review">...</x-step.items>
+    <x-slot:previous>
+        <x-button color="secondary" outline icon="arrow-left" x-on:click="previous()">Back</x-button>
+    </x-slot:previous>
+    <x-slot:next>
+        <x-button icon="arrow-right" position="right" x-on:click="next()">Continue</x-button>
+    </x-slot:next>
+</x-step>
+```
+
+Guarding navigation is one expression away: `x-on:click="if (valid()) next()"`.
 
 ## Wireable Mode (Livewire Property Binding)
 
@@ -86,7 +139,7 @@ Bind the current step to a Livewire string property:
 
 ```blade
 <!-- Livewire string property: $step - initial value: "1" -->
-<x-step wire:model="step" helpers previous>
+<x-step wire:model="step" helpers navigate-previous>
     <x-step.items step="1" title="Starting" description="Step One">
         Step one...
     </x-step.items>
@@ -218,9 +271,7 @@ TallStackUi::customize()
 | panels.text.title.active    | Completed panel title color          |
 | panels.text.description     | Panel description text styling       |
 | content                     | Step content area margin             |
-| helpers.wrapper             | Helper buttons flex container        |
-| button.base                 | Navigation button base styling       |
-| button.icon                 | Navigation button icon dimensions    |
+| helpers.wrapper             | Skeleton helper row flex container   |
 | skeleton.animation          | Pulse animation on the placeholder   |
 | skeleton.bar                | Base look of every placeholder bar   |
 | skeleton.circle             | Circle placeholder (circles)         |
