@@ -1564,6 +1564,45 @@ A colored balloon keeps its color in both themes, and so does the default one: d
 light and dark themes alike. An application that wants a light balloon on its dark theme
 opts in through the `invert` setting below.
 
+### Added — `scale`, growing the balloon
+
+The balloon had one size, and it is small on purpose — a tooltip is a hint, not a
+panel. But a hint holding a sentence reads cramped at `text-xs`, and the only way to
+grow it was restyling `[data-tsui-tooltip]`, which resizes every tooltip on the page.
+The balloon is a single shared node in `<body>`, so there is no per-anchor selector to
+reach one tooltip through CSS alone.
+
+`balloon` colors the balloon; `scale` sizes it:
+
+```blade
+<x-tooltip text="Foo" scale="lg" />
+<x-button tooltip="Foo" data-tooltip-size="lg" />
+<span x-data x-tooltip="Foo" data-tooltip-size="md"></span>
+```
+
+Three named steps, for the same reason `delay` has them — a number in a Blade attribute
+invites values nobody wants:
+
+| Name | Type scale  | Max width |
+|------|-------------|-----------|
+| `sm` | `text-xs`   | `20rem`   |
+| `md` | `text-sm`   | `24rem`   |
+| `lg` | `text-base` | `28rem`   |
+
+`sm` is the default look under an explicit name, so an inline size can undo a global
+one. Each step also grows the padding, and the max width keeps its viewport guard —
+`min(<step>, 100vw - 2rem)` — so a long text still wraps instead of running off a
+narrow phone.
+
+The directive holds no size map. The steps live in `css/plugins/tooltip.css`, keyed by
+`[data-tsui-tooltip][data-size='md']` and `[data-size='lg']`, so an application retunes
+a step through the same stable selector everything else uses. A step of its own is also
+reachable — the data attribute passes any value through — but only on anchors:
+`<x-tooltip>` validates `scale` against the three names and throws on the rest.
+
+The same value works as a global default through the `size` setting below, next to
+`delay` and `color`; the inline attribute always wins.
+
 ### Added — `data-tooltip-disabled`
 
 Turns a tooltip off without removing the directive:
@@ -1584,14 +1623,15 @@ the balloon has to disappear right then.
     [
         'delay' => null,
         'color' => null,
+        'size' => null,
         'invert' => false,
     ],
 ],
 ```
 
 All of them reach every `x-tooltip` on the page, including the ones rendered by Button,
-Kbd, Breadcrumbs, Editor and the sidebar. `delay` and `color` are defaults: the inline
-prop always wins.
+Kbd, Breadcrumbs, Editor and the sidebar. `delay`, `color` and `size` are defaults: the
+inline prop always wins.
 
 `invert` flips the default balloon in dark mode — light background, dark text — which is
 how some design systems draw a tooltip on a dark canvas. It is off unasked, so the

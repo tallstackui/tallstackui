@@ -44,6 +44,20 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
     border-radius: 1px;
 }
 
+/* Named sizes, opt-in through [data-tooltip-size]. The default balloon is the
+   `sm` step, so an inline size can undo a global one. */
+[data-tsui-tooltip][data-size='md'] {
+    @apply px-3 py-2 text-sm;
+
+    max-width: min(24rem, calc(100vw - 2rem));
+}
+
+[data-tsui-tooltip][data-size='lg'] {
+    @apply px-4 py-2.5 text-base;
+
+    max-width: min(28rem, calc(100vw - 2rem));
+}
+
 /* Tapping a trigger must not flash the platform highlight behind it. */
 [x-tooltip] {
     -webkit-tap-highlight-color: transparent;

@@ -35,7 +35,9 @@ let globals = null;
 const global = (key) => {
   if (globals === null) {
     const tag = document.querySelector(
-      'script[data-tsui-tooltip-delay], script[data-tsui-tooltip-color], script[data-tsui-tooltip-invert]'
+      ['delay', 'color', 'size', 'invert']
+        .map((setting) => `script[data-tsui-tooltip-${setting}]`)
+        .join(', ')
     );
 
     globals = tag ? { ...tag.dataset } : {};
@@ -102,6 +104,20 @@ const paint = (el) => {
     color === 'black' ? 'var(--color-black)' : `var(--color-${color}-600)`
   );
   balloon.style.setProperty('--tsui-tooltip-fg', 'var(--color-white)');
+};
+
+// The steps live in the CSS, keyed by [data-size]. Sizing changes the
+// measurement, so it has to land before `reposition()` runs.
+const resize = (el) => {
+  const size = el.getAttribute('data-tooltip-size') ?? global('tsuiTooltipSize');
+
+  if (!size) {
+    balloon.removeAttribute('data-size');
+
+    return;
+  }
+
+  balloon.setAttribute('data-size', size);
 };
 
 const reposition = () => {
@@ -250,6 +266,7 @@ const show = (el, kind) => {
   content.innerHTML = text;
 
   paint(el);
+  resize(el);
 
   // `visibility: hidden` keeps the balloon in layout, so it is measurable
   // before it is ever painted.
