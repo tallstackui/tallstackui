@@ -56,7 +56,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'background' => [
-                'class' => 'bg-secondary-200 dark:bg-dark-800 block cursor-pointer rounded-full group-focus:ring-0 group-focus:ring-offset-0 peer-focus:ring-0 peer-focus:ring-offset-0',
+                'class' => 'bg-gray-200 dark:bg-dark-800 block cursor-pointer rounded-full group-focus:ring-0 group-focus:ring-offset-0 peer-focus:ring-0 peer-focus:ring-offset-0',
                 'sizes' => [
                     'xs' => 'h-3 w-5',
                     'sm' => 'h-4 w-7',

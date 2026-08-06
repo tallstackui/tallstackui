@@ -1,7 +1,7 @@
 @php
 // One control for every width: the page indicator replaces the number list,
 // so there is no separate mobile block to fall back to.
-$shell = 'inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-xs dark:border-dark-500 dark:bg-dark-600';
+$shell = 'inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-xs dark:border-dark-600 dark:bg-dark-700';
 $wrapper = 'inline-flex items-center';
 
 $nav = 'inline-flex size-7 shrink-0 items-center justify-center rounded-md outline-hidden transition duration-200 focus-visible:ring-2 focus-visible:ring-primary-500';

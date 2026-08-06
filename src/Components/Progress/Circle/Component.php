@@ -55,7 +55,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'wrapper' => 'col-start-1 row-start-1 z-10 flex items-center justify-center',
             'text' => 'text-center font-bold text-gray-700 dark:text-dark-400',
-            'background' => 'dark:text-dark-700 text-gray-200',
+            'background' => 'dark:text-dark-800 text-gray-200',
             'sizes' => [
                 'text' => [
                     'xs' => 'text-sm',

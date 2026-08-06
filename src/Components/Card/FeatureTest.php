@@ -193,7 +193,7 @@ it('can render the footer slot without the aligning wrapper', function () {
 
     expect($component)->render()
         ->toContain('Baz')
-        ->toContain('border-t border-t-secondary-200')
+        ->toContain('border-t border-t-gray-200')
         ->not->toContain('flex items-center gap-2');
 });
 

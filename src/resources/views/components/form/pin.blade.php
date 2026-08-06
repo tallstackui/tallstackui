@@ -37,7 +37,7 @@
                             $customization['input.base'],
                             $customization['input.color.background'],
                             $customization['input.color.base'],
-                       ]) disabled />
+                       ]) readonly />
             @endif
             @foreach (range(1, $length) as $index)
                 <input type="text"

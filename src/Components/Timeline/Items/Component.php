@@ -60,8 +60,8 @@ class Component extends TallStackUiComponent implements Customization
                 'grid-horizontal-reversed' => 'row-start-1 col-start-1 text-center',
             ],
             'title' => 'text-sm font-semibold text-gray-900 dark:text-white',
-            'description' => 'mt-1 text-sm text-gray-600 dark:text-gray-300',
-            'date' => 'text-xs text-gray-500 dark:text-gray-400',
+            'description' => 'mt-1 text-sm text-gray-600 dark:text-dark-300',
+            'date' => 'text-xs text-gray-500 dark:text-dark-400',
             'line' => [
                 'flex-vertical' => 'absolute start-3 top-0 -bottom-6 w-0.5 -translate-x-1/2',
                 'flex-vertical-compact' => 'absolute start-3 top-0 bottom-0 w-0.5 -translate-x-1/2',

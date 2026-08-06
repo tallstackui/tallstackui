@@ -36,7 +36,7 @@ class Component extends TallStackUiComponent implements Customization
                 'body' => 'soft-scrollbar flex-nowrap overflow-auto flex',
                 'body-mobile-show' => 'sm:flex',
                 'centered' => 'justify-center',
-                'content' => 'text-secondary-700 dark:text-dark-300 p-4',
+                'content' => 'text-gray-700 dark:text-dark-300 p-4',
                 'content-paddingless' => 'p-0!',
                 'divider' => 'h-px border-0 bg-gray-300 dark:bg-dark-600',
                 'divider-mobile-show' => 'sm:block',

@@ -42,7 +42,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
+                'first' => 'fixed inset-0 bg-gray-400/75 dark:bg-dark-600/75 transform transition-opacity',
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => 'mx-auto flex min-h-full w-full transform justify-center sm:p-4',
                 'third-centered-padding' => 'p-4',
@@ -71,8 +71,8 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'title' => [
                 'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 px-4 py-2.5',
-                'text' => 'text-md text-secondary-600 dark:text-dark-300 whitespace-normal font-medium',
-                'close' => 'text-secondary-300 h-5 w-5 cursor-pointer',
+                'text' => 'text-md text-gray-600 dark:text-dark-300 whitespace-normal font-medium',
+                'close' => 'text-gray-300 h-5 w-5 cursor-pointer',
             ],
             'body' => 'dark:text-dark-300 grow rounded-b-xl py-5 text-gray-700 px-4',
             'body.scrollable' => 'overflow-y-auto',

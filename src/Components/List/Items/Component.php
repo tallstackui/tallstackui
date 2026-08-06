@@ -51,13 +51,13 @@ class Component extends TallStackUiComponent implements Customization
                 'inner' => 'flex flex-row items-center gap-2',
                 'aside' => 'flex shrink-0 items-center gap-x-2',
             ],
-            'name' => 'text-sm font-medium text-secondary-700 dark:text-dark-100',
-            'caption' => 'text-xs text-secondary-500 dark:text-dark-400',
+            'name' => 'text-sm font-medium text-gray-700 dark:text-dark-100',
+            'caption' => 'text-xs text-gray-500 dark:text-dark-400',
             'menu' => [
                 'wrapper' => 'shrink-0',
-                'trigger' => 'dark:text-dark-400 dark:hover:bg-dark-700 dark:hover:text-dark-200 flex cursor-pointer items-center justify-center rounded-md p-1 text-secondary-400 hover:bg-secondary-100 hover:text-secondary-600 focus:outline-none',
+                'trigger' => 'dark:text-dark-400 dark:hover:bg-dark-700 dark:hover:text-dark-200 flex cursor-pointer items-center justify-center rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none',
                 'icon' => 'size-5',
-                'floating' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-40 overflow-hidden rounded-md border border-secondary-200 bg-white',
+                'floating' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-40 overflow-hidden rounded-md border border-gray-200 bg-white',
                 'widths' => [
                     'xxs' => "data-[tsui-dropdown-width='xxs']:w-32",
                     'xs' => "data-[tsui-dropdown-width='xs']:w-40",

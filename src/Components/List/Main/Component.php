@@ -59,16 +59,16 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => 'space-y-1.5',
-            'box' => 'dark:bg-dark-700 dark:border-dark-600 rounded-md border border-secondary-200 bg-white',
+            'box' => 'dark:bg-dark-800 dark:border-dark-700 rounded-md border border-gray-200 bg-white',
             'search' => [
-                'wrapper' => 'dark:border-dark-600 relative flex h-11 items-center border-b border-secondary-200',
-                'wrapper-compact' => 'dark:border-dark-600 relative flex h-9 items-center border-b border-secondary-200',
-                'icon.wrapper' => 'pointer-events-none absolute left-3 flex size-5 items-center justify-center text-secondary-400 dark:text-dark-400',
+                'wrapper' => 'dark:border-dark-700 relative flex h-11 items-center border-b border-gray-200',
+                'wrapper-compact' => 'dark:border-dark-600 relative flex h-9 items-center border-b border-gray-200',
+                'icon.wrapper' => 'pointer-events-none absolute left-3 flex size-5 items-center justify-center text-gray-400 dark:text-dark-400',
                 'icon.size' => 'size-5',
-                'input' => 'h-full w-full border-0 bg-transparent pl-10 pr-3 text-sm text-secondary-700 placeholder:text-secondary-400 focus:outline-none focus:ring-0 dark:text-dark-100 dark:placeholder:text-dark-400',
+                'input' => 'h-full w-full border-0 bg-transparent pl-10 pr-3 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0 dark:text-dark-100 dark:placeholder:text-dark-400',
             ],
             'items' => [
-                'wrapper' => '[&>[data-list-on]~[data-list-on]]:border-t [&>[data-list-on]~[data-list-on]]:border-secondary-200 dark:[&>[data-list-on]~[data-list-on]]:border-dark-600',
+                'wrapper' => '[&>[data-list-on]~[data-list-on]]:border-t [&>[data-list-on]~[data-list-on]]:border-gray-200 dark:[&>[data-list-on]~[data-list-on]]:border-dark-700',
                 'scroll' => 'custom-scrollbar overflow-y-auto',
                 'height' => [
                     '40' => 'max-h-40',
@@ -80,7 +80,7 @@ class Component extends TallStackUiComponent implements Customization
             'empty' => [
                 'wrapper' => 'flex items-center justify-center px-3 py-6',
                 'wrapper-compact' => 'flex items-center justify-center px-3 py-3',
-                'text' => 'text-sm text-secondary-500 dark:text-dark-400',
+                'text' => 'text-sm text-gray-500 dark:text-dark-400',
             ],
             'skeleton' => [
                 ...$this->blocks(),
@@ -88,7 +88,7 @@ class Component extends TallStackUiComponent implements Customization
                 'hint' => 'h-3 w-40',
                 'search' => 'mx-3 h-4 w-1/3',
                 'items' => [
-                    'wrapper' => 'dark:divide-dark-600 divide-y divide-secondary-200',
+                    'wrapper' => 'dark:divide-dark-600 divide-y divide-gray-200',
                     'row' => 'flex items-center justify-between gap-x-2 px-3 py-2.5',
                     'row-compact' => 'flex items-center justify-between gap-x-2 px-3 py-1.5',
                     'content' => 'flex items-center gap-x-2',

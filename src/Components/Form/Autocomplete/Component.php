@@ -79,15 +79,15 @@ class Component extends TallStackUiComponent implements Customization
                 'list' => [
                     'wrapper' => 'custom-scrollbar z-50 max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',
                     'item' => [
-                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 hover:bg-gray-100',
+                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-700 relative cursor-pointer select-none px-2 py-2 text-gray-700 hover:bg-gray-100',
                         'base' => 'flex items-center gap-2',
                         'value' => 'truncate font-normal',
                         'description' => 'mt-0.5 truncate text-xs font-normal opacity-70',
                         'image' => 'h-8 w-8 shrink-0 rounded-full object-cover',
                         'content' => 'flex min-w-0 flex-col',
-                        'highlighted' => 'bg-gray-100 dark:bg-dark-500',
+                        'highlighted' => 'bg-gray-100 dark:bg-dark-700',
                         'selected' => 'font-semibold',
-                        'disabled' => 'cursor-not-allowed opacity-50 hover:bg-transparent dark:hover:bg-transparent',
+                        'disabled' => 'cursor-not-allowed! opacity-50 hover:bg-transparent dark:hover:bg-transparent',
                     ],
                     'empty' => 'block w-full px-3 py-2 text-sm text-gray-600 dark:text-dark-300',
                     'loading' => [

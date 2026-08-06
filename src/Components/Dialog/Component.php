@@ -23,12 +23,12 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'background' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
+            'background' => 'fixed inset-0 bg-gray-400/75 dark:bg-dark-600/75 transform transition-opacity',
             'wrapper' => [
                 'first' => 'fixed inset-0 z-10 w-screen overflow-y-auto',
                 'first-blur' => 'backdrop-blur-sm',
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
-                'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white rounded-xl p-4 text-left shadow-xl transition-all sm:my-8 dark:bg-dark-700',
+                'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white rounded-xl p-4 text-left shadow-xl transition-all sm:my-8 dark:bg-dark-800',
             ],
             'icon' => [
                 'wrapper' => 'mx-auto flex h-12 w-12 items-center justify-center rounded-full',

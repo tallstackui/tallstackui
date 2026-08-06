@@ -627,8 +627,8 @@ it('keeps the lazy rows under the list.items customization', function () {
     $customization = TallStackUi::customize('list', scope: 'items');
 
     expect(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')))
-        ->toContain('text-sm font-medium text-secondary-700')
-        ->toContain('text-xs text-secondary-500')
+        ->toContain('text-sm font-medium text-gray-700')
+        ->toContain('text-xs text-gray-500')
         ->and($customization)->not->toBeNull();
 });
 

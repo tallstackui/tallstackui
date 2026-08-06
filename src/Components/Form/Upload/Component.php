@@ -66,10 +66,10 @@ class Component extends TallStackUiComponent implements Customization
             'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
             'placeholder' => [
                 'input' => 'absolute inset-0 z-50 h-full w-full cursor-pointer opacity-0 outline-hidden',
-                'wrapper' => 'dark:border-dark-500 dark:bg-dark-600 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition',
+                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition',
                 'wrapper-dragging' => 'bg-primary-100',
                 'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
-                'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
+                'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-dark-400',
                 'icon' => [
                     'class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
                     'wrapper' => 'inline-flex items-center justify-center space-x-2',
@@ -80,7 +80,7 @@ class Component extends TallStackUiComponent implements Customization
                 'with-footer' => 'mb-2',
             ],
             'item' => [
-                'wrapper' => 'soft-scrollbar my-4 max-h-64 w-full overflow-auto px-2',
+                'wrapper' => 'custom-scrollbar my-4 max-h-64 w-full overflow-auto px-2',
                 'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
                 'li' => 'flex justify-between gap-x-6',
                 'li-multiple' => 'py-2',
@@ -99,11 +99,11 @@ class Component extends TallStackUiComponent implements Customization
                 'class' => 'w-full p-3',
             ],
             'upload' => [
-                'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-800',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',
             ],
             'preview' => [
-                'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500/80',
+                'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500/80 dark:bg-dark-600/75',
                 'wrapper' => 'relative m-5 max-w-3xl rounded shadow-lg',
                 'image' => 'h-auto max-w-full',
                 'button' => [

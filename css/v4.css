@@ -33,29 +33,29 @@
     --color-primary-900: #312e81;
     --color-primary-950: #1e1b4b;
 
-    --color-secondary-50: #f8fafc;
-    --color-secondary-100: #f1f5f9;
-    --color-secondary-200: #e2e8f0;
-    --color-secondary-300: #cbd5e1;
-    --color-secondary-400: #94a3b8;
-    --color-secondary-500: #64748b;
-    --color-secondary-600: #475569;
-    --color-secondary-700: #334155;
-    --color-secondary-800: #1e293b;
-    --color-secondary-900: #0f172a;
-    --color-secondary-950: #020617;
+    --color-secondary-50: oklch(96.9% 0.016 293.756); /* violet-50 */
+    --color-secondary-100: oklch(94.3% 0.029 294.588); /* violet-100 */
+    --color-secondary-200: oklch(89.4% 0.057 293.283); /* violet-200 */
+    --color-secondary-300: oklch(81.1% 0.111 293.571); /* violet-300 */
+    --color-secondary-400: oklch(70.2% 0.183 293.541); /* violet-400 */
+    --color-secondary-500: oklch(60.6% 0.25 292.717); /* violet-500 */
+    --color-secondary-600: oklch(54.1% 0.281 293.009); /* violet-600 */
+    --color-secondary-700: oklch(49.1% 0.27 292.581); /* violet-700 */
+    --color-secondary-800: oklch(43.2% 0.232 292.759); /* violet-800 */
+    --color-secondary-900: oklch(38% 0.189 293.745); /* violet-900 */
+    --color-secondary-950: oklch(28.3% 0.141 291.089); /* violet-950 */
 
-    --color-dark-50: #f8fafc;
-    --color-dark-100: #f1f5f9;
-    --color-dark-200: #e2e8f0;
-    --color-dark-300: #cbd5e1;
-    --color-dark-400: #94a3b8;
-    --color-dark-500: #64748b;
-    --color-dark-600: #475569;
-    --color-dark-700: #334155;
-    --color-dark-800: #1e293b;
-    --color-dark-900: #0f172a;
-    --color-dark-950: #020617;
+    --color-dark-50: oklch(0.985 0 0); /* #fafafa */
+    --color-dark-100: oklch(0.97 0 0); /* #f5f5f5 */
+    --color-dark-200: oklch(0.922 0 0); /* #e5e5e5 */
+    --color-dark-300: oklch(0.87 0 0); /* #d4d4d4 */
+    --color-dark-400: oklch(0.683 0 0); /* #999999 */
+    --color-dark-500: oklch(0.51 0 0); /* #666666 */
+    --color-dark-600: oklch(0.36 0 0); /* #3d3d3d */
+    --color-dark-700: oklch(0.253 0 0); /* #242424 */
+    --color-dark-800: oklch(0.185 0 0); /* #141414 */
+    --color-dark-900: oklch(0.145 0 0); /* #0a0a0a */
+    --color-dark-950: oklch(0.11 0 0); /* #050505 */
 
     --overflow-hidden: hidden;
 

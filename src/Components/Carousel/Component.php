@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
                     'title' => 'w-full text-balance text-2xl lg:text-3xl font-bold text-white',
                     'description' => 'text-sm text-white',
                 ],
-                'base' => 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-slate-300',
+                'base' => 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-dark-300',
                 'rounded' => 'rounded-xl',
             ],
             'buttons' => [
@@ -84,7 +84,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'clickable' => [
                 'trigger' => 'block h-full w-full cursor-zoom-in',
-                'overlay' => 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 sm:p-8',
+                'overlay' => 'fixed inset-0 z-50 flex items-center justify-center bg-black/90 dark:bg-dark-800/90 p-4 sm:p-8',
                 'image' => 'max-h-full max-w-full object-contain',
                 'close' => [
                     'button' => 'absolute right-4 top-4 z-10 inline-flex cursor-pointer items-center justify-center text-white transition hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',

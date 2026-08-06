@@ -74,10 +74,10 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg ring-1 ring-gray-200',
+            'wrapper' => 'overflow-hidden dark:ring-dark-700 rounded-lg ring-1 ring-gray-200',
             'table' => [
                 'wrapper' => 'relative soft-scrollbar overflow-auto',
-                'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
+                'base' => 'dark:divide-dark-600/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
                 'th-compact' => 'dark:text-dark-200 px-3 py-2 text-left text-sm font-semibold text-gray-700',
@@ -85,13 +85,13 @@ class Component extends TallStackUiComponent implements Customization
                 'th-checkbox-width' => 'w-8',
                 'th-actions-width' => 'w-6',
                 'th-sort-wrapper' => 'inline-flex truncate',
-                'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
+                'tbody' => 'dark:bg-dark-800 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
                 'td-compact' => 'dark:text-dark-300 whitespace-nowrap px-3 py-2.5 text-sm text-gray-500',
                 'tr' => '',
                 'thead' => [
-                    'normal' => 'bg-gray-50 dark:bg-dark-600',
-                    'striped' => 'bg-white dark:bg-dark-700',
+                    'normal' => 'bg-gray-50 dark:bg-dark-900',
+                    'striped' => 'bg-white dark:bg-dark-900',
                 ],
             ],
             'row' => [
@@ -169,7 +169,7 @@ class Component extends TallStackUiComponent implements Customization
             'primary' => 'bg-primary-100 dark:bg-primary-900/20',
             'secondary' => 'bg-secondary-100 dark:bg-secondary-900/20',
             'black' => 'bg-gray-200 dark:bg-gray-800/40',
-            'white' => 'bg-white dark:bg-dark-600',
+            'white' => 'bg-white dark:bg-dark-700',
             'slate' => 'bg-slate-100 dark:bg-slate-900/20',
             'gray' => 'bg-gray-100 dark:bg-gray-900/20',
             'zinc' => 'bg-zinc-100 dark:bg-zinc-900/20',
@@ -254,8 +254,9 @@ class Component extends TallStackUiComponent implements Customization
         // Null means "not given", so an explicit :paginate="false" still wins
         // over a global default that turns it on.
         $this->paginator ??= __ts_get_component_configuration(self::class, 'paginator') ?? 'simple';
-        $this->paginate ??= __ts_get_component_configuration(self::class, 'paginate') ?? false;
         $this->simplePagination ??= __ts_get_component_configuration(self::class, 'simple-pagination') ?? false;
+        // The simple-pagination alone is enough to turn pagination on.
+        $this->paginate ??= $this->simplePagination ?: (__ts_get_component_configuration(self::class, 'paginate') ?? false);
         $this->quantity ??= __ts_get_component_configuration(self::class, 'quantity') ?? [10, 25, 50, 100];
         $this->filter ??= __ts_get_component_configuration(self::class, 'filter') ?? null;
 

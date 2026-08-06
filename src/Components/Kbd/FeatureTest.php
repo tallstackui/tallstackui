@@ -75,7 +75,7 @@ it('can render as kbd tag')
 it('can render dark mode classes')
     ->expect('<x-kbd>Esc</x-kbd>')
     ->render()
-    ->toContain('dark:bg-dark-600')
+    ->toContain('dark:bg-dark-700')
     ->toContain('dark:text-dark-300');
 
 it('can render with monospace font')

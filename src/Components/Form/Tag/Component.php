@@ -58,7 +58,7 @@ class Component extends TallStackUiComponent implements Customization
                 ...collect($this->input())->except('base')->toArray(),
             ],
             'button' => [
-                'wrapper' => 'text-secondary-500 dark:text-dark-400 absolute inset-y-0 right-2 flex cursor-pointer items-center',
+                'wrapper' => 'text-gray-500 dark:text-dark-400 absolute inset-y-0 right-2 flex cursor-pointer items-center',
                 'icon' => 'h-5 w-5 hover:text-red-500',
             ],
             'floating' => [

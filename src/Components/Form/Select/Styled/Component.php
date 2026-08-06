@@ -71,7 +71,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600/50 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-hidden focus:ring-2',
                     'error' => $this->error(),
                     'round' => [
@@ -120,12 +120,12 @@ class Component extends TallStackUiComponent implements Customization
                         ],
                     ],
                     'item' => [
-                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
+                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-700 dark:focus:bg-dark-700 relative cursor-pointer select-none px-2 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
                         'options' => 'flex items-center justify-between',
                         'grouped' => 'flex items-center justify-between pl-3',
                         'base' => 'flex items-center truncate',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
-                        'disabled' => 'dark:bg-dark-500 cursor-not-allowed! bg-gray-100',
+                        'disabled' => 'dark:bg-dark-700 cursor-not-allowed! bg-gray-100',
                         'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
                         'description' => [

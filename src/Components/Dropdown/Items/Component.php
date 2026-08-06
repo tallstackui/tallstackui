@@ -35,7 +35,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'item' => [
-                'base' => 'text-secondary-600 dark:text-dark-300 dark:hover:bg-dark-600 dark:focus:bg-dark-600 flex w-full cursor-pointer items-center whitespace-nowrap transition-colors duration-150 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
+                'base' => 'text-gray-600 dark:text-dark-300 dark:hover:bg-dark-700 dark:focus:bg-dark-700 flex w-full cursor-pointer items-center whitespace-nowrap transition-colors duration-150 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
                 'sizes' => [
                     'xs' => "[[data-tsui-dropdown-size='xs']_&]:px-2 [[data-tsui-dropdown-size='xs']_&]:py-1 [[data-tsui-dropdown-size='xs']_&]:text-xs",
                     'sm' => "[[data-tsui-dropdown-size='sm']_&]:px-3 [[data-tsui-dropdown-size='sm']_&]:py-1.5 [[data-tsui-dropdown-size='sm']_&]:text-sm",
@@ -43,7 +43,7 @@ class Component extends TallStackUiComponent implements Customization
                     'lg' => "[[data-tsui-dropdown-size='lg']_&]:px-5 [[data-tsui-dropdown-size='lg']_&]:py-2.5 [[data-tsui-dropdown-size='lg']_&]:text-base",
                 ],
             ],
-            'border' => 'dark:border-t-dark-600 border-t border-t-gray-100',
+            'border' => 'dark:border-t-dark-700 border-t border-t-gray-100',
             'icon' => [
                 'base' => 'dark:text-dark-300 text-gray-500',
                 'sizes' => [

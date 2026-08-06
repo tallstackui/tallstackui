@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'class' => 'inline-flex items-center justify-center rounded-md border font-mono font-medium shadow bg-gray-100 border-gray-300 text-gray-600 dark:bg-dark-600 dark:border-dark-500 dark:text-dark-300',
+                'class' => 'inline-flex items-center justify-center rounded-md border font-mono font-medium shadow bg-gray-100 border-gray-200 text-gray-600 dark:bg-dark-700 dark:border-dark-600 dark:text-dark-300',
                 'sizes' => [
                     'xs' => 'text-xs px-1 py-0.5 min-w-5',
                     'sm' => 'text-sm px-1.5 py-0.5 min-w-6',

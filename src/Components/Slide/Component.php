@@ -45,7 +45,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
+                'first' => 'fixed inset-0 bg-gray-400/75 dark:bg-dark-600/75 transform transition-opacity',
                 'second' => 'fixed inset-0 overflow-hidden',
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed flex max-w-full',
@@ -72,8 +72,8 @@ class Component extends TallStackUiComponent implements Customization
                 'xl' => 'backdrop-blur-xl',
             ],
             'title' => [
-                'text' => 'whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300',
-                'close' => 'h-5 w-5 cursor-pointer text-secondary-300',
+                'text' => 'whitespace-normal font-medium text-md text-gray-600 dark:text-dark-300',
+                'close' => 'h-5 w-5 cursor-pointer text-gray-300',
             ],
             'body' => 'soft-scrollbar dark:text-dark-300 grow overflow-y-auto rounded-b-xl px-6 py-5 text-gray-700',
             'body.paddingless' => 'p-0!',

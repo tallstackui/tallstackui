@@ -52,7 +52,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'backdrop' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
+            'backdrop' => 'fixed inset-0 bg-gray-400/75 dark:bg-dark-600/75 transform transition-opacity',
             'blur' => [
                 'sm' => 'backdrop-blur-sm',
                 'md' => 'backdrop-blur-md',

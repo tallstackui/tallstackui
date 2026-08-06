@@ -77,11 +77,11 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'range' => [
-                'base' => 'dark:bg-dark-600 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200',
+                'base' => 'dark:bg-dark-700 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200',
                 'focus' => 'focus:outline-hidden',
                 'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 dark:[&::-webkit-slider-thumb]:bg-dark-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 'light' => 'bg-primary-50',
-                'dark' => 'dark:bg-dark-600',
+                'dark' => 'dark:bg-dark-700',
             ],
             'helper' => [
                 'wrapper' => 'mt-2 flex flex-col space-y-6 outline-hidden',

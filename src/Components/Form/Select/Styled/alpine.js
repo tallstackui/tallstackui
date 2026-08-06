@@ -770,13 +770,21 @@ export default (
 
     const current = this.index ?? -1;
     const max = items.length - 1;
+    const direction = key === 'ArrowUp' ? -1 : 1;
 
-    let next;
+    let next = current;
 
-    if (key === 'ArrowUp') {
-      next = current <= 0 ? max : current - 1;
-    } else if (key === 'ArrowDown' || key === 'Tab') {
-      next = current >= max ? 0 : current + 1;
+    // Walk in the pressed direction, wrapping around and skipping
+    // disabled options. Bail out when every option is disabled.
+    for (let step = 0; step <= max; step++) {
+      next += direction;
+
+      if (next > max) next = 0;
+      if (next < 0) next = max;
+
+      if (!items[next]?.disabled) break;
+
+      if (step === max) return;
     }
 
     if (!this._navigateOptions) {
