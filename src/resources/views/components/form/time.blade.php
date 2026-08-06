@@ -57,9 +57,25 @@
                          :class="$customization['floating.class']">
         <div @class(['flex', $customization['wrapper-floating.base'], $customization['wrapper-floating.with-helper-or-footer'] => $helper || $footer?->isNotEmpty(), $customization['wrapper-floating.wide-format'] => $format === '24'])>
             <div class="{{ $customization['wrapper'] }}">
-                <span x-text="formatted.hours" x-ref="hours" class="{{ $customization['time'] }}"></span>
+                <span x-text="formatted.hours"
+                      x-ref="hours"
+                      x-on:wheel.prevent="scroll($event, 'hours')"
+                      x-on:pointerdown.prevent="grab($event, 'hours'); $el.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      x-on:pointermove="drag($event)"
+                      x-on:pointerup="release(); $el.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      x-on:pointercancel="release(); $el.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      dusk="tallstackui_time_drag_hours"
+                      class="{{ $customization['time'] }}"></span>
                 <span class="{{ $customization['separator'] }}">:</span>
-                <span x-text="formatted.minutes" x-ref="minutes" class="{{ $customization['time'] }}"></span>
+                <span x-text="formatted.minutes"
+                      x-ref="minutes"
+                      x-on:wheel.prevent="scroll($event, 'minutes')"
+                      x-on:pointerdown.prevent="grab($event, 'minutes'); $el.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      x-on:pointermove="drag($event)"
+                      x-on:pointerup="release(); $el.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      x-on:pointercancel="release(); $el.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
+                      dusk="tallstackui_time_drag_minutes"
+                      class="{{ $customization['time'] }}"></span>
                 @if ($format === '12')
                     <div class="{{ $customization['interval.wrapper'] }}">
                         <p class="{{ $customization['interval.text'] }}" x-text="interval"></p>
@@ -72,10 +88,11 @@
                        max="{{ $format === '12' ? 12 : 23 }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
+                       x-ref="rangeHours"
                        x-on:change="change($event, 'hours');"
+                       x-on:wheel.prevent="scroll($event, 'hours')"
                        {{ $attributes->only('x-on:hour') }}
                        dusk="tallstackui_time_hours"
-                       x-on:change="alert(1);"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
                         @class([$customization['range.focus'], $customization['range.base'], $customization['range.thumb']])>
@@ -84,7 +101,9 @@
                        max="59"
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
+                       x-ref="rangeMinutes"
                        x-on:change="change($event, 'minutes');"
+                       x-on:wheel.prevent="scroll($event, 'minutes')"
                        {{ $attributes->only('x-on:minute') }}
                        dusk="tallstackui_time_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"

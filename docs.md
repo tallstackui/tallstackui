@@ -716,6 +716,37 @@ outside its own range, and `TimeRuntime::validate()` only checks that `AM|PM` is
 The reading is folded into the 12-hour range when the format asks for it, and the
 `x-on:current` event carries the same converted hour.
 
+### Added — the numbers scroll and drag
+
+Adjusting the time meant working the two sliders. They still work, but the panel now
+answers the two gestures people try first: the wheel and the finger.
+
+Scrolling over either slider — or over the hour and minute numbers themselves — moves
+the value one step per wheel tick, up to increase and down to decrease. A trackpad is
+not a wheel: it emits a stream of small pixel deltas instead of discrete ticks, and
+stepping once per event would fly through the minutes on a light two-finger swipe.
+Pixel-mode deltas are accumulated and step once per hundred pixels, which lands at the
+same pace as one tick of a discrete wheel.
+
+Pressing the numbers and dragging up or down does the same, one step every ten pixels,
+which is the gesture that works on a phone. The number lights up while held, the same
+highlight the sliders already gave on hover. Both paths drive the slider itself through
+`stepUp()` and `stepDown()`, so `step-hour`, `step-minute` and the min/max bounds are
+respected exactly as if the slider had been moved, and `x-on:hour` and `x-on:minute`
+fire as usual.
+
+The numbers show a `cursor-ns-resize` cursor and carry `touch-none`, so dragging them
+on a phone moves the time instead of the page.
+
+### Fixed — the AM and PM buttons kept the arrow cursor
+
+Both act on click but nothing signalled it. They carry `cursor-pointer` now.
+
+### Fixed — a leftover `alert(1)` on the hour slider
+
+The hour slider carried a second `x-on:change="alert(1)"` attribute. HTML drops a
+duplicated attribute, so it never fired, but it was debug residue and is gone.
+
 ---
 
 ## Signature

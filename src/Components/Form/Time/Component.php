@@ -65,15 +65,15 @@ class Component extends TallStackUiComponent implements Customization
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[18rem]',
             ],
-            'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
+            'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 cursor-ns-resize touch-none rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
             'interval' => [
                 'wrapper' => 'flex justify-center items-center',
                 'text' => 'text-xl text-primary-400 dark:text-dark-400 font-bold',
                 'buttons' => [
                     'wrapper' => 'mt-4 flex items-center justify-center divide-x divide-primary-600',
-                    'am' => 'flex h-4 w-full items-center justify-center rounded-l-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600',
-                    'pm' => 'flex h-4 w-full items-center justify-center rounded-r-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600',
+                    'am' => 'flex h-4 w-full cursor-pointer items-center justify-center rounded-l-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600',
+                    'pm' => 'flex h-4 w-full cursor-pointer items-center justify-center rounded-r-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600',
                 ],
             ],
             'range' => [

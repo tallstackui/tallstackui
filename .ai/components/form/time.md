@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A time picker component with a floating panel featuring range sliders for hours and minutes, 12-hour (AM/PM) or 24-hour format support, configurable min/max and step values for hours and minutes, a "current time" helper button, and an optional footer slot.
+A time picker component with a floating panel featuring range sliders for hours and minutes, 12-hour (AM/PM) or 24-hour format support, configurable min/max and step values for hours and minutes, a "current time" helper button, and an optional footer slot. Besides the sliders, the time can be adjusted by scrolling the mouse wheel over the sliders or the displayed numbers, and by pressing the numbers and dragging up or down — including with the finger on touch devices.
 
 ## Basic Usage
 
@@ -65,6 +65,25 @@ A time picker component with a floating panel featuring range sliders for hours 
 The `x-on:current` detail carries the hour already expressed in the component's own
 format: on `format="12"` an afternoon press reports `1`, not `13`, matching the value
 written to the model.
+
+## Scroll & Drag
+
+The floating panel accepts three ways of adjusting the time:
+
+1. **Sliders** — the classic range inputs for hours and minutes.
+2. **Mouse wheel** — scrolling over a slider or over the hour/minute numbers moves the
+   value one step per wheel tick: up increases, down decreases. Trackpad deltas are
+   accumulated (one step per 100 pixels), so a two-finger swipe moves at the same pace
+   as a discrete wheel instead of flying through the values.
+3. **Press and drag** — pressing the hour or minute numbers and dragging up or down
+   moves the value one step every 10 pixels. Pointer events power the gesture, so it
+   works with the mouse and with the finger on touch devices; the numbers carry
+   `touch-none` to keep the page from scrolling while dragging, and stay highlighted
+   while held.
+
+Wheel and drag drive the underlying slider via `stepUp()`/`stepDown()`, so `step-hour`,
+`step-minute`, `min-hour`/`max-hour` and `min-minute`/`max-minute` are always respected,
+and the `x-on:hour`/`x-on:minute` events fire exactly as if the slider had been moved.
 
 ## Current time helper
 

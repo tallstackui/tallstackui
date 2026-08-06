@@ -1,6 +1,13 @@
 import { wireChange } from '../../../../js/helpers';
 import dayjs from 'dayjs';
 
+// Pixels of vertical drag required to move one step.
+const sensitivity = 10;
+
+// Accumulated wheel pixels required to move one step,
+// matching the delta of one discrete mouse wheel tick.
+const threshold = 100;
+
 export default (
   model,
   full,
@@ -32,6 +39,8 @@ export default (
   value: value,
   empty: false,
   disables: disables,
+  dragging: null,
+  scrolling: null,
   init() {
     this.model ??= this.value ?? (required ? dayjs().format('HH:mm A') : null);
     this.empty = this.model === null;
@@ -103,6 +112,105 @@ export default (
     this.empty = false;
 
     this.sync();
+  },
+  /**
+   * Move the hour or minute one step in the given direction,
+   * reusing the range input so min, max and step are respected.
+   *
+   * @param {String} type
+   * @param {Number} direction
+   * @return {void}
+   */
+  adjust(type, direction) {
+    const range = this.$refs[type === 'hours' ? 'rangeHours' : 'rangeMinutes'];
+
+    if (direction > 0) {
+      range.stepUp();
+    } else {
+      range.stepDown();
+    }
+
+    range.dispatchEvent(new Event('input', { bubbles: true }));
+    range.dispatchEvent(new Event('change', { bubbles: true }));
+  },
+  /**
+   * Adjust the time through the mouse wheel. Discrete wheels move one
+   * step per tick, while trackpads emit a stream of small pixel deltas
+   * that are accumulated to avoid moving the time too fast.
+   *
+   * @param {WheelEvent} event
+   * @param {String} type
+   * @return {void}
+   */
+  scroll(event, type) {
+    if (this.scrolling?.type !== type) {
+      this.scrolling = { type: type, amount: 0 };
+    }
+
+    if (event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL || Math.abs(event.deltaY) >= threshold) {
+      this.scrolling.amount = 0;
+
+      this.adjust(type, event.deltaY < 0 ? 1 : -1);
+
+      return;
+    }
+
+    this.scrolling.amount += event.deltaY;
+
+    const steps = Math.trunc(this.scrolling.amount / threshold);
+
+    if (steps === 0) {
+      return;
+    }
+
+    for (let index = 0; index < Math.abs(steps); index++) {
+      this.adjust(type, steps < 0 ? 1 : -1);
+    }
+
+    this.scrolling.amount -= steps * threshold;
+  },
+  /**
+   * Start dragging the hour or minute numbers.
+   *
+   * @param {PointerEvent} event
+   * @param {String} type
+   * @return {void}
+   */
+  grab(event, type) {
+    this.dragging = { type: type, origin: event.clientY };
+
+    event.target.setPointerCapture(event.pointerId);
+  },
+  /**
+   * Adjust the time while the numbers are dragged up or down.
+   *
+   * @param {PointerEvent} event
+   * @return {void}
+   */
+  drag(event) {
+    if (!this.dragging) {
+      return;
+    }
+
+    const steps = Math.trunc((this.dragging.origin - event.clientY) / sensitivity);
+
+    if (steps === 0) {
+      return;
+    }
+
+    for (let index = 0; index < Math.abs(steps); index++) {
+      this.adjust(this.dragging.type, steps > 0 ? 1 : -1);
+    }
+
+    this.dragging.origin -= steps * sensitivity;
+  },
+  /**
+   * Stop dragging the numbers.
+   *
+   * @return {void}
+   */
+  release() {
+    this.dragging = null;
   },
   /**
    * Set the current time.
