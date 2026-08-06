@@ -3177,6 +3177,20 @@ also not what ends a column: counted as an end it would take the rounding onto
 a sliver and leave the visible segment above it square. The skeleton draws its
 bars from the same geometry and picked up the same corners.
 
+### Fixed — a sparkline reserved room for axes it was not drawing
+
+The axis wrappers were meant to collapse when empty — `pr-2 empty:pr-0` on the
+left, `pl-2 empty:pl-0` on the right, `h-4 empty:h-0` under the plot — but the
+template left whitespace between the tags, and `:empty` matches only an element
+with no child nodes at all: a whitespace text node is one, in every browser.
+The collapse never happened, so a chart without `grid` — the sparkline in a
+card, the background layer of `<x-stats>` — kept an 8px dead column on either
+side and a 16px strip at the bottom, and the curve stopped short of the edges
+it was computed to touch.
+
+The tags hug the content now, the same way the skeleton view already did, so
+an axis with nothing to show is truly empty and the plot bleeds to the edges.
+
 ### Changed — the chart ships in its own bundle
 
 `js/tallstackui-chart.js` joined the entry points, weighing 3.9 kB, 1.6 kB

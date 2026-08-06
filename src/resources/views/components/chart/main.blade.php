@@ -12,14 +12,12 @@
     @endif
 
     <div class="{{ $customization['plot.wrapper'] }}" style="min-height: {{ $configurations['height'] }}px">
-        <div class="{{ $customization['axis.y.wrapper'] }}">
-            @if ($ticks)
+        <div class="{{ $customization['axis.y.wrapper'] }}">@if ($ticks)
                 <span class="{{ $customization['axis.y.label'] }} invisible relative translate-y-0">{{ $widest }}</span>
                 @foreach ($ticks as $tick)
                     <span class="{{ $customization['axis.y.label'] }}" style="top: {{ $tick['y'] }}%">{{ $tick['label'] }}</span>
                 @endforeach
-            @endif
-        </div>
+            @endif</div>
 
         <div class="relative min-w-0">
             <svg class="{{ $customization['plot.svg'] }}"
@@ -146,22 +144,18 @@
             @endif
         </div>
 
-        <div class="{{ $customization['axis.y.right.wrapper'] }}">
-            @if ($secondary)
+        <div class="{{ $customization['axis.y.right.wrapper'] }}">@if ($secondary)
                 <span class="{{ $customization['axis.y.right.label'] }} invisible relative translate-y-0">{{ $widestSecondary }}</span>
                 @foreach ($secondary as $tick)
                     <span class="{{ $customization['axis.y.right.label'] }}" style="top: {{ $tick['y'] }}%">{{ $tick['label'] }}</span>
                 @endforeach
-            @endif
-        </div>
+            @endif</div>
 
         <div></div>
 
-        <div class="{{ $customization['axis.x.wrapper'] }}">
-            @foreach ($captions as $caption)
+        <div class="{{ $customization['axis.x.wrapper'] }}">@foreach ($captions as $caption)
                 <span class="{{ $customization['axis.x.label'] }}" style="left: {{ $caption['x'] }}%">{{ $caption['label'] }}</span>
-            @endforeach
-        </div>
+            @endforeach</div>
 
         <div></div>
     </div>
