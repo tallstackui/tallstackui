@@ -133,7 +133,7 @@
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
                              scope="form.select-styled.floating"
                              :floating="$customization['floating.default']"
-                             @class([$customization['floating.class'], $customization['floating.side'] => $side])
+                             @class([$customization['floating.class'], ($floating ?? $customization['floating.side']) => $side])
                              :position="$side === 'left' ? 'bottom-start' : 'bottom-end'"
                              x-anchor="$refs.button"
                              x-on:keydown="navigate($event)">

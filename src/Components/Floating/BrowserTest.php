@@ -367,6 +367,64 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function never_paints_the_panel_beyond_the_viewport_when_reopening(): void
+    {
+        // While the panel is hidden, the anchor plugin measures it as a 0x0
+        // box and, on *-end placements, parks it at the anchor's right edge.
+        // Reopening then paints frames beyond the viewport — a horizontal
+        // scrollbar flash — unless the position is clamped before the paint.
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $provider = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <div style="max-width: 720px; margin-left: auto; margin-right: 16px;">
+                        <x-select.styled label="Provider" wire:model="provider" :options="['@gmail.com', '@yahoo.com']" />
+                    </div>
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->waitForLivewireToLoad()->script(<<<'JS'
+            window.__floating_violations = [];
+
+            const panel = document.querySelector('[data-floating]');
+            const viewport = document.documentElement.clientWidth;
+
+            new MutationObserver(() => {
+                const style = panel.getAttribute('style') || '';
+
+                if (style.includes('display: none')) {
+                    return;
+                }
+
+                const left = parseFloat((style.match(/left: ([-\d.]+)px/) || [])[1]);
+                const width = parseFloat((style.match(/width: ([-\d.]+)px/) || [])[1]) || panel.offsetWidth;
+
+                if (!isNaN(left) && left + width > viewport) {
+                    window.__floating_violations.push(style);
+                }
+            }).observe(panel, {attributes: true, attributeFilter: ['style']});
+        JS);
+
+        foreach (range(1, 3) as $cycle) {
+            $browser->click('@tallstackui_select_open_close')
+                ->waitFor('@tallstackui_select_options')
+                ->click('@tallstackui_select_open_close')
+                ->waitUntilMissing('@tallstackui_select_options')
+                ->pause($this->paused(1));
+        }
+
+        $violations = $browser->script('return JSON.stringify(window.__floating_violations)')[0];
+
+        Assert::assertSame('[]', $violations, "the panel took a visible position beyond the viewport: {$violations}");
+    }
+
+    #[Test]
     public function releases_the_lock_when_the_floating_is_removed_from_the_dom(): void
     {
         Livewire::visit(new class extends Component

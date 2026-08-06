@@ -126,6 +126,49 @@ export default function floating(
     }
   };
 
+  // The anchor plugin measures a hidden panel as a 0x0 box, so *-end
+  // placements park it at the anchor's far edge while it is closed — and its
+  // positions apply from a promise, so a stale write can land at any moment,
+  // including right after reopening or a Livewire morph. Painting that state
+  // crosses the viewport's right edge and flashes a horizontal scrollbar, so
+  // every style write is clamped back pre-paint. Identical rewrites (the
+  // plugin repeats the same style every frame while open) bail before
+  // touching layout, and the 2px tolerance keeps legit borderline positions
+  // (fractional widths hugging the edge) out of a clamp-vs-anchor tug of war
+  // — the stale parking overshoots by whole panel widths, far beyond it.
+  let seen = null;
+
+  const clamp = () => {
+    const style = el.getAttribute('style');
+
+    if (style === seen) {
+      return;
+    }
+
+    seen = style;
+
+    if (el.style.display === 'none') {
+      return;
+    }
+
+    const left = parseFloat(el.style.left);
+
+    if (isNaN(left)) {
+      return;
+    }
+
+    const width = el.getBoundingClientRect().width;
+    const edge = window.scrollX + document.documentElement.clientWidth;
+
+    if (left + width <= edge + 2) {
+      return;
+    }
+
+    el.style.left = Math.max(Math.floor(edge - width), Math.round(window.scrollX)) + 'px';
+  };
+
+  new MutationObserver(() => clamp()).observe(el, { attributes: true, attributeFilter: ['style'] });
+
   watch(showName, (value) => {
     scrollLock(value);
     floating_visibility(value, id);
@@ -137,6 +180,8 @@ export default function floating(
     }
 
     el.style.display = '';
+
+    clamp();
 
     startGuard();
 

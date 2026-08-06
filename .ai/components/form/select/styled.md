@@ -304,7 +304,7 @@ TallStackUi::customize()
 | buttons.error                        | Clear/chevron icon error state color                                                                                     |
 | floating.default                     | Floating panel wrapper styles                                                                                            |
 | floating.class                       | Floating panel overflow and width. Carries `w-full`, which is what opts the panel into the Floating's anchor width sync. |
-| floating.side                        | Floating panel min-width when used as side addon                                                                         |
+| floating.side                        | Floating panel width floor (`min-w-72`) when used as side addon; the `floating` attribute of `<x-input.select>` replaces it per instance |
 | box.button.class                     | Search clear button positioning                                                                                          |
 | box.button.icon                      | Search clear button icon styles                                                                                          |
 | box.list.wrapper                     | Options list scrollable container                                                                                        |

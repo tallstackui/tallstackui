@@ -25,6 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $icon = null,
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
+        public ?string $floating = null,
         #[SkipDebug]
         public ?string $position = 'left',
         #[SkipDebug]
