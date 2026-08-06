@@ -265,20 +265,20 @@ is on screen.
 
 ### Skeleton blocks
 
-| Block                    | Purpose                                          |
-|--------------------------|--------------------------------------------------|
-| `skeleton.animation`     | Pulse animation applied to the whole placeholder |
-| `skeleton.bar`           | Base look of every placeholder bar               |
-| `skeleton.label`         | Label bar dimensions                             |
-| `skeleton.hint`          | Hint bar dimensions                              |
-| `skeleton.search`        | Search input placeholder dimensions              |
-| `skeleton.items.wrapper` | Divider between placeholder rows                 |
-| `skeleton.items.row`     | Row layout and padding                           |
+| Block                        | Purpose                                                         |
+|------------------------------|-----------------------------------------------------------------|
+| `skeleton.animation`         | Pulse animation applied to the whole placeholder                |
+| `skeleton.bar`               | Base look of every placeholder bar                              |
+| `skeleton.label`             | Label bar dimensions                                            |
+| `skeleton.hint`              | Hint bar dimensions                                             |
+| `skeleton.search`            | Search input placeholder dimensions                             |
+| `skeleton.items.wrapper`     | Divider between placeholder rows                                |
+| `skeleton.items.row`         | Row layout and padding                                          |
 | `skeleton.items.row-compact` | Row layout used instead of `skeleton.items.row` under `compact` |
-| `skeleton.items.content` | Name and caption grouping                        |
-| `skeleton.name`          | Name bar dimensions                              |
-| `skeleton.caption`       | Caption bar dimensions                           |
-| `skeleton.menu`          | Menu trigger placeholder dimensions              |
+| `skeleton.items.content`     | Name and caption grouping                                       |
+| `skeleton.name`              | Name bar dimensions                                             |
+| `skeleton.caption`           | Caption bar dimensions                                          |
+| `skeleton.menu`              | Menu trigger placeholder dimensions                             |
 
 The per-row menu is rendered via an internal floating dropdown (NOT `<x-dropdown>`); customize its blocks via `<x-list.items>` directly (`menu.trigger`, `menu.icon`, `menu.floating`, etc. — see [list/items.md](items.md)).
 

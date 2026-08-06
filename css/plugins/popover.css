@@ -29,3 +29,34 @@ shared placement helper, today only `<x-reaction>`.
 .dark [data-tsui-popover] {
     @apply bg-dark-800 border-dark-600/50;
 }
+
+/*
+The arrow is a square rotated 45deg, half sticking out of the panel. It
+inherits the panel's background and border color, so overriding
+`[data-tsui-popover]` restyles it too. Only the two outward-facing edges
+carry a border, continuing the panel's own border around the tip.
+*/
+[data-tsui-popover] > [data-arrow] {
+    @apply absolute h-2 w-2 rotate-45 bg-inherit;
+
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-radius: 1px;
+}
+
+[data-tsui-popover][data-side='top'] > [data-arrow] {
+    border-width: 0 1px 1px 0;
+}
+
+[data-tsui-popover][data-side='bottom'] > [data-arrow] {
+    border-width: 1px 0 0 1px;
+}
+
+[data-tsui-popover][data-side='left'] > [data-arrow] {
+    border-width: 1px 1px 0 0;
+}
+
+[data-tsui-popover][data-side='right'] > [data-arrow] {
+    border-width: 0 0 1px 1px;
+}

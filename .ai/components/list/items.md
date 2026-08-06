@@ -189,16 +189,16 @@ Each row applies `content-visibility: auto` + `contain-intrinsic-size: auto 2.5r
 
 The menu trigger and floating panel are exposed as customization blocks under the `list.items` namespace:
 
-| Block                 | Default                                                                                                         |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------|
-| `wrapper`             | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                   |
+| Block                 | Default                                                                                                                    |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `wrapper`             | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                              |
 | `wrapper-compact`     | Row used instead of `wrapper` when the parent `<x-list>` carries `compact` (`py-1`, `contain-intrinsic-size:auto 1.75rem`) |
-| `content.aside`       | `flex shrink-0 items-center gap-x-2` — right-side group holding the `action` slot and the menu trigger          |
-| `menu.wrapper`        | `shrink-0`                                                                                                      |
-| `menu.trigger`        | Borderless icon button styling                                                                                  |
-| `menu.icon`           | `size-5`                                                                                                        |
-| `menu.floating`       | `absolute z-40` + border + `bg-white` / `dark:bg-dark-700` + `rounded-md` (base wrapper for the floating panel) |
-| `menu.widths.{token}` | `data-[tsui-dropdown-width='{token}']:w-{n}` conditional class per width token (`xxs`, `xs`, `sm`, `md`, …)     |
+| `content.aside`       | `flex shrink-0 items-center gap-x-2` — right-side group holding the `action` slot and the menu trigger                     |
+| `menu.wrapper`        | `shrink-0`                                                                                                                 |
+| `menu.trigger`        | Borderless icon button styling                                                                                             |
+| `menu.icon`           | `size-5`                                                                                                                   |
+| `menu.floating`       | `absolute z-40` + border + `bg-white` / `dark:bg-dark-700` + `rounded-md` (base wrapper for the floating panel)            |
+| `menu.widths.{token}` | `data-[tsui-dropdown-width='{token}']:w-{n}` conditional class per width token (`xxs`, `xs`, `sm`, `md`, …)                |
 
 Override via `TallStackUi::customize()->list('items')->block('menu.floating', '...')` for richer customization, or override individual `menu.widths.*` blocks to retune a specific token.
 
