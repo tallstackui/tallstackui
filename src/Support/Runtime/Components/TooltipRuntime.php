@@ -15,6 +15,7 @@ class TooltipRuntime extends AbstractRuntime
             'settings' => array_filter([
                 'data-tooltip-delay' => $this->data('delay'),
                 'data-tooltip-color' => $this->data('balloon'),
+                'data-tooltip-size' => $this->data('scale'),
             ]),
         ];
     }

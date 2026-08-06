@@ -663,6 +663,7 @@ return [
             |
             | delay: controls the pointer delay before opening (Allowed: slow, fast, faster, flash).
             | color: controls the balloon color (Allowed: any palette key, or black).
+            | size: controls the balloon size (Allowed: sm, md, lg).
             | invert: controls the dark mode inversion of the default balloon.
             |
             | These are defaults for every x-tooltip: the inline prop always wins.
@@ -670,6 +671,7 @@ return [
             [
                 'delay' => null,
                 'color' => null,
+                'size' => null,
                 'invert' => false,
             ],
         ],

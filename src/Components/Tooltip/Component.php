@@ -33,12 +33,15 @@ class Component extends TallStackUiComponent implements Customization
 
     public const DELAYS = ['slow', 'fast', 'faster', 'flash'];
 
+    public const SCALES = ['sm', 'md', 'lg'];
+
     /** @throws Exception */
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
         public string $color = 'primary',
         public ?string $balloon = null,
+        public ?string $scale = null,
         public ?string $delay = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
@@ -83,6 +86,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->balloon !== null && ! in_array($this->balloon, self::BALLOONS)) {
             __ts_validation_exception($this, 'The [balloon] must be one of the following: ['.implode(', ', self::BALLOONS).']');
+        }
+
+        if ($this->scale !== null && ! in_array($this->scale, self::SCALES)) {
+            __ts_validation_exception($this, 'The [scale] must be one of the following: ['.implode(', ', self::SCALES).']');
         }
     }
 }
