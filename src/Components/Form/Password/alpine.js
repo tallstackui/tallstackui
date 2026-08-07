@@ -92,30 +92,27 @@ export default (model, rules, typingOnly, value = null) => ({
         this.symbols
       );
     } else {
-      password += lower.charAt(Math.floor(Math.random() * lower.length));
+      password += lower.charAt(this.random(lower.length));
 
       if (this.mixed) {
-        password += upper.charAt(Math.floor(Math.random() * upper.length));
+        password += upper.charAt(this.random(upper.length));
       }
 
       if (this.numbers) {
-        password += numeric.charAt(Math.floor(Math.random() * numeric.length));
+        password += numeric.charAt(this.random(numeric.length));
       }
 
       if (this.symbols) {
-        password += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
+        password += this.symbols.charAt(this.random(this.symbols.length));
       }
 
       // We just fill the remaining password with random characters from all selected types
       for (let i = password.length; i < this.min; i++) {
-        password += all.charAt(Math.floor(Math.random() * all.length));
+        password += all.charAt(this.random(all.length));
       }
 
       // We just shuffle the password to avoid predictable patterns
-      password = password
-        .split('')
-        .sort(() => 0.5 - Math.random())
-        .join('');
+      password = this.shuffle(password.split('')).join('');
     }
 
     this.password = password;
@@ -123,6 +120,41 @@ export default (model, rules, typingOnly, value = null) => ({
     this.$el.dispatchEvent(new CustomEvent('generate', { detail: { password: password } }));
 
     setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
+  },
+  /**
+   * Generate a cryptographically secure random integer in [0, max).
+   *
+   * @param {Number} max
+   * @returns {Number}
+   */
+  random(max) {
+    // Rejection sampling to avoid the modulo bias
+    const limit = Math.floor(4294967296 / max) * max;
+
+    const buffer = new Uint32Array(1);
+
+    let result;
+
+    do {
+      result = window.crypto.getRandomValues(buffer)[0];
+    } while (result >= limit);
+
+    return result % max;
+  },
+  /**
+   * Shuffle the values using the Fisher-Yates algorithm.
+   *
+   * @param {Array} values
+   * @returns {Array}
+   */
+  shuffle(values) {
+    for (let index = values.length - 1; index > 0; index--) {
+      const position = this.random(index + 1);
+
+      [values[index], values[position]] = [values[position], values[index]];
+    }
+
+    return values;
   },
   /**
    * Handle the paste event to insert the password.
