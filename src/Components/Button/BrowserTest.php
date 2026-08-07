@@ -31,6 +31,70 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_see_loading_spinner_variant_with_circle_button(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $foo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input id="input" wire:model="foo" />
+
+                    <x-button.circle dusk="sync" loading="sync" wire:click="sync" spinner="bars" text="Save" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                sleep(1);
+
+                // ...
+            }
+        })
+            ->assertMissing('@spinner-bars')
+            ->type('input', 'Foo bar')
+            ->click('@sync')
+            ->waitFor('@spinner-bars')
+            ->assertVisible('@spinner-bars');
+    }
+
+    #[Test]
+    public function can_see_loading_spinner_variant_with_normal_button(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $foo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input id="input" wire:model="foo" />
+
+                    <x-button dusk="sync" loading="sync" wire:click="sync" spinner="dots" text="Save" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                sleep(1);
+
+                // ...
+            }
+        })
+            ->assertMissing('@spinner-dots')
+            ->type('input', 'Foo bar')
+            ->click('@sync')
+            ->waitFor('@spinner-dots')
+            ->assertVisible('@spinner-dots');
+    }
+
+    #[Test]
     public function can_see_loading_spinner_with_circle_button(): void
     {
         Livewire::visit(new class extends Component

@@ -72,7 +72,7 @@ class Component extends TallStackUiComponent implements Customization
             'item' => [
                 'wrapper' => [
                     'base' => 'py-0.5',
-                    'border' => 'border-outline border-l border-primary-200 dark:border-dark-500 pl-2',
+                    'border' => 'border-outline border-l border-primary-200 dark:border-dark-700 pl-2',
                 ],
                 'state' => [
                     'base' => 'group flex items-center rounded-md p-2 text-sm font-semibold transition-all',

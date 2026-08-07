@@ -44,6 +44,19 @@ that exact radius. `square` drops the radius altogether and wins over `round`:
 | `round="xl"`   | `rounded-xl`   |
 | `round="full"` | `rounded-full` |
 
+Choosing the loading indicator. `spinner` renders one of the nine visual
+[Spinner](../spinner.md) variants as the `wire:loading` indicator — `ring`,
+`throbber`, `gradient`, `ping`, `dots`, `pulse`, `typing`, `bars` or `wave`.
+Omitted, it falls back to `config('tallstackui.components.button.spinner')`
+(shared with `<x-button.circle>`, `null` by default) and finally to the default
+effect. The textual variants (`shimmer`, `caret`, `terminal`, `thinking`)
+animate their own text and throw inside a button:
+
+```blade
+<x-button text="Save" loading="save" spinner="dots" />
+<x-button text="Save" loading="save" spinner="shimmer" />   {{-- throws --}}
+```
+
 ## Attributes
 
 | Attribute | Type               | Default   | Description                                                                                                                            |
@@ -62,6 +75,7 @@ that exact radius. `square` drops the radius altogether and wins over `round`:
 | href      | string\|null       | null      | When set, renders as an anchor tag instead of a button                                                                                 |
 | loading   | string\|null       | null      | Livewire action name to show a loading spinner during execution                                                                        |
 | delay     | string\|null       | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                             |
+| spinner   | string\|null       | null      | Loading spinner variant: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave. Falls back to the `button.spinner` config    |
 | solid     | bool               | true      | Uses the solid color style variant (default)                                                                                           |
 | outline   | bool               | false     | Uses the outline color style variant                                                                                                   |
 | light     | bool               | false     | Uses the light color style variant                                                                                                     |
@@ -100,23 +114,62 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name             | Purpose                                                             |
-|------------------------|---------------------------------------------------------------------|
-| wrapper.class          | Base button styles (inline-flex, border, transition, cursor states) |
-| wrapper.sizes.xs       | Extra-small text and padding                                        |
-| wrapper.sizes.sm       | Small text and padding                                              |
-| wrapper.sizes.md       | Medium text and padding                                             |
-| wrapper.sizes.lg       | Large text and padding                                              |
-| wrapper.block          | Full-width class applied by `block`                                 |
-| border.radius.xs       | Radius applied by `round="xs"`                                      |
-| border.radius.sm       | Radius applied by `round="sm"`                                      |
-| border.radius.md       | Radius applied by `round="md"` and by default                       |
-| border.radius.lg       | Radius applied by `round="lg"`                                      |
-| border.radius.xl       | Radius applied by `round="xl"`                                      |
-| border.radius.full     | Radius applied by `round` and by `round="full"`                     |
-| wire.loading-cursor    | Cursor applied while a `loading` action runs                        |
-| icon.sizes.xs          | Extra-small icon dimensions                                         |
-| icon.sizes.sm          | Small icon dimensions                                               |
-| icon.sizes.md          | Medium icon dimensions                                              |
-| icon.sizes.lg          | Large icon dimensions                                               |
-| icon.spinner-animation | Spin animation applied to the loading icon                          |
+| Block Name          | Purpose                                                             |
+|---------------------|---------------------------------------------------------------------|
+| wrapper.class       | Base button styles (inline-flex, border, transition, cursor states) |
+| wrapper.sizes.xs    | Extra-small text and padding                                        |
+| wrapper.sizes.sm    | Small text and padding                                              |
+| wrapper.sizes.md    | Medium text and padding                                             |
+| wrapper.sizes.lg    | Large text and padding                                              |
+| wrapper.block       | Full-width class applied by `block`                                 |
+| border.radius.xs    | Radius applied by `round="xs"`                                      |
+| border.radius.sm    | Radius applied by `round="sm"`                                      |
+| border.radius.md    | Radius applied by `round="md"` and by default                       |
+| border.radius.lg    | Radius applied by `round="lg"`                                      |
+| border.radius.xl    | Radius applied by `round="xl"`                                      |
+| border.radius.full  | Radius applied by `round` and by `round="full"`                     |
+| wire.loading-cursor | Cursor applied while a `loading` action runs                        |
+| icon.sizes.xs       | Extra-small icon dimensions                                         |
+| icon.sizes.sm       | Small icon dimensions                                               |
+| icon.sizes.md       | Medium icon dimensions                                              |
+| icon.sizes.lg       | Large icon dimensions                                               |
+
+The loading indicator mirrors the Spinner's blocks under a `spinner.` prefix,
+sized to the button's icon box and isolated from the Spinner component's own
+customization:
+
+| Block Name                           | Purpose                                                      |
+|--------------------------------------|--------------------------------------------------------------|
+| spinner.delays.{0..4}                | Shared stagger applied by index to every multi-child variant |
+| spinner.ring.base                    | Spinning border                                              |
+| spinner.ring.sizes.{xs,sm,md,lg}     | Ring diameter and border width                               |
+| spinner.throbber.base                | Rotating SVG                                                 |
+| spinner.throbber.segment             | Each of the twelve segments                                  |
+| spinner.throbber.sizes.{xs,sm,md,lg} | SVG size                                                     |
+| spinner.gradient.base                | Rotating SVG                                                 |
+| spinner.gradient.track               | Dimmed circle behind the arc                                 |
+| spinner.gradient.head                | Highlighted arc                                              |
+| spinner.gradient.sizes.{xs,sm,md,lg} | SVG size                                                     |
+| spinner.ping.wrapper                 | Positioning context                                          |
+| spinner.ping.echo                    | Expanding echo ring                                          |
+| spinner.ping.core                    | Static inner ring                                            |
+| spinner.ping.sizes.wrapper.*         | Ring diameter                                                |
+| spinner.ping.sizes.border.*          | Ring border width                                            |
+| spinner.dots.wrapper                 | Dot row                                                      |
+| spinner.dots.dot                     | Each dot                                                     |
+| spinner.dots.sizes.wrapper.*         | Gap between dots                                             |
+| spinner.dots.sizes.dot.*             | Dot diameter                                                 |
+| spinner.pulse.dot                    | The single dot                                               |
+| spinner.pulse.sizes.{xs,sm,md,lg}    | Dot diameter                                                 |
+| spinner.typing.wrapper               | Dot row                                                      |
+| spinner.typing.dot                   | Each dot                                                     |
+| spinner.typing.sizes.wrapper.*       | Gap between dots                                             |
+| spinner.typing.sizes.dot.*           | Dot diameter                                                 |
+| spinner.bars.wrapper                 | Bar row                                                      |
+| spinner.bars.bar                     | Each bar                                                     |
+| spinner.bars.sizes.wrapper.*         | Gap between bars                                             |
+| spinner.bars.sizes.bar.*             | Bar height and width                                         |
+| spinner.wave.wrapper                 | Bar row                                                      |
+| spinner.wave.bar                     | Each bar                                                     |
+| spinner.wave.sizes.wrapper.*         | Gap between bars                                             |
+| spinner.wave.sizes.bar.*             | Bar height and width                                         |

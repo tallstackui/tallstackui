@@ -80,6 +80,90 @@ the preview `fade.*` pair).
 
 ---
 
+## Button
+
+### Added — `spinner`, the loading indicator picks a Spinner variant
+
+The `wire:loading` indicator was one hardcoded SVG. Both buttons now render any
+of the nine visual `<x-spinner>` variants in its place:
+
+```blade
+<x-button text="Save" loading="save" spinner="dots" />
+<x-button.circle icon="trash" loading="delete" spinner="bars" />
+```
+
+Resolution is prop → config → default. The config key lives on `button` and
+drives `button.circle` too, so one setting covers both:
+
+```php
+'button' => [
+    Components\Button\Normal\Component::class,
+    [
+        'spinner' => null,
+    ],
+],
+```
+
+`null` — the shipped value — keeps the default effect: the old SVG was
+byte-identical to the `gradient` variant (same path, `opacity-25` track,
+`opacity-75` head), so an application that never touches the prop or the config
+renders exactly what it always rendered.
+
+The four textual variants (`shimmer`, `caret`, `terminal`, `thinking`) animate
+their own text and make no sense inside a button, so they throw — as does any
+unknown value:
+
+```blade
+<x-button text="Save" spinner="shimmer" />   {{-- throws --}}
+```
+
+Under the hood the buttons reuse the Spinner's own type partials, but feed them
+a button-owned `spinner.*` customization block scaled to the button's icon box
+instead of the Spinner's standalone scale. The two stay isolated: customizing
+the Spinner does not leak into buttons, and vice versa.
+
+The indicator markup also gained a block-level flex wrapper, which removes the
+inline baseline gap that sat every spinner a couple of pixels above the visual
+center of the button. The outer `wire:loading` element keeps its modifiers an
+exact match of Livewire's injected hiding CSS — a display modifier chained with
+`delay` (`wire:loading.inline-flex.delay`) escapes those attribute selectors
+and the indicator never hides, which is why the centering lives in a child
+element instead.
+
+### Migration
+
+**`icon.spinner-animation` is gone from both buttons.** Each variant's own
+classes carry the animation now, mirroring the Spinner, so the block had
+nothing left to do. The loading indicator also no longer reads `icon.sizes.*` —
+its size comes from the new `spinner.*` blocks; `icon.sizes.*` still applies to
+regular icons.
+
+```php
+// before
+TallStackUi::customize()->button()->block('icon.spinner-animation', 'animate-pulse');
+
+// after
+TallStackUi::customize()->button()->block('spinner.gradient.base', 'inline-block animate-pulse');
+```
+
+The new blocks mirror the Spinner's structure under a `spinner.` prefix —
+`spinner.delays.{0..4}`, `spinner.ring.{base,sizes.*}`,
+`spinner.throbber.{base,segment,sizes.*}`, `spinner.gradient.{base,track,head,sizes.*}`,
+`spinner.ping.{wrapper,echo,core,sizes.*}`, `spinner.dots.{wrapper,dot,sizes.*}`,
+`spinner.pulse.{dot,sizes.*}`, `spinner.typing.{wrapper,dot,sizes.*}`,
+`spinner.bars.{wrapper,bar,sizes.*}` and `spinner.wave.{wrapper,bar,sizes.*}` —
+defined on `button` and `button.circle` independently, sized to each button's
+icon box.
+
+### Tests
+
+Both `FeatureTest.php` files cover the default markup, every visual variant, the
+config fallback, the invalid config value and the rejected textual and unknown
+values. Browser tests assert a non-default variant is hidden at rest and becomes
+visible while the action runs.
+
+---
+
 ## Form / InputSelect
 
 ### Added — `floating`, the panel width floor as an attribute

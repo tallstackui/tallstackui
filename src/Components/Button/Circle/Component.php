@@ -28,6 +28,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $href = null,
         public ?string $loading = null,
         public ?string $delay = null,
+        public ?string $spinner = null,
         public ?string $xs = null,
         public ?string $sm = null,
         public ?string $md = null,
@@ -71,7 +72,145 @@ class Component extends TallStackUiComponent implements Customization
                 'md' => 'w-4 h-4',
                 'lg' => 'w-6 h-6',
             ],
-            'icon.spinner-animation' => 'animate-spin',
+            'spinner' => [
+                'delays' => [
+                    '',
+                    '[animation-delay:120ms]',
+                    '[animation-delay:240ms]',
+                    '[animation-delay:360ms]',
+                    '[animation-delay:480ms]',
+                ],
+                'ring' => [
+                    'base' => 'inline-block animate-spin rounded-full border-current border-t-transparent',
+                    'sizes' => [
+                        'xs' => 'size-2 border',
+                        'sm' => 'size-3 border',
+                        'md' => 'size-4 border-2',
+                        'lg' => 'size-6 border-[3px]',
+                    ],
+                ],
+                'throbber' => [
+                    'base' => 'inline-block animate-spin',
+                    'segment' => 'stroke-current',
+                    'sizes' => [
+                        'xs' => 'size-2',
+                        'sm' => 'size-3',
+                        'md' => 'size-4',
+                        'lg' => 'size-6',
+                    ],
+                ],
+                'gradient' => [
+                    'base' => 'inline-block animate-spin',
+                    'track' => 'stroke-current opacity-25',
+                    'head' => 'fill-current opacity-75',
+                    'sizes' => [
+                        'xs' => 'size-2',
+                        'sm' => 'size-3',
+                        'md' => 'size-4',
+                        'lg' => 'size-6',
+                    ],
+                ],
+                'ping' => [
+                    'wrapper' => 'relative inline-flex',
+                    'echo' => 'absolute inset-0 animate-ping rounded-full border-current opacity-75',
+                    'core' => 'relative inline-flex size-full rounded-full border-current',
+                    'sizes' => [
+                        'wrapper' => [
+                            'xs' => 'size-2',
+                            'sm' => 'size-3',
+                            'md' => 'size-4',
+                            'lg' => 'size-6',
+                        ],
+                        'border' => [
+                            'xs' => 'border',
+                            'sm' => 'border',
+                            'md' => 'border-2',
+                            'lg' => 'border-[3px]',
+                        ],
+                    ],
+                ],
+                'dots' => [
+                    'wrapper' => 'inline-flex items-center',
+                    'dot' => 'inline-block animate-spinner-dots rounded-full bg-current',
+                    'sizes' => [
+                        'wrapper' => [
+                            'xs' => 'gap-px',
+                            'sm' => 'gap-0.5',
+                            'md' => 'gap-0.5',
+                            'lg' => 'gap-1',
+                        ],
+                        'dot' => [
+                            'xs' => 'size-0.5',
+                            'sm' => 'size-1',
+                            'md' => 'size-1',
+                            'lg' => 'size-1.5',
+                        ],
+                    ],
+                ],
+                'pulse' => [
+                    'dot' => 'inline-block animate-spinner-pulse rounded-full bg-current',
+                    'sizes' => [
+                        'xs' => 'size-1',
+                        'sm' => 'size-1.5',
+                        'md' => 'size-2',
+                        'lg' => 'size-3',
+                    ],
+                ],
+                'typing' => [
+                    'wrapper' => 'inline-flex items-center',
+                    'dot' => 'inline-block animate-spinner-typing rounded-full bg-current',
+                    'sizes' => [
+                        'wrapper' => [
+                            'xs' => 'gap-px',
+                            'sm' => 'gap-0.5',
+                            'md' => 'gap-0.5',
+                            'lg' => 'gap-1',
+                        ],
+                        'dot' => [
+                            'xs' => 'size-0.5',
+                            'sm' => 'size-1',
+                            'md' => 'size-1',
+                            'lg' => 'size-1.5',
+                        ],
+                    ],
+                ],
+                'bars' => [
+                    'wrapper' => 'inline-flex items-center',
+                    'bar' => 'inline-block animate-spinner-bars rounded-full bg-current',
+                    'sizes' => [
+                        'wrapper' => [
+                            'xs' => 'gap-px',
+                            'sm' => 'gap-0.5',
+                            'md' => 'gap-0.5',
+                            'lg' => 'gap-1',
+                        ],
+                        'bar' => [
+                            'xs' => 'h-2 w-0.5',
+                            'sm' => 'h-3 w-0.5',
+                            'md' => 'h-4 w-1',
+                            'lg' => 'h-6 w-1.5',
+                        ],
+                    ],
+                ],
+                'wave' => [
+                    'wrapper' => 'inline-flex items-center',
+                    'bar' => 'inline-block animate-spinner-wave rounded-full bg-current',
+                    'sizes' => [
+                        'wrapper' => [
+                            'xs' => 'gap-px',
+                            'sm' => 'gap-px',
+                            'md' => 'gap-px',
+                            'lg' => 'gap-0.5',
+                        ],
+                        'bar' => [
+                            'xs' => 'h-2 w-px',
+                            'sm' => 'h-3 w-0.5',
+                            'md' => 'h-4 w-0.5',
+                            'lg' => 'h-6 w-1',
+                        ],
+                    ],
+                ],
+            ],
             'wire' => [
                 'loading-cursor' => 'cursor-wait!',
             ],
@@ -82,5 +221,10 @@ class Component extends TallStackUiComponent implements Customization
                 'lg' => 'text-lg',
             ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        $this->guard();
     }
 }
