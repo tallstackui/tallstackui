@@ -609,6 +609,25 @@ return [
             ],
         ],
         'step.items' => Components\Step\Items\Component::class,
+        'swap' => [
+            Components\Swap\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Swap Global Settings
+                |----------------------------------------------------------------------
+                |
+                | preview: reveals slices of the previous and next options with a fade out effect.
+                | vertical: swaps the options from top to bottom instead of sideways.
+                | loop: allows navigating past the edges, cycling the options infinitely.
+                |
+                | These are defaults: the inline prop always wins.
+                */
+                'preview' => false,
+                'vertical' => false,
+                'loop' => true,
+            ],
+        ],
         'tab' => Components\Tab\Main\Component::class,
         'tag' => Components\Form\Tag\Component::class,
         'table' => [

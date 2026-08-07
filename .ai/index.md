@@ -66,6 +66,7 @@
 - [Range](components/form/range.md)
 - [Select Native](components/form/select/native.md)
 - [Select Styled](components/form/select/styled.md)
+- [Swap](components/swap.md)
 - [Tag](components/form/tag.md)
 - [Textarea](components/form/textarea.md)
 - [Time Picker](components/form/time.md)

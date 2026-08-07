@@ -8,6 +8,7 @@ use TallStackUi\Components\Form\Select\Native\Component as Native;
 use TallStackUi\Components\Form\Select\Styled\Component as Styled;
 use TallStackUi\Components\Form\Tag\Component as Tag;
 use TallStackUi\Components\Form\Textarea\Component as Textarea;
+use TallStackUi\Components\Swap\Component as Swap;
 use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 describe('DefaultInputClasses', function () {
@@ -22,6 +23,7 @@ describe('DefaultInputClasses', function () {
             Native::class,
             Styled::class,
             Clipboard::class,
+            Swap::class,
         ]);
 
     test('should have methods', function (string $method) {

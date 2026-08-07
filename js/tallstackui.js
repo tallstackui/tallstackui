@@ -30,6 +30,7 @@ import signature from '../src/Components/Signature/alpine';
 import slide from '../src/Components/Slide/alpine';
 import spinner from '../src/Components/Spinner/alpine';
 import stats from '../src/Components/Stats/alpine';
+import swap from '../src/Components/Swap/alpine';
 import password from '../src/Components/Form/Password/alpine';
 import pin from '../src/Components/Form/Pin/alpine';
 import qrCode from '../src/Components/QrCode/alpine';
@@ -91,6 +92,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_spinner', spinner);
   Alpine.data('tallstackui_stats', stats);
+  Alpine.data('tallstackui_swap', swap);
   Alpine.data('tallstackui_tab', tab);
   Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);

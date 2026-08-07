@@ -12,6 +12,74 @@ such change is listed under **Migration**.
 
 ---
 
+## Swap
+
+### Added — `<x-swap>`
+
+A compact value cycler shaped like an input: a chevron button on each side, the
+selected value in the middle. The value moves through the buttons, through a drag
+over the value itself — pointer events, so mouse and touch behave identically —
+or through the keyboard arrows while either button holds focus. The middle is
+deliberately not focusable: Tab stops only on the buttons.
+
+```blade
+<x-swap wire:model="fruit" :options="['Apple', 'Banana', 'Cherry']" />
+<x-swap label="Size" hint="Drag or use the arrows" :options="$sizes" select="label:name|value:id" />
+<x-swap wire:model.live="month" block preview :options="$months" />
+<x-swap wire:model="day" vertical :options="$days" />
+```
+
+Options accept flat arrays, Collections and dimensional arrays, with dimensional
+keys remapped through the same `select="label:...|value:..."` string the styled
+select uses. The model carries the option value, never the index. A null model
+shows the first option without writing anything back until the user navigates.
+Outside Livewire the component keeps a hidden input in sync through `name` and
+pairs with `x-model` through `x-modelable`.
+
+The track slides on `transform` inside an overflow viewport, 300ms ease-out by
+default, degrading to an instant jump under `globals()->flash()`. During a drag
+the transition is suspended so the value follows the pointer 1:1 — a long
+gesture crosses several options — and the release snaps to the nearest one.
+Navigation loops by default: crossing an edge animates into a clone of the
+opposite end and silently teleports to the real option, so the cycle reads as
+continuous. `:loop="false"` disables the cycle — the matching button disables
+at either end and the drag gains rubber band resistance past them.
+
+`preview` widens the component and splits the viewport in thirds: the previous
+and next options stay visible whole at reduced opacity and fade toward the
+edges through a CSS mask. `vertical` rolls the value top-to-bottom instead —
+the chevrons become up/down and the drag axis follows. The two cannot be
+combined, because sideways slices make no sense on a vertical roll:
+
+```blade
+<x-swap preview vertical :options="$options" />  {{-- throws --}}
+```
+
+The three flags also exist as global defaults in the component configuration,
+the inline prop always winning:
+
+```php
+'swap' => [
+    Components\Swap\Component::class,
+    ['preview' => false, 'vertical' => false, 'loop' => true],
+],
+```
+
+Every navigation dispatches a `swap` CustomEvent carrying
+`{ value, label, index, direction }`, and `wire:change` compiles the same way
+as the other form components. `readonly` and `disabled` both freeze the
+buttons, the drag and the keyboard — `disabled` also dims the control, while
+`readonly` keeps the resting look. `label`, `hint`, `tooltip`, validation
+errors and `invalidate` follow the form conventions.
+
+Soft customization ships under the `swap` key — `TallStackUi::customize('swap')`
+or `customize()->swap()` — with the blocks `wrapper`, `input.*` (the shell),
+`button.*`, `viewport.*` (including `mask`, the `touch.*` axis locks and the
+`width.*` presets), `track.*` (including `transition`) and `item.*` (including
+the preview `fade.*` pair).
+
+---
+
 ## Form / InputSelect
 
 ### Added — `floating`, the panel width floor as an attribute

@@ -83,6 +83,7 @@ use TallStackUi\Components\Slide\Component as Slide;
 use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Stats\Component as Stats;
 use TallStackUi\Components\Step\Main\Component as Step;
+use TallStackUi\Components\Swap\Component as Swap;
 use TallStackUi\Components\Tab\Main\Component as Tab;
 use TallStackUi\Components\Table\Component as Table;
 use TallStackUi\Components\ThemeSwitch\Component as ThemeSwitch;
@@ -597,6 +598,13 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Step::class);
+    }
+
+    public function swap(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Swap::class);
     }
 
     public function tab(?string $scope = null): CustomizationFactory
