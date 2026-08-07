@@ -583,9 +583,11 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function can_open_a_dialog_without_a_scroll_jump_on_a_short_viewport(): void
     {
-        // Focusing a dialog field while the panel is still translated below
-        // the viewport makes the browser scroll the dialog wrapper to reveal
-        // it, jolting the panel during the enter transition.
+        // The dialogs focus no field on open. This guards the enter
+        // transition against a premature focus ever being reintroduced:
+        // focusing a field while the panel is still translated below the
+        // viewport makes the browser scroll the dialog wrapper to reveal
+        // it, jolting the panel.
         Livewire::visit(new class extends LivewireComponent
         {
             public string $content = '';
@@ -613,9 +615,9 @@ class BrowserTest extends BrowserTestCase
                 requestAnimationFrame(tick);
             JS))
             ->click('@tallstackui_editor_image')
+            ->waitFor('#content-image-url')
             ->pause(1000)
-            ->assertScript('window.__maxScroll', 0)
-            ->assertScript('document.activeElement?.id', 'content-image-url');
+            ->assertScript('window.__maxScroll', 0);
     }
 
     #[Test]

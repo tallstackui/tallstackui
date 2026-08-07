@@ -749,8 +749,8 @@ export default (options) => ({
     this.open('image');
   },
 
-  // Both dialogs ride on <x-modal>, which owns the scroll lock, the overlay
-  // registry, Escape and the focus of its own first field.
+  // Both dialogs ride on <x-modal>, which owns the scroll lock, the
+  // overlay registry and Escape. No field is focused on open.
   open(name) {
     this.dialog = name;
 
