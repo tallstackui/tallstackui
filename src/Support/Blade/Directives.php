@@ -107,6 +107,7 @@ class Directives
             'tooltip-color' => $tooltip['color'] ?? null,
             'tooltip-size' => $tooltip['size'] ?? null,
             'tooltip-invert' => ($tooltip['invert'] ?? false) ? 'true' : null,
+            'tooltip-flash' => __ts_global('flash', Tooltip::class) ? 'true' : null,
         ])->filter(fn (?string $value): bool => filled($value))
             ->map(fn (string $value, string $key): string => ' data-tsui-'.$key.'="'.e($value).'"')
             ->implode('');

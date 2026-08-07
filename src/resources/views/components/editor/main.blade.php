@@ -39,7 +39,7 @@
                     @else
                         @switch($item['slug'])
                             @case('style')
-                                <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor-toolbar"
+                                <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor.toolbar"
                                                      width="xs" size="sm">
                                     <x-slot:action>
                                         <button type="button"
@@ -208,7 +208,7 @@
                             @break
 
                             @case('align')
-                                <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor-toolbar"
+                                <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor.toolbar"
                                                      width="sm" size="sm">
                                     <x-slot:action>
                                         <button type="button"
@@ -431,7 +431,7 @@
         @unless ($readonly || $disabled)
             <x-dynamic-component :component="TallStackUi::prefix('modal')"
                                  :id="$dialogs['link']"
-                                 scope="editor-link"
+                                 scope="editor.modal.link"
                                  size="sm"
                                  center="md"
                                  :title="$i18n['link']['title']"
@@ -471,7 +471,7 @@
 
             <x-dynamic-component :component="TallStackUi::prefix('modal')"
                                  :id="$dialogs['image']"
-                                 scope="editor-image"
+                                 scope="editor.modal.image"
                                  size="md"
                                  center="md"
                                  :title="$i18n['image']['title']"

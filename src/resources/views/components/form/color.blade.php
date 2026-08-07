@@ -8,18 +8,18 @@
 
 <div x-data="tallstackui_formColor(
         {!! $entangle !!},
-        @js($mode),
+        @js($configurations['mode']),
         @js($configurations['colors']),
         @js($livewire),
         @js($property),
         @js($attributes->get('value')),
-        @js($clearable),
+        @js($configurations['clearable']),
         @js($excludedColor),
         @js($excludedStep))"
      x-cloak>
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.color.input"
-                         {{ $attributes->merge($select)->class(['cursor-pointer caret-transparent' => $selectable])->except(['name', 'value']) }}
+                         {{ $attributes->merge($select)->class(['cursor-pointer caret-transparent' => $configurations['selectable']])->except(['name', 'value']) }}
                          :$label
                          :$hint
                          :$invalidate
@@ -40,7 +40,7 @@
         </x-slot:prefix>
         <x-slot:suffix :class="$customization['icon.suffix-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
-                @if ($clearable)
+                @if ($configurations['clearable'])
                     <button type="button" class="{{ $customization['clearable.button'] }}"
                             dusk="tallstackui_form_color_clearable" x-show="clearable">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"

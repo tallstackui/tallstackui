@@ -10,9 +10,9 @@
      role="dialog"
      aria-modal="true"
      @if ($wire)
-         x-data="tallstackui_modal(@entangle($entangle), @js($configurations['overflow'] ?? false))"
+         x-data="tallstackui_modal(@entangle($entangle), @js($configurations['overflow'] ?? false), @js($configurations['handle']))"
      @else
-         x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false))"
+         x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false), @js($configurations['handle']))"
      @endif
      x-show="show"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && !window.tallstackui_escapeClaimed($event) && (show = false)" @endif
@@ -53,7 +53,21 @@
                  x-transition:leave-end="translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95"
                  @endif
                  @endif
+                 @if ($configurations['handle'])
+                     x-ref="panel"
+                 x-bind:style="handleStyle"
+                 @endif
                     @class([$customization['wrapper.fourth'], $configurations['size'], $customization['wrapper.scrollable'] => $configurations['scrollable'], $customization['wrapper.fourth-centered-rounded'] => $configurations['center'] === true])>
+                @if ($configurations['handle'])
+                    <div class="{{ $customization['handle.wrapper'] }}"
+                         dusk="tallstackui_modal_handle"
+                         x-on:pointerdown="handleStart($event)"
+                         x-on:pointermove="handleMove($event)"
+                         x-on:pointerup="handleEnd()"
+                         x-on:pointercancel="handleEnd()">
+                        <div class="{{ $customization['handle.bar'] }}"></div>
+                    </div>
+                @endif
                 @if ($title)
                     <div class="{{ $customization['title.wrapper'] }}">
                         <h3 class="{{ $customization['title.text'] }}">{{ $title }}</h3>

@@ -63,33 +63,31 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name               | Purpose                                                  |
-|--------------------------|----------------------------------------------------------|
-| input.wrapper            | Outer wrapper with ring and focus styles                 |
-| input.base               | Core input element styles                                |
-| input.slot               | Prefix/suffix text slot styles                           |
-| input.color.base         | Default ring and text colors                             |
-| input.color.background   | Background color for normal state                        |
-| input.color.disabled     | Background color for disabled/readonly state             |
-| input.paddings.prefix    | Padding when prefix text is present                      |
-| input.paddings.suffix    | Padding when suffix text is present                      |
-| input.paddings.left      | Padding when icon is on the left                         |
-| input.paddings.right     | Padding when icon is on the right                        |
-| input.paddings.clearable | Padding adjustment when both icon and clearable are used |
-| input.addon.wrapper      | Wrapper for addon (button) mode                          |
-| input.addon.round.left   | Left rounding removal for addon mode                     |
-| input.addon.round.right  | Right rounding removal for addon mode                    |
-| input.addon.error        | Error ring styles for addon wrapper                      |
-| input.addon.button.base  | Base styles for addon button containers                  |
-| input.addon.button.left  | Left addon button rounding                               |
-| input.addon.button.right | Right addon button rounding                              |
-| icon.wrapper             | Icon container positioning                               |
-| icon.paddings.left       | Icon left-side padding                                   |
-| icon.paddings.right      | Icon right-side padding                                  |
-| icon.size                | Icon dimensions                                          |
-| icon.color               | Icon color                                               |
-| clearable.wrapper        | Clearable button container positioning                   |
-| clearable.padding        | Clearable button padding                                 |
-| clearable.size           | Clearable icon dimensions                                |
-| clearable.color          | Clearable icon hover color                               |
-| error                    | Error state ring and text styles                         |
+| Block Name               | Purpose                                                                    |
+|--------------------------|----------------------------------------------------------------------------|
+| input.wrapper            | Outer wrapper with ring and focus styles                                   |
+| input.base               | Core input element styles                                                  |
+| input.slot               | Prefix/suffix text slot styles                                             |
+| input.color.base         | Default ring and text colors                                               |
+| input.color.background   | Background color for normal state                                          |
+| input.color.disabled     | Background color for disabled/readonly state                               |
+| input.paddings.prefix    | Padding when prefix text is present                                        |
+| input.paddings.suffix    | Padding when suffix text is present                                        |
+| input.paddings.left      | Padding when icon is on the left                                           |
+| input.paddings.right     | Padding when icon is on the right                                          |
+| input.paddings.clearable | Padding adjustment when both icon and clearable are used                   |
+| input.addon.wrapper      | Wrapper for addon (button) mode                                            |
+| input.addon.round.left   | Left rounding removal for addon mode                                       |
+| input.addon.round.right  | Right rounding removal for addon mode                                      |
+| input.addon.error        | Error ring styles for addon wrapper                                        |
+| input.addon.button.base  | Addon button container: inset padding (`p-1`) and `rounded-sm` pill styles |
+| icon.wrapper             | Icon container positioning                                                 |
+| icon.paddings.left       | Icon left-side padding                                                     |
+| icon.paddings.right      | Icon right-side padding                                                    |
+| icon.size                | Icon dimensions                                                            |
+| icon.color               | Icon color                                                                 |
+| clearable.wrapper        | Clearable button container positioning                                     |
+| clearable.padding        | Clearable button padding                                                   |
+| clearable.size           | Clearable icon dimensions                                                  |
+| clearable.color          | Clearable icon hover color                                                 |
+| error                    | Error state ring and text styles                                           |

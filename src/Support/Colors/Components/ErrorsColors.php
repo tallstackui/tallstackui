@@ -10,7 +10,7 @@ class ErrorsColors
 
     public function colors(): array
     {
-        [$background, $text, $border] = $this->get('background', 'text', 'border');
+        [$background, $text, $border, $bordered] = $this->get('background', 'text', 'border', 'bordered');
 
         $getter = $this->component->color; // @phpstan-ignore-line
 
@@ -18,6 +18,7 @@ class ErrorsColors
             'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
             'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
             'border' => data_get($border, $getter) ?? data_get($this->border(), $getter),
+            'bordered' => data_get($bordered, $getter) ?? data_get($this->bordered(), $getter),
         ];
     }
 
@@ -80,6 +81,37 @@ class ErrorsColors
             'fuchsia' => 'border-b-fuchsia-200 dark:border-b-fuchsia-900/70',
             'pink' => 'border-b-pink-200 dark:border-b-pink-900/70',
             'rose' => 'border-b-rose-200 dark:border-b-rose-900/70',
+        ];
+    }
+
+    private function bordered(): array
+    {
+        return [
+            'black' => 'border-white',
+            'primary' => 'border-primary-200 dark:border-primary-900/70',
+            'secondary' => 'border-secondary-200 dark:border-secondary-900/70',
+            'slate' => 'border-slate-200 dark:border-slate-900/70',
+            'gray' => 'border-gray-200 dark:border-gray-900/70',
+            'zinc' => 'border-zinc-200 dark:border-zinc-900/70',
+            'neutral' => 'border-neutral-200 dark:border-neutral-900/70',
+            'stone' => 'border-stone-200 dark:border-stone-900/70',
+            'red' => 'border-red-200 dark:border-red-900/70',
+            'orange' => 'border-orange-200 dark:border-orange-900/70',
+            'amber' => 'border-amber-200 dark:border-amber-900/70',
+            'yellow' => 'border-yellow-200 dark:border-yellow-900/70',
+            'lime' => 'border-lime-200 dark:border-lime-900/70',
+            'green' => 'border-green-200 dark:border-green-900/70',
+            'emerald' => 'border-emerald-200 dark:border-emerald-900/70',
+            'teal' => 'border-teal-200 dark:border-teal-900/70',
+            'cyan' => 'border-cyan-200 dark:border-cyan-900/70',
+            'sky' => 'border-sky-200 dark:border-sky-900/70',
+            'blue' => 'border-blue-200 dark:border-blue-900/70',
+            'indigo' => 'border-indigo-200 dark:border-indigo-900/70',
+            'violet' => 'border-violet-200 dark:border-violet-900/70',
+            'purple' => 'border-purple-200 dark:border-purple-900/70',
+            'fuchsia' => 'border-fuchsia-200 dark:border-fuchsia-900/70',
+            'pink' => 'border-pink-200 dark:border-pink-900/70',
+            'rose' => 'border-rose-200 dark:border-rose-900/70',
         ];
     }
 

@@ -26,6 +26,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $dismiss = null,
         public ?string $rounded = 'lg',
         public ?bool $square = false,
+        public ?bool $shadowless = false,
         public ?string $bordered = null,
         #[SkipDebug]
         public ?string $style = 'solid',
@@ -63,6 +64,7 @@ class Component extends TallStackUiComponent implements Customization
                 'xl' => 'rounded-xl',
             ],
             'square' => 'rounded-none',
+            'shadowless' => 'shadow-none!',
             'bordered' => [
                 'left' => 'border-l-4',
                 'right' => 'border-r-4',

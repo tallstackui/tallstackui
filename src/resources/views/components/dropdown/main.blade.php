@@ -3,13 +3,17 @@
 @endphp
 
 <div class="{{ $customization['wrapper.first'] }}"
-     x-data="tallstackui_dropdown(@js(!$static))"
+     x-data="tallstackui_dropdown(@js(!$static), @js($hover))"
      role="button"
      aria-haspopup="true"
      x-bind:aria-expanded="show">
     <div x-ref="dropdown"
          class="{{ $customization['wrapper.second'] }}"
          x-on:click.outside="show = false"
+         @if ($hover)
+             x-on:pointerenter="enter($event)"
+         x-on:pointerleave="leave($event)"
+         @endif
             {{ $attributes->only(['x-on:open', 'x-on:select']) }}>
         @if ($text)
             <div class="{{ $customization['action.wrapper'] }}">

@@ -57,15 +57,18 @@ area stays; only the aligning wrapper is dropped:
 
 ## Attributes
 
-| Attribute     | Type                | Default            | Description                                                                                         |
-|---------------|---------------------|--------------------|-----------------------------------------------------------------------------------------------------|
-| title         | string\|null        | Translated default | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors |
-| only          | string\|array\|null | null               | Filter to show errors for specific field names only                                                 |
-| icon          | string\|null        | 'x-circle'         | Heroicon name displayed next to the title                                                           |
-| color         | string\|null        | 'red'              | Color theme for the error box                                                                       |
-| close         | bool                | false              | Shows a dismiss button to hide the error box                                                        |
-| without-title | bool                | false              | Hides the title, icon, and the divider line between the title and the error list                    |
-| list-numeric  | bool                | false              | Renders the error list as an ordered (numbered) list instead of bullet points                       |
+| Attribute     | Type                | Default                       | Description                                                                                                                                                   |
+|---------------|---------------------|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title         | string\|null        | Translated default            | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors                                                           |
+| only          | string\|array\|null | null                          | Filter to show errors for specific field names only                                                                                                           |
+| icon          | string\|null        | 'x-circle'                    | Heroicon name displayed next to the title                                                                                                                     |
+| color         | string\|null        | 'red'                         | Color theme for the error box                                                                                                                                 |
+| close         | bool                | false                         | Shows a dismiss button to hide the error box                                                                                                                  |
+| without-title | bool                | false                         | Hides the title, icon, and the divider line between the title and the error list                                                                              |
+| list-numeric  | bool                | false                         | Renders the error list as an ordered (numbered) list instead of bullet points                                                                                 |
+| paddingless   | bool                | false                         | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset                                    |
+| shadowless    | bool                | false                         | Removes the wrapper shadow                                                                                                                                    |
+| bordered      | bool                | false                         | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)                                                               |
 
 ## Slots
 
@@ -109,19 +112,25 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name           | Purpose                                                         |
-|----------------------|-----------------------------------------------------------------|
-| wrapper              | Outer container with rounded corners, padding, and shadow       |
-| title.wrapper        | Title bar flex layout                                           |
-| title.divider        | Title bar bottom border and spacing (hidden by `without-title`) |
-| title.text           | Title text font and inline-flex alignment                       |
-| title.icon           | Title icon dimensions                                           |
-| body.wrapper         | Error list container with left margin and padding               |
-| body.list            | List spacing and text size (marker style set by `list-numeric`) |
-| close                | Close button icon dimensions                                    |
-| slots.footer.wrapper | Footer container top margin                                     |
-| slots.footer.base    | Footer aligning wrapper (flex row)                              |
-| slots.footer.start   | Footer alignment applied by `start`                             |
-| slots.footer.center  | Footer alignment applied by `center`                            |
-| slots.footer.end     | Footer alignment applied by `end` (default)                     |
-| slots.footer.between | Footer alignment applied by `between`                           |
+| Block Name           | Purpose                                                           |
+|----------------------|-------------------------------------------------------------------|
+| wrapper              | Outer container with rounded corners, padding, and shadow         |
+| shadowless           | Shadow reset applied by `shadowless`                              |
+| bordered             | Border width applied by `bordered` (color comes from the palette) |
+| paddingless.wrapper  | Horizontal padding reset applied by `paddingless`                 |
+| paddingless.title    | Title inset restored under `paddingless`                          |
+| paddingless.body     | Body inset restored under `paddingless`                           |
+| paddingless.footer   | Footer inset restored under `paddingless`                         |
+| title.wrapper        | Title bar flex layout                                             |
+| title.divider        | Title bar bottom border and spacing (hidden by `without-title`)   |
+| title.text           | Title text font and inline-flex alignment                         |
+| title.icon           | Title icon dimensions                                             |
+| body.wrapper         | Error list container with left margin and padding                 |
+| body.list            | List spacing and text size (marker style set by `list-numeric`)   |
+| close                | Close button icon dimensions                                      |
+| slots.footer.wrapper | Footer container top margin                                       |
+| slots.footer.base    | Footer aligning wrapper (flex row)                                |
+| slots.footer.start   | Footer alignment applied by `start`                               |
+| slots.footer.center  | Footer alignment applied by `center`                              |
+| slots.footer.end     | Footer alignment applied by `end` (default)                       |
+| slots.footer.between | Footer alignment applied by `between`                             |

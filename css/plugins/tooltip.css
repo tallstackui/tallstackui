@@ -37,6 +37,11 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
         visibility 0s;
 }
 
+/* The flash global: the balloon appears and disappears instantly. */
+[data-tsui-tooltip][data-instant] {
+    transition: none;
+}
+
 [data-tsui-tooltip] > [data-arrow] {
     @apply absolute h-2 w-2 rotate-45;
 

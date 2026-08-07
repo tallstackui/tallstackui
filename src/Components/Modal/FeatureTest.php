@@ -348,3 +348,74 @@ it('can thrown exception when the footer slot mixes unwrapped with alignments', 
 
     expect($component)->render();
 });
+
+it('can render the handle', function () {
+    $component = <<<'HTML'
+    <x-modal handle>
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('tallstackui_modal_handle')
+        ->toContain('handleStart');
+});
+
+it('cannot render the handle by default', function () {
+    $component = <<<'HTML'
+    <x-modal>
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()->not->toContain('tallstackui_modal_handle');
+});
+
+it('can render the handle through the global configuration', function () {
+    config()->set('ts-ui.components.modal.1.handle', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-modal>
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()->toContain('tallstackui_modal_handle');
+
+    config()->set('ts-ui.components.modal.1.handle', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can suppress the global handle through the inline prop', function () {
+    config()->set('ts-ui.components.modal.1.handle', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-modal :handle="false">
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()->not->toContain('tallstackui_modal_handle');
+
+    config()->set('ts-ui.components.modal.1.handle', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('cannot use handle with a fully centered modal', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Modal: The [handle] cannot be used when [center] is fully enabled');
+
+    $component = <<<'HTML'
+    <x-modal handle center>
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render();
+});

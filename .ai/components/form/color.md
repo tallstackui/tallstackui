@@ -32,17 +32,17 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 
 ## Attributes
 
-| Attribute      | Type                        | Default | Description                                                                                      |
-|----------------|-----------------------------|---------|--------------------------------------------------------------------------------------------------|
-| label          | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                             |
-| hint           | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                              |
-| picker         | bool\|null                  | false   | Enables the full Tailwind CSS color palette with shade range slider                              |
-| colors         | Collection\|array\|null     | null    | Array of custom hex color strings (must start with #)                                            |
-| invalidate     | bool\|null                  | null    | Prevents displaying validation error messages                                                    |
-| selectable     | bool\|null                  | null    | Makes the input read-only so colors can only be picked from the palette                          |
-| clearable      | bool\|null                  | null    | Shows a clear button to reset the selected color                                                 |
-| excluded-color | string\|array\|null         | null    | Tailwind color name(s) to exclude from the palette (e.g., 'slate', 'gray')                       |
-| excluded-step  | string\|array\|null         | null    | Tailwind shade step(s) to exclude from the palette (e.g., '50', '950'). Only works with `picker` |
+| Attribute      | Type                        | Default | Description                                                                                                                      |
+|----------------|-----------------------------|---------|----------------------------------------------------------------------------------------------------------------------------------|
+| label          | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                             |
+| hint           | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                              |
+| picker         | bool\|null                  | null    | Enables the full Tailwind CSS color palette with shade range slider (falls back to the global configuration, `false` by default) |
+| colors         | Collection\|array\|null     | null    | Array of custom hex color strings (must start with #)                                                                            |
+| invalidate     | bool\|null                  | null    | Prevents displaying validation error messages                                                                                    |
+| selectable     | bool\|null                  | null    | Makes the input read-only so colors can only be picked from the palette                                                          |
+| clearable      | bool\|null                  | null    | Shows a clear button to reset the selected color                                                                                 |
+| excluded-color | string\|array\|null         | null    | Tailwind color name(s) to exclude from the palette (e.g., 'slate', 'gray')                                                       |
+| excluded-step  | string\|array\|null         | null    | Tailwind shade step(s) to exclude from the palette (e.g., '50', '950'). Only works with `picker`                                 |
 
 ## Alpine.js Events
 
@@ -59,13 +59,19 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 
 ## Configuration
 
-Custom color palettes can be configured in `config/tallstackui.php`:
+Global defaults can be configured in `config/tallstackui.php` — the inline prop always wins:
 
 ```php
 'color' => [
-    'custom' => [],
+    'colors' => [],
+    'picker' => false,
+    'selectable' => false,
+    'clearable' => false,
 ],
 ```
+
+- `colors`: array of custom hex colors used by the color picker.
+- `picker`, `selectable`, `clearable`: global defaults for the matching props.
 
 ## Event Payload Details
 

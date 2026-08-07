@@ -21,7 +21,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $withoutLoop = null,
         public ?bool $withoutIndicators = null,
         public ?bool $stopOnHover = null,
-        public ?bool $round = null,
+        public bool|string|null $round = null,
         public ?bool $shuffle = null,
         public ?bool $clickable = null,
         public ?bool $navigable = null,
@@ -62,7 +62,17 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'text-sm text-white',
                 ],
                 'base' => 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-dark-300',
-                'rounded' => 'rounded-xl',
+                'rounded' => [
+                    'default' => 'rounded-xl',
+                    'xs' => 'rounded-xs',
+                    'sm' => 'rounded-sm',
+                    'md' => 'rounded-md',
+                    'lg' => 'rounded-lg',
+                    'xl' => 'rounded-xl',
+                    '2xl' => 'rounded-2xl',
+                    '3xl' => 'rounded-3xl',
+                    'full' => 'rounded-full',
+                ],
             ],
             'buttons' => [
                 'left' => [
@@ -138,6 +148,12 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->navigable && ! $this->clickable) {
             __ts_validation_exception($this, 'The [navigable] requires [clickable] to be enabled.');
+        }
+
+        $rounded = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'];
+
+        if (is_string($this->round) && ! in_array($this->round, $rounded, true)) {
+            __ts_validation_exception($this, 'The [round] must be a boolean or one of: ['.implode(', ', $rounded).'].');
         }
     }
 }

@@ -25,18 +25,30 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 
 ## Attributes
 
-| Attribute  | Type         | Default | Description                            |
-|------------|--------------|---------|----------------------------------------|
-| text       | string\|null | null    | Key label text                         |
-| xs         | bool         | null    | Extra-small size                       |
-| sm         | bool         | null    | Small size (default)                   |
-| md         | bool         | null    | Medium size                            |
-| lg         | bool         | null    | Large size                             |
-| borderless | bool         | false   | Removes the border, keeping the shadow |
-| shadowless | bool         | false   | Removes the shadow, keeping the border |
-| tooltip    | string\|null | null    | Tooltip text shown on hover            |
+| Attribute  | Type         | Default                   | Description                            |
+|------------|--------------|---------------------------|----------------------------------------|
+| text       | string\|null | null                      | Key label text                         |
+| xs         | bool         | null                      | Extra-small size                       |
+| sm         | bool         | null                      | Small size (default)                   |
+| md         | bool         | null                      | Medium size                            |
+| lg         | bool         | null                      | Large size                             |
+| borderless | bool\|null   | null (from config: false) | Removes the border, keeping the shadow |
+| shadowless | bool\|null   | null (from config: false) | Removes the shadow, keeping the border |
+| tooltip    | string\|null | null                      | Tooltip text shown on hover            |
 
 Combine `borderless` and `shadowless` to strip both.
+
+## Configuration
+
+Global defaults can be configured in `config/tallstackui.php` — the inline prop
+always wins:
+
+```php
+'kbd' => [
+    'borderless' => false,
+    'shadowless' => false,
+],
+```
 
 The balloon accepts the same attributes as anywhere else — `data-position`,
 `data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See

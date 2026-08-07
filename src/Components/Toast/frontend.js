@@ -2,7 +2,14 @@ import Interaction from '../../../js/globals/interaction';
 import { error } from '../../../js/helpers';
 
 // Mirror of Toast\Component::POSITIONS.
-const POSITIONS = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
+const POSITIONS = [
+  'top-right',
+  'top-left',
+  'top-center',
+  'bottom-right',
+  'bottom-left',
+  'bottom-center',
+];
 
 export default class ToastInteraction extends Interaction {
   /**

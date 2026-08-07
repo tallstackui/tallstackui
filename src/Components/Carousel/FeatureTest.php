@@ -114,3 +114,25 @@ it('cannot use navigable without clickable', function () {
 
     expect('<x-carousel navigable :images="$images" />')->render(['images' => $images]);
 });
+
+it('can render round with the default look', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel round :images="$images" />')->render(['images' => $images])
+        ->toContain('rounded-xl');
+});
+
+it('can render round variations', function (string $round) {
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel round="'.$round.'" :images="$images" />')->render(['images' => $images])
+        ->toContain('rounded-'.$round);
+})->with(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full']);
+
+it('cannot render with an invalid round', function () {
+    $this->expectException(ViewException::class);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel round="foo" :images="$images" />')->render(['images' => $images]);
+});

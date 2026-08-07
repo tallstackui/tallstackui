@@ -62,6 +62,11 @@ const build = () => {
     balloon.setAttribute('data-invert', '');
   }
 
+  // The flash global: the balloon appears and disappears instantly.
+  if (global('tsuiTooltipFlash')) {
+    balloon.setAttribute('data-instant', '');
+  }
+
   content = document.createElement('span');
 
   arrow = document.createElement('span');

@@ -28,6 +28,9 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $close = false,
         public ?bool $withoutTitle = false,
         public ?bool $listNumeric = false,
+        public ?bool $paddingless = false,
+        public ?bool $shadowless = false,
+        public ?bool $bordered = false,
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->title ??= trans('ts-ui::messages.errors.title');
@@ -48,6 +51,14 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'outer' => 'w-full',
             'wrapper' => 'rounded-lg p-4 shadow',
+            'shadowless' => 'shadow-none!',
+            'bordered' => 'border',
+            'paddingless' => [
+                'wrapper' => 'px-0!',
+                'title' => 'px-4',
+                'body' => 'px-4!',
+                'footer' => 'px-4',
+            ],
             'title' => [
                 'wrapper' => 'flex items-center',
                 'divider' => 'border-b pb-3',

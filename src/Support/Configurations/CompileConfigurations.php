@@ -11,8 +11,10 @@ use TallStackUi\Components\Editor\Component as Editor;
 use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Currency\Component as Currency;
+use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Gallery\Component as Gallery;
+use TallStackUi\Components\Kbd\Component as Kbd;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\QrCode\Component as QrCode;
@@ -37,8 +39,10 @@ class CompileConfigurations
             $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Editor => fn () => self::editor($component),
             $component instanceof Gallery => fn () => self::gallery($component),
+            $component instanceof Kbd => fn () => self::kbd($component),
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
+            $component instanceof Number => fn () => self::number($component),
             $component instanceof QrCode => fn () => self::qrCode($component),
             $component instanceof SelectStyled => fn () => self::select($component),
             $component instanceof Slide => fn () => self::slide($component),
@@ -107,8 +111,18 @@ class CompileConfigurations
         $configuration = __ts_get_component_configuration(Color::class);
 
         $component->colors ??= $configuration['colors'] ?? [];
+        $component->picker ??= $configuration['picker'] ?? false;
+        $component->selectable ??= $configuration['selectable'] ?? false;
+        $component->clearable ??= $configuration['clearable'] ?? false;
 
-        return ['colors' => $component->colors];
+        $component->mode = $component->picker ? 'picker' : 'range';
+
+        return [
+            'colors' => $component->colors,
+            'mode' => $component->mode,
+            'selectable' => $component->selectable,
+            'clearable' => $component->clearable,
+        ];
     }
 
     private static function commandPalette(CommandPalette $component): array
@@ -227,6 +241,24 @@ class CompileConfigurations
     }
 
     /**
+     * Define the Kbd component configurations.
+     *
+     * @throws Exception
+     */
+    private static function kbd(Kbd $component): array
+    {
+        $configuration = __ts_get_component_configuration(Kbd::class);
+
+        $component->borderless ??= $configuration['borderless'] ?? false;
+        $component->shadowless ??= $configuration['shadowless'] ?? false;
+
+        return [
+            'borderless' => $component->borderless,
+            'shadowless' => $component->shadowless,
+        ];
+    }
+
+    /**
      * Define the Loading component configurations.
      */
     private static function loading(Loading $component): array
@@ -260,6 +292,7 @@ class CompileConfigurations
         $component->persistent ??= $configuration['persistent'] ?? false;
         $component->center ??= $configuration['center'] ?? false;
         $component->scrollable ??= $configuration['scrollable'] ?? false;
+        $component->handle ??= $configuration['handle'] ?? false;
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
@@ -289,6 +322,29 @@ class CompileConfigurations
             },
             'scrollable' => $component->scrollable,
             'scrollbar' => $configuration['scrollbar'] ?? null,
+            'handle' => $component->handle,
+        ];
+    }
+
+    /**
+     * Define the Number component configurations.
+     *
+     * @throws Exception
+     */
+    private static function number(Number $component): array
+    {
+        $configuration = __ts_get_component_configuration(Number::class);
+
+        $component->centralized ??= $configuration['centralized'] ?? false;
+        $component->selectable ??= $configuration['selectable'] ?? false;
+        $component->delay ??= $configuration['delay'] ?? 2;
+        $component->chevron ??= $configuration['chevron'] ?? false;
+
+        return [
+            'centralized' => $component->centralized,
+            'selectable' => $component->selectable,
+            'delay' => $component->delay,
+            'chevron' => $component->chevron,
         ];
     }
 

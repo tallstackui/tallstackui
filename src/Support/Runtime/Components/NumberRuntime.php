@@ -3,6 +3,7 @@
 namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
+use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Blade\Wireable;
 use TallStackUi\Support\Runtime\AbstractRuntime;
@@ -12,8 +13,14 @@ class NumberRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
+        /** @var Number $component */
+        $component = $this->component;
+
         $bind = $this->bind();
-        $chevron = $this->data('chevron');
+
+        // Read off the component, not $this->data(): the snapshot predates
+        // the config defaults CompileConfigurations writes onto the props.
+        $chevron = $component->chevron;
 
         [$left, $right] = [
             $chevron ? 'chevron-down' : 'minus',

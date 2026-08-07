@@ -58,7 +58,7 @@ class Component extends TallStackUiComponent implements Customization
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],
             'floating' => [
-                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 mb-2 inline-block rounded-lg border border-gray-300 bg-gray-200 px-1.5 py-0.5 text-xs font-medium text-gray-700 dark:text-dark-300',
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-800 mb-2 inline-block rounded-lg border border-gray-200 bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-700 dark:text-dark-300',
                 'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-700',
                 'float' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],

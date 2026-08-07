@@ -131,7 +131,8 @@ export default (
     let delta = (this.vertical ? event.clientY : event.clientX) - this.origin;
 
     // Rubber band resistance beyond the first and last slots.
-    const limit = delta > 0 ? this.slot * this.size : (this.items.length - 1 - this.slot) * this.size;
+    const limit =
+      delta > 0 ? this.slot * this.size : (this.items.length - 1 - this.slot) * this.size;
     const magnitude = Math.abs(delta);
 
     if (magnitude > limit) {

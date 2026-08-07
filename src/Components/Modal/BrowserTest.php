@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Modal;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -141,6 +142,36 @@ class BrowserTest extends BrowserTestCase
                 Assert::assertLessThanOrEqual($client, $scroll, 'the settled sheet must not leave the scroll container scrollable');
                 Assert::assertContains($transform, ['none', 'matrix(1, 0, 0, 1, 0, 0)'], 'the settled sheet must not keep a residual transform');
             });
+    }
+
+    #[Test]
+    public function can_close_via_handle_drag_on_mobile(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal id="handled" handle>Foo bar handle</x-modal>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('handled')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(400, 800)
+            ->click('@open')
+            ->waitForText('Foo bar handle');
+
+        $browser->driver->action()
+            ->clickAndHold($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_modal_handle"]')))
+            ->moveByOffset(0, 60)
+            ->release()
+            ->perform();
+
+        $browser->waitUntilMissingText('Foo bar handle')
+            ->assertDontSee('Foo bar handle');
     }
 
     #[Test]

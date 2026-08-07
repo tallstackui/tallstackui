@@ -25,18 +25,18 @@ A numeric input component with increment/decrement buttons, configurable min/max
 
 ## Attributes
 
-| Attribute   | Type                        | Default | Description                                                            |
-|-------------|-----------------------------|---------|------------------------------------------------------------------------|
-| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                   |
-| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                    |
-| min         | int\|null                   | null    | Minimum allowed value                                                  |
-| max         | int\|null                   | null    | Maximum allowed value                                                  |
-| delay       | int\|null                   | 2       | Speed multiplier for long-press increment/decrement (lower is faster)  |
-| selectable  | bool\|null                  | null    | Prevents keyboard input, allowing only button-based changes            |
-| chevron     | bool\|null                  | false   | Uses chevron (up/down) icons instead of plus/minus icons               |
-| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this input           |
-| centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides            |
-| step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode |
+| Attribute   | Type                        | Default | Description                                                                                                               |
+|-------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------------------------------|
+| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                      |
+| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                       |
+| min         | int\|null                   | null    | Minimum allowed value                                                                                                     |
+| max         | int\|null                   | null    | Maximum allowed value                                                                                                     |
+| delay       | int\|null                   | null    | Press-and-hold repeat interval (`delay * 100ms`, lower is faster; falls back to the global configuration, `2` by default) |
+| selectable  | bool\|null                  | null    | Prevents keyboard input, allowing only button-based changes                                                               |
+| chevron     | bool\|null                  | null    | Uses chevron (up/down) icons instead of plus/minus icons                                                                  |
+| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this input                                                              |
+| centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides                                                               |
+| step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode                                                    |
 
 ## Additional Options
 
@@ -52,6 +52,19 @@ A numeric input component with increment/decrement buttons, configurable min/max
 
 <!-- Delay in seconds for long-press acceleration -->
 <x-number delay="1" min="1" max="10" />
+```
+
+## Configuration
+
+Global defaults can be configured in `config/tallstackui.php` — the inline prop always wins:
+
+```php
+'number' => [
+    'centralized' => false,
+    'selectable' => false,
+    'delay' => 2,
+    'chevron' => false,
+],
 ```
 
 ## Soft Customization

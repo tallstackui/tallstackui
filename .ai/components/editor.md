@@ -288,14 +288,14 @@ TallStackUi::customize()
 The two dialogs are `<x-modal>` instances, so their chrome is customized through the modal itself under a fixed scope:
 
 ```php
-TallStackUi::customize('modal', scope: 'editor-link')->block('wrapper.fourth', 'rounded-2xl');
-TallStackUi::customize('modal', scope: 'editor-image')->block('wrapper.fourth', 'rounded-2xl');
+TallStackUi::customize('modal', scope: 'editor.modal.link')->block('wrapper.fourth', 'rounded-2xl');
+TallStackUi::customize('modal', scope: 'editor.modal.image')->block('wrapper.fourth', 'rounded-2xl');
 ```
 
 The toolbar dropdowns are `<x-dropdown>` instances under their own scope:
 
 ```php
-TallStackUi::customize('dropdown', scope: 'editor-toolbar')->block('slot.wrapper', 'p-1');
+TallStackUi::customize('dropdown', scope: 'editor.toolbar')->block('slot.wrapper', 'p-1');
 ```
 
 ### Available Blocks

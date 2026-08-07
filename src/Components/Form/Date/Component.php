@@ -77,11 +77,11 @@ class Component extends TallStackUiComponent implements Customization
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[17rem]',
-                'expanded' => 'h-[17rem]',
             ],
             'box' => [
                 'picker' => [
                     'button' => 'text-gray-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 mb-6 text-sm font-semibold focus:outline-hidden focus:ring-2 dark:text-white',
+                    'expanded' => 'min-h-[17rem]',
                     'wrapper' => [
                         'first' => 'dark:bg-dark-800 absolute left-0 top-0 flex h-full w-full select-none rounded-lg bg-white p-3',
                         'second' => 'flex w-full flex-wrap',

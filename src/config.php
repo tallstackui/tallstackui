@@ -181,10 +181,16 @@ return [
             |----------------------------------------------------------------------
             | Color Settings
             |----------------------------------------------------------------------
-            | custom: array of custom colors to be used in the color picker.
+            | colors: array of custom colors to be used in the color picker.
+            | picker: enables the full Tailwind CSS palette picker by default.
+            | selectable: blocks typing so colors can only be picked by default.
+            | clearable: displays the clear button by default.
             */
             [
-                'custom' => [],
+                'colors' => [],
+                'picker' => false,
+                'selectable' => false,
+                'clearable' => false,
             ],
         ],
         'clipboard' => Components\Clipboard\Component::class,
@@ -480,7 +486,22 @@ return [
                 'opacity' => true,
             ],
         ],
-        'kbd' => Components\Kbd\Component::class,
+        'kbd' => [
+            Components\Kbd\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Kbd Global Settings
+            |----------------------------------------------------------------------
+            | borderless: removes the border by default.
+            | shadowless: removes the shadow by default.
+            |
+            | These are defaults: the inline prop always wins.
+            */
+            [
+                'borderless' => false,
+                'shadowless' => false,
+            ],
+        ],
         'key-value' => Components\KeyValue\Component::class,
         'modal' => [
             Components\Modal\Component::class,
@@ -499,6 +520,7 @@ return [
                 | it upwards, behaving as not centered below (Allowed: true, false, sm, md, lg, xl, 2xl).
                 | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
                 | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
+                | handle: displays a grabber on mobile allowing the modal to be dragged down to close.
                 */
                 'z-index' => 'z-50',
                 'overflow' => false,
@@ -508,9 +530,27 @@ return [
                 'center' => false,
                 'scrollable' => false,
                 'scrollbar' => 'thin',
+                'handle' => false,
             ],
         ],
-        'number' => Components\Form\Number\Component::class,
+        'number' => [
+            Components\Form\Number\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Number Global Settings
+            |----------------------------------------------------------------------
+            | centralized: centers the value between the control buttons by default.
+            | selectable: blocks typing so the value only changes through the buttons.
+            | delay: controls the press-and-hold repeat interval (delay * 100ms).
+            | chevron: replaces the plus/minus icons with chevrons by default.
+            */
+            [
+                'centralized' => false,
+                'selectable' => false,
+                'delay' => 2,
+                'chevron' => false,
+            ],
+        ],
         'password' => [
             Components\Form\Password\Component::class,
             /*

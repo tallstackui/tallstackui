@@ -3,9 +3,12 @@ import { place } from '../../../js/helpers/placement';
 const OFFSET = 10;
 const PADDING = 8;
 const ARROW = 8;
-const INSET = 12;
 
-export default (model, content, position) => {
+// The panel corners are rounded-lg (8px): the inset keeps the whole rotated
+// arrow (bounding box ~11.3px) clear of the corner arc when it clamps.
+const INSET = 16;
+
+export default (model, content, position, flash = false) => {
   let popover = null;
   let arrow = null;
   let frame = null;
@@ -63,6 +66,11 @@ export default (model, content, position) => {
       popover.setAttribute('data-tsui-popover', '');
       popover.setAttribute('dusk', 'tallstackui_reaction_popover');
       popover.innerHTML = content;
+
+      // The flash global: the balloon appears and disappears instantly.
+      if (flash) {
+        popover.setAttribute('data-instant', '');
+      }
 
       arrow = document.createElement('span');
       arrow.setAttribute('data-arrow', '');
@@ -123,11 +131,14 @@ export default (model, content, position) => {
 
       const half = ARROW / 2;
 
+      // clientTop/clientLeft are the panel border widths: offsetHeight is
+      // border-box while an absolute child is measured from the padding box,
+      // so without the discount the arrow detaches by the border width.
       const edge = {
-        top: popover.offsetHeight - half,
-        bottom: -half,
-        left: popover.offsetWidth - half,
-        right: -half,
+        top: popover.offsetHeight - half - popover.clientTop,
+        bottom: -half - popover.clientTop,
+        left: popover.offsetWidth - half - popover.clientLeft,
+        right: -half - popover.clientLeft,
       }[side];
 
       if (side === 'top' || side === 'bottom') {

@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Dropdown;
 
+use Facebook\WebDriver\WebDriverBy;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -9,6 +10,41 @@ use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function can_open_and_close_via_hover(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="outside">Outside</p>
+
+                    <x-dropdown text="Menu" hover>
+                        <x-dropdown.items text="Settings" />
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Menu')
+            ->assertDontSee('Settings');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_open_dropdown"]')))
+            ->perform();
+
+        $browser->waitForText('Settings');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="outside"]')))
+            ->perform();
+
+        $browser->waitUntilMissingText('Settings')
+            ->assertDontSee('Settings');
+    }
+
     #[Test]
     public function can_render_with_action(): void
     {

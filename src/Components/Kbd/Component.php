@@ -17,8 +17,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
-        public ?bool $borderless = false,
-        public ?bool $shadowless = false,
+        public ?bool $borderless = null,
+        public ?bool $shadowless = null,
         public ?string $tooltip = null,
         public ?string $size = null,
     ) {

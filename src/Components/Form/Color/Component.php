@@ -22,7 +22,7 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ComponentSlot|string|null $label = null,
         public ComponentSlot|string|null $hint = null,
-        public ?bool $picker = false,
+        public ?bool $picker = null,
         public Collection|array|null $colors = null,
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
@@ -32,8 +32,6 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $mode = null,
     ) {
-        $this->mode = $this->picker ? 'picker' : 'range';
-
         $this->excludedColor = $this->excludedColor !== null
             ? (array) $this->excludedColor
             : [];
@@ -100,7 +98,11 @@ class Component extends TallStackUiComponent implements Customization
             });
         }
 
-        if (! $this->picker && $this->excludedStep) {
+        // The picker may still come from the global configuration at this
+        // point, since validate() runs before CompileConfigurations.
+        $picker = $this->picker ?? __ts_get_component_configuration(self::class, 'picker') ?? false;
+
+        if (! $picker && $this->excludedStep) {
             __ts_validation_exception($this, 'The [excluded-step] attribute can only be used with [picker] attribute.');
         }
 

@@ -10,8 +10,8 @@
             $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $customization['error'] => $error === true
-        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($delay), @js($step), @js($debounce))">
-        <div @class([$customization['buttons.wrapper'], $customization['input.wrapper-centralized'] => $centralized])>
+        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($configurations['delay']), @js($step), @js($debounce))">
+        <div @class([$customization['buttons.wrapper'], $customization['input.wrapper-centralized'] => $configurations['centralized']])>
             <input @if ($id) id="{{ $id }}" @endif
             type="number"
                    inputmode="{{ $mode() }}"
@@ -19,11 +19,11 @@
                    @if ($min) min="{{ $min }}" @endif
                    @if ($max) max="{{ $max }}" @endif
                    @if ($step) step="{{ $step }}" @endif
-                   @if ($selectable) x-on:keydown="$event.preventDefault()" @endif
+                   @if ($configurations['selectable']) x-on:keydown="$event.preventDefault()" @endif
                    {{ $attributes->class([
                         $customization['input.base'],
-                        $customization['input.centralized'] => $centralized,
-                        $customization['input.caret'] => $selectable,
+                        $customization['input.centralized'] => $configurations['centralized'],
+                        $customization['input.caret'] => $configurations['selectable'],
                         $customization['input.appearance']
                     ])}}
                    dusk="tallstackui_form_number_input"
@@ -39,7 +39,7 @@
                     type="button"
                     @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
                     dusk="tallstackui_form_number_decrement"
-                    @class([$customization['buttons.left.base'], $customization['buttons.left.centralized'] => $centralized])>
+                    @class([$customization['buttons.left.base'], $customization['buttons.left.centralized'] => $configurations['centralized']])>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="$icons['left']"
                                      internal
@@ -55,7 +55,7 @@
                     type="button"
                     @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
                     dusk="tallstackui_form_number_increment"
-                    @class([$customization['buttons.right.base'], $customization['buttons.right.separator'] => !$centralized])>
+                    @class([$customization['buttons.right.base'], $customization['buttons.right.separator'] => !$configurations['centralized']])>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="$icons['right']"
                                      internal

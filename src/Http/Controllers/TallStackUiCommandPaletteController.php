@@ -4,6 +4,7 @@ namespace TallStackUi\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use TallStackUi\Components\CommandPalette\Component;
 use TallStackUi\Support\CommandPalette\Callback;
 use TallStackUi\Support\CommandPalette\ItemSelected;
 
@@ -13,7 +14,7 @@ class TallStackUiCommandPaletteController
     {
         abort_unless($request->hasValidSignature(), 403);
 
-        $actionable = config('ts-ui.components.command-palette.1.actionable');
+        $actionable = __ts_get_component_configuration(Component::class, 'actionable');
 
         abort_unless($actionable && class_exists($actionable), 404, '[TallStackUI] Actionable class not found.');
 

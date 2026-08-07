@@ -273,8 +273,8 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('April')
-            ->assertPresent('[x-ref="monthAnchor"].pointer-events-none')
-            ->assertPresent('[x-ref="yearAnchor"].pointer-events-none')
+            ->assertPresent('[dusk="tallstackui_calendar_month_label"].pointer-events-none')
+            ->assertPresent('[dusk="tallstackui_calendar_year_label"].pointer-events-none')
             ->assertDontSee('Jan')
             ->assertDontSee('2034');
     }

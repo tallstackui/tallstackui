@@ -29,6 +29,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $overflow = null,
         public ?bool $scrollable = null,
         public ?bool $paddingless = null,
+        public ?bool $handle = null,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'modal' : $this->entangle);
     }
@@ -53,6 +54,10 @@ class Component extends TallStackUiComponent implements Customization
             'scrollbar' => [
                 'thin' => 'soft-scrollbar',
                 'thick' => 'custom-scrollbar',
+            ],
+            'handle' => [
+                'wrapper' => 'sm:hidden flex justify-center pt-2 select-none touch-none cursor-grab active:cursor-grabbing',
+                'bar' => 'h-1 w-10 rounded-full bg-gray-300 dark:bg-dark-500',
             ],
             'positions' => [
                 'top' => 'items-end sm:items-start',
@@ -108,6 +113,12 @@ class Component extends TallStackUiComponent implements Customization
 
         if (is_string($center) && ! in_array($center, $breakpoints)) {
             __ts_validation_exception($this, 'The [center] must be a boolean or one of the following: ['.implode(', ', $breakpoints).']');
+        }
+
+        // A fully centered modal never behaves as a bottom sheet
+        // on mobile, so the drag-to-close handle has no surface.
+        if (($this->handle ?? $configuration['handle'] ?? false) && $center === true) {
+            __ts_validation_exception($this, 'The [handle] cannot be used when [center] is fully enabled');
         }
 
         if (! str($this->zIndex ?? $configuration['z-index'] ?? 'z-50')->startsWith('z-')) {

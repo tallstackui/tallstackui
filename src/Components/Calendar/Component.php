@@ -11,7 +11,6 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
-use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\CalendarRuntime;
 use TallStackUi\TallStackUiComponent;
@@ -70,29 +69,25 @@ class Component extends TallStackUiComponent implements Customization
                 'body' => 'relative p-3 rounded-lg bg-white dark:bg-dark-800 shadow-md',
                 'single' => 'w-[17rem]',
                 'dual' => 'grid grid-cols-1 gap-y-2 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-0',
-                'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
+                'helpers' => 'custom-scrollbar col-span-full flex items-center justify-between space-x-2 overflow-auto pt-2',
                 'days-header' => 'grid grid-cols-7 mb-3',
                 'days-grid' => 'grid grid-cols-7',
             ],
             'shadowless' => 'shadow-none!',
             'bordered' => 'border border-gray-200 dark:border-dark-600',
-            'floating' => [
-                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
-                'class' => 'p-3 w-[17rem] h-[17rem]',
-            ],
             'box' => [
                 'picker' => [
                     'button' => 'text-gray-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 mb-6 text-sm font-semibold focus:outline-hidden focus:ring-2 dark:text-white',
-                    'button-label-wrapper' => 'inline-flex items-center',
+                    'expanded' => 'min-h-[17rem]',
                     'wrapper' => [
-                        'second' => 'flex w-full flex-wrap h-full',
-                        'third' => 'flex h-10 w-full items-center justify-between px-1 mb-2',
+                        'first' => 'dark:bg-dark-800 absolute left-0 top-0 flex h-full w-full select-none rounded-lg bg-white p-3',
+                        'second' => 'flex w-full flex-wrap',
+                        'third' => 'flex h-12 w-full items-center justify-between px-1',
                     ],
                     'label' => 'text-gray-900 dark:bg-dark-700 hover:bg-dark-100 dark:hover:bg-dark-700 focus:ring-dark-200 flex cursor-pointer items-center justify-between rounded-lg bg-white px-2 py-1 text-sm font-semibold focus:outline-hidden focus:ring-0 dark:text-white',
                     'range' => 'text-gray-400 dark:text-dark-400 font-medium hover:bg-dark-100 dark:hover:bg-dark-700 text-gray-600 dark:text-dark-400 disabled:text-gray-400 dark:disabled:text-dark-500 flex h-6 w-1/4 cursor-pointer select-none items-center justify-center rounded-md p-1 text-center font-normal disabled:cursor-not-allowed',
                     'separator' => 'mx-1',
-                    'today' => 'text-gray-500 dark:text-dark-300 bg-dark-200 dark:bg-dark-700 hover:bg-dark-300 dark:hover:bg-dark-600 select-none whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium cursor-pointer',
-                    'navigate-wrapper' => 'flex items-center gap-0.5',
+                    'today' => 'cursor-pointer',
                 ],
             ],
             'label' => [

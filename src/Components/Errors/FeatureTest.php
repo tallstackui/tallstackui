@@ -106,3 +106,15 @@ it('can thrown exception when the title is empty', function () {
 
     expect('<x-errors title="" />')->render();
 });
+
+it('can render paddingless', function () {
+    expect('<x-errors paddingless />')->render()->toContain('px-0!');
+});
+
+it('can render shadowless', function () {
+    expect('<x-errors shadowless />')->render()->toContain('shadow-none!');
+});
+
+it('can render bordered', function () {
+    expect('<x-errors bordered />')->render()->toContain('border-red-200');
+});

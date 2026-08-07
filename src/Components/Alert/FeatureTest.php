@@ -55,3 +55,15 @@ it('can render black background with white text')
     ->toContain('bg-black')
     ->toContain('text-white')
     ->not->toContain('text-black');
+
+it('can render the light style with shadow')
+    ->expect('<x-alert title="Foo" text="Bar" light />')
+    ->render()
+    ->toContain('bg-primary-50 shadow')
+    ->not->toContain('shadow-none!');
+
+it('can render shadowless')
+    ->expect('<x-alert title="Foo" text="Bar" light shadowless />')
+    ->render()
+    ->toContain('bg-primary-50')
+    ->toContain('shadow-none!');

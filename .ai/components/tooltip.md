@@ -126,6 +126,8 @@ Under `components.tooltip` in `config/tallstackui.php`:
 
 Both reach every `x-tooltip`, including the ones rendered by other components. These are defaults: the inline prop or attribute always wins.
 
+The balloon also honors `TallStackUi::customize()->globals()->flash()` (including `only`/`except`): the CSS transition is turned off through a `data-instant` attribute, so the balloon appears and disappears instantly. Like the settings above, the flag travels through the `data-tsui-*` attributes on the script tag and is frozen when the view compiles.
+
 ## Validation Constraints
 
 - The `position` must be one of the allowed positions listed above.

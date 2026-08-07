@@ -6,6 +6,7 @@
         $customization['wrapper'],
         $colors['background'],
         $customization['square'] => $square,
+        $customization['shadowless'] => $shadowless,
         ($customization['rounded.'.$rounded] ?? '') => ! $square && $rounded,
         ($customization['bordered.'.$borderedAttributes['side']] ?? '') => $borderedAttributes['side'] !== null,
         $colors['bordered'] => $borderedAttributes['side'] !== null && $colors['bordered'],

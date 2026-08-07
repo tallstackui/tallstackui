@@ -109,6 +109,7 @@ TallStackUi::customize()
 | wrapper.helpers           | Helper buttons scrollable container             |
 | floating.default          | Base floating panel positioning                 |
 | floating.class            | Floating panel width and padding                |
+| box.picker.expanded       | Minimum panel height while a picker is open (`min-h-[17rem]`), keeping room under `month-year-only` |
 | box.picker.button         | Month/year picker button styles                 |
 | box.picker.wrapper.first  | Picker overlay background and positioning       |
 | box.picker.wrapper.second | Picker content flex wrapper                     |

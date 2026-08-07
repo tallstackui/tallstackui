@@ -12,6 +12,268 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Date
+
+### Fixed — the floating panel no longer resizes when a picker opens
+
+Opening the month/year picker used to shrink the panel: the day buttons were
+hidden behind an `x-show` while a picker was open — a leftover from before the
+picker became a covering overlay — so the grid collapsed and the panel jumped
+to the fixed `h-[17rem]` the `floating.expanded` block imposed. The day grid
+now stays in flow under the overlay, the panel keeps its natural height, and
+the expanded bound became a minimum (`min-h-[17rem]`) that only matters under
+`month-year-only`, where the grid genuinely is not there.
+
+**Migration** — the `floating.expanded` block moved to `box.picker.expanded`,
+matching the calendar, and its value changed from `h-[17rem]` to
+`min-h-[17rem]`.
+
+## Reaction & Tooltip
+
+### Fixed — the balloons now honor the flash global
+
+`globals()->flash()` works by stripping the `x-transition` directives from the
+Blade templates, and the two JavaScript-built balloons never had any: they
+animate through a plain CSS transition, so they kept fading regardless of the
+global. Both now mark the balloon with `data-instant`, which turns the
+transition off.
+
+The reaction resolves the flag per instance, through the same `only`/`except`
+resolution every Blade component uses. The tooltip is a directive that can run
+on elements with no component behind them, so it reads the flag from the same
+`data-tsui-*` attributes on the script tag that carry the other tooltip
+globals — meaning it is frozen when the view compiles, exactly like
+`tooltip.delay` and friends.
+
+```php
+TallStackUi::customize()->globals()->flash();
+// or
+TallStackUi::customize()->globals()->flash(only: [Reaction::class, Tooltip::class]);
+```
+
+## Modal
+
+### Added — `handle`, the mobile drag-to-close grabber
+
+Below `sm` the modal already behaves as a bottom sheet — edge to edge, pinned to
+the bottom, sliding up from below. `handle` completes the idiom: a small grabber
+bar on top of the panel, visible only on mobile (`sm:hidden`), that follows the
+finger through pointer events and closes the modal when released beyond a
+quarter of the panel height. Below the threshold the panel snaps back through
+its own transition; beyond it the panel keeps sliding down and the modal only
+really closes once it is off-screen. Pulling upwards meets rubber band
+resistance.
+
+```blade
+<x-modal handle>...</x-modal>
+```
+
+The flag also exists as a global default in the component configuration, the
+inline prop always winning:
+
+```php
+'modal' => [
+    Components\Modal\Component::class,
+    [..., 'handle' => false],
+],
+```
+
+A fully centered modal (`center` as `true`, not a breakpoint) never behaves as a
+bottom sheet, so combining it with `handle` throws. Soft customization gained
+the `handle.wrapper` and `handle.bar` blocks.
+
+## Errors
+
+### Added — `paddingless`, `shadowless` and `bordered`
+
+`paddingless` removes the horizontal padding of the wrapper so the divider
+between the header and the body runs edge to edge — the title, list and footer
+recover their own inset, so only the line touches the extremity. `shadowless`
+drops the shadow, `bordered` draws a border following the component color
+through the new `bordered` palette of `ErrorsColors` — published color classes
+can override it like any other palette.
+
+```blade
+<x-errors paddingless />
+<x-errors shadowless bordered />
+```
+
+Soft customization gained the `shadowless`, `bordered` and `paddingless.*`
+blocks.
+
+## Editor
+
+### Changed — internal scopes renamed to the dotted convention
+
+The editor was the only component naming its internal scopes with dashes. They
+now follow the dotted convention every other internal scope uses:
+
+| Was              | Is now               |
+| ---------------- | -------------------- |
+| `editor-toolbar` | `editor.toolbar`     |
+| `editor-link`    | `editor.modal.link`  |
+| `editor-image`   | `editor.modal.image` |
+
+**Migration** — `TallStackUi::customize('dropdown', scope: 'editor-toolbar')`
+and the modal equivalents must point at the new names.
+
+## Form / Input
+
+### Changed — the addon buttons now sit inset
+
+The prefix/suffix `button` slots used to render flush against the wrapper, and
+the focused ring exposed the seam: two independently rasterized rounded corners
+that never quite met, and a button glued to the ring with no breathing room.
+The addon container now carries a small padding (`p-1`) and the button becomes
+a pill of its own (`rounded-sm` on every corner), floating inside the field —
+the ring, the input and the button read as separate pieces at rest and under
+focus.
+
+**Migration** — the `input.addon.button.left` and `input.addon.button.right`
+customization blocks no longer exist, since the asymmetric rounding went away
+with the flush design. The padding and the rounding live in
+`input.addon.button.base`.
+
+## Form / Color
+
+### Added — `picker`, `selectable` and `clearable` in the configuration
+
+The three flags now exist as global defaults in the component configuration,
+resolved through the usual rule — the inline prop always wins:
+
+```php
+'color' => [
+    Components\Form\Color\Component::class,
+    ['colors' => [], 'picker' => false, 'selectable' => false, 'clearable' => false],
+],
+```
+
+`excluded-step` keeps requiring the picker, whichever side enables it.
+
+### Fixed — the custom colors configuration key was never read
+
+The configuration documented `custom` while the resolution read `colors`, so
+the global palette silently did nothing. The key is now `colors`, matching the
+prop it feeds.
+
+**Migration** — applications that guessed `colors` keep working; anything set
+under `custom` must be renamed to `colors`.
+
+## Form / Number
+
+### Added — `centralized`, `selectable`, `delay` and `chevron` in the configuration
+
+The four knobs now exist as global defaults in the component configuration,
+the inline prop always winning:
+
+```php
+'number' => [
+    Components\Form\Number\Component::class,
+    ['centralized' => false, 'selectable' => false, 'delay' => 2, 'chevron' => false],
+],
+```
+
+`delay` keeps its meaning: the press-and-hold repeat interval, in `delay * 100`
+milliseconds.
+
+## Dropdown
+
+### Added — `hover`
+
+Opens the dropdown when the pointer enters the trigger and closes it when the
+pointer leaves, with a 300ms grace period to cross the gap between the trigger
+and the floating panel. The handlers are pointer events filtered to
+`pointerType === 'mouse'`, so touch keeps the click behavior — on a tap the
+synthetic enter would otherwise cancel the click toggle. The click toggle keeps
+working alongside the hover.
+
+```blade
+<x-dropdown text="Options" hover>
+    <x-dropdown.items text="Settings" />
+</x-dropdown>
+```
+
+## Alert
+
+### Added — `shadowless`
+
+The light style carries a soft shadow in every palette entry. `shadowless`
+drops it — whole shadow tokens are stripped from the resolved background, so
+published palettes with a different shadow are covered too.
+
+```blade
+<x-alert title="TallStackUi" text="Primary" light shadowless />
+```
+
+## Carousel
+
+### Added — `round` variations
+
+`round` keeps applying the current look (`rounded-xl`) when used as a flag, and
+now also accepts a Tailwind suffix: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`
+and `full`. Anything else throws. The single `images.rounded` customization
+block became the `images.rounded.*` map (`default` plus one key per suffix).
+
+```blade
+<x-carousel :images="$images" round />
+<x-carousel :images="$images" round="xs" />
+```
+
+## Kbd
+
+### Added — `borderless` and `shadowless` in the configuration
+
+The two flags now exist as global defaults in the component configuration, the
+inline prop always winning:
+
+```php
+'kbd' => [
+    Components\Kbd\Component::class,
+    ['borderless' => false, 'shadowless' => false],
+],
+```
+
+## Calendar
+
+### Changed — the pickers are a faithful copy of the date picker
+
+The calendar is meant to be the `<x-date>` panel without the input, and the
+month/year pickers were the piece that diverged: they opened as `<x-floating>`
+popovers teleported to `<body>`, with their own width, no typographic
+inheritance — the labels rendered larger and lighter than the date picker's —
+and a Today shortcut styled as a gray pill (`bg-dark-200` even in light mode).
+
+They now render exactly like the date picker: in place, as an absolute overlay
+covering the calendar card (`box.picker.wrapper.first`), inheriting the
+`text-sm font-semibold` typography from the picker header. `monthYearOnly`
+keeps its room through the new `box.picker.expanded` block, bound while a
+picker is open. The Yesterday/Today/Tomorrow helpers also moved inside the
+card, matching where the date picker draws them — spanning both halves in
+`double` mode.
+
+**Migration** — the `calendar.floating` internal scope no longer exists, since
+no floating is rendered anymore; `customize('floating', scope:
+'calendar.floating')` must go. The `floating.default`, `floating.class`,
+`box.picker.button-label-wrapper` and `box.picker.navigate-wrapper` blocks were
+removed, `box.picker.wrapper.second`/`third` now carry the date picker values,
+and `box.picker.today` slimmed down to `cursor-pointer`, inheriting everything
+else.
+
+## Reaction
+
+### Fixed — the arrow detached from the balloon
+
+The arrow math was copied from the tooltip, whose balloon has no border: the
+edge offset used `offsetHeight`/`offsetWidth` (border-box) while an absolutely
+positioned child is measured from the padding box, so the panel's 1px border
+pushed the arrow outside the balloon — most visibly when it opened upwards,
+with the panel border running straight through the diamond's shoulders. The
+border widths (`clientTop`/`clientLeft`) are now discounted, and the arrow
+inset grew from 12 to 16 so the whole rotated square clears the `rounded-lg`
+corner arc when it clamps near an edge.
+
+---
+
 ## Swap
 
 ### Added — `<x-swap>`
@@ -3601,12 +3863,12 @@ there, which is a quote rather than an indent and would be stripped by the
 sanitizer on the way back in. That margin is the one action that stays outside the
 undo stack: re-serializing the block to get it in there would drop the caret.
 
-**Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor-link`
-and `editor-image`. The modal already owns the scroll lock, the overlay registry,
+**Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor.modal.link`
+and `editor.modal.image`. The modal already owns the scroll lock, the overlay registry,
 `Escape` with its topmost guard and the focus of its first field, and being
 teleported to `<body>` takes its inputs out of any surrounding `<form>`, where
 `Enter` would otherwise submit it. The toolbar dropdowns are `<x-dropdown>` under
-`editor-toolbar`. What is left in the editor's own surface is the content: 40
+`editor.toolbar`. What is left in the editor's own surface is the content: 40
 blocks rather than the 55 a self-contained dialog would have needed.
 
 **The whole component is `wire:ignore`d under Livewire**, and nothing about it

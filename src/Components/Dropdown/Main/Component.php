@@ -22,6 +22,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $icon = null,
         public ?string $position = 'bottom-end',
         public ?bool $static = false,
+        public ?bool $hover = false,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,

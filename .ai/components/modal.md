@@ -132,21 +132,22 @@ the footer area stay; only the aligning wrapper is dropped:
 
 ## Attributes
 
-| Attribute   | Type               | Default                    | Description                                                                                                                                                                                     |
-|-------------|--------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id          | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                                                                                                                                     |
-| zIndex      | string\|null       | null (from config: 'z-50') | CSS z-index class                                                                                                                                                                               |
-| wire        | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal'                                                                                                                      |
-| title       | string\|null       | null                       | Title text displayed in the modal header with a close button                                                                                                                                    |
-| footer      | string\|null       | null                       | Footer slot content                                                                                                                                                                             |
-| blur        | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                                                                                                    |
-| persistent  | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                                                                                     |
-| size        | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                                                                                |
-| entangle    | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                                                                                                     |
-| center      | bool\|string\|null | null (from config: false)  | `true` centers on all viewport sizes with full border radius and padding (v2-style). A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards, behaving as not centered below it |
-| overflow    | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                                                                                                          |
-| scrollable  | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                                                                                                            |
-| paddingless | bool\|null         | null                       | When true, removes the padding of the body, leaving the default slot flush against the modal edges. Title and footer keep their padding                                                         |
+| Attribute   | Type               | Default                    | Description                                                                                                                                                                                              |
+|-------------|--------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id          | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                                                                                                                                              |
+| zIndex      | string\|null       | null (from config: 'z-50') | CSS z-index class                                                                                                                                                                                        |
+| wire        | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal'                                                                                                                               |
+| title       | string\|null       | null                       | Title text displayed in the modal header with a close button                                                                                                                                             |
+| footer      | string\|null       | null                       | Footer slot content                                                                                                                                                                                      |
+| blur        | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                                                                                                             |
+| persistent  | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                                                                                              |
+| size        | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                                                                                         |
+| entangle    | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                                                                                                              |
+| center      | bool\|string\|null | null (from config: false)  | `true` centers on all viewport sizes with full border radius and padding (v2-style). A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards, behaving as not centered below it          |
+| overflow    | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                                                                                                                   |
+| scrollable  | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                                                                                                                     |
+| paddingless | bool\|null         | null                       | When true, removes the padding of the body, leaving the default slot flush against the modal edges. Title and footer keep their padding                                                                  |
+| handle      | bool\|null         | null (from config: false)  | Displays a grabber bar on mobile only (`sm:hidden`) allowing the bottom sheet to be dragged down to close. Releases beyond 25% of the panel height dismiss; pulling upwards meets rubber band resistance |
 
 ## Slots
 
@@ -171,6 +172,7 @@ the footer area stay; only the aligning wrapper is dropped:
 - The `wire` property cannot be an empty string.
 - The `size` must be one of: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full.
 - The `center` must be a boolean or one of: sm, md, lg, xl, 2xl. This rejects `center="desktop"` and `center="true"`, since Blade hands a quoted attribute over as a string. Arbitrary values such as `center="min-[900px]"` are not supported: Tailwind only generates classes it can read literally in the source.
+- The `handle` cannot be used when `center` is fully enabled (`center` as `true`): a centered modal never behaves as a bottom sheet. Breakpoint values are fine.
 - The `zIndex` must start with `z-` prefix.
 - The `footer` slot cannot combine two or more alignments.
 - The `footer` slot cannot use `unwrapped` together with an alignment.
@@ -196,6 +198,7 @@ In `config/tallstackui.php` under `components.modal`:
 | center     | bool\|string  | false   | When true, centers on every viewport. A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards |
 | scrollable | bool          | false   | When true, fixes title/footer while body scrolls                                                              |
 | scrollbar  | string\|null  | 'thin'  | Scrollbar style for scrollable mode (null, thin, thick)                                                       |
+| handle     | bool          | false   | Displays the mobile drag-to-close grabber by default (the inline prop always wins)                            |
 
 ## Wireable Mode (Livewire Property Binding)
 
@@ -290,6 +293,8 @@ TallStackUi::customize()
 | title.wrapper        | Title bar container with border                 |
 | title.text           | Title heading styles                            |
 | title.close          | Close button icon styles                        |
+| handle.wrapper       | Grabber strip container (mobile only)           |
+| handle.bar           | Grabber bar styles                              |
 | body                 | Body content area styles                        |
 | body.scrollable      | Scrollable body overflow styles                 |
 | body.paddingless     | Padding reset applied when `paddingless` is set |

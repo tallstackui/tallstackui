@@ -62,7 +62,7 @@
                          scope="form.date.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
-                         x-bind:class="{ '{{ $customization['floating.expanded'] }}' : picker.year || picker.month }">
+                         x-bind:class="{ '{{ $customization['box.picker.expanded'] }}' : picker.year || picker.month }">
         <div class="{{ $customization['box.picker.button'] }}">
             <span>
                 <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"
@@ -199,7 +199,7 @@
                                     '{{ $customization['button.today'] }}': day.isToday,
                                     '{{ $customization['button.select'] }}': !day.isToday && !day.isSelected,
                                     '{{ $customization['button.selected'] }}': day.isSelected
-                                }" class="{{ $customization['button.day'] }}" x-show="!picker.year && !picker.month">
+                                }" class="{{ $customization['button.day'] }}">
                         </button>
                     </div>
                 </template>

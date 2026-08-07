@@ -1,9 +1,16 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Tooltip\Component;
+use TallStackUi\Customization\Globals;
+use TallStackUi\Facades\TallStackUi;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    Globals::reset();
+});
 
 it('can render size variations', function (array $size) {
     $key = array_key_first($size);
@@ -43,3 +50,19 @@ it('cannot use bad positions', function (string $position) {
     expect($component)->render()
         ->toContain('Foo bar');
 })->with(['foo', 'bar', 'baz']);
+
+it('cannot emit the flash data attribute by default', function () {
+    expect(TallStackUi::directives()->script())->not->toContain('data-tsui-tooltip-flash');
+});
+
+it('can emit the flash data attribute when the global is enabled', function () {
+    TallStackUi::customize()->globals()->flash();
+
+    expect(TallStackUi::directives()->script())->toContain('data-tsui-tooltip-flash="true"');
+});
+
+it('cannot emit the flash data attribute when the global excludes the component', function () {
+    TallStackUi::customize()->globals()->flash(except: [Component::class]);
+
+    expect(TallStackUi::directives()->script())->not->toContain('data-tsui-tooltip-flash');
+});

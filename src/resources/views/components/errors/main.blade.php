@@ -8,7 +8,11 @@
          x-show="show">
         <div {{ $attributes->except('x-on:close')->class([
                 $customization['wrapper'],
-                $colors['background']
+                $colors['background'],
+                $customization['paddingless.wrapper'] => $paddingless,
+                $customization['shadowless'] => $shadowless,
+                $customization['bordered'] => $bordered,
+                $colors['bordered'] => $bordered,
             ]) }}>
             @if (! $withoutTitle || $close)
                 <div @class([
@@ -17,6 +21,7 @@
                         'justify-end' => $withoutTitle,
                         $customization['title.divider'] => ! $withoutTitle,
                         $colors['border'] => ! $withoutTitle,
+                        $customization['paddingless.title'] => $paddingless,
                     ])>
                     @unless ($withoutTitle)
                         <span @class([$customization['title.text'], $colors['text']])>
@@ -43,7 +48,7 @@
                     @endif
                 </div>
             @endif
-            <div class="{{ $customization['body.wrapper'] }}">
+            <div @class([$customization['body.wrapper'], $customization['paddingless.body'] => $paddingless])>
                 <ul @class([
                         $customization['body.list'],
                         'list-disc' => ! $listNumeric,
@@ -56,9 +61,9 @@
                 </ul>
             </div>
             @if (is_string($footer))
-                <p class="{{ $customization['slots.footer.wrapper'] }}">{{ $footer }}</p>
+                <p @class([$customization['slots.footer.wrapper'], $customization['paddingless.footer'] => $paddingless])>{{ $footer }}</p>
             @elseif ($footer !== null)
-                <div {{ $bag->class([$customization['slots.footer.wrapper']]) }}>
+                <div {{ $bag->class([$customization['slots.footer.wrapper'], $customization['paddingless.footer'] => $paddingless]) }}>
                     @if ($align)
                         <div @class([$customization['slots.footer.base'], $customization['slots.footer.'.$align]])>
                             {{ $footer }}

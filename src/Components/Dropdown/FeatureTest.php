@@ -163,3 +163,25 @@ it('cannot render unaceptable positions', function (string $position) {
         ->toContain('x-anchor.'.$position)
         ->toContain('Logout');
 })->with(['foo', 'bar', 'baz']);
+
+it('can render with hover', function () {
+    $dropdown = <<<'HTML'
+    <x-dropdown text="Menu" hover>
+        <x-dropdown.items text="Settings" />
+    </x-dropdown>
+    HTML;
+
+    expect($dropdown)->render()
+        ->toContain('pointerenter')
+        ->toContain('pointerleave');
+});
+
+it('cannot render hover handlers by default', function () {
+    $dropdown = <<<'HTML'
+    <x-dropdown text="Menu">
+        <x-dropdown.items text="Settings" />
+    </x-dropdown>
+    HTML;
+
+    expect($dropdown)->render()->not->toContain('pointerenter');
+});

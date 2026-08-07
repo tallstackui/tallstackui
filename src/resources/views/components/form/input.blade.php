@@ -13,7 +13,7 @@
             $customization['input.addon.error'] => $error,
         ])>
             @if ($prefixed)
-                <div @class([$customization['input.addon.button.base'], $customization['input.addon.button.left']])>
+                <div @class([$customization['input.addon.button.base']])>
                     {{ $prefix }}
                 </div>
             @endif
@@ -91,7 +91,7 @@
     </div>
     @if ($addon)
             @if ($suffixed)
-                <div @class([$customization['input.addon.button.base'], $customization['input.addon.button.right']])>
+                <div @class([$customization['input.addon.button.base']])>
                     {{ $suffix }}
                 </div>
             @endif

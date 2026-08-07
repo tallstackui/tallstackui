@@ -72,10 +72,11 @@ it('can render with suffix button addon', function () {
     expect($component)->render()
         ->toContain('<input')
         ->toContain('Go')
-        ->toContain('flex-none')
+        ->toContain('flex-none p-1')
         ->toContain('ring-0!')
         ->toContain('focus-within:ring-0!')
-        ->toContain('rounded-l-none!')
+        ->toContain('rounded-r-none!')
+        ->toContain('[&>button]:rounded-sm!')
         ->toContain('focus-within:ring-primary-600');
 });
 
@@ -91,9 +92,9 @@ it('can render with prefix button addon', function () {
     expect($component)->render()
         ->toContain('<input')
         ->toContain('https')
-        ->toContain('flex-none')
-        ->toContain('rounded-r-none!')
-        ->toContain('[&>button]:rounded-r-none!');
+        ->toContain('flex-none p-1')
+        ->toContain('rounded-l-none!')
+        ->toContain('[&>button]:rounded-sm!');
 });
 
 it('can render with buttons on both sides', function () {
