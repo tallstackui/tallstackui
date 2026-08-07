@@ -25,21 +25,21 @@ A compact value cycler shaped like an input: a chevron button on each side and t
 
 ## Attributes
 
-| Attribute  | Type                    | Default | Description                                                             |
-|------------|-------------------------|---------|-------------------------------------------------------------------------|
-| id         | string\|null            | null    | Id applied to the value viewport                                        |
-| label      | string\|slot\|null      | null    | Label rendered above the control                                        |
-| hint       | string\|slot\|null      | null    | Hint rendered below the control (hidden while an error is shown)        |
-| options    | array\|Collection       | []      | Flat list, Collection or dimensional array of options                   |
-| select     | string\|null            | null    | Key remap for dimensional options, e.g. `label:name\|value:id`          |
-| block      | bool                    | false   | Stretches the control to the full width of the parent                   |
-| preview    | bool\|null              | config  | Reveals the previous and next options at the sides with a fade out      |
-| vertical   | bool\|null              | config  | Rolls the value top-to-bottom; chevrons and drag axis follow            |
-| loop       | bool\|null              | config  | Cycles past the edges infinitely; `false` locks and disables at the ends |
-| tooltip    | string\|null            | null    | Tooltip shown over the whole control                                    |
-| invalidate | bool\|null              | null    | Suppresses the validation error feedback                                |
-| disabled   | attribute               | —       | Dims the control and freezes buttons, drag and keyboard                 |
-| readonly   | attribute               | —       | Keeps the resting look but freezes buttons, drag and keyboard           |
+| Attribute  | Type               | Default | Description                                                              |
+|------------|--------------------|---------|--------------------------------------------------------------------------|
+| id         | string\|null       | null    | Id applied to the value viewport                                         |
+| label      | string\|slot\|null | null    | Label rendered above the control                                         |
+| hint       | string\|slot\|null | null    | Hint rendered below the control (hidden while an error is shown)         |
+| options    | array\|Collection  | []      | Flat list, Collection or dimensional array of options                    |
+| select     | string\|null       | null    | Key remap for dimensional options, e.g. `label:name\|value:id`           |
+| block      | bool               | false   | Stretches the control to the full width of the parent                    |
+| preview    | bool\|null         | config  | Reveals the previous and next options at the sides with a fade out       |
+| vertical   | bool\|null         | config  | Rolls the value top-to-bottom; chevrons and drag axis follow             |
+| loop       | bool\|null         | config  | Cycles past the edges infinitely; `false` locks and disables at the ends |
+| tooltip    | string\|null       | null    | Tooltip shown over the whole control                                     |
+| invalidate | bool\|null         | null    | Suppresses the validation error feedback                                 |
+| disabled   | attribute          | —       | Dims the control and freezes buttons, drag and keyboard                  |
+| readonly   | attribute          | —       | Keeps the resting look but freezes buttons, drag and keyboard            |
 
 `preview` and `vertical` cannot be combined — the render throws.
 
@@ -119,11 +119,11 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block               | Purpose                                            |
-|---------------------|----------------------------------------------------|
-| wrapper             | Outer wrapper handed to the input wrapper          |
-| input.*             | The input-like shell (base, color, background, error, block, disabled) |
-| button.*            | The chevron buttons (base, icon)                   |
-| viewport.*          | The value viewport (base, draggable, mask, touch.*, width.*) |
-| track.*             | The sliding track (base, transition, vertical)     |
-| item.*              | Each option (base, fade.*, sizes.*, transition)    |
+| Block      | Purpose                                                                |
+|------------|------------------------------------------------------------------------|
+| wrapper    | Outer wrapper handed to the input wrapper                              |
+| input.*    | The input-like shell (base, color, background, error, block, disabled) |
+| button.*   | The chevron buttons (base, icon)                                       |
+| viewport.* | The value viewport (base, draggable, mask, touch.*, width.*)           |
+| track.*    | The sliding track (base, transition, vertical)                         |
+| item.*     | Each option (base, fade.*, sizes.*, transition)                        |
