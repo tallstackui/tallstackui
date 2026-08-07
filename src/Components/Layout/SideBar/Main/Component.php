@@ -63,7 +63,7 @@ class Component extends TallStackUiComponent implements Customization
                         'base' => 'hidden md:fixed md:inset-y-0 md:z-40 md:flex md:flex-col',
                         'size' => 'md:w-72',
                     ],
-                    'second' => 'dark:bg-dark-800 dark:border-dark-600 flex grow flex-col border-r border-gray-200 bg-white pb-4 transition-[width] duration-300',
+                    'second' => 'dark:bg-dark-800 dark:border-dark-700 flex grow flex-col border-r border-gray-200 bg-white pb-4 transition-[width] duration-300',
                     'third' => 'flex h-16 shrink-0 items-center',
                     'brand.margin' => 'mt-10',
                     'fourth' => 'flex h-16 flex-1 flex-col',
@@ -74,7 +74,7 @@ class Component extends TallStackUiComponent implements Customization
                     'expanded' => 'w-72',
                     'collapsed' => 'w-22',
                 ],
-                'footer' => 'shrink-0 overflow-hidden border-t border-gray-200 dark:border-dark-600 px-2 pt-3',
+                'footer' => 'shrink-0 overflow-hidden border-t border-gray-200 dark:border-dark-700 px-2 pt-3',
                 'scrollbar' => [
                     'thin' => 'soft-scrollbar',
                     'thick' => 'custom-scrollbar',
