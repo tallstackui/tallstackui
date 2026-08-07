@@ -5,9 +5,19 @@ namespace TallStackUi\Components\Traits;
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Components\Button\Circle\Component as Circle;
 use TallStackUi\Components\Button\Normal\Component as Button;
+use TallStackUi\Components\Spinner\Component as Spinner;
 
 trait ButtonSetup
 {
+    protected function guard(): void
+    {
+        $types = array_values(array_diff(Spinner::TYPES, Spinner::TEXTUAL));
+
+        if (! in_array($this->spinner, $types, true)) {
+            __ts_validation_exception($this, 'The [spinner] must be one of: ['.implode(', ', $types).'].');
+        }
+    }
+
     protected function manipulation(array $classes): array
     {
         return (match (true) {
@@ -28,6 +38,9 @@ trait ButtonSetup
 
     protected function setup(): void
     {
+        // Circle intentionally reads the button config key so one setting drives both.
+        $this->spinner ??= __ts_get_component_configuration(Button::class, 'spinner') ?? 'gradient';
+
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : ($this->flat ? 'flat' : 'solid'));
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 

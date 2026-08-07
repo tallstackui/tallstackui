@@ -16,11 +16,7 @@
     x-tooltip="{{ $tooltip }}"
 @endif>
 @if ($livewire && $loading && $position === 'left')
-    <x-ts-ui::icon.generic.loading-button :$loading :$delay @class([
-                $customization['icon.spinner-animation'],
-                $customization['icon.sizes.' . $size],
-                $colors['icon'],
-            ]) />
+    <x-ts-ui::icon.generic.loading-button :$loading :$delay :$spinner :$size :customization="$customization" @class([$colors['icon']]) />
 @endif
 @if ($left)
     {!! $left !!}
@@ -36,10 +32,6 @@
                          :$icon @class([$customization['icon.sizes.' . $size], $colors['icon']]) />
 @endif
 @if ($livewire && $loading && $position === 'right')
-    <x-ts-ui::icon.generic.loading-button :$loading :$delay @class([
-            $customization['icon.spinner-animation'],
-            $customization['icon.sizes.' . $size],
-            $colors['icon'],
-        ]) />
+    <x-ts-ui::icon.generic.loading-button :$loading :$delay :$spinner :$size :customization="$customization" @class([$colors['icon']]) />
 @endif
 </{{ $tag }}>

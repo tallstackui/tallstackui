@@ -23,10 +23,6 @@
             @endif @class([$customization['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
 @endif
 @if ($livewire && $loading)
-    <x-ts-ui::icon.generic.loading-button :$loading :$delay @class([
-        $customization['icon.spinner-animation'],
-        $customization['icon.sizes.' . $size],
-        $colors['icon']
-    ]) />
+    <x-ts-ui::icon.generic.loading-button :$loading :$delay :$spinner :$size :customization="$customization" @class([$colors['icon']]) />
 @endif
 </{{ $tag }}>

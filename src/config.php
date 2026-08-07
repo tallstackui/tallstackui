@@ -132,7 +132,22 @@ return [
             ],
         ],
         'boolean' => Components\Boolean\Component::class,
-        'button' => Components\Button\Normal\Component::class,
+        'button' => [
+            Components\Button\Normal\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Button Global Settings
+                |----------------------------------------------------------------------
+                |
+                | spinner: controls the default wire:loading spinner variant, shared
+                | with button.circle. When null, the default spinner effect is kept.
+                | (Allowed: ring, throbber, gradient, ping, dots, pulse, typing,
+                | bars, wave).
+                */
+                'spinner' => null,
+            ],
+        ],
         'button.circle' => Components\Button\Circle\Component::class,
         'button.group' => Components\Button\Group\Component::class,
         'calendar' => Components\Calendar\Component::class,

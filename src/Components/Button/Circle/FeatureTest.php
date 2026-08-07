@@ -1,8 +1,16 @@
 <?php
 
+use Illuminate\View\ViewException;
+use TallStackUi\Components\Button\Normal\Component as NormalComponent;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+afterEach(function () {
+    config()->set('ts-ui.components.button.1.spinner', null);
+
+    __ts_get_component_configuration(NormalComponent::class, flush: true);
+});
 
 it('can render with slot')
     ->expect('<x-button.circle>Foo bar</x-button.circle>')
@@ -105,3 +113,66 @@ it('does not emit data-tsui-unfocus by default')
     ->expect('<x-button.circle icon="pencil" color="primary" />')
     ->render()
     ->not->toContain('data-tsui-unfocus');
+
+it('can render the default gradient loading spinner', function () {
+    livewireContext();
+
+    expect('<x-button.circle icon="trash" loading="delete" />')->render()
+        ->toContain('dusk="button-loading-spinner"')
+        ->toContain('dusk="spinner-gradient"')
+        ->toContain('wire:target="delete"');
+});
+
+it('can render loading spinner variants', function (string $spinner) {
+    livewireContext();
+
+    $component = <<<HTML
+    <x-button.circle icon="trash" loading="delete" spinner="$spinner" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('dusk="spinner-'.$spinner.'"');
+})->with([
+    'ring',
+    'throbber',
+    'gradient',
+    'ping',
+    'dots',
+    'pulse',
+    'typing',
+    'bars',
+    'wave',
+]);
+
+it('cannot render the loading spinner outside the livewire context')
+    ->expect('<x-button.circle icon="trash" loading="delete" spinner="dots" />')
+    ->render()
+    ->not->toContain('dusk="button-loading-spinner"');
+
+it('can use the global spinner configuration', function () {
+    config()->set('ts-ui.components.button.1.spinner', 'bars');
+
+    __ts_get_component_configuration(NormalComponent::class, flush: true);
+
+    livewireContext();
+
+    expect('<x-button.circle icon="trash" loading="delete" />')->render()
+        ->toContain('dusk="spinner-bars"');
+});
+
+it('can thrown exception when spinner is unnaceptable', function (string $spinner) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Button\Circle: The [spinner] must be one of: [ring, throbber, gradient, ping, dots, pulse, typing, bars, wave].');
+
+    $component = <<<HTML
+    <x-button.circle icon="trash" spinner="$spinner" />
+    HTML;
+
+    expect($component)->render();
+})->with([
+    'shimmer',
+    'caret',
+    'terminal',
+    'thinking',
+    'foo',
+]);

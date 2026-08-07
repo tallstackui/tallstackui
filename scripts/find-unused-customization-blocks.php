@@ -50,37 +50,49 @@ function findComponentFiles(string $dir): array
 function findRelatedBladeFiles(string $mainBladePath, string $viewsDir): array
 {
     $files = [$mainBladePath];
-    $mainContent = file_get_contents($mainBladePath);
+    $queue = [$mainBladePath];
 
-    if (strpos($mainContent, ':$customization') === false) {
-        return $files;
-    }
+    // Delegation is followed recursively: a blade can forward the customization
+    // array to a partial that itself delegates to other views (e.g. the button
+    // loading indicator forwarding to the spinner type partials).
+    while (! empty($queue)) {
+        $content = file_get_contents(array_shift($queue));
 
-    preg_match_all('/component=["\']ts-ui::([^"\']+)["\']/', $mainContent, $viewRefs);
+        if (strpos($content, ':$customization') === false && strpos($content, ':customization=') === false) {
+            continue;
+        }
 
-    foreach ($viewRefs[1] ?? [] as $viewRef) {
-        if (strpos($viewRef, '{{') !== false) {
-            $staticPart = preg_replace('/\{\{.*?\}\}.*$/', '', $viewRef);
-            $dirPath = $viewsDir.'/'.str_replace('.', '/', rtrim($staticPart, '.'));
+        preg_match_all('/component=["\']ts-ui::([^"\']+)["\']/', $content, $dynamicRefs);
+        preg_match_all('/<x-ts-ui::([\w.\-]+)/', $content, $tagRefs);
 
-            if (is_dir($dirPath)) {
-                $iterator = new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS)
-                );
+        $viewRefs = array_merge($dynamicRefs[1] ?? [], $tagRefs[1] ?? []);
 
-                foreach ($iterator as $file) {
-                    $path = $file->getPathname();
+        foreach ($viewRefs as $viewRef) {
+            if (strpos($viewRef, '{{') !== false) {
+                $staticPart = preg_replace('/\{\{.*?\}\}.*$/', '', $viewRef);
+                $dirPath = $viewsDir.'/'.str_replace('.', '/', rtrim($staticPart, '.'));
 
-                    if (str_ends_with($path, '.blade.php') && ! in_array($path, $files)) {
-                        $files[] = $path;
+                if (is_dir($dirPath)) {
+                    $iterator = new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS)
+                    );
+
+                    foreach ($iterator as $file) {
+                        $path = $file->getPathname();
+
+                        if (str_ends_with($path, '.blade.php') && ! in_array($path, $files)) {
+                            $files[] = $path;
+                            $queue[] = $path;
+                        }
                     }
                 }
-            }
-        } else {
-            $path = $viewsDir.'/'.str_replace('.', '/', $viewRef).'.blade.php';
+            } else {
+                $path = $viewsDir.'/'.str_replace('.', '/', $viewRef).'.blade.php';
 
-            if (file_exists($path) && ! in_array($path, $files)) {
-                $files[] = $path;
+                if (file_exists($path) && ! in_array($path, $files)) {
+                    $files[] = $path;
+                    $queue[] = $path;
+                }
             }
         }
     }
@@ -278,9 +290,15 @@ function findPersonalizeUsage(string $content): array
     // whitespace around the concatenation dot.
     preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\s*\./', $content, $dynamicMatches);
 
+    // Prefix strip: str_starts_with($key, 'prefix.') marks a delegation that
+    // removes the prefix before handing the keys to another view, so a defined
+    // key counts as used when its stripped remainder is consumed downstream.
+    preg_match_all('/str_starts_with\(\s*\$\w+\s*,\s*[\'"]([^\'"]+\.)[\'"]\s*\)/', $content, $stripMatches);
+
     return [
         'static' => array_unique($staticMatches[1] ?? []),
         'prefixes' => array_unique($dynamicMatches[1] ?? []),
+        'strips' => array_unique($stripMatches[1] ?? []),
     ];
 }
 
@@ -302,7 +320,7 @@ function findColorPersonalizationKeys(string $colorContent): array
     return array_unique($matches[1] ?? []);
 }
 
-function isKeyUsed(string $key, array $staticKeys, array $dynamicPrefixes): bool
+function isKeyUsed(string $key, array $staticKeys, array $dynamicPrefixes, array $stripPrefixes = []): bool
 {
     if (in_array($key, $staticKeys, true)) {
         return true;
@@ -310,6 +328,12 @@ function isKeyUsed(string $key, array $staticKeys, array $dynamicPrefixes): bool
 
     foreach ($dynamicPrefixes as $prefix) {
         if (str_starts_with($key, $prefix)) {
+            return true;
+        }
+    }
+
+    foreach ($stripPrefixes as $prefix) {
+        if (str_starts_with($key, $prefix) && isKeyUsed(substr($key, strlen($prefix)), $staticKeys, $dynamicPrefixes)) {
             return true;
         }
     }
@@ -366,11 +390,13 @@ foreach ($componentFiles as $componentFile) {
     // Collect all static keys and dynamic prefixes from all sources
     $allStaticKeys = [];
     $allDynamicPrefixes = [];
+    $allStripPrefixes = [];
 
     // 1. Scan the component PHP file itself (e.g., Reaction uses keys in content() method)
     $phpUsage = findPersonalizeUsage($source);
     $allStaticKeys = array_merge($allStaticKeys, $phpUsage['static']);
     $allDynamicPrefixes = array_merge($allDynamicPrefixes, $phpUsage['prefixes']);
+    $allStripPrefixes = array_merge($allStripPrefixes, $phpUsage['strips']);
 
     // 2. Scan every blade the component can return, plus their sub-views
     $bladeFiles = [];
@@ -386,6 +412,7 @@ foreach ($componentFiles as $componentFile) {
         $bladeUsage = findPersonalizeUsage($bladeContent);
         $allStaticKeys = array_merge($allStaticKeys, $bladeUsage['static']);
         $allDynamicPrefixes = array_merge($allDynamicPrefixes, $bladeUsage['prefixes']);
+        $allStripPrefixes = array_merge($allStripPrefixes, $bladeUsage['strips']);
     }
 
     // 3. Scan associated color class
@@ -399,12 +426,13 @@ foreach ($componentFiles as $componentFile) {
 
     $allStaticKeys = array_unique($allStaticKeys);
     $allDynamicPrefixes = array_unique($allDynamicPrefixes);
+    $allStripPrefixes = array_unique($allStripPrefixes);
 
     // Find unused keys
     $unusedKeys = [];
 
     foreach ($definedKeys as $key) {
-        if (! isKeyUsed($key, $allStaticKeys, $allDynamicPrefixes)) {
+        if (! isKeyUsed($key, $allStaticKeys, $allDynamicPrefixes, $allStripPrefixes)) {
             $unusedKeys[] = $key;
         }
     }

@@ -207,6 +207,19 @@ function colorsDataset(): array
     ];
 }
 
+// Simulates the Livewire context by sharing a real component instance,
+// since CompileRuntime forwards it to a nullable Component constructor.
+function livewireContext(): void
+{
+    view()->share('__livewire', new class extends Livewire\Component
+    {
+        public function render(): string
+        {
+            return '<div></div>';
+        }
+    });
+}
+
 expect()->extend('render', function (array $data = []): Expectation {
     /** @var Expectation $this */
     $this->value = Blade::render($this->value, $data, true); // @phpstan-ignore-line
