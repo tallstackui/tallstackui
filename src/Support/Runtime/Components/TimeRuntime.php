@@ -19,6 +19,7 @@ class TimeRuntime extends AbstractRuntime
             'entangle' => $bind->get('entangle'),
             'value' => $value = $this->sanitize(),
             'change' => $this->change(),
+            'boundaries' => $this->component->times(), // @phpstan-ignore-line
         ];
 
         $value = $this->value($property, $value);

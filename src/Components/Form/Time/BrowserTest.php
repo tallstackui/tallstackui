@@ -319,7 +319,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_time_hours', 30)
+            ->dragRight('@tallstackui_time_hours', 300)
             ->waitForTextIn('@time', '05:00 AM')
             ->assertSeeIn('@time', '05:00 AM');
     }
@@ -349,7 +349,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('11')
             ->waitForText('00')
             ->waitForText('PM')
-            ->dragRight('@tallstackui_time_minutes', 50)
+            ->dragRight('@tallstackui_time_minutes', 300)
             ->waitForTextIn('@time', '11:30 PM')
             ->assertSeeIn('@time', '11:30 PM');
     }
@@ -379,7 +379,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('11')
             ->waitForText('30')
             ->waitForText('PM')
-            ->dragLeft('@tallstackui_time_hours', 30)
+            ->dragLeft('@tallstackui_time_hours', 300)
             ->waitForTextIn('@time', '05:30 PM')
             ->assertSeeIn('@time', '05:30 PM');
     }

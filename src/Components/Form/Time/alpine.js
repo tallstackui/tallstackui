@@ -44,7 +44,7 @@ export default (
   init() {
     this.model ??= this.value ?? (required ? dayjs().format('HH:mm A') : null);
     this.empty = this.model === null;
-    this.hours = full ? '00' : '01';
+    this.hours = this.range.hour.min.toString().padStart(2, '0');
 
     if (this.model) this.hydrate();
 
@@ -63,9 +63,36 @@ export default (
     const [time, interval] = this.model.split(' ');
     const [hours, minutes] = time ? time.split(':') : ['00', '00'];
 
-    this.hours = hours;
-    this.minutes = minutes;
     this.interval = interval ?? null;
+
+    const bounded = {
+      hours: this.clamp(parseInt(hours), 'hour'),
+      minutes: this.clamp(parseInt(minutes), 'minute'),
+    };
+
+    // The browser already anchors the sliders to their own min and max, so a
+    // model outside the boundaries has to be pulled in to keep them in sync.
+    if (bounded.hours === parseInt(hours) && bounded.minutes === parseInt(minutes)) {
+      this.hours = hours;
+      this.minutes = minutes;
+
+      return;
+    }
+
+    this.hours = bounded.hours;
+    this.minutes = bounded.minutes;
+
+    this.sync();
+  },
+  /**
+   * Keep a value inside the boundaries of the given type.
+   *
+   * @param {Number} value
+   * @param {String} type
+   * @return {Number}
+   */
+  clamp(value, type) {
+    return Math.min(Math.max(value, this.range[type].min), this.range[type].max);
   },
   /**
    * Change the hour and minute.
@@ -77,30 +104,12 @@ export default (
   change(event, type) {
     const change = {
       hours: () => {
-        let value = parseInt(event.target.value);
-
-        value =
-          this.range.hour.min && value < this.range.hour.min
-            ? this.range.hour.min
-            : this.range.hour.max && value > this.range.hour.max
-              ? this.range.hour.max
-              : value;
-
-        this.hours = value;
+        this.hours = this.clamp(parseInt(event.target.value), 'hour');
 
         this.$el.dispatchEvent(new CustomEvent('hour', { detail: { hour: this.formatted.hours } }));
       },
       minutes: () => {
-        let value = parseInt(event.target.value);
-
-        value =
-          this.range.minute.min && value < this.range.minute.min
-            ? this.range.minute.min
-            : this.range.minute.max && value > this.range.minute.max
-              ? this.range.minute.max
-              : value;
-
-        this.minutes = value;
+        this.minutes = this.clamp(parseInt(event.target.value), 'minute');
 
         this.$el.dispatchEvent(
           new CustomEvent('minute', { detail: { minute: this.formatted.minutes } })
@@ -227,12 +236,12 @@ export default (
 
     // The 12-hour slider runs from 1 to 12, so the 24-hour clock reading has to
     // be folded into it: 13 becomes 1 PM and 0 becomes 12 AM.
-    this.hours = full ? hours : hours % 12 || 12;
-    this.minutes = minutes;
+    this.hours = this.clamp(full ? hours : hours % 12 || 12, 'hour');
+    this.minutes = this.clamp(minutes, 'minute');
 
     this.$el.dispatchEvent(
       new CustomEvent('current', {
-        detail: { time: { hour: this.hours, minute: minutes, interval: this.interval } },
+        detail: { time: { hour: this.hours, minute: this.minutes, interval: this.interval } },
       })
     );
 
