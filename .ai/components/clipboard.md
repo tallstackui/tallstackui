@@ -19,17 +19,43 @@ A copy-to-clipboard component with two display modes: an input field with a copy
 <x-clipboard text="Copy this text" icon />
 ```
 
+```blade
+<x-clipboard text="Copy this text" :icon="['copy' => 'pencil', 'copied' => 'check']" />
+```
+
 ## Attributes
 
-| Attribute | Type         | Default                            | Description                                                  |
-|-----------|--------------|------------------------------------|--------------------------------------------------------------|
-| label     | string\|null | null                               | Label displayed above the input (input mode only)            |
-| hint      | string\|null | null                               | Hint text displayed below the input (input mode only)        |
-| text      | string\|null | null                               | The text content to be copied to clipboard                   |
-| icon      | bool         | null                               | Switches to icon-only mode instead of the default input mode |
-| left      | bool         | false                              | Places the copy button on the left side of the input         |
-| secret    | bool         | false                              | Masks the input as a password field                          |
-| icons     | array\|null  | ['copy' => null, 'copied' => null] | Custom icon names for the copy and copied states             |
+| Attribute | Type              | Default | Description                                                  |
+|-----------|-------------------|---------|--------------------------------------------------------------|
+| label     | string\|null      | null    | Label displayed above the input (input mode only)            |
+| hint      | string\|null      | null    | Hint text displayed below the input (input mode only)        |
+| text      | string\|null      | null    | The text content to be copied to clipboard                   |
+| icon      | bool\|array\|null | null    | Switches to icon-only mode instead of the default input mode |
+| left      | bool\|null        | false   | Places the copy button on the left side of the input         |
+| secret    | bool\|null        | false   | Masks the input as a password field                          |
+
+## The `icon` attribute
+
+`icon` both switches the display mode and carries the icon names, so there is a
+single attribute to reason about:
+
+```blade
+{{-- icon mode, with the default clipboard/document-check pair --}}
+<x-clipboard text="TallStackUI" icon />
+
+{{-- icon mode, with custom icons --}}
+<x-clipboard text="TallStackUI" :icon="['copy' => 'pencil', 'copied' => 'check']" />
+
+{{-- either key can be omitted, falling back to the default of that state --}}
+<x-clipboard text="TallStackUI" :icon="['copy' => 'pencil']" />
+
+{{-- input mode --}}
+<x-clipboard text="TallStackUI" />
+<x-clipboard text="TallStackUI" :icon="false" />
+```
+
+An array turns icon mode on by itself: passing `icon` alongside it is allowed but
+redundant. Only `false` and `null` fall back to the input mode.
 
 ## Slots
 
@@ -40,6 +66,7 @@ A copy-to-clipboard component with two display modes: an input field with a copy
 ## Validation Constraints
 
 - The `text` content cannot be empty (checked at runtime via the ClipboardRuntime class). The text can be provided via the `text` attribute or the default slot.
+- The `icon` array only accepts the keys `copy` and `copied`. Any other key raises `InvalidArgumentException`.
 - The translation keys `button.copy` and `button.copied` in `ts-ui::messages.clipboard` must not be blank.
 
 ## Soft Customization

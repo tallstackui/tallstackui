@@ -19,25 +19,33 @@ class Component extends TallStackUiComponent implements Customization
 {
     use FormDefaultInputClasses;
 
+    public const STATES = ['copy', 'copied'];
+
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $text = null,
-        public ?bool $icon = null,
+        public bool|array|null $icon = null,
         public ?bool $left = false,
         public ?bool $secret = false,
-        public ?array $icons = ['copy' => null, 'copied' => null],
         #[SkipDebug]
         public ?array $placeholders = [],
+        #[SkipDebug]
+        public ?array $icons = null,
         #[SkipDebug]
         public ?string $type = null,
     ) {
         $this->placeholders = trans('ts-ui::messages.clipboard');
 
-        $this->type = $this->icon ? 'icon' : 'input';
+        $this->type = match ($this->icon) {
+            null, false => 'input',
+            default => 'icon',
+        };
 
-        $this->icons['copy'] ??= '';
-        $this->icons['copied'] ??= '';
+        $this->icons = [
+            'copy' => is_array($this->icon) ? ($this->icon['copy'] ?? '') : '',
+            'copied' => is_array($this->icon) ? ($this->icon['copied'] ?? '') : '',
+        ];
     }
 
     public function blade(): View
@@ -97,6 +105,10 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
+        if (is_array($this->icon) && ($invalid = array_diff(array_keys($this->icon), self::STATES)) !== []) {
+            __ts_validation_exception($this, 'The [icon] array only accepts the keys ['.implode(', ', self::STATES).']. Received: ['.implode(', ', $invalid).'].');
+        }
+
         $messages = trans('ts-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {

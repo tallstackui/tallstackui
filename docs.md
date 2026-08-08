@@ -12,6 +12,44 @@ such change is listed under **Migration**.
 
 ---
 
+## Clipboard
+
+### Changed — `icons` folded into `icon`
+
+Customizing the copy and copied icons took two attributes that could not be used
+apart: `icons` did nothing without `icon`, and `icon` alone was the only way to
+ask for the default pair. `icon` now accepts the array directly, and an array
+turns the icon mode on by itself:
+
+```blade
+<x-clipboard text="TallStackUI" icon />
+
+<x-clipboard text="TallStackUI" :icon="['copy' => 'pencil', 'copied' => 'check']" />
+
+<x-clipboard text="TallStackUI" :icon="['copy' => 'pencil']" />
+```
+
+Either key can be omitted and falls back to the default icon of that state. Only
+`false` and `null` keep the input mode, so `:icon="[]"` renders the icon with the
+defaults rather than the input.
+
+**Migration** — drop `icons` and move its value into `icon`:
+
+```diff
+-<x-clipboard text="TallStackUI" icon :icons="['copy' => 'pencil', 'copied' => 'check']" />
++<x-clipboard text="TallStackUI" :icon="['copy' => 'pencil', 'copied' => 'check']" />
+```
+
+`icons` is gone, not deprecated, and an array attribute the component does not
+declare is dropped by the attribute bag — so a leftover `:icons` neither renders
+nor raises, it simply stops having any effect.
+
+### Added — the `icon` array keys are validated
+
+A typo in the array used to fall back to the default icon without a word.
+Anything other than `copy` and `copied` now raises the usual validation
+exception.
+
 ## Back to Top
 
 ### Added — the whole look answers to the configuration
