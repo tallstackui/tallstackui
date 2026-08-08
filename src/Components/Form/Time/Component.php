@@ -91,16 +91,22 @@ class Component extends TallStackUiComponent implements Customization
         ]);
     }
 
+    /**
+     * The boundaries are pinned to the natural limits of the format because
+     * the validation accepts the 0-23 range even on the 12-hour format.
+     */
     final public function times(): array
     {
+        [$floor, $ceil] = $this->format === '12' ? [1, 12] : [0, 23];
+
         return [
             'hour' => [
-                'min' => $this->minHour,
-                'max' => $this->maxHour,
+                'min' => max($this->minHour ?? $floor, $floor),
+                'max' => min($this->maxHour ?? $ceil, $ceil),
             ],
             'minute' => [
-                'min' => $this->minMinute,
-                'max' => $this->maxMinute,
+                'min' => max($this->minMinute ?? 0, 0),
+                'max' => min($this->maxMinute ?? 59, 59),
             ],
         ];
     }

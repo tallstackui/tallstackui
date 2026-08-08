@@ -9,7 +9,7 @@
 <div x-data="tallstackui_formTime(
     {!! $entangle !!},
     @js($format === '24'),
-    {...@js($times())},
+    {...@js($boundaries)},
     @js($attributes->get('required', false)),
     @js($livewire),
     @js($property),
@@ -84,8 +84,8 @@
             </div>
             <div wire:ignore.self class="{{ $customization['helper.wrapper'] }}">
                 <input type="range"
-                       min="{{ $format === '12' ? 1 : 0 }}"
-                       max="{{ $format === '12' ? 12 : 23 }}"
+                       min="{{ $boundaries['hour']['min'] }}"
+                       max="{{ $boundaries['hour']['max'] }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
                        x-ref="rangeHours"
@@ -97,8 +97,8 @@
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
                         @class([$customization['range.focus'], $customization['range.base'], $customization['range.thumb']])>
                 <input type="range"
-                       min="0"
-                       max="59"
+                       min="{{ $boundaries['minute']['min'] }}"
+                       max="{{ $boundaries['minute']['max'] }}"
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
                        x-ref="rangeMinutes"
