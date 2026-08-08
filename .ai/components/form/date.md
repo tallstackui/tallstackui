@@ -104,31 +104,31 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                | Purpose                                         |
-|---------------------------|-------------------------------------------------|
-| wrapper.helpers           | Helper buttons scrollable container             |
-| floating.default          | Base floating panel positioning                 |
-| floating.class            | Floating panel width and padding                |
+| Block Name                | Purpose                                                                                             |
+|---------------------------|-----------------------------------------------------------------------------------------------------|
+| wrapper.helpers           | Helper buttons scrollable container                                                                 |
+| floating.default          | Base floating panel positioning                                                                     |
+| floating.class            | Floating panel width and padding                                                                    |
 | box.picker.expanded       | Minimum panel height while a picker is open (`min-h-[17rem]`), keeping room under `month-year-only` |
-| box.picker.button         | Month/year picker button styles                 |
-| box.picker.wrapper.first  | Picker overlay background and positioning       |
-| box.picker.wrapper.second | Picker content flex wrapper                     |
-| box.picker.wrapper.third  | Picker header row layout                        |
-| box.picker.label          | Picker label button styles                      |
-| box.picker.range          | Month/year range item styles                    |
-| box.picker.separator      | Year range separator dash                       |
-| label.days                | Day-of-week header text styles                  |
-| label.month               | Month label font styles                         |
-| label.year                | Year label font styles                          |
-| button.blank              | Empty calendar cell padding                     |
-| button.day                | Day button size, rounding, and transitions      |
-| button.select             | Unselected day hover styles                     |
-| button.today              | Today highlight text styles                     |
-| button.selected           | Selected day background and text styles         |
-| button.helpers            | Helper button (yesterday/today/tomorrow) styles |
-| button.navigate           | Navigation arrow button styles                  |
-| icon.wrapper              | Suffix icon flex container                      |
-| icon.size                 | Calendar and clear icon dimensions              |
-| icon.clear                | Clear icon hover color                          |
-| icon.navigate             | Navigation arrow icon color and size            |
-| range                     | Range selection between-date background         |
+| box.picker.button         | Month/year picker button styles                                                                     |
+| box.picker.wrapper.first  | Picker overlay background and positioning                                                           |
+| box.picker.wrapper.second | Picker content flex wrapper                                                                         |
+| box.picker.wrapper.third  | Picker header row layout                                                                            |
+| box.picker.label          | Picker label button styles                                                                          |
+| box.picker.range          | Month/year range item styles                                                                        |
+| box.picker.separator      | Year range separator dash                                                                           |
+| label.days                | Day-of-week header text styles                                                                      |
+| label.month               | Month label font styles                                                                             |
+| label.year                | Year label font styles                                                                              |
+| button.blank              | Empty calendar cell padding                                                                         |
+| button.day                | Day button size, rounding, and transitions                                                          |
+| button.select             | Unselected day hover styles                                                                         |
+| button.today              | Today highlight text styles                                                                         |
+| button.selected           | Selected day background and text styles                                                             |
+| button.helpers            | Helper button (yesterday/today/tomorrow) styles                                                     |
+| button.navigate           | Navigation arrow button styles                                                                      |
+| icon.wrapper              | Suffix icon flex container                                                                          |
+| icon.size                 | Calendar and clear icon dimensions                                                                  |
+| icon.clear                | Clear icon hover color                                                                              |
+| icon.navigate             | Navigation arrow icon color and size                                                                |
+| range                     | Range selection between-date background                                                             |
