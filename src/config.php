@@ -122,7 +122,28 @@ return [
                 'strict' => false,
             ],
         ],
-        'back-to-top' => Components\BackToTop\Component::class,
+        'back-to-top' => [
+            Components\BackToTop\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Back To Top Global Settings
+            |----------------------------------------------------------------------
+            | immediate: jumps to the top instead of scrolling smoothly.
+            | square: rounds the button as a square instead of a circle.
+            | color: controls the button color (Allowed: any palette key).
+            | icon: controls the icon rendered inside the button.
+            | position: controls the corner the button sits on (Allowed: bottom-left, bottom-right).
+            | size: controls the button size (Allowed: xs, sm, md, lg).
+            */
+            [
+                'immediate' => false,
+                'square' => false,
+                'color' => 'primary',
+                'icon' => 'chevron-up',
+                'position' => 'bottom-right',
+                'size' => 'md',
+            ],
+        ],
         'avatar' => Components\Avatar\Component::class,
         'avatar.group' => Components\Avatar\Group\Component::class,
         'badge' => Components\Badge\Component::class,

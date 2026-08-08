@@ -12,6 +12,47 @@ such change is listed under **Migration**.
 
 ---
 
+## Back to Top
+
+### Added — the whole look answers to the configuration
+
+`immediate`, `square`, `color`, `icon`, `position` and `size` are now global
+defaults, so a floating button that is meant to look the same on every page no
+longer has to repeat itself at every call site:
+
+```php
+'back-to-top' => [
+    Components\BackToTop\Component::class,
+    [
+        'immediate' => false,
+        'square' => false,
+        'color' => 'primary',
+        'icon' => 'chevron-up',
+        'position' => 'bottom-right',
+        'size' => 'md',
+    ],
+],
+```
+
+The inline prop always wins, negative forms included — `:square="false"` brings a
+single button back to the circle while the configuration keeps the rest square.
+`size` is the value behind the `xs`/`sm`/`md`/`lg` flags, so it only applies when
+none of them is present.
+
+### Changed — the props default to `null`
+
+`color`, `position`, `immediate` and `square` used to carry their defaults in the
+constructor signature, which left no room to tell "not informed" apart from
+"informed with the default value". They now start as `null` and resolve in
+`setup()`, ahead of the color compilation and the validation that both depend on
+them.
+
+### Added — `size` is validated
+
+An unknown size used to reach the Blade template and fail on a missing
+customization key. It now raises the same validation exception `position` does,
+which also covers a bad value coming from the configuration.
+
 ## Accordion
 
 ### Added — `shadowless`, as a prop and in the configuration

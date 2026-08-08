@@ -27,16 +27,43 @@ A floating button that appears when the user scrolls down, allowing them to smoo
 | color     | string\|null | 'primary'      | Color theme (e.g., primary, red, green, blue)                              |
 | position  | string\|null | 'bottom-right' | Screen position: 'bottom-right' or 'bottom-left'                           |
 | anchor    | string\|null | null           | CSS selector of the element to scroll to instead of the page top           |
-| immediate | bool         | false          | Uses instant scroll instead of smooth animation when scrolling back to top |
-| square    | bool         | false          | Uses rounded-lg corners instead of fully rounded                           |
-| xs        | bool         | null           | Extra-small size                                                           |
-| sm        | bool         | null           | Small size                                                                 |
-| md        | bool         | null           | Medium size (default)                                                      |
-| lg        | bool         | null           | Large size                                                                 |
+| immediate | bool\|null   | false          | Uses instant scroll instead of smooth animation when scrolling back to top |
+| square    | bool\|null   | false          | Uses rounded-lg corners instead of fully rounded                           |
+| xs        | bool\|null   | null           | Extra-small size                                                           |
+| sm        | bool\|null   | null           | Small size                                                                 |
+| md        | bool\|null   | null           | Medium size (default)                                                      |
+| lg        | bool\|null   | null           | Large size                                                                 |
+
+Every default above except `anchor` comes from the global configuration, so the
+`Default` column describes the shipped configuration rather than a value hardcoded
+in the component.
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'back-to-top' => [
+    \TallStackUi\Components\BackToTop\Component::class,
+    [
+        'immediate' => false,
+        'square' => false,
+        'color' => 'primary',
+        'icon' => 'chevron-up',
+        'position' => 'bottom-right',
+        'size' => 'md',
+    ],
+],
+```
+
+The inline prop always wins, including the negative form: with `'square' => true`
+configured, `:square="false"` brings a single button back to the circle. The size
+is chosen through the `xs`, `sm`, `md` and `lg` flags, so `size` in the
+configuration only applies when none of them is present.
 
 ## Validation Constraints
 
 - The `position` attribute must be one of: `bottom-left`, `bottom-right`.
+- The `size` resolved from the flags or from the configuration must be one of: `xs`, `sm`, `md`, `lg`.
 
 ## Soft Customization
 

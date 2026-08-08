@@ -15,13 +15,17 @@ use TallStackUi\TallStackUiComponent;
 #[ColorsThroughOf(BackToTopColors::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    public const POSITIONS = ['bottom-left', 'bottom-right'];
+
+    public const SIZES = ['xs', 'sm', 'md', 'lg'];
+
     public function __construct(
         public ?string $icon = null,
-        public ?string $color = 'primary',
-        public ?string $position = 'bottom-right',
+        public ?string $color = null,
+        public ?string $position = null,
         public ?string $anchor = null,
-        public ?bool $immediate = false,
-        public ?bool $square = false,
+        public ?bool $immediate = null,
+        public ?bool $square = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -29,8 +33,7 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $size = null,
     ) {
-        $this->icon ??= 'chevron-up';
-        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : ($this->xs ? 'xs' : 'md'));
+        //
     }
 
     public function blade(): View
@@ -69,12 +72,31 @@ class Component extends TallStackUiComponent implements Customization
         ]);
     }
 
+    protected function setup(): void
+    {
+        $this->icon ??= __ts_get_component_configuration(self::class, 'icon') ?? 'chevron-up';
+        $this->color ??= __ts_get_component_configuration(self::class, 'color') ?? 'primary';
+        $this->position ??= __ts_get_component_configuration(self::class, 'position') ?? 'bottom-right';
+        $this->immediate ??= __ts_get_component_configuration(self::class, 'immediate') ?? false;
+        $this->square ??= __ts_get_component_configuration(self::class, 'square') ?? false;
+
+        $this->size = match (true) {
+            $this->lg === true => 'lg',
+            $this->md === true => 'md',
+            $this->sm === true => 'sm',
+            $this->xs === true => 'xs',
+            default => __ts_get_component_configuration(self::class, 'size') ?? 'md',
+        };
+    }
+
     protected function validate(): void
     {
-        $positions = ['bottom-left', 'bottom-right'];
+        if (! in_array($this->position, self::POSITIONS, true)) {
+            __ts_validation_exception($this, 'The [position] must be one of: '.implode(', ', self::POSITIONS));
+        }
 
-        if (! in_array($this->position, $positions)) {
-            __ts_validation_exception($this, 'The [position] must be one of: '.implode(', ', $positions));
+        if (! in_array($this->size, self::SIZES, true)) {
+            __ts_validation_exception($this, 'The [size] must be one of: '.implode(', ', self::SIZES));
         }
     }
 }
