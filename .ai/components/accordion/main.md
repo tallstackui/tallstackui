@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A collapsible panel group for progressively disclosed content such as FAQs, configuration sections, or grouped detail views. By default the accordion opens one item at a time (opening another closes the current one), matches the Radix/shadcn single-open UX, and animates expansion via the `@alpinejs/collapse` plugin. Supports multi-open mode, flat visual style, chevron positioning, default-open items, rich triggers, and custom icons.
+A collapsible panel group for progressively disclosed content such as FAQs, configuration sections, or grouped detail views. By default the accordion opens one item at a time (opening another closes the current one), matches the Radix/shadcn single-open UX, and animates expansion via the `@alpinejs/collapse` plugin. Supports multi-open mode, flat visual style, a shadowless variant, chevron positioning, default-open items, rich triggers, and custom icons.
 
 ## Basic Usage
 
@@ -33,6 +33,14 @@ Flat visual style (no outer border / shadow):
 <x-accordion flat>
     <x-accordion.items title="First" id="first">No outer border.</x-accordion.items>
     <x-accordion.items title="Second" id="second">Item separators only.</x-accordion.items>
+</x-accordion>
+```
+
+Keeping the border and the rounding, but dropping the shadow:
+
+```blade
+<x-accordion shadowless>
+    <x-accordion.items title="First" id="first">Bordered, without the shadow.</x-accordion.items>
 </x-accordion>
 ```
 
@@ -67,11 +75,12 @@ Binding events to a Livewire method:
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                                       |
-|-----------|--------------|-----------|-----------------------------------------------------------------------------------|
-| multiple  | bool\|null   | false     | When set, multiple items can be open at the same time. Default is single-open.    |
-| flat      | bool\|null   | false     | Removes the outer border, rounding, and shadow. Item separators remain.           |
-| chevron   | string\|null | `'right'` | Position of the trigger's trailing icon. Accepts `'right'` (default) or `'left'`. |
+| Attribute  | Type         | Default   | Description                                                                       |
+|------------|--------------|-----------|-----------------------------------------------------------------------------------|
+| multiple   | bool\|null   | false     | When set, multiple items can be open at the same time. Default is single-open.    |
+| flat       | bool\|null   | false     | Removes the outer border, rounding, and shadow. Item separators remain.           |
+| shadowless | bool\|null   | null      | Removes the shadow while keeping the border and the rounding.                     |
+| chevron    | string\|null | `'right'` | Position of the trigger's trailing icon. Accepts `'right'` (default) or `'left'`. |
 
 ## Slots
 
@@ -103,6 +112,20 @@ Single-open mode (default): opening an item automatically closes any other curre
     <x-accordion.items title="B" id="b">Stays open independently.</x-accordion.items>
 </x-accordion>
 ```
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'accordion' => [
+    \TallStackUi\Components\Accordion\Main\Component::class,
+    [
+        'shadowless' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores the shadow on a single accordion while the configuration keeps it off everywhere else.
 
 ## Validation
 
@@ -142,3 +165,4 @@ Then in Blade:
 | wrapper.base                 | Base container styles applied to every accordion (background, width).             |
 | wrapper.bordered             | Border, radius, shadow, and overflow clipping applied when `flat` is not set.     |
 | wrapper.chevron-left-cascade | Tailwind arbitrary-variant class that flips trigger layout when `chevron="left"`. |
+| shadowless                   | Shadow reset applied when `shadowless` is set.                                    |

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Accordion\Main\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -79,6 +80,45 @@ it('removes bordered classes when flat prop is set', function () {
 
     expect($bordered)->render()->toContain('border');
     expect($flat)->render()->not->toContain('rounded-lg border border-gray-200');
+});
+
+it('can render with shadow by default')
+    ->expect('<x-accordion><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+    ->render()
+    ->toContain('shadow-md')
+    ->not->toContain('shadow-none!');
+
+it('can render shadowless')
+    ->expect('<x-accordion shadowless><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+    ->render()
+    ->toContain('shadow-none!');
+
+it('can render shadowless through the global configuration', function () {
+    config()->set('ts-ui.components.accordion.1.shadowless', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-accordion><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+        ->render()
+        ->toContain('shadow-none!');
+
+    config()->set('ts-ui.components.accordion.1.shadowless', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can let the shadowless prop win over the global configuration', function () {
+    config()->set('ts-ui.components.accordion.1.shadowless', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-accordion :shadowless="false"><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+        ->render()
+        ->not->toContain('shadow-none!');
+
+    config()->set('ts-ui.components.accordion.1.shadowless', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
 });
 
 it('throws when chevron prop is not left or right', function () {

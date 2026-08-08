@@ -4,6 +4,7 @@ namespace TallStackUi\Support\Configurations;
 
 use Exception;
 use Illuminate\Support\Facades\URL;
+use TallStackUi\Components\Accordion\Main\Component as Accordion;
 use TallStackUi\Components\Chart\Component as Chart;
 use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
@@ -31,6 +32,7 @@ class CompileConfigurations
     {
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
+            $component instanceof Accordion => fn () => self::accordion($component),
             $component instanceof Autocomplete => fn () => self::autocomplete($component),
             $component instanceof Chart => fn () => self::chart($component),
             $component instanceof CommandPalette => fn () => self::commandPalette($component),
@@ -62,6 +64,20 @@ class CompileConfigurations
         }
 
         return $data;
+    }
+
+    /**
+     * Define the Accordion component configurations.
+     *
+     * @throws Exception
+     */
+    private static function accordion(Accordion $component): array
+    {
+        $configuration = __ts_get_component_configuration(Accordion::class);
+
+        $component->shadowless ??= $configuration['shadowless'] ?? false;
+
+        return ['shadowless' => $component->shadowless];
     }
 
     /**

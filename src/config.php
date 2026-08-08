@@ -93,7 +93,18 @@ return [
     | List of all TallStackUI components and their possible settings.
     */
     'components' => [
-        'accordion' => Components\Accordion\Main\Component::class,
+        'accordion' => [
+            Components\Accordion\Main\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Accordion Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            */
+            [
+                'shadowless' => false,
+            ],
+        ],
         'accordion.items' => Components\Accordion\Items\Component::class,
         'alert' => Components\Alert\Component::class,
         'autocomplete' => [

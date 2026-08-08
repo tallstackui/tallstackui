@@ -12,6 +12,33 @@ such change is listed under **Migration**.
 
 ---
 
+## Accordion
+
+### Added — `shadowless`, as a prop and in the configuration
+
+`flat` was the only way to drop the shadow, and it takes the border and the
+rounding with it, since `shadow-md` lives inside the `wrapper.bordered` block.
+`shadowless` is the middle ground: the outline stays, only the shadow goes.
+
+```blade
+<x-accordion shadowless>
+    <x-accordion.items title="First" id="first">Bordered, without the shadow.</x-accordion.items>
+</x-accordion>
+```
+
+It also exists as a global default, the inline prop always winning, so
+`:shadowless="false"` restores the shadow on a single accordion:
+
+```php
+'accordion' => [
+    Components\Accordion\Main\Component::class,
+    ['shadowless' => false],
+],
+```
+
+The reset arrives through a new `shadowless` block, mirroring the card and the
+kbd rather than pulling `shadow-md` out of `wrapper.bordered`.
+
 ## Form / Date
 
 ### Fixed — the floating panel no longer resizes when a picker opens

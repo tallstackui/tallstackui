@@ -9,6 +9,7 @@
     {{ $attributes->class([
         $customization['wrapper.base'],
         $customization['wrapper.bordered'] => ! $flat,
+        $customization['shadowless'] => $configurations['shadowless'],
         $customization['wrapper.chevron-left-cascade'] => $chevron === 'left',
     ]) }}
 >

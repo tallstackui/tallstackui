@@ -14,6 +14,7 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?bool $multiple = false,
         public ?bool $flat = false,
+        public ?bool $shadowless = null,
         public ?string $chevron = 'right',
     ) {
         //
@@ -32,6 +33,7 @@ class Component extends TallStackUiComponent implements Customization
                 'bordered' => 'overflow-hidden rounded-lg border border-gray-200 dark:border-dark-700 shadow-md',
                 'chevron-left-cascade' => '[&>div>button]:flex-row-reverse [&>div>button]:justify-end',
             ],
+            'shadowless' => 'shadow-none!',
         ]);
     }
 
