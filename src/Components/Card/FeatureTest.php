@@ -121,6 +121,20 @@ it('can render with body padding by default', function () {
         ->not->toContain('p-0!');
 });
 
+it('cannot round the body on its own to avoid gaps against the wrapper clipping', function () {
+    $html = Blade::render('<x-card class="bg-red-500" bordered>Foo bar</x-card>');
+
+    expect($html)->toContain('bg-red-500')
+        ->not->toContain('rounded-b-xl');
+});
+
+it('cannot round the footer on its own to avoid gaps against the wrapper clipping', function () {
+    $html = Blade::render('<x-card round="2xl" footer="Baz">Foo bar</x-card>');
+
+    expect($html)->toContain('border-t border-t-gray-200')
+        ->not->toContain('rounded-t-none');
+});
+
 it('can render with shadow and without border by default')
     ->expect('<x-card>Foo bar</x-card>')
     ->render()
