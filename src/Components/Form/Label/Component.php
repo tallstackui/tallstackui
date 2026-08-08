@@ -30,7 +30,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return [
-            'text' => 'dark:text-dark-400 mb-1 block text-sm font-semibold text-gray-600',
+            'text' => 'dark:text-dark-300 mb-1 block text-sm font-medium text-gray-600',
             'asterisk' => 'font-bold text-red-500 not-italic',
             'error' => 'text-red-600 dark:text-red-500',
         ];
