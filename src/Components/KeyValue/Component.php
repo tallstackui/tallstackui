@@ -49,7 +49,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'dark:bg-dark-800 dark:border-dark-700 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
-                'wrapper' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-950 bg-gray-50 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
                 'wrapper-compact' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-100 px-4 py-1',
                 'neutral' => 'dark:text-dark-300 text-gray-600',
                 'key' => 'font-semibold',
