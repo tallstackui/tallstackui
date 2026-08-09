@@ -118,3 +118,34 @@ it('can render shadowless', function () {
 it('can render bordered', function () {
     expect('<x-errors bordered />')->render()->toContain('border-red-200');
 });
+
+it('can filter the messages using only', function (string $only) {
+    $bag = new ViewErrorBag;
+
+    $bag->put('default', new MessageBag([
+        'name' => ['The name field is required.'],
+        'description' => ['The description field is required.'],
+        'email' => ['The email field is required.'],
+    ]));
+
+    View::share('errors', $bag);
+
+    expect(str_replace('{{ only }}', $only, '<x-errors {{ only }} />'))->render()
+        ->toContain('The name field is required.')
+        ->toContain('The description field is required.')
+        ->not->toContain('The email field is required.');
+})->with([
+    'only="name,description"',
+    'only="name, description"',
+    ':only="[\'name\', \'description\']"',
+    ':only="collect([\'name\', \'description\'])"',
+]);
+
+it('can filter the messages using only with a single field', function (string $only) {
+    expect(str_replace('{{ only }}', $only, '<x-errors {{ only }} />'))->render()
+        ->toContain('The name field is required.');
+})->with([
+    'only="name"',
+    ':only="[\'name\']"',
+    ':only="collect([\'name\'])"',
+]);

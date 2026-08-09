@@ -1,9 +1,60 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Autocomplete\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    $this->components = config('ts-ui.components');
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components', $this->components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can render with the default selectable keys', function () {
+    expect('<x-autocomplete :items="[[\'value\' => \'São Paulo\']]" />')->render()
+        ->toContain('\\u0022value\\u0022:\\u0022value\\u0022')
+        ->toContain('\\u0022description\\u0022:\\u0022description\\u0022')
+        ->toContain('\\u0022image\\u0022:\\u0022image\\u0022')
+        ->toContain('\\u0022metadata\\u0022:\\u0022metadata\\u0022');
+});
+
+it('can render remapping the item keys', function () {
+    $component = <<<'HTML'
+    <x-autocomplete :items="[['name' => 'São Paulo', 'email' => 'sp@example.com']]" select="value:name|description:email|image:avatar" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('\\u0022value\\u0022:\\u0022name\\u0022')
+        ->toContain('\\u0022description\\u0022:\\u0022email\\u0022')
+        ->toContain('\\u0022image\\u0022:\\u0022avatar\\u0022')
+        ->toContain('\\u0022metadata\\u0022:\\u0022metadata\\u0022');
+});
+
+it('can render remapping the item keys from the global configuration', function () {
+    config()->set('ts-ui.components.autocomplete.1.select', 'value:name|description:email');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-autocomplete :items="[[\'name\' => \'São Paulo\']]" />')->render()
+        ->toContain('\\u0022value\\u0022:\\u0022name\\u0022')
+        ->toContain('\\u0022description\\u0022:\\u0022email\\u0022');
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components.autocomplete.1.select', 'value:name');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-autocomplete :items="[[\'title\' => \'São Paulo\']]" select="value:title" />')->render()
+        ->toContain('\\u0022value\\u0022:\\u0022title\\u0022')
+        ->not->toContain('\\u0022value\\u0022:\\u0022name\\u0022');
+});
 
 it('can render with array items', function () {
     $component = <<<'HTML'

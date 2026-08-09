@@ -1,8 +1,19 @@
 <?php
 
+use TallStackUi\Components\Form\Select\Native\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    $this->components = config('ts-ui.components');
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components', $this->components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
 
 it('can render')
     ->expect('<x-select.native />')
@@ -45,4 +56,39 @@ it('can render with selectable array options', function () {
         ->toContain('<option')
         ->toContain('Apple')
         ->toContain('Banana');
+});
+
+it('can render with selectable keys from the global configuration', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.native' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-select.native :options="[['name' => 'Apple', 'id' => '1'], ['name' => 'Banana', 'id' => '2']]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Apple')
+        ->toContain('Banana')
+        ->toContain('value="1"');
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.native' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-select.native :options="[['title' => 'Apple', 'uuid' => '1']]" select="label:title|value:uuid" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Apple')
+        ->toContain('value="1"');
 });

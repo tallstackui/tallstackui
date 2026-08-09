@@ -25,21 +25,21 @@ A compact value cycler shaped like an input: a chevron button on each side and t
 
 ## Attributes
 
-| Attribute  | Type               | Default | Description                                                              |
-|------------|--------------------|---------|--------------------------------------------------------------------------|
-| id         | string\|null       | null    | Id applied to the value viewport                                         |
-| label      | string\|slot\|null | null    | Label rendered above the control                                         |
-| hint       | string\|slot\|null | null    | Hint rendered below the control (hidden while an error is shown)         |
-| options    | array\|Collection  | []      | Flat list, Collection or dimensional array of options                    |
-| select     | string\|null       | null    | Key remap for dimensional options, e.g. `label:name\|value:id`           |
-| block      | bool               | false   | Stretches the control to the full width of the parent                    |
-| preview    | bool\|null         | config  | Reveals the previous and next options at the sides with a fade out       |
-| vertical   | bool\|null         | config  | Rolls the value top-to-bottom; chevrons and drag axis follow             |
-| loop       | bool\|null         | config  | Cycles past the edges infinitely; `false` locks and disables at the ends |
-| tooltip    | string\|null       | null    | Tooltip shown over the whole control                                     |
-| invalidate | bool\|null         | null    | Suppresses the validation error feedback                                 |
-| disabled   | attribute          | —       | Dims the control and freezes buttons, drag and keyboard                  |
-| readonly   | attribute          | —       | Keeps the resting look but freezes buttons, drag and keyboard            |
+| Attribute  | Type               | Default     | Description                                                                             |
+|------------|--------------------|-------------|-----------------------------------------------------------------------------------------|
+| id         | string\|null       | null        | Id applied to the value viewport                                                        |
+| label      | string\|slot\|null | null        | Label rendered above the control                                                        |
+| hint       | string\|slot\|null | null        | Hint rendered below the control (hidden while an error is shown)                        |
+| options    | array\|Collection  | []          | Flat list, Collection or dimensional array of options                                   |
+| select     | string\|null       | from config | Key remap for dimensional options, e.g. `label:name\|value:id`. Inline overrides config |
+| block      | bool               | false       | Stretches the control to the full width of the parent                                   |
+| preview    | bool\|null         | config      | Reveals the previous and next options at the sides with a fade out                      |
+| vertical   | bool\|null         | config      | Rolls the value top-to-bottom; chevrons and drag axis follow                            |
+| loop       | bool\|null         | config      | Cycles past the edges infinitely; `false` locks and disables at the ends                |
+| tooltip    | string\|null       | null        | Tooltip shown over the whole control                                                    |
+| invalidate | bool\|null         | null        | Suppresses the validation error feedback                                                |
+| disabled   | attribute          | —           | Dims the control and freezes buttons, drag and keyboard                                 |
+| readonly   | attribute          | —           | Keeps the resting look but freezes buttons, drag and keyboard                           |
 
 `preview` and `vertical` cannot be combined — the render throws.
 
@@ -95,11 +95,14 @@ Dimensional options missing the resolved label or value key throw a `ViewExcepti
         'preview' => false,
         'vertical' => false,
         'loop' => true,
+        'select' => null,
     ],
 ],
 ```
 
-The inline prop always wins over the global default.
+The inline prop always wins over the global default. `select` takes the same
+string syntax as the attribute, so a project whose options always come as
+`name`/`id` can set the remap once instead of repeating it at every call site.
 
 ## Behavior Notes
 

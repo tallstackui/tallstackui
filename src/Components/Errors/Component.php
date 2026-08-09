@@ -4,6 +4,7 @@ namespace TallStackUi\Components\Errors;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
@@ -22,7 +23,7 @@ class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $title = null,
-        public string|array|null $only = null,
+        public string|array|Collection|null $only = null,
         public ?string $icon = 'x-circle',
         public ?string $color = 'red',
         public ?bool $close = false,
@@ -34,6 +35,16 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->title ??= trans('ts-ui::messages.errors.title');
+
+        $this->only = match (true) {
+            $this->only instanceof Collection => $this->only->all(),
+            is_string($this->only) => str($this->only)
+                ->explode(',')
+                ->map(fn (string $field) => trim($field))
+                ->reject(fn (string $field) => $field === '')
+                ->all(),
+            default => $this->only,
+        };
     }
 
     public function blade(): View
@@ -91,9 +102,9 @@ class Component extends TallStackUiComponent implements Customization
             return $messages;
         }
 
-        $this->only = is_array($this->only) ? $this->only : [$this->only];
+        $only = Arr::wrap($this->only);
 
-        return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
+        return array_filter($messages, fn (string $name) => in_array($name, $only), ARRAY_FILTER_USE_KEY);
     }
 
     /** @throws InvalidArgumentException */

@@ -98,7 +98,8 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function setup(): void
     {
-        $this->select ??= 'label:label|value:value|description:description|image:image|icon:icon';
+        $this->select ??= __ts_get_component_configuration(self::class, 'select')
+            ?? 'label:label|value:value|description:description|image:image|icon:icon';
 
         $this->boot();
 

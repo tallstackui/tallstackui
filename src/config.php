@@ -118,8 +118,10 @@ return [
                 | accept values that exist in their items list. The wire:model is only
                 | updated when a row is picked from the dropdown, and the input reverts
                 | to the last selected value on blur with an unmatched query.
+                | select: the default field mapping of the items (e.g., 'value:name|description:email|image:avatar').
                 */
                 'strict' => false,
+                'select' => null,
             ],
         ],
         'back-to-top' => [
@@ -206,7 +208,18 @@ return [
             ],
         ],
         'checkbox' => Components\Form\Checkbox\Component::class,
-        'checkbox.group' => Components\Form\Checkbox\Group\Component::class,
+        'checkbox.group' => [
+            Components\Form\Checkbox\Group\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Checkbox Group Global Settings
+                |----------------------------------------------------------------------
+                | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email').
+                */
+                'select' => null,
+            ],
+        ],
         'color' => [
             Components\Form\Color\Component::class,
             /*
@@ -235,6 +248,7 @@ return [
             |
             | actionable: the callable class for handling item selection (e.g., App\Support\GlobalSearch::class).
             | request: the data source for the command palette.
+            | select: the default field mapping of the results (e.g., 'label:name|value:id|description:email|image:avatar').
             | z-index: controls the default z-index.
             | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
             | overflow: avoids hiding the overflow, allowing the scroll of the page.
@@ -248,6 +262,7 @@ return [
             [
                 'actionable' => null,
                 'request' => null,
+                'select' => null,
                 'z-index' => 'z-50',
                 'blur' => false,
                 'overflow' => false,
@@ -526,8 +541,6 @@ return [
             |----------------------------------------------------------------------
             | borderless: removes the border by default.
             | shadowless: removes the shadow by default.
-            |
-            | These are defaults: the inline prop always wins.
             */
             [
                 'borderless' => false,
@@ -618,13 +631,35 @@ return [
             ],
         ],
         'radio' => Components\Form\Radio\Component::class,
-        'radio.group' => Components\Form\Radio\Group\Component::class,
+        'radio.group' => [
+            Components\Form\Radio\Group\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Radio Group Global Settings
+                |----------------------------------------------------------------------
+                | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email').
+                */
+                'select' => null,
+            ],
+        ],
         'range' => Components\Form\Range\Component::class,
         'rating' => Components\Rating\Component::class,
         'side-bar' => Components\Layout\SideBar\Main\Component::class,
         'side-bar.item' => Components\Layout\SideBar\Item\Component::class,
         'side-bar.separator' => Components\Layout\SideBar\Separator\Component::class,
-        'select.native' => Components\Form\Select\Native\Component::class,
+        'select.native' => [
+            Components\Form\Select\Native\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Select Native Global Settings
+                |----------------------------------------------------------------------
+                | select: the default field mapping of the options (e.g., 'label:name|value:id').
+                */
+                'select' => null,
+            ],
+        ],
         'select.styled' => [
             Components\Form\Select\Styled\Component::class,
             [
@@ -634,9 +669,11 @@ return [
                 |----------------------------------------------------------------------
                 | unfiltered: allow all select API-styled components to be unfiltered by default.
                 | recycle: when true, preserves previous results when reopening the select.
+                | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email|image:avatar').
                 */
                 'unfiltered' => false,
                 'recycle' => false,
+                'select' => null,
             ],
         ],
         'signature' => Components\Signature\Component::class,
@@ -688,8 +725,6 @@ return [
             |----------------------------------------------------------------------
             |
             | helpers: controls the navigation buttons look (Allowed: default, minimal, compact, or a view path).
-            |
-            | This is a default: the inline prop always wins.
             */
             [
                 'helpers' => 'default',
@@ -707,12 +742,12 @@ return [
                 | preview: reveals slices of the previous and next options with a fade out effect.
                 | vertical: swaps the options from top to bottom instead of sideways.
                 | loop: allows navigating past the edges, cycling the options infinitely.
-                |
-                | These are defaults: the inline prop always wins.
+                | select: the default field mapping of the options (e.g., 'label:name|value:id').
                 */
                 'preview' => false,
                 'vertical' => false,
                 'loop' => true,
+                'select' => null,
             ],
         ],
         'tab' => Components\Tab\Main\Component::class,

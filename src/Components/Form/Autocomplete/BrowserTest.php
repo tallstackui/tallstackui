@@ -167,6 +167,32 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_items_with_remapped_keys(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="[
+                        ['name' => 'Alice', 'email' => 'alice@example.com'],
+                        ['name' => 'Bob', 'email' => 'bob@example.com'],
+                    ]" select="value:name|description:email" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Alice')
+            ->assertSee('alice@example.com')
+            ->type('@tallstackui_autocomplete_input', 'bob@')
+            ->pause(300)
+            ->assertSee('Bob')
+            ->assertDontSee('Alice');
+    }
+
+    #[Test]
     public function clearable_button_resets_input(): void
     {
         Livewire::visit(new class extends Component

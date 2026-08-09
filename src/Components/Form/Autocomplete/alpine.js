@@ -5,6 +5,7 @@ const normalize = (text) => String(text ?? '').toLowerCase();
 export default (
   model = null,
   items = [],
+  selectable = {},
   request = null,
   strict = false,
   lazy = null,
@@ -14,6 +15,7 @@ export default (
 ) => ({
   model: model,
   items: Array.isArray(items) ? items : [],
+  selectable: selectable,
   request: request,
   strict: strict,
   lazy: lazy,
@@ -117,7 +119,8 @@ export default (
   },
 
   /**
-   * Normalize the items so optional fields exist on every entry.
+   * Normalize the items so optional fields exist on every entry. The source
+   * keys come from `selectable`, remapped through the `select` attribute.
    *
    * `metadata` is an opaque passthrough: the component never reads it,
    * it only keeps it reachable from `selected` and from the `select`
@@ -127,17 +130,25 @@ export default (
    * @returns {Array}
    */
   normalizeItems(items) {
+    const keys = {
+      value: 'value',
+      description: 'description',
+      image: 'image',
+      metadata: 'metadata',
+      ...this.selectable,
+    };
+
     return items.map((item) => {
       if (typeof item === 'string') {
         return { value: item, description: null, image: null, disabled: false, metadata: null };
       }
 
       return {
-        value: item.value,
-        description: item.description ?? null,
-        image: item.image ?? null,
+        value: item[keys.value],
+        description: item[keys.description] ?? null,
+        image: item[keys.image] ?? null,
         disabled: !!item.disabled,
-        metadata: item.metadata ?? null,
+        metadata: item[keys.metadata] ?? null,
       };
     });
   },

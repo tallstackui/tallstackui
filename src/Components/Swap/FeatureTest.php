@@ -107,6 +107,28 @@ it('can use dimensional options with custom keys')
     ->render()
     ->toContain('tallstackui_swap');
 
+it('can use dimensional options with keys from the global configuration', function () {
+    config()->set('ts-ui.components.swap.1.select', 'label:name|value:id');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $expected = base64_encode(json_encode([['label' => 'Foo', 'value' => 1], ['label' => 'Bar', 'value' => 2]]));
+
+    expect('<x-swap :options="[[\'name\' => \'Foo\', \'id\' => 1], [\'name\' => \'Bar\', \'id\' => 2]]" />')->render()
+        ->toContain($expected);
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components.swap.1.select', 'label:name|value:id');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $expected = base64_encode(json_encode([['label' => 'Foo', 'value' => 1]]));
+
+    expect('<x-swap :options="[[\'title\' => \'Foo\', \'uuid\' => 1]]" select="label:title|value:uuid" />')->render()
+        ->toContain($expected);
+});
+
 it('cannot use dimensional options missing keys', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The key [value] is missing in the options array.');
