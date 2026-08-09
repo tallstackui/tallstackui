@@ -6,7 +6,7 @@
     <input hidden name="{{ $property }}">
 @endif
 
-<div x-data="tallstackui_autocomplete({!! $entangle !!}, @js($items), @js($request), @js((bool) $strict), @js($lazy), @js($livewire), @js($property), @js($value))"
+<div x-data="tallstackui_autocomplete({!! $entangle !!}, @js($items), @js($selectable), @js($request), @js((bool) $strict), @js($lazy), @js($livewire), @js($property), @js($value))"
      @if ($attributes->whereStartsWith('x-model'))
          x-modelable="model"
          {{ $attributes->whereStartsWith('x-model') }}

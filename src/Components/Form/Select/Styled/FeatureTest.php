@@ -1,9 +1,20 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Select\Styled\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    $this->components = config('ts-ui.components');
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components', $this->components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
 
 it('can use as common select', function () {
     $component = <<<'HTML'
@@ -121,6 +132,37 @@ it('can render with grouped options', function () {
         ->toContain('option[selectable.value]')
         ->toContain('option[selectable.label]')
         ->not->toContain('option.value');
+});
+
+it('can render with selectable keys from the global configuration', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.styled' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $options = [['name' => 'New York', 'id' => 1], ['name' => 'Los Angeles', 'id' => 2]];
+
+    expect(Blade::render('<x-select.styled label="Cities" :options="$options" />', compact('options')))
+        ->toContain('\\u0022label\\u0022:\\u0022name\\u0022')
+        ->toContain('\\u0022value\\u0022:\\u0022id\\u0022');
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.styled' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $options = [['title' => 'New York', 'uuid' => 1]];
+
+    expect(Blade::render('<x-select.styled label="Cities" :options="$options" select="label:title|value:uuid" />', compact('options')))
+        ->toContain('\\u0022label\\u0022:\\u0022title\\u0022')
+        ->toContain('\\u0022value\\u0022:\\u0022uuid\\u0022')
+        ->not->toContain('\\u0022label\\u0022:\\u0022name\\u0022');
 });
 
 it('can thrown exception when lazy is less than 10', function () {

@@ -39,26 +39,26 @@ submission collects the options as an array.
 
 ## Attributes
 
-| Attribute  | Type              | Default   | Description                                                      |
-|------------|-------------------|-----------|------------------------------------------------------------------|
-| id         | string\|null      | null      | Base id for the generated inputs, suffixed with the option index |
-| label      | string\|null      | null      | Group label, rendered as the fieldset legend                     |
-| hint       | string\|null      | null      | Hint text displayed below the group                              |
-| list       | string\|null      | null      | Presentation flag: stacked rows; the default when none is given  |
-| card       | string\|null      | null      | Presentation flag: independent cards in a grid                   |
-| panel      | string\|null      | null      | Presentation flag: cards with a check icon, control hidden       |
-| inline     | string\|null      | null      | Presentation flag: horizontal segmented control                  |
-| color      | string\|null      | 'primary' | Color theme of the selected option                               |
-| select     | string\|null      | null      | Remaps the option keys, e.g. `label:name\|value:id`              |
-| columns    | int\|null         | 3         | Grid columns for 'card' and 'panel', between 1 and 4             |
-| position   | string\|null      | 'left'    | Control side on 'list' and 'card': 'left' or 'right'             |
-| required   | bool\|null        | false     | Adds the asterisk to the legend                                  |
-| invalidate | bool\|null        | null      | Prevents displaying validation error messages                    |
-| xs         | string\|null      | null      | Sets the control size to extra small when present                |
-| sm         | string\|null      | null      | Sets the control size to small when present                      |
-| md         | string\|null      | null      | Sets the control size to medium (default) when present           |
-| lg         | string\|null      | null      | Sets the control size to large when present                      |
-| options    | Collection\|array | []        | The selectable options                                           |
+| Attribute  | Type              | Default     | Description                                                                  |
+|------------|-------------------|-------------|------------------------------------------------------------------------------|
+| id         | string\|null      | null        | Base id for the generated inputs, suffixed with the option index             |
+| label      | string\|null      | null        | Group label, rendered as the fieldset legend                                 |
+| hint       | string\|null      | null        | Hint text displayed below the group                                          |
+| list       | string\|null      | null        | Presentation flag: stacked rows; the default when none is given              |
+| card       | string\|null      | null        | Presentation flag: independent cards in a grid                               |
+| panel      | string\|null      | null        | Presentation flag: cards with a check icon, control hidden                   |
+| inline     | string\|null      | null        | Presentation flag: horizontal segmented control                              |
+| color      | string\|null      | 'primary'   | Color theme of the selected option                                           |
+| select     | string\|null      | from config | Remaps the option keys, e.g. `label:name\|value:id`. Inline overrides config |
+| columns    | int\|null         | 3           | Grid columns for 'card' and 'panel', between 1 and 4                         |
+| position   | string\|null      | 'left'      | Control side on 'list' and 'card': 'left' or 'right'                         |
+| required   | bool\|null        | false       | Adds the asterisk to the legend                                              |
+| invalidate | bool\|null        | null        | Prevents displaying validation error messages                                |
+| xs         | string\|null      | null        | Sets the control size to extra small when present                            |
+| sm         | string\|null      | null        | Sets the control size to small when present                                  |
+| md         | string\|null      | null        | Sets the control size to medium (default) when present                       |
+| lg         | string\|null      | null        | Sets the control size to large when present                                  |
+| options    | Collection\|array | []          | The selectable options                                                       |
 
 `required` only marks the legend here. The native `required` attribute is never
 set on the inputs, since the browser would then demand every box be checked.
@@ -103,6 +103,26 @@ The `select` attribute remaps the source keys with the same syntax used by
 ```blade
 <x-checkbox.group wire:model="features" select="label:name|value:id|description:note" :options="$features" />
 ```
+
+## Configuration
+
+Configuration via `config/tallstackui.php` under `components.checkbox.group`:
+
+| Key    | Default | Description                                                     |
+|--------|---------|-----------------------------------------------------------------|
+| select | null    | Default option key mapping, same syntax as the inline attribute |
+
+```php
+'checkbox.group' => [
+    TallStackUi\Components\Form\Checkbox\Group\Component::class,
+    [
+        'select' => 'label:name|value:id',
+    ],
+],
+```
+
+The inline attribute always wins, and with neither every key falls back to the
+key of the same name.
 
 ## Customizing an Option
 

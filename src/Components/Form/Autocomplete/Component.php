@@ -26,6 +26,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $placeholder = null,
         public Collection|array|null $items = null,
         public string|array|null $request = null,
+        public ?string $select = null,
+        public ?array $selectable = [],
         public ?string $prefix = null,
         public ?string $suffix = null,
         public ?bool $clearable = null,
@@ -97,6 +99,29 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
         ]);
+    }
+
+    protected function setup(): void
+    {
+        $this->select ??= __ts_get_component_configuration(self::class, 'select');
+
+        $select = array_reduce(
+            explode('|', (string) $this->select),
+            function (array $result, string $item): array {
+                $parts = explode(':', $item, 2);
+
+                if (count($parts) === 2) {
+                    $result[trim($parts[0])] = trim($parts[1]);
+                }
+
+                return $result;
+            },
+            []
+        );
+
+        $this->selectable = collect(['value', 'description', 'image', 'metadata'])
+            ->mapWithKeys(fn (string $key): array => [$key => $select[$key] ?? $key])
+            ->toArray();
     }
 
     /** @throws InvalidArgumentException */

@@ -132,6 +132,8 @@ class Component extends TallStackUiComponent implements Customization
     {
         $keys = ['label' => 'label', 'value' => 'value'];
 
+        $this->select ??= __ts_get_component_configuration(self::class, 'select');
+
         foreach (explode('|', (string) $this->select) as $part) {
             $segments = explode(':', $part, 2);
 

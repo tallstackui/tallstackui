@@ -62,6 +62,7 @@ picked value to the server, and `value` seeds the initial selection.
 | clearable    | bool\|null              | null                                                | Shows an `×` to empty the input. Dispatches the `clear` event.                                                                |
 | invalidate   | bool\|null              | null                                                | Same semantics as `Form/Input`: opts the component into Livewire validation styling.                                          |
 | strict       | bool\|null              | null (or global from config)                        | Constrains `wire:model` to values that exist in the items list. See "Strict mode".                                            |
+| select       | string\|null            | null (or global from config)                        | Remaps the item keys, e.g. `value:name\|description:email\|image:avatar`. See "Field Mapping".                                |
 | lazy         | int\|null               | null                                                | Minimum chars before the dropdown opens / a remote request is fired.                                                          |
 | disabled     | bool\|null              | null                                                | Disables the input and prevents the dropdown from opening.                                                                    |
 | placeholders | array\|null             | merged from `trans('ts-ui::messages.autocomplete')` | Override translation strings (`empty`, `loading`, `default`).                                                                 |
@@ -78,7 +79,10 @@ The component does **not** support `multiple`. Reach for `Form/Select/Styled` wh
 | disabled    | bool   | No       | Dims the row and blocks selection.                                                                            |
 | metadata    | mixed  | No       | Opaque passthrough. Never read or rendered by the component; carried to `selected` and to the `select` event. |
 
-Keys outside this table are **dropped** during normalization. To carry your own data alongside an item, nest it under `metadata`:
+Keys outside this table are **dropped** during normalization. Sources that name
+them differently are remapped with `select` (see "Field Mapping") instead of
+being reshaped before reaching the component. To carry your own data alongside
+an item, nest it under `metadata`:
 
 ```php
 [
@@ -103,6 +107,36 @@ Keys outside this table are **dropped** during normalization. To carry your own 
 ```
 
 The bucket is deliberately namespaced rather than flattened onto the item: internal keys the component may add in future versions can never collide with consumer data.
+
+## Field Mapping
+
+When the items — local or fetched — name their fields differently, `select` remaps
+them instead of forcing a reshape at the source:
+
+```blade
+<x-autocomplete wire:model="user"
+                request="/api/users"
+                select="value:name|description:email|image:avatar" />
+```
+
+Format: `value:key|description:key|image:key|metadata:key`. Any part left out falls
+back to the key of the same name, and `disabled` is always read from `disabled`.
+The remap happens during normalization, so filtering, the `select` event payload
+and `wire:model` all keep using the canonical names.
+
+The mapping can also be a global default in `config/tallstackui.php`:
+
+```php
+'autocomplete' => [
+    TallStackUi\Components\Form\Autocomplete\Component::class,
+    [
+        'strict' => false,
+        'select' => 'value:name|description:email|image:avatar',
+    ],
+],
+```
+
+The inline attribute always wins over the configured default.
 
 ## Slots
 

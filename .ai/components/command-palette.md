@@ -28,9 +28,16 @@ Place the component in your application layout (e.g., `resources/views/component
     [
         'actionable' => App\Actions\CommandPaletteAction::class,
         'request' => '/api/search',
+        'select' => 'label:name|value:id|description:email|image:avatar',
         // ...
     ],
 ],
+```
+
+With `request` and `select` in the config, the call site is just the tag:
+
+```blade
+<x-command-palette id="users" />
 ```
 
 ### Page-Specific Usage (Inline Events)
@@ -83,17 +90,17 @@ Use the `id` attribute to place multiple command palettes on the same page and t
 
 ## Attributes
 
-| Attribute    | Type                | Default                                                                     | Description                                                                                                 |
-|--------------|---------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| id           | string\|null        | 'command-palette'                                                           | Unique identifier for targeting with `$tsui.open.commandPalette(id)`. Required when using multiple palettes |
-| request      | string\|array\|null | null (from config)                                                          | Data source URL (string, route name, or array with `url`, `method`, `params` keys)                          |
-| options      | Collection\|array   | []                                                                          | Static options array (each item should have label, value, and optionally description, image, icon)          |
-| selectable   | array\|null         | []                                                                          | Parsed field mapping (auto-generated from `select`)                                                         |
-| placeholders | array\|null         | null                                                                        | Override default placeholder texts (keys: `search`, `empty`, `navigate`, `select`, `close`)                 |
-| recycle      | bool\|null          | true (from config)                                                          | When true, preserves previous search results when reopening the palette                                     |
-| shortcut     | string\|null        | 'ctrl.k' (from config)                                                      | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`). Inline overrides config       |
-| select       | string\|null        | 'label:label\|value:value\|description:description\|image:image\|icon:icon' | Field mapping string for option data (format: `label:key\|value:key\|description:key\|image:key\|icon:key`) |
-| centered     | bool\|null          | false (from config)                                                         | When true, centers the palette vertically on mobile with rounded corners on all sides                       |
+| Attribute    | Type                | Default                                                                                       | Description                                                                                                                          |
+|--------------|---------------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| id           | string\|null        | 'command-palette'                                                                             | Unique identifier for targeting with `$tsui.open.commandPalette(id)`. Required when using multiple palettes                          |
+| request      | string\|array\|null | null (from config)                                                                            | Data source URL (string, route name, or array with `url`, `method`, `params` keys)                                                   |
+| options      | Collection\|array   | []                                                                                            | Static options array (each item should have label, value, and optionally description, image, icon)                                   |
+| selectable   | array\|null         | []                                                                                            | Parsed field mapping (auto-generated from `select`)                                                                                  |
+| placeholders | array\|null         | null                                                                                          | Override default placeholder texts (keys: `search`, `empty`, `navigate`, `select`, `close`)                                          |
+| recycle      | bool\|null          | true (from config)                                                                            | When true, preserves previous search results when reopening the palette                                                              |
+| shortcut     | string\|null        | 'ctrl.k' (from config)                                                                        | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`). Inline overrides config                                |
+| select       | string\|null        | from config, then 'label:label\|value:value\|description:description\|image:image\|icon:icon' | Field mapping string for option data (format: `label:key\|value:key\|description:key\|image:key\|icon:key`). Inline overrides config |
+| centered     | bool\|null          | false (from config)                                                                           | When true, centers the palette vertically on mobile with rounded corners on all sides                                                |
 
 ## Slots
 
@@ -285,6 +292,7 @@ In `config/tallstackui.php` under `components.command-palette`:
 |------------|---------------------|----------|--------------------------------------------------------------------------------------------|
 | actionable | string\|null        | null     | Invocable PHP class for server-side action handling                                        |
 | request    | string\|array\|null | null     | Default data source for all command palettes                                               |
+| select     | string\|null        | null     | Default field mapping for all command palettes (same syntax as the inline attribute)       |
 | z-index    | string              | 'z-50'   | Default z-index class                                                                      |
 | blur       | bool\|string        | false    | Background blur effect (`false` disables, `true` defaults to 'sm', or 'sm'/'md'/'lg'/'xl') |
 | overflow   | bool                | false    | When true, avoids hiding body overflow                                                     |

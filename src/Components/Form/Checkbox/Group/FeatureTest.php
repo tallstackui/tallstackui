@@ -2,9 +2,20 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Checkbox\Group\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    $this->components = config('ts-ui.components');
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components', $this->components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
 
 it('can render')
     ->expect('<x-checkbox.group :options="$options" />')
@@ -98,6 +109,35 @@ it('can render remapping the option keys')
     ->toContain('Alpha')
     ->toContain('value="1"')
     ->toContain('Beta');
+
+it('can render remapping the option keys from the global configuration', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'checkbox.group' => [Component::class, ['select' => 'label:name|value:id|badge:tag']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-checkbox.group :options="$options" />')
+        ->render(['options' => [['name' => 'Alpha', 'id' => 1, 'tag' => 'Beta']]])
+        ->toContain('Alpha')
+        ->toContain('value="1"')
+        ->toContain('Beta');
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'checkbox.group' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-checkbox.group select="label:title|value:uuid" :options="$options" />')
+        ->render(['options' => [['title' => 'Alpha', 'uuid' => 1]]])
+        ->toContain('Alpha')
+        ->toContain('value="1"');
+});
 
 it('can render options given as a collection', function () {
     $options = new Collection([['label' => 'Newsletter', 'value' => 'newsletter']]);

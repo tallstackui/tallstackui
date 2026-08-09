@@ -12,7 +12,8 @@ trait SelectSetup
             ? $this->options->values()->toArray()
             : array_values($this->options);
 
-        $this->select ??= 'label:label|value:value|description:description|image:image';
+        $this->select ??= __ts_get_component_configuration(static::class, 'select')
+            ?? 'label:label|value:value|description:description|image:image';
 
         if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
             return;

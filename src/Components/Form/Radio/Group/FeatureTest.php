@@ -2,9 +2,20 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Radio\Group\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
+
+beforeEach(function () {
+    $this->components = config('ts-ui.components');
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components', $this->components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
 
 it('can render')
     ->expect('<x-radio.group :options="$options" />')
@@ -138,6 +149,35 @@ it('can render remapping the option keys')
     ->toContain('Alpha')
     ->toContain('value="1"')
     ->toContain('First one');
+
+it('can render remapping the option keys from the global configuration', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'radio.group' => [Component::class, ['select' => 'label:name|value:id|description:note']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-radio.group :options="$options" />')
+        ->render(['options' => [['name' => 'Alpha', 'id' => 1, 'note' => 'First one']]])
+        ->toContain('Alpha')
+        ->toContain('value="1"')
+        ->toContain('First one');
+});
+
+it('can override the global configuration keys inline', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'radio.group' => [Component::class, ['select' => 'label:name|value:id']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-radio.group select="label:title|value:uuid" :options="$options" />')
+        ->render(['options' => [['title' => 'Alpha', 'uuid' => 1]]])
+        ->toContain('Alpha')
+        ->toContain('value="1"');
+});
 
 it('can render options given as a collection', function () {
     $options = new Collection([['label' => 'Startup', 'value' => 'startup']]);

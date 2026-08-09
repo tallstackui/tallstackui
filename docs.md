@@ -12,6 +12,137 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Autocomplete
+
+### Added — `select` remaps the item keys
+
+The items had to arrive shaped as `value`, `description`, `image` and `metadata`;
+anything else was dropped during normalization, so an endpoint returning
+`name`/`email`/`avatar` had to be reshaped before it reached the component.
+`select` now remaps them, with the same syntax the other components use:
+
+```blade
+<x-autocomplete wire:model="user"
+                request="/api/users"
+                select="value:name|description:email|image:avatar" />
+```
+
+Any part left out falls back to the key of the same name, and `disabled` is
+always read from `disabled`. The remap runs inside the normalization step, so
+filtering, the `select` event payload and `wire:model` all keep speaking the
+canonical names — only the source keys change.
+
+It works the same for local `:items` and for the rows fetched by `:request`.
+
+### Added — `select` answers to the configuration
+
+```php
+'autocomplete' => [
+    Components\Form\Autocomplete\Component::class,
+    [
+        'strict' => false,
+        'select' => 'value:name|description:email|image:avatar',
+    ],
+],
+```
+
+The inline attribute always wins.
+
+## Form / Select (Styled & Native), Checkbox Group, Radio Group & Swap
+
+### Added — `select` answers to the configuration
+
+Every component that remaps its option keys through `select` now reads a global
+default from the configuration, the same way the Command Palette does. An
+application whose payloads always come as `name`/`id` declares the mapping once:
+
+```php
+'checkbox.group' => [
+    Components\Form\Checkbox\Group\Component::class,
+    ['select' => 'label:name|value:id'],
+],
+'radio.group' => [
+    Components\Form\Radio\Group\Component::class,
+    ['select' => 'label:name|value:id'],
+],
+'select.native' => [
+    Components\Form\Select\Native\Component::class,
+    ['select' => 'label:name|value:id'],
+],
+'select.styled' => [
+    Components\Form\Select\Styled\Component::class,
+    [
+        'unfiltered' => false,
+        'recycle' => false,
+        'select' => 'label:name|value:id',
+    ],
+],
+'swap' => [
+    Components\Swap\Component::class,
+    [
+        'preview' => false,
+        'vertical' => false,
+        'loop' => true,
+        'select' => 'label:name|value:id',
+    ],
+],
+```
+
+and drops it from the call sites:
+
+```diff
+-<x-select.styled wire:model="city" :options="$cities" select="label:name|value:id" />
++<x-select.styled wire:model="city" :options="$cities" />
+```
+
+The inline attribute always wins. With neither, the fallback is what it always
+was: `label:label|value:value|description:description|image:image` for the two
+selects, and the key of the same name for the selection groups and the swap.
+
+Each component reads its own entry, so the mapping can differ per component —
+nothing is shared between them.
+
+**Migration** — none. `select` defaults to `null` everywhere, so a configuration
+that does not declare it behaves exactly as before.
+
+`select.native`, `checkbox.group` and `radio.group` had no settings array in
+`config/tallstackui.php` and now carry one. Applications with a published config
+file keep working untouched; the new key is only read when it is there.
+
+## Command Palette
+
+### Added — `select` answers to the configuration
+
+A palette placed in the layout still had to carry the field mapping of its own
+endpoint at the call site, which is the one place a global component has nothing
+to say. `select` is now a global default:
+
+```php
+'command-palette' => [
+    Components\CommandPalette\Component::class,
+    [
+        'actionable' => null,
+        'request' => '/api/users',
+        'select' => 'label:name|value:id|description:email|image:avatar',
+        // ...
+    ],
+],
+```
+
+which reduces the usage to the tag alone:
+
+```diff
+-<x-command-palette id="users"
+-                   request="/api/users"
+-                   select="label:name|value:id|description:email|image:avatar" />
++<x-command-palette id="users" />
+```
+
+The inline attribute always wins, and with neither the mapping falls back to
+`label:label|value:value|description:description|image:image|icon:icon` as
+before. The configuration takes the same string syntax, so a partial mapping
+only names the keys that differ.
+
 ## Clipboard
 
 ### Changed — `icons` folded into `icon`
@@ -206,6 +337,17 @@ can override it like any other palette.
 
 Soft customization gained the `shadowless`, `bordered` and `paddingless.*`
 blocks.
+
+### Changed — `only` accepts a comma separated list and collections
+
+Besides a single field and an array, `only` now parses a comma separated string
+and accepts a `Collection`. Surrounding spaces around each field are trimmed:
+
+```blade
+<x-errors only="name,description" />
+<x-errors only="name, description" />
+<x-errors :only="collect(['name', 'description'])" />
+```
 
 ## Editor
 

@@ -27,15 +27,15 @@ A native HTML `<select>` component with support for simple arrays, key-value opt
 
 ## Attributes
 
-| Attribute  | Type              | Default | Description                                                                                 |
-|------------|-------------------|---------|---------------------------------------------------------------------------------------------|
-| label      | string\|null      | null    | Label text displayed above the select                                                       |
-| hint       | string\|null      | null    | Hint text displayed below the select                                                        |
-| options    | Collection\|array | []      | Array of options. Supports simple values, key-value arrays, or grouped arrays.              |
-| select     | string\|null      | null    | Mapping string for option keys in format `label:key\|value:key\|description:key\|image:key` |
-| selectable | array\|null       | []      | Resolved selectable keys (label, value) used internally after parsing `select`              |
-| invalidate | bool\|null        | null    | Prevents displaying validation error messages                                               |
-| grouped    | bool\|null        | null    | Enables optgroup rendering when option values are arrays                                    |
+| Attribute  | Type              | Default     | Description                                                                                                          |
+|------------|-------------------|-------------|----------------------------------------------------------------------------------------------------------------------|
+| label      | string\|null      | null        | Label text displayed above the select                                                                                |
+| hint       | string\|null      | null        | Hint text displayed below the select                                                                                 |
+| options    | Collection\|array | []          | Array of options. Supports simple values, key-value arrays, or grouped arrays.                                       |
+| select     | string\|null      | from config | Mapping string for option keys in format `label:key\|value:key\|description:key\|image:key`. Inline overrides config |
+| selectable | array\|null       | []          | Resolved selectable keys (label, value) used internally after parsing `select`                                       |
+| invalidate | bool\|null        | null        | Prevents displaying validation error messages                                                                        |
+| grouped    | bool\|null        | null        | Enables optgroup rendering when option values are arrays                                                             |
 
 ## Slots
 
@@ -55,6 +55,26 @@ When using multidimensional arrays with different key names, use the `select` at
 ```
 
 Format: `label:key|value:key|description:key|image:key`
+
+## Configuration
+
+Configuration via `config/tallstackui.php` under `components.select.native`:
+
+| Key    | Default | Description                                                     |
+|--------|---------|-----------------------------------------------------------------|
+| select | null    | Default option key mapping, same syntax as the inline attribute |
+
+```php
+'select.native' => [
+    TallStackUi\Components\Form\Select\Native\Component::class,
+    [
+        'select' => 'label:name|value:id',
+    ],
+],
+```
+
+The inline attribute always wins, and with neither the default
+`label:label|value:value|description:description|image:image` applies.
 
 ## Soft Customization
 

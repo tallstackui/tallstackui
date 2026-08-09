@@ -79,6 +79,8 @@ trait SelectionSetup
     {
         $keys = ['label', 'value', 'description', 'aside', 'icon', 'image', 'badge'];
 
+        $this->select ??= __ts_get_component_configuration(static::class, 'select');
+
         $select = array_reduce(
             explode('|', (string) $this->select),
             function (array $result, string $item): array {

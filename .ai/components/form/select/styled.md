@@ -28,27 +28,27 @@ A feature-rich styled select component built with Alpine.js, supporting single a
 
 ## Attributes
 
-| Attribute    | Type                | Default | Description                                                                                                       |
-|--------------|---------------------|---------|-------------------------------------------------------------------------------------------------------------------|
-| id           | string\|null        | null    | Element ID                                                                                                        |
-| label        | string\|null        | null    | Label text displayed above the select                                                                             |
-| hint         | string\|null        | null    | Hint text displayed below the select                                                                              |
-| placeholder  | string\|null        | null    | Placeholder text when no option is selected (defaults to translation)                                             |
-| request      | string\|array\|null | null    | API endpoint for server-side options. String URL or array with `url`, `method` (get/post), and optional `params`. |
-| multiple     | bool                | false   | Enables multiple selection mode                                                                                   |
-| searchable   | bool                | false   | Enables search/filter input (automatically true when `request` is set)                                            |
-| select       | string\|null        | null    | Mapping string for option keys in format `label:key\|value:key\|description:key\|image:key`                       |
-| selectable   | array\|null         | []      | Resolved selectable keys used internally after parsing `select`                                                   |
-| placeholders | array\|null         | null    | Override default placeholder texts (keys: `default`, `search`, `empty`)                                           |
-| invalidate   | bool\|null          | null    | Prevents displaying validation error messages                                                                     |
-| required     | bool                | false   | Hides the clear button, making a selection mandatory                                                              |
-| limit        | int\|null           | null    | Maximum number of selectable items in multiple mode                                                               |
-| lazy         | int\|null           | null    | Number of options to display initially before lazy-loading more (minimum 10)                                      |
-| grouped      | bool\|null          | null    | Enables grouped option rendering                                                                                  |
-| recycle      | bool\|null          | null    | Preserves previous results when reopening the select (overrides config)                                           |
-| unfiltered   | bool\|null          | null    | Disables client-side filtering for API mode (overrides config)                                                    |
-| options      | Collection\|array   | []      | Array of options for client-side mode                                                                             |
-| after        | string\|null        | null    | Custom HTML content displayed when no options match the search                                                    |
+| Attribute    | Type                | Default     | Description                                                                                                          |
+|--------------|---------------------|-------------|----------------------------------------------------------------------------------------------------------------------|
+| id           | string\|null        | null        | Element ID                                                                                                           |
+| label        | string\|null        | null        | Label text displayed above the select                                                                                |
+| hint         | string\|null        | null        | Hint text displayed below the select                                                                                 |
+| placeholder  | string\|null        | null        | Placeholder text when no option is selected (defaults to translation)                                                |
+| request      | string\|array\|null | null        | API endpoint for server-side options. String URL or array with `url`, `method` (get/post), and optional `params`.    |
+| multiple     | bool                | false       | Enables multiple selection mode                                                                                      |
+| searchable   | bool                | false       | Enables search/filter input (automatically true when `request` is set)                                               |
+| select       | string\|null        | from config | Mapping string for option keys in format `label:key\|value:key\|description:key\|image:key`. Inline overrides config |
+| selectable   | array\|null         | []          | Resolved selectable keys used internally after parsing `select`                                                      |
+| placeholders | array\|null         | null        | Override default placeholder texts (keys: `default`, `search`, `empty`)                                              |
+| invalidate   | bool\|null          | null        | Prevents displaying validation error messages                                                                        |
+| required     | bool                | false       | Hides the clear button, making a selection mandatory                                                                 |
+| limit        | int\|null           | null        | Maximum number of selectable items in multiple mode                                                                  |
+| lazy         | int\|null           | null        | Number of options to display initially before lazy-loading more (minimum 10)                                         |
+| grouped      | bool\|null          | null        | Enables grouped option rendering                                                                                     |
+| recycle      | bool\|null          | null        | Preserves previous results when reopening the select (overrides config)                                              |
+| unfiltered   | bool\|null          | null        | Disables client-side filtering for API mode (overrides config)                                                       |
+| options      | Collection\|array   | []          | Array of options for client-side mode                                                                                |
+| after        | string\|null        | null        | Custom HTML content displayed when no options match the search                                                       |
 
 ## Grouped Options
 
@@ -170,6 +170,23 @@ Configuration via `config/tallstackui.php` under `components.select.styled`:
 |------------|---------|--------------------------------------------------------------------|
 | unfiltered | false   | Allow all select API-styled components to be unfiltered by default |
 | recycle    | false   | Preserves previous results when reopening the select               |
+| select     | null    | Default option key mapping, same syntax as the inline attribute    |
+
+```php
+'select.styled' => [
+    TallStackUi\Components\Form\Select\Styled\Component::class,
+    [
+        'unfiltered' => false,
+        'recycle' => false,
+        'select' => 'label:name|value:id',
+    ],
+],
+```
+
+With the mapping in the config, an application whose payloads always come as
+`name`/`id` can drop `select` from every call site. The inline attribute still
+wins, and with neither the default `label:label|value:value|description:description|image:image`
+applies.
 
 ## Programmatic Control
 

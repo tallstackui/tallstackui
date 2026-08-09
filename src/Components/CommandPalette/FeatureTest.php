@@ -338,6 +338,67 @@ it('inline request overrides config request', function () {
         ->not->toContain('global-search');
 });
 
+it('can render with select from config', function () {
+    config()->set('ts-ui.components.command-palette', [
+        Component::class,
+        [
+            'actionable' => null,
+            'request' => null,
+            'select' => 'label:name|value:id|description:email|image:avatar',
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-command-palette request="https://example.com/search" />')->render()
+        ->toContain('\\u0022label\\u0022:\\u0022name\\u0022')
+        ->toContain('\\u0022value\\u0022:\\u0022id\\u0022')
+        ->toContain('\\u0022description\\u0022:\\u0022email\\u0022')
+        ->toContain('\\u0022image\\u0022:\\u0022avatar\\u0022');
+});
+
+it('inline select overrides config select', function () {
+    config()->set('ts-ui.components.command-palette', [
+        Component::class,
+        [
+            'actionable' => null,
+            'request' => null,
+            'select' => 'label:name|value:id',
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:uuid" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('\\u0022label\\u0022:\\u0022title\\u0022')
+        ->toContain('\\u0022value\\u0022:\\u0022uuid\\u0022')
+        ->not->toContain('\\u0022label\\u0022:\\u0022name\\u0022');
+});
+
+it('falls back to the default select when config is not set', function () {
+    expect('<x-command-palette request="https://example.com/search" />')->render()
+        ->toContain('\\u0022label\\u0022:\\u0022label\\u0022')
+        ->toContain('\\u0022value\\u0022:\\u0022value\\u0022');
+});
+
 // --- Route name resolution tests ---
 
 it('can resolve route name as request', function () {
