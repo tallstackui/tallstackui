@@ -23,6 +23,16 @@ A validation error summary component that displays all (or filtered) Laravel val
 </x-errors>
 ```
 
+The `only` filter accepts a single field, a comma separated list, an array or a
+collection:
+
+```blade
+<x-errors only="name" />
+<x-errors only="name,description" />
+<x-errors :only="['name', 'description']" />
+<x-errors :only="collect(['name', 'description'])" />
+```
+
 Hide the title and its divider, and render a numbered list:
 
 ```blade
@@ -57,18 +67,18 @@ area stays; only the aligning wrapper is dropped:
 
 ## Attributes
 
-| Attribute     | Type                | Default            | Description                                                                                                                |
-|---------------|---------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------|
-| title         | string\|null        | Translated default | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors                        |
-| only          | string\|array\|null | null               | Filter to show errors for specific field names only                                                                        |
-| icon          | string\|null        | 'x-circle'         | Heroicon name displayed next to the title                                                                                  |
-| color         | string\|null        | 'red'              | Color theme for the error box                                                                                              |
-| close         | bool                | false              | Shows a dismiss button to hide the error box                                                                               |
-| without-title | bool                | false              | Hides the title, icon, and the divider line between the title and the error list                                           |
-| list-numeric  | bool                | false              | Renders the error list as an ordered (numbered) list instead of bullet points                                              |
-| paddingless   | bool                | false              | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset |
-| shadowless    | bool                | false              | Removes the wrapper shadow                                                                                                 |
-| bordered      | bool                | false              | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)                            |
+| Attribute     | Type                            | Default            | Description                                                                                                                |
+|---------------|---------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------|
+| title         | string\|null                    | Translated default | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors                        |
+| only          | string\|array\|Collection\|null | null               | Filter to show errors for specific field names only; a string accepts a comma separated list                               |
+| icon          | string\|null                    | 'x-circle'         | Heroicon name displayed next to the title                                                                                  |
+| color         | string\|null                    | 'red'              | Color theme for the error box                                                                                              |
+| close         | bool                            | false              | Shows a dismiss button to hide the error box                                                                               |
+| without-title | bool                            | false              | Hides the title, icon, and the divider line between the title and the error list                                           |
+| list-numeric  | bool                            | false              | Renders the error list as an ordered (numbered) list instead of bullet points                                              |
+| paddingless   | bool                            | false              | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset |
+| shadowless    | bool                            | false              | Removes the wrapper shadow                                                                                                 |
+| bordered      | bool                            | false              | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)                            |
 
 ## Slots
 
