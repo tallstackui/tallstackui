@@ -25,36 +25,36 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 
 ## Attributes
 
-| Attribute        | Type          | Default     | Description                                                                   |
-|------------------|---------------|-------------|-------------------------------------------------------------------------------|
-| model            | Model\|null   | null        | Eloquent model for generating a UI Avatars URL                                |
-| text             | string\|null  | null        | Text or initials displayed inside the avatar                                  |
-| color            | string\|null  | 'primary'   | Background color theme                                                        |
-| image            | string\|null  | null        | URL to a custom avatar image                                                  |
-| gravatar         | bool\|string\|null | null   | An email, a model column holding one, or `true` to read the model's `email`   |
-| gravatarDefault  | string\|null  | null        | Gravatar's own fallback when no name is available (404, mp, identicon, monsterid, wavatar, retro, robohash, blank) |
-| gravatarRating   | string\|null  | null        | Highest rating Gravatar may serve (g, pg, r, x)                               |
-| size             | string\|null  | null        | Size of the avatar, any value of the scale (see Sizes)                        |
-| xs               | bool          | false       | Shorthand for `size="xs"` (24x24)                                             |
-| sm               | bool          | false       | Shorthand for `size="sm"` (32x32)                                             |
-| md               | bool          | false       | Shorthand for `size="md"` (48x48, the resolved default)                       |
-| lg               | bool          | false       | Shorthand for `size="lg"` (56x56)                                             |
-| xl               | bool          | false       | Shorthand for `size="xl"` (64x64)                                             |
-| 2xl              | bool          | false       | Shorthand for `size="2xl"` (80x80)                                            |
-| 3xl              | bool          | false       | Shorthand for `size="3xl"` (96x96)                                            |
-| 4xl              | bool          | false       | Shorthand for `size="4xl"` (112x112)                                          |
-| 5xl              | bool          | false       | Shorthand for `size="5xl"` (128x128)                                          |
-| 6xl              | bool          | false       | Shorthand for `size="6xl"` (144x144)                                          |
-| 7xl              | bool          | false       | Shorthand for `size="7xl"` (160x160)                                          |
-| square           | bool          | false       | Renders with square corners instead of rounded                                |
-| property         | string\|null  | 'name'      | Model attribute used for the avatar text                                      |
-| background       | string\|null  | '0D8ABC'    | Hex background color for UI Avatars                                           |
-| borderless       | bool\|null    | null (from config: false) | Removes the border around the avatar                            |
-| options          | array\|null   | []          | Additional query parameters passed to UI Avatars API                          |
-| presence         | bool\|Closure | false       | Shows an online presence indicator dot                                        |
-| presenceColor    | string\|null  | 'green'     | Color of the presence indicator dot                                           |
-| presencePosition | string\|null  | 'right-top' | Position of the presence dot (right-top, right-bottom, left-top, left-bottom) |
-| pulse            | bool\|Closure | false       | Adds a ping animation to the presence indicator                               |
+| Attribute        | Type               | Default                   | Description                                                                                                        |
+|------------------|--------------------|---------------------------|--------------------------------------------------------------------------------------------------------------------|
+| model            | Model\|null        | null                      | Eloquent model for generating a UI Avatars URL                                                                     |
+| text             | string\|null       | null                      | Text or initials displayed inside the avatar                                                                       |
+| color            | string\|null       | 'primary'                 | Background color theme                                                                                             |
+| image            | string\|null       | null                      | URL to a custom avatar image                                                                                       |
+| gravatar         | bool\|string\|null | null                      | An email, a model column holding one, or `true` to read the model's `email`                                        |
+| gravatarDefault  | string\|null       | null                      | Gravatar's own fallback when no name is available (404, mp, identicon, monsterid, wavatar, retro, robohash, blank) |
+| gravatarRating   | string\|null       | null                      | Highest rating Gravatar may serve (g, pg, r, x)                                                                    |
+| size             | string\|null       | null                      | Size of the avatar, any value of the scale (see Sizes)                                                             |
+| xs               | bool               | false                     | Shorthand for `size="xs"` (24x24)                                                                                  |
+| sm               | bool               | false                     | Shorthand for `size="sm"` (32x32)                                                                                  |
+| md               | bool               | false                     | Shorthand for `size="md"` (48x48, the resolved default)                                                            |
+| lg               | bool               | false                     | Shorthand for `size="lg"` (56x56)                                                                                  |
+| xl               | bool               | false                     | Shorthand for `size="xl"` (64x64)                                                                                  |
+| 2xl              | bool               | false                     | Shorthand for `size="2xl"` (80x80)                                                                                 |
+| 3xl              | bool               | false                     | Shorthand for `size="3xl"` (96x96)                                                                                 |
+| 4xl              | bool               | false                     | Shorthand for `size="4xl"` (112x112)                                                                               |
+| 5xl              | bool               | false                     | Shorthand for `size="5xl"` (128x128)                                                                               |
+| 6xl              | bool               | false                     | Shorthand for `size="6xl"` (144x144)                                                                               |
+| 7xl              | bool               | false                     | Shorthand for `size="7xl"` (160x160)                                                                               |
+| square           | bool               | false                     | Renders with square corners instead of rounded                                                                     |
+| property         | string\|null       | 'name'                    | Model attribute used for the avatar text                                                                           |
+| background       | string\|null       | '0D8ABC'                  | Hex background color for UI Avatars                                                                                |
+| borderless       | bool\|null         | null (from config: false) | Removes the border around the avatar                                                                               |
+| options          | array\|null        | []                        | Additional query parameters passed to UI Avatars API                                                               |
+| presence         | bool\|Closure      | false                     | Shows an online presence indicator dot                                                                             |
+| presenceColor    | string\|null       | 'green'                   | Color of the presence indicator dot                                                                                |
+| presencePosition | string\|null       | 'right-top'               | Position of the presence dot (right-top, right-bottom, left-top, left-bottom)                                      |
+| pulse            | bool\|Closure      | false                     | Adds a ping animation to the presence indicator                                                                    |
 
 The size shorthands are usable like any other attribute, including the bound form
 `:lg="$condition"`, but they are not declared constructor props — see Sizes.
@@ -188,4 +188,4 @@ TallStackUi::customize()
 | presence.positions.right-bottom | Position classes for right-bottom                                                       |
 | presence.positions.left-top     | Position classes for left-top                                                           |
 | presence.positions.left-bottom  | Position classes for left-bottom                                                        |
-| presence.offsets.{position}     | Extra nudge applied only when `square`, so the round dot reaches the corner              |
+| presence.offsets.{position}     | Extra nudge applied only when `square`, so the round dot reaches the corner             |

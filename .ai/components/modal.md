@@ -42,8 +42,8 @@ Using `wire:model` for Livewire-controlled state:
 <x-button text="Toggle" wire:click="$toggle('showModal')" />
 ```
 
-Centering only from a breakpoint upwards. Below it the modal behaves exactly like
-`<x-modal>` without `center` &mdash; a bottom sheet flush against the screen edges:
+Centering only from a breakpoint upwards. Below it the modal stays a bottom sheet, at
+every width, with no top-aligned band in between:
 
 ```blade
 <x-modal id="create-user" title="Create user" center="md" scrollable>
@@ -55,19 +55,21 @@ Centering only from a breakpoint upwards. Below it the modal behaves exactly lik
 </x-modal>
 ```
 
-| Value   | Alignment classes                           |
-|---------|---------------------------------------------|
-| `false` | `items-end sm:items-start`                  |
-| `true`  | `items-center` plus `p-4` and `rounded-xl`  |
-| `"sm"`  | `items-end sm:items-center`                 |
-| `"md"`  | `items-end sm:items-start md:items-center`  |
-| `"lg"`  | `items-end sm:items-start lg:items-center`  |
-| `"xl"`  | `items-end sm:items-start xl:items-center`  |
-| `"2xl"` | `items-end sm:items-start 2xl:items-center` |
+| Value   | Alignment classes                          |
+|---------|--------------------------------------------|
+| `false` | `items-end sm:items-start`                 |
+| `true`  | `items-center` plus `p-4` and `rounded-xl` |
+| `"sm"`  | `items-end sm:items-center`                |
+| `"md"`  | `items-end md:items-center`                |
+| `"lg"`  | `items-end lg:items-center`                |
+| `"xl"`  | `items-end xl:items-center`                |
+| `"2xl"` | `items-end 2xl:items-center`               |
 
 Only `center` as a boolean forces `p-4` and `rounded-xl`, which makes the modal float
 free of the screen edges on mobile too. A breakpoint keeps the mobile bottom sheet flush
-and relies on the `sm:` variants the wrapper blocks already carry.
+and relies on the `sm:` variants the wrapper blocks already carry, so from `sm` up the
+sheet gains its padding and full radius while staying anchored to the bottom until the
+chosen breakpoint takes over.
 
 ## Open Animation
 
@@ -143,7 +145,7 @@ the footer area stay; only the aligning wrapper is dropped:
 | persistent  | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                                                                                              |
 | size        | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                                                                                         |
 | entangle    | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                                                                                                              |
-| center      | bool\|string\|null | null (from config: false)  | `true` centers on all viewport sizes with full border radius and padding (v2-style). A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards, behaving as not centered below it          |
+| center      | bool\|string\|null | null (from config: false)  | `true` centers on all viewport sizes with full border radius and padding (v2-style). A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards, staying a bottom sheet below it            |
 | overflow    | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                                                                                                                   |
 | scrollable  | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                                                                                                                     |
 | paddingless | bool\|null         | null                       | When true, removes the padding of the body, leaving the default slot flush against the modal edges. Title and footer keep their padding                                                                  |

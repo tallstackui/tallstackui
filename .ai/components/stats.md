@@ -40,26 +40,26 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 
 ## Attributes
 
-| Attribute      | Type                                   | Default   | Description                                                                                   |
-|----------------|----------------------------------------|-----------|-----------------------------------------------------------------------------------------------|
-| number         | string\|int\|null                      | null      | Value shown with number styles; preferred path for styled metrics                             |
-| title          | string\|null                           | null      | Descriptive title above/beside the number                                                     |
-| icon           | ComponentSlot\|string\|null            | null      | Heroicon name or a slot for fully custom icon markup                                          |
-| color          | string\|null                           | 'primary' | Color for icon background **and** number text (solid/light/outline palettes)                  |
-| href           | string\|null                           | null      | When set, root renders as `<a>` for click-through                                             |
-| solid          | bool                                   | true      | Solid color style variant (default)                                                           |
-| light          | bool                                   | false     | Light color style variant                                                                     |
-| outline        | bool                                   | false     | Outline color style variant                                                                   |
-| animated       | bool                                   | false     | Count-up animation on viewport enter; **only when `number` is numeric**                       |
-| duration       | int\|null                              | 1         | Animation duration in seconds (ignored when not animating)                                    |
-| increase       | bool                                   | false     | Upward trend arrow on the right (mutually exclusive with `decrease`)                          |
-| decrease       | bool                                   | false     | Downward trend arrow on the right (mutually exclusive with `increase`)                        |
-| navigate       | bool                                   | null      | Livewire `wire:navigate` when using `href`                                                    |
-| navigate-hover | bool                                   | null      | Livewire `wire:navigate.hover` when using `href`                                              |
-| shadowless     | bool\|null                             | null (from config: false) | Removes the wrapper shadow                                                    |
-| bordered       | bool\|null                             | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look       |
-| chart          | array\|Collection\|ComponentSlot\|null | null      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
-| skeleton       | bool\|null                             | null      | Renders a structural placeholder instead of the content. Flag only — an integer throws        |
+| Attribute      | Type                                   | Default                   | Description                                                                                   |
+|----------------|----------------------------------------|---------------------------|-----------------------------------------------------------------------------------------------|
+| number         | string\|int\|null                      | null                      | Value shown with number styles; preferred path for styled metrics                             |
+| title          | string\|null                           | null                      | Descriptive title above/beside the number                                                     |
+| icon           | ComponentSlot\|string\|null            | null                      | Heroicon name or a slot for fully custom icon markup                                          |
+| color          | string\|null                           | 'primary'                 | Color for icon background **and** number text (solid/light/outline palettes)                  |
+| href           | string\|null                           | null                      | When set, root renders as `<a>` for click-through                                             |
+| solid          | bool                                   | true                      | Solid color style variant (default)                                                           |
+| light          | bool                                   | false                     | Light color style variant                                                                     |
+| outline        | bool                                   | false                     | Outline color style variant                                                                   |
+| animated       | bool                                   | false                     | Count-up animation on viewport enter; **only when `number` is numeric**                       |
+| duration       | int\|null                              | 1                         | Animation duration in seconds (ignored when not animating)                                    |
+| increase       | bool                                   | false                     | Upward trend arrow on the right (mutually exclusive with `decrease`)                          |
+| decrease       | bool                                   | false                     | Downward trend arrow on the right (mutually exclusive with `increase`)                        |
+| navigate       | bool                                   | null                      | Livewire `wire:navigate` when using `href`                                                    |
+| navigate-hover | bool                                   | null                      | Livewire `wire:navigate.hover` when using `href`                                              |
+| shadowless     | bool\|null                             | null (from config: false) | Removes the wrapper shadow                                                                    |
+| bordered       | bool\|null                             | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look                       |
+| chart          | array\|Collection\|ComponentSlot\|null | null                      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
+| skeleton       | bool\|null                             | null                      | Renders a structural placeholder instead of the content. Flag only — an integer throws        |
 
 ### Root element
 

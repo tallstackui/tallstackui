@@ -67,9 +67,9 @@ TallStackUi::customize()
 
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
-| `editor.toolbar`     | `<x-dropdown />` | 42, 211 |
-| `editor.modal.link`  | `<x-modal />`    | 434     |
-| `editor.modal.image` | `<x-modal />`    | 474     |
+| `editor.toolbar`     | `<x-dropdown />` | 42, 221 |
+| `editor.modal.link`  | `<x-modal />`    | 454     |
+| `editor.modal.image` | `<x-modal />`    | 494     |
 
 ### `form/autocomplete`
 
@@ -173,15 +173,15 @@ TallStackUi::customize()
 | Scope                     | Target         | Line(s) |
 |---------------------------|----------------|---------|
 | `form.upload.async.label` | `<x-label />`  | 30      |
-| `form.upload.async.hint`  | `<x-hint />`   | 166     |
-| `form.upload.async.clear` | `<x-button />` | 175     |
-| `form.upload.async.send`  | `<x-button />` | 183     |
+| `form.upload.async.hint`  | `<x-hint />`   | 168     |
+| `form.upload.async.clear` | `<x-button />` | 177     |
+| `form.upload.async.send`  | `<x-button />` | 185     |
 
 ### `layout/sidebar/item`
 
 | Scope                 | Target           | Line(s)          |
 |-----------------------|------------------|------------------|
-| `sidebar.item.badge`  | `<x-badge />`    | 62, 70, 164, 172 |
+| `sidebar.item.badge`  | `<x-badge />`    | 62, 70, 165, 173 |
 | `sidebar.item.flyout` | `<x-floating />` | 90               |
 
 ### `list/items`

@@ -2,13 +2,45 @@
 
 namespace TallStackUi\Components\Form\Upload\Async;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component as LivewireComponent;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function can_describe_a_rejected_file_through_a_tooltip(): void
+    {
+        $balloon = fn (Browser $browser): string => $browser->script(
+            "return document.querySelector('[data-tsui-tooltip][data-show]')?.textContent ?? '';"
+        )[0];
+
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files" :route="route('async.upload')" accept="image/*" multiple />
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.pdf')
+            ->waitForText('File type not allowed.')
+            ->tap(fn (Browser $browser) => Assert::assertSame('', $balloon($browser), 'the balloon should start hidden'))
+            // A synthetic pointerenter keeps the hover out of the driver's
+            // hands, which cannot promise where the cursor lands on a tile.
+            ->tap(fn (Browser $browser) => $browser->script("document.querySelector('[dusk=tallstackui_upload_async_tile]').dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse', bubbles: true }));"))
+            ->pause(500)
+            ->tap(fn (Browser $browser) => Assert::assertStringContainsString('File type not allowed.', $balloon($browser), 'hovering a rejected tile should describe the error'));
+    }
+
     #[Test]
     public function can_hold_the_files_until_send_is_pressed(): void
     {

@@ -34,15 +34,15 @@ A password input component with toggle visibility, strength indicator rules (min
 
 ## Attributes
 
-| Attribute   | Type                          | Default | Description                                                                                                                             |
-|-------------|-------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| label       | string\|ComponentSlot\|null   | null    | Label text displayed above the input                                                                                                    |
-| hint        | string\|ComponentSlot\|null   | null    | Hint text displayed below the input                                                                                                     |
-| rules       | Collection\|array\|bool\|null | null    | Password strength rules. Pass true for defaults from config, or an array of rule strings (e.g., 'min:8', 'symbols', 'numbers', 'mixed') |
-| mixed-case  | bool\|null                    | false   | When true, disables the caps lock indicator icon                                                                                        |
+| Attribute   | Type                          | Default | Description                                                                                                                                             |
+|-------------|-------------------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| label       | string\|ComponentSlot\|null   | null    | Label text displayed above the input                                                                                                                    |
+| hint        | string\|ComponentSlot\|null   | null    | Hint text displayed below the input                                                                                                                     |
+| rules       | Collection\|array\|bool\|null | null    | Password strength rules. Pass true for defaults from config, or an array of rule strings (e.g., 'min:8', 'symbols', 'numbers', 'mixed')                 |
+| mixed-case  | bool\|null                    | false   | When true, disables the caps lock indicator icon                                                                                                        |
 | generator   | bool\|string\|null            | null    | Shows a password generator button that creates a random password matching the rules. A string names the field the generated password is also written to |
-| invalidate  | bool\|null                    | null    | Prevents displaying validation error messages for this input                                                                            |
-| typing-only | bool\|null                    | null    | When true, the rules floating panel only appears while typing (not on focus)                                                            |
+| invalidate  | bool\|null                    | null    | Prevents displaying validation error messages for this input                                                                                            |
+| typing-only | bool\|null                    | null    | When true, the rules floating panel only appears while typing (not on focus)                                                                            |
 
 ## Alpine.js Events
 

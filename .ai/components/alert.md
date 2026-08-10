@@ -28,19 +28,19 @@ A dismissible alert component for displaying contextual messages with optional t
 
 ## Attributes
 
-| Attribute  | Type         | Default   | Description                                                                                                                                               |
-|------------|--------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| title      | string\|null | null      | Bold heading displayed above the text                                                                                                                     |
-| text       | string\|null | null      | Main alert message body                                                                                                                                   |
-| icon       | string\|null | null      | Heroicon name displayed to the left of the content                                                                                                        |
-| color      | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                           |
-| close      | bool         | false     | Shows a dismiss button to hide the alert                                                                                                                  |
-| dismiss    | int\|null    | null      | Auto-dismiss the alert after N seconds                                                                                                                    |
-| light      | bool         | false     | Uses the light color style variant                                                                                                                        |
-| outline    | bool         | false     | Uses the outline color style variant                                                                                                                      |
-| rounded    | string\|null | 'lg'      | Corner radius size: `xs`, `sm`, `md`, `lg`, `xl`                                                                                                          |
-| square     | bool         | false     | Forces square corners (`rounded-none`); overrides `rounded` when both set                                                                                 |
-| shadowless | bool\|null   | null (from config: false) | Removes the shadow carried by the light style (whole shadow tokens are stripped, covering published palettes too)                         |
+| Attribute  | Type         | Default                   | Description                                                                                                                                               |
+|------------|--------------|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title      | string\|null | null                      | Bold heading displayed above the text                                                                                                                     |
+| text       | string\|null | null                      | Main alert message body                                                                                                                                   |
+| icon       | string\|null | null                      | Heroicon name displayed to the left of the content                                                                                                        |
+| color      | string\|null | 'primary'                 | Color theme (e.g., primary, red, green, yellow)                                                                                                           |
+| close      | bool         | false                     | Shows a dismiss button to hide the alert                                                                                                                  |
+| dismiss    | int\|null    | null                      | Auto-dismiss the alert after N seconds                                                                                                                    |
+| light      | bool         | false                     | Uses the light color style variant                                                                                                                        |
+| outline    | bool         | false                     | Uses the outline color style variant                                                                                                                      |
+| rounded    | string\|null | 'lg'                      | Corner radius size: `xs`, `sm`, `md`, `lg`, `xl`                                                                                                          |
+| square     | bool         | false                     | Forces square corners (`rounded-none`); overrides `rounded` when both set                                                                                 |
+| shadowless | bool\|null   | null (from config: false) | Removes the shadow carried by the light style (whole shadow tokens are stripped, covering published palettes too)                                         |
 | bordered   | string\|null | null (from config: null)  | Adds a thick side border. Format: `"left"`, `"right"`, or `"<side>:<color>"` (e.g., `"left:red"`). When the color is omitted, the alert's `color` is used |
 
 ## Auto-Dismiss

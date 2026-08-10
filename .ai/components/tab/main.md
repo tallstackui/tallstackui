@@ -69,14 +69,14 @@ around the slot, so the flag reaches every panel:
 
 ## Attributes
 
-| Attribute        | Type         | Default | Description                                                                                                                                 |
-|------------------|--------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| selected         | string\|null | null    | Initially selected tab identifier (or use `wire:model` for Livewire binding)                                                                |
-| scroll-on-mobile | bool\|null   | null    | Shows horizontal scrollable tabs on mobile instead of a select dropdown                                                                     |
-| centered         | bool\|null   | null    | Centers the tab navigation items                                                                                                            |
-| paddingless      | bool\|null   | null    | When true, removes the padding of the content area. The padding sits on the single wrapper around the slot, so the flag reaches every panel |
-| shadowless       | bool\|null   | null (from config: false) | Removes the wrapper shadow                                                                                |
-| bordered         | bool\|null   | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                   |
+| Attribute        | Type         | Default                   | Description                                                                                                                                 |
+|------------------|--------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| selected         | string\|null | null                      | Initially selected tab identifier (or use `wire:model` for Livewire binding)                                                                |
+| scroll-on-mobile | bool\|null   | null                      | Shows horizontal scrollable tabs on mobile instead of a select dropdown                                                                     |
+| centered         | bool\|null   | null                      | Centers the tab navigation items                                                                                                            |
+| paddingless      | bool\|null   | null                      | When true, removes the padding of the content area. The padding sits on the single wrapper around the slot, so the flag reaches every panel |
+| shadowless       | bool\|null   | null (from config: false) | Removes the wrapper shadow                                                                                                                  |
+| bordered         | bool\|null   | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                                     |
 
 ## Global Configuration
 

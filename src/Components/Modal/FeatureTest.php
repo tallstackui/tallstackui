@@ -116,11 +116,21 @@ it('can center the modal only from a breakpoint upwards', function (string $brea
         ->toContain('sm:max-w-2xl '.$class);
 })->with([
     ['sm', 'items-end sm:items-center'],
-    ['md', 'items-end sm:items-start md:items-center'],
-    ['lg', 'items-end sm:items-start lg:items-center'],
-    ['xl', 'items-end sm:items-start xl:items-center'],
-    ['2xl', 'items-end sm:items-start 2xl:items-center'],
+    ['md', 'items-end md:items-center'],
+    ['lg', 'items-end lg:items-center'],
+    ['xl', 'items-end xl:items-center'],
+    ['2xl', 'items-end 2xl:items-center'],
 ]);
+
+it('can keep the bottom sheet all the way up to the centering breakpoint', function () {
+    $component = <<<'HTML'
+    <x-modal title="Centered" center="md">
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()->not->toContain('sm:items-start');
+});
 
 it('cannot force the centered padding and rounding when centering from a breakpoint', function () {
     $component = <<<'HTML'
@@ -148,7 +158,7 @@ it('can center from a breakpoint defined through the config', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('sm:max-w-2xl items-end sm:items-start lg:items-center');
+        ->toContain('sm:max-w-2xl items-end lg:items-center');
 
     config()->set('ts-ui.components.modal.1.center', false);
 
@@ -284,7 +294,7 @@ it('can keep the footer sticky on the chrome wrapper when scrollable', function 
     HTML;
 
     expect($component)->render()
-        ->toContain('border-t border-t-gray-100 p-4 text-gray-700 sticky bottom-0 z-10 bg-white dark:bg-dark-700')
+        ->toContain('border-t border-t-gray-100 p-4 text-gray-700 sticky bottom-0 z-10 bg-white dark:bg-dark-800')
         ->toContain('flex gap-2 justify-end');
 });
 
@@ -313,7 +323,7 @@ it('can keep the footer sticky when scrollable and unwrapped', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('sticky bottom-0 z-10 bg-white dark:bg-dark-700')
+        ->toContain('sticky bottom-0 z-10 bg-white dark:bg-dark-800')
         ->not->toContain('flex gap-2');
 });
 

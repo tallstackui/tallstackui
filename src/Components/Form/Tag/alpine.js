@@ -42,10 +42,14 @@ export default (
     const tags = (this.model ?? []).map((tag) => this.strip(tag).toLowerCase());
     const term = this.strip(this.tag.trim()).toLowerCase();
 
-    return this.options.filter(
-      (option) =>
-        !tags.includes(option.toLowerCase()) && (term === '' || option.toLowerCase().includes(term))
-    );
+    // Options are stripped on the same terms as the model, so an already
+    // picked "#laravel" is recognized whether or not the option carries
+    // the prefix itself.
+    return this.options.filter((option) => {
+      const content = this.strip(option).toLowerCase();
+
+      return !tags.includes(content) && (term === '' || content.includes(term));
+    });
   },
   open() {
     if (!this.listable || (this.limit && this.model?.length >= this.limit)) {

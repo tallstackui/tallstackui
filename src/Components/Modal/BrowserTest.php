@@ -411,7 +411,7 @@ class BrowserTest extends BrowserTestCase
             })
             ->resize(720, 800)
             ->tap(function (Browser $browser) use ($alignment): void {
-                Assert::assertSame('flex-start', $alignment($browser), 'between sm and md the modal should behave as not centered');
+                Assert::assertSame('flex-end', $alignment($browser), 'between sm and md the modal should still be a sheet');
             })
             ->resize(400, 800)
             ->tap(function (Browser $browser) use ($alignment): void {

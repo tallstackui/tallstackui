@@ -69,6 +69,9 @@
             <template x-for="file in files" :key="file.uuid">
                 <div role="listitem"
                      x-on:click.stop
+                     x-tooltip
+                     x-bind:x-tooltip="file.error"
+                     data-tooltip-color="red"
                      class="{{ $customization['tile.wrapper'] }}"
                      dusk="tallstackui_upload_async_tile">
                     {{-- An overlay rather than a ring on the tile itself: the
@@ -124,7 +127,6 @@
 
                     <p x-show="file.error"
                        x-text="file.error"
-                       x-bind:title="file.error"
                        class="{{ $customization['tile.error-msg'] }}"></p>
                 </div>
                 </template>

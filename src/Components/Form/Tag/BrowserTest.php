@@ -101,6 +101,34 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_drop_a_prefixed_option_from_the_list_once_it_is_picked(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <x-tag dusk="tags" wire:model.live="tags" label="Tags" prefix="#" :options="['#laravel', '#livewire']" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->click('@tags')
+            ->waitFor('@tallstackui_tag_options')
+            ->assertSeeIn('@tallstackui_tag_options', '#laravel')
+            ->clickAtVisibleXPath('(//li[@dusk="tallstackui_tag_option"])[1]')
+            ->waitForTextIn('@tagged', '#laravel')
+            ->assertDontSeeIn('@tallstackui_tag_options', '#laravel')
+            ->assertSeeIn('@tallstackui_tag_options', '#livewire');
+    }
+
+    #[Test]
     public function can_erase_all(): void
     {
         Livewire::visit(new class extends Component
