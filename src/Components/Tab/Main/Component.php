@@ -41,7 +41,7 @@ class Component extends TallStackUiComponent implements Customization
                 'centered' => 'justify-center',
                 'content' => 'text-gray-700 dark:text-dark-300 p-4',
                 'content-paddingless' => 'p-0!',
-                'divider' => 'h-px border-0 bg-gray-300 dark:bg-dark-700',
+                'divider' => 'h-px border-0 bg-gray-200 dark:bg-dark-700',
                 'divider-mobile-show' => 'sm:block',
                 'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-800 dark:border-dark-700 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-dark-400 sm:hidden',
             ],
