@@ -69,10 +69,10 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => [
                 'first' => 'flex justify-center gap-4 min-w-full',
-                'second' => 'dark:bg-dark-700 flex w-full flex-col overflow-hidden bg-white shadow-md',
+                'second' => 'dark:bg-dark-800 flex w-full flex-col overflow-hidden bg-white shadow-md',
             ],
             'shadowless' => 'shadow-none!',
-            'bordered' => 'border border-gray-200 dark:border-dark-600',
+            'bordered' => 'border border-gray-200 dark:border-dark-700',
             'header' => [
                 'wrapper' => [
                     'base' => 'flex items-center justify-between p-4',

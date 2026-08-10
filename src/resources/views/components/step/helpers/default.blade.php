@@ -1,6 +1,6 @@
 @php
 $wrapper = 'flex items-center justify-between';
-$button = 'inline-flex cursor-pointer select-none items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-sm font-medium text-gray-600 shadow-xs outline-hidden transition duration-200 hover:bg-gray-50 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-primary-500 dark:border-dark-600 dark:bg-dark-700 dark:text-dark-300 dark:hover:bg-dark-600/50 dark:hover:text-dark-100';
+$button = 'inline-flex cursor-pointer select-none items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-sm font-medium text-gray-600 shadow-xs outline-hidden transition duration-200 hover:bg-gray-50 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-primary-500 dark:border-dark-700 dark:bg-dark-800 dark:text-dark-300 dark:hover:bg-dark-700/50 dark:hover:text-dark-100';
 @endphp
 
 <div class="{{ $wrapper }}" {{ $attributes->only('x-on:change') }} x-ref="buttons">

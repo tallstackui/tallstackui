@@ -31,19 +31,19 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'base' => [
-                'wrapper' => 'dark:bg-dark-700 w-full rounded-lg bg-white shadow-md',
+                'wrapper' => 'dark:bg-dark-800 w-full rounded-lg bg-white shadow-md',
                 'padding' => 'p-2 sm:p-0',
-                'body' => 'soft-scrollbar flex-nowrap overflow-auto flex',
+                'body' => 'soft-scrollbar flex-nowrap overflow-auto flex bg-gray-50 dark:bg-dark-900 rounded-t-lg',
                 'body-mobile-show' => 'sm:flex',
                 'centered' => 'justify-center',
                 'content' => 'text-gray-700 dark:text-dark-300 p-4',
                 'content-paddingless' => 'p-0!',
-                'divider' => 'h-px border-0 bg-gray-300 dark:bg-dark-600',
+                'divider' => 'h-px border-0 bg-gray-300 dark:bg-dark-700',
                 'divider-mobile-show' => 'sm:block',
-                'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-dark-400 sm:hidden',
+                'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-800 dark:border-dark-700 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-dark-400 sm:hidden',
             ],
             'shadowless' => 'shadow-none!',
-            'bordered' => 'border border-gray-200 dark:border-dark-600',
+            'bordered' => 'border border-gray-200 dark:border-dark-700',
             'item' => [
                 'wrapper' => 'inline-flex items-center gap-2 whitespace-nowrap p-4 transition-all',
                 'mobile-show' => 'sm:flex',

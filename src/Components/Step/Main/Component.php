@@ -60,7 +60,7 @@ class Component extends TallStackUiComponent implements Customization
                 'check' => 'h-5 w-5 text-white',
                 'circle' => [
                     'wrapper' => 'w-8 h-8 flex shrink-0 items-center justify-center rounded-full font-bold',
-                    'inactive' => 'border-2 border-gray-300 text-gray-500 dark:text-dark-300 dark:border-dark-500',
+                    'inactive' => 'border-2 border-gray-300 text-gray-500 dark:text-dark-300 dark:border-dark-700',
                     'current' => 'border-2 border-primary-500 text-primary-500',
                     'border' => 'border-2 border-green-600',
                     'active' => 'bg-green-600 text-white',
@@ -72,7 +72,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
                 'divider' => [
                     'wrapper' => 'h-full w-0.5 transition-colors group-last:hidden md:mt-0 md:h-0.5 md:w-full md:flex-1',
-                    'inactive' => 'bg-gray-200 dark:bg-dark-600',
+                    'inactive' => 'bg-gray-200 dark:bg-dark-700',
                     'active' => 'bg-green-600',
                 ],
                 'text' => [
@@ -85,7 +85,7 @@ class Component extends TallStackUiComponent implements Customization
                 'li' => 'transition-all md:flex-1',
                 'bar' => [
                     'wrapper' => 'flex flex-col py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4',
-                    'inactive' => 'group border-l-4 border-gray-200 dark:border-dark-600',
+                    'inactive' => 'group border-l-4 border-gray-200 dark:border-dark-700',
                     'current' => 'border-l-4 border-primary-500',
                     'active' => 'border-l-4 border-green-600',
                 ],
@@ -107,13 +107,13 @@ class Component extends TallStackUiComponent implements Customization
                 'item' => 'flex items-center px-6 py-4 text-sm font-medium',
                 'circle' => [
                     'wrapper' => 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
-                    'inactive' => 'border-2 border-gray-300 dark:border-dark-500',
+                    'inactive' => 'border-2 border-gray-300 dark:border-dark-700',
                     'current' => 'bg-primary-500 dark:border-primary-500',
                     'active' => 'bg-green-600 dark:border-green-600',
                 ],
                 'divider' => [
                     'wrapper' => 'absolute right-0 top-0 hidden h-full w-5 md:block',
-                    'svg' => 'h-full w-full text-gray-200 dark:text-dark-600',
+                    'svg' => 'h-full w-full text-gray-200 dark:text-dark-700',
                 ],
                 'text' => [
                     'number' => [
@@ -128,7 +128,7 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'ml-4 whitespace-nowrap text-xs font-medium text-gray-500 dark:text-dark-400',
                 ],
             ],
-            'panels-shape' => 'mb-2 rounded-md border border-gray-200 dark:border-dark-600',
+            'panels-shape' => 'mb-2 rounded-md border border-gray-200 dark:border-dark-700',
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
             'skeleton' => [
