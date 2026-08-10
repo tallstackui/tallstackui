@@ -103,7 +103,7 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 | rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                                                        |
 | headerless          | bool                                               | false             | Hides the table header row                                                                                                                                                  |
 | striped             | bool                                               | false             | Applies alternating row background colors                                                                                                                                   |
-| compact             | bool                                               | false             | Tightens the vertical padding of the header, the rows, the empty message and the expandable content                                                                         |
+| compact             | bool                                               | false             | Tightens the vertical padding of the header, the rows, the empty message and the expandable content. Globally configurable                                                  |
 | sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                                                         |
 | filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable                                        |
 | loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                                                                     |
@@ -254,6 +254,10 @@ Each affected block has a `-compact` twin, and `compact` swaps the whole string 
 than layering on top of it. Customizing `table.td` therefore leaves a compact table
 alone; customize `table.td-compact` as well when both modes are in use.
 
+An application that wants tight rows everywhere sets it once, in the configuration —
+see [Global Defaults](#global-defaults) — and `:compact="false"` gives a single table
+the roomy padding back.
+
 > Not to be confused with `paginator="compact"`, which is one of the pagination looks
 > below and says nothing about row density. The two combine freely.
 
@@ -298,7 +302,7 @@ Such a view receives `paginator`, `elements`, and `livewire`, `simple`, `name`, 
 
 ## Global Defaults
 
-Five props can be set once for every table, in `config/ts-ui.php`:
+Six props can be set once for every table, in `config/ts-ui.php`:
 
 ```php
 'table' => [
@@ -309,6 +313,7 @@ Five props can be set once for every table, in `config/ts-ui.php`:
         'simple-pagination' => false,
         'filter' => true,
         'quantity' => [5, 10, 25],
+        'compact' => true,
     ],
 ],
 ```
@@ -317,7 +322,7 @@ Each is a default, not a lock — passing the prop inline always wins, including
 global default back off:
 
 ```blade
-<x-table :$headers :$rows :paginate="false" :filter="false" />
+<x-table :$headers :$rows :paginate="false" :filter="false" :compact="false" />
 ```
 
 ## Persistent

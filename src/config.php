@@ -780,6 +780,7 @@ return [
             | simple-pagination: controls the reduction to previous and next only.
             | filter: controls the filter bar (true, or an array mapping the property names).
             | quantity: controls the options of the per-page select.
+            | compact: tightens the padding of the cells, including the skeleton.
             |
             | These are defaults: the inline prop always wins, including :paginate="false".
             */
@@ -789,6 +790,7 @@ return [
                 'simple-pagination' => false,
                 'filter' => false,
                 'quantity' => [10, 25, 50, 100],
+                'compact' => false,
             ],
         ],
         'tab.items' => Components\Tab\Items\Component::class,

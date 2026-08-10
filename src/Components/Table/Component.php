@@ -32,7 +32,7 @@ class Component extends TallStackUiComponent implements Customization
         public LengthAwarePaginator|Paginator|Collection|array $rows = [],
         public ?bool $headerless = false,
         public ?bool $striped = false,
-        public ?bool $compact = false,
+        public ?bool $compact = null,
         public ?array $sort = [],
         public bool|array|null $filter = null,
         public ?bool $loading = false,
@@ -259,6 +259,7 @@ class Component extends TallStackUiComponent implements Customization
         $this->paginate ??= $this->simplePagination ?: (__ts_get_component_configuration(self::class, 'paginate') ?? false);
         $this->quantity ??= __ts_get_component_configuration(self::class, 'quantity') ?? [10, 25, 50, 100];
         $this->filter ??= __ts_get_component_configuration(self::class, 'filter') ?? null;
+        $this->compact ??= __ts_get_component_configuration(self::class, 'compact') ?? false;
 
         $this->filter = $this->filter === true
             ? ['quantity' => 'quantity', 'search' => 'search']

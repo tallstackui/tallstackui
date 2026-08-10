@@ -12,6 +12,32 @@ such change is listed under **Migration**.
 
 ---
 
+## Table
+
+### Added — `compact` answers to the configuration
+
+The density was a per-table decision, so an application that wants tight rows
+everywhere had to repeat `compact` on every table. It joins the other table
+defaults in the configuration:
+
+```php
+'table' => [
+    Components\Table\Component::class,
+    [
+        'paginator' => 'simple',
+        'paginate' => false,
+        'simple-pagination' => false,
+        'filter' => false,
+        'quantity' => [10, 25, 50, 100],
+        'compact' => false,
+    ],
+],
+```
+
+The inline prop always wins, so `:compact="false"` gives a single table the
+roomy padding back. The skeleton reads the same flag, so a table configured as
+compact stays compact while it loads.
+
 ## Link
 
 ### Added — `navigate` and `navigate-hover` answer to the configuration

@@ -480,4 +480,36 @@ describe('compact', function () {
             ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5');
     })->with('table.headers');
+
+    it('can tighten every table from the configuration', function (array $headers) {
+        tableConfig(['compact' => true]);
+
+        $rows = [['name' => 'Foo', 'email' => 'foo@bar.com']];
+
+        expect('<x-table :$headers :$rows />')
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2.5 text-sm')
+            ->not->toContain('py-3.5');
+
+        expect('<x-table skeleton :$headers />')
+            ->render(['headers' => $headers])
+            ->toContain('px-3 py-2 text-left')
+            ->not->toContain('py-3.5');
+
+        tableConfig(['compact' => false]);
+    })->with('table.headers');
+
+    it('can turn the configured compact back off inline', function (array $headers) {
+        tableConfig(['compact' => true]);
+
+        $rows = [['name' => 'Foo', 'email' => 'foo@bar.com']];
+
+        expect('<x-table :$headers :$rows :compact="false" />')
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->toContain('py-3.5')
+            ->toContain('px-3 py-4');
+
+        tableConfig(['compact' => false]);
+    })->with('table.headers');
 });
