@@ -83,6 +83,8 @@ Twenty buttons across eight groups. Dividers are inserted automatically wherever
 
 Passing a slug the list does not know throws. On a viewport too narrow to hold the toolbar it scrolls horizontally rather than collapsing, so a customized order stays as it was written.
 
+Every button names itself through a tooltip, declared as `flash` so it opens on the tick the pointer arrives rather than after the default pause.
+
 Indentation outside a list is a `margin-left` on the block, in steps of 2rem up to eight levels. The native browser command reaches for a `<blockquote>` there, which is a quote rather than an indent and would be stripped by the sanitizer on the way back in.
 
 ## Bound Value

@@ -521,6 +521,13 @@ and accepts a `Collection`. Surrounding spaces around each field are trimmed:
 
 ## Editor
 
+### Changed — the toolbar tooltips open without delay
+
+Every toolbar button carried the default `fast` delay, 150ms, which is the right
+pause for a tooltip attached to prose but reads as lag on a row of icons the
+pointer sweeps across. The anchors now declare `flash`, so the balloon opens on
+the tick the pointer arrives. The fade itself is untouched.
+
 ### Changed — internal scopes renamed to the dotted convention
 
 The editor was the only component naming its internal scopes with dashes. They

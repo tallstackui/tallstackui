@@ -38,6 +38,14 @@ it('can render the whole default toolbar', function () {
     expect($html)->toContain('role="toolbar"');
 });
 
+it('can render the toolbar tooltips without delay', function () {
+    $html = (string) expect('<x-editor name="content" />')->render()->value;
+
+    expect(substr_count($html, 'data-tooltip-delay="flash"'))
+        ->toBe(substr_count($html, 'data-position="bottom"'))
+        ->toBe(20);
+});
+
 it('can render only the whitelisted buttons', function () {
     expect('<x-editor name="content" :toolbar="[\'bold\', \'italic\']" />')
         ->render()

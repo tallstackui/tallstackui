@@ -49,6 +49,7 @@
                                                 aria-haspopup="true"
                                                 x-tooltip="{{ $i18n['tooltip']['style'] }}"
                                                 data-position="bottom"
+                                                data-tooltip-delay="flash"
                                                 dusk="tallstackui_editor_style"
                                                 class="{{ $customization['toolbar.dropdown.trigger'] }}">
                                             <span x-text="blockLabel()"></span>
@@ -82,6 +83,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.blockquote }"
                                         x-tooltip="{{ $i18n['tooltip']['blockquote'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_blockquote"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <span class="font-serif text-base leading-none">&rdquo;</span>
@@ -96,6 +98,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.bold }"
                                         x-tooltip="{{ $i18n['tooltip']['bold'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+b"
                                         dusk="tallstackui_editor_bold"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -111,6 +114,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.italic }"
                                         x-tooltip="{{ $i18n['tooltip']['italic'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+i"
                                         dusk="tallstackui_editor_italic"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -126,6 +130,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.underline }"
                                         x-tooltip="{{ $i18n['tooltip']['underline'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+u"
                                         dusk="tallstackui_editor_underline"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -141,6 +146,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.strikethrough }"
                                         x-tooltip="{{ $i18n['tooltip']['strikethrough'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_strikethrough"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <span class="line-through">S</span>
@@ -155,6 +161,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.orderedList }"
                                         x-tooltip="{{ $i18n['tooltip']['ordered_list'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_ordered_list"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -171,6 +178,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.unorderedList }"
                                         x-tooltip="{{ $i18n['tooltip']['unordered_list'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_unordered_list"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -185,6 +193,7 @@
                                         x-on:click="shiftIndent(1)"
                                         x-tooltip="{{ $i18n['tooltip']['indent'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_indent"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -199,6 +208,7 @@
                                         x-on:click="shiftIndent(-1)"
                                         x-tooltip="{{ $i18n['tooltip']['outdent'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_outdent"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -218,6 +228,7 @@
                                                 aria-haspopup="true"
                                                 x-tooltip="{{ $i18n['tooltip']['align'] }}"
                                                 data-position="bottom"
+                                                data-tooltip-delay="flash"
                                                 dusk="tallstackui_editor_align"
                                                 class="{{ $customization['toolbar.dropdown.trigger'] }}">
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -243,6 +254,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.code }"
                                         x-tooltip="{{ $i18n['tooltip']['code'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_code"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -259,6 +271,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.codeBlock }"
                                         x-tooltip="{{ $i18n['tooltip']['code_block'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_code_block"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -273,6 +286,7 @@
                                         x-on:click="clearFormat()"
                                         x-tooltip="{{ $i18n['tooltip']['clear_format'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+backslash"
                                         dusk="tallstackui_editor_clear_format"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -290,6 +304,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.link }"
                                         x-tooltip="{{ $i18n['tooltip']['link'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+k"
                                         dusk="tallstackui_editor_link"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -305,6 +320,7 @@
                                         x-on:click="openImage()"
                                         x-tooltip="{{ $i18n['tooltip']['image'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_image"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -319,6 +335,7 @@
                                         x-on:click="insertRule()"
                                         x-tooltip="{{ $i18n['tooltip']['hr'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_hr"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -333,6 +350,7 @@
                                         x-on:click="exec('undo')"
                                         x-tooltip="{{ $i18n['tooltip']['undo'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+z"
                                         dusk="tallstackui_editor_undo"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -348,6 +366,7 @@
                                         x-on:click="exec('redo')"
                                         x-tooltip="{{ $i18n['tooltip']['redo'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         data-tsui-shortcut="mod+shift+z"
                                         dusk="tallstackui_editor_redo"
                                         class="{{ $customization['toolbar.button.base'] }}">
@@ -365,6 +384,7 @@
                                         x-bind:class="{ @js($customization['toolbar.button.active']): fullscreen }"
                                         x-tooltip="{{ $i18n['tooltip']['fullscreen'] }}"
                                         data-position="bottom"
+                                        data-tooltip-delay="flash"
                                         dusk="tallstackui_editor_fullscreen"
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <template x-if="!fullscreen">
