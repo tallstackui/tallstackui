@@ -101,8 +101,24 @@ Lock the month/year header (only allow picking days within the displayed month):
 | only            | int\|string\|null           | null           | Restricts selection to a single weekday (0–6).                                                                                                                                                                                                   |
 | weekdays        | bool\|null                  | false          | When true, weekends are disabled.                                                                                                                                                                                                                |
 | weekends        | bool\|null                  | false          | When true, weekdays are disabled.                                                                                                                                                                                                                |
-| shadowless      | bool\|null                  | null           | Removes the body card shadow.                                                                                                                                                                                                                    |
-| bordered        | bool\|null                  | null           | Adds a border to the body card. Combine with `shadowless` for a flat look.                                                                                                                                                                       |
+| shadowless      | bool\|null                  | null (from config: false) | Removes the body card shadow.                                                                                                                                                                                         |
+| bordered        | bool\|null                  | null (from config: false) | Adds a border to the body card. Combine with `shadowless` for a flat look.                                                                                                                                            |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'calendar' => [
+    \TallStackUi\Components\Calendar\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores
+the shadow on a single calendar while the configuration keeps it off everywhere else.
 
 ## Slots
 

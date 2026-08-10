@@ -103,6 +103,38 @@ it('can render the size from the configuration', function () {
     }
 });
 
+it('can render borderless', function () {
+    expect('<x-avatar label="Lorem" borderless />')->render()->not->toContain('border-2');
+});
+
+it('can render borderless from the configuration', function () {
+    config()->set('ts-ui.components.avatar.1.borderless', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-avatar label="Lorem" />')->render()->not->toContain('border-2');
+    } finally {
+        config()->set('ts-ui.components.avatar.1.borderless', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the borderless attribute win over the configuration', function () {
+    config()->set('ts-ui.components.avatar.1.borderless', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-avatar label="Lorem" :borderless="false" />')->render()->toContain('border-2');
+    } finally {
+        config()->set('ts-ui.components.avatar.1.borderless', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
 it('can let the size attribute win over the configuration', function () {
     config()->set('ts-ui.components.avatar.1.size', '3xl');
 

@@ -52,6 +52,11 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public array|Collection|ComponentSlot|null $chart = null,
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? false;
+
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->duration = max(0, (int) $this->duration);
 

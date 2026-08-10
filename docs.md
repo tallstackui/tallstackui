@@ -12,6 +12,37 @@ such change is listed under **Migration**.
 
 ---
 
+## Card, Stats, Calendar, Tab, Errors, Alert & Avatar
+
+### Added — the flat-look flags answer to the configuration
+
+`shadowless`, `bordered` and `borderless` were per-instance decisions, so an application
+that wants the flat look everywhere had to repeat the flags on every component. They join
+the other defaults in the configuration, following the Accordion and the Kbd:
+
+```php
+'card'     => [Components\Card\Component::class,          ['shadowless' => false, 'bordered' => false]],
+'stats'    => [Components\Stats\Component::class,         ['shadowless' => false, 'bordered' => false]],
+'calendar' => [Components\Calendar\Component::class,      ['shadowless' => false, 'bordered' => false]],
+'tab'      => [Components\Tab\Main\Component::class,      ['shadowless' => false, 'bordered' => false]],
+'errors'   => [Components\Errors\Component::class,        ['shadowless' => false, 'bordered' => false]],
+'alert'    => [Components\Alert\Component::class,         ['shadowless' => false, 'bordered' => null]],
+'avatar'   => [Components\Avatar\Component::class,        ['borderless' => false]],
+```
+
+The inline prop always wins, so `:shadowless="false"` gives a single component its shadow
+back. On Card and Stats the skeleton reads the same flags, so a placeholder configured as
+flat stays flat while it loads.
+
+Alert's `bordered` keeps the string it always took — `"left"`, `"right"` or
+`"<side>:<color>"` — and the configured value goes through the same validation, so a bad
+side raises the usual exception instead of reaching the template.
+
+The defaults are resolved in the constructor, ahead of the color compilation and the
+validation, which is what lets Alert and Errors color their border from a configured
+value. Nothing changes for an application that never touches the configuration: the props
+that used to default to `false` now default to `null` and resolve to `false`.
+
 ## Table
 
 ### Added — `compact` answers to the configuration

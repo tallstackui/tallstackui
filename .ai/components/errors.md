@@ -77,8 +77,24 @@ area stays; only the aligning wrapper is dropped:
 | without-title | bool                            | false              | Hides the title, icon, and the divider line between the title and the error list                                           |
 | list-numeric  | bool                            | false              | Renders the error list as an ordered (numbered) list instead of bullet points                                              |
 | paddingless   | bool                            | false              | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset |
-| shadowless    | bool                            | false              | Removes the wrapper shadow                                                                                                 |
-| bordered      | bool                            | false              | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)                            |
+| shadowless    | bool\|null                      | null (from config: false) | Removes the wrapper shadow                                                                          |
+| bordered      | bool\|null                      | null (from config: false) | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)     |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'errors' => [
+    \TallStackUi\Components\Errors\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores
+the shadow on a single errors box while the configuration keeps it off everywhere else.
 
 ## Slots
 

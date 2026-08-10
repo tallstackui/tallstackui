@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Calendar\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -74,4 +75,40 @@ it('renders shadowless and bordered together', function () {
     expect('<x-calendar shadowless bordered />')->render()
         ->toContain('shadow-none!')
         ->toContain('border border-gray-200 dark:border-dark-600');
+});
+
+it('renders the flat look through the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.shadowless', true);
+    config()->set('ts-ui.components.calendar.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-calendar />')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200 dark:border-dark-600');
+    } finally {
+        config()->set('ts-ui.components.calendar.1.shadowless', false);
+        config()->set('ts-ui.components.calendar.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('lets the flat look props win over the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.shadowless', true);
+    config()->set('ts-ui.components.calendar.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-calendar :shadowless="false" :bordered="false" />')->render()
+            ->not->toContain('shadow-none!')
+            ->not->toContain('border border-gray-200 dark:border-dark-600');
+    } finally {
+        config()->set('ts-ui.components.calendar.1.shadowless', false);
+        config()->set('ts-ui.components.calendar.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
 });

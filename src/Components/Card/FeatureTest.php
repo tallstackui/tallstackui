@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Card\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -157,6 +158,46 @@ it('can render shadowless and bordered together')
     ->render()
     ->toContain('shadow-none!')
     ->toContain('border border-gray-200 dark:border-dark-600');
+
+it('can render the flat look through the global configuration', function () {
+    config()->set('ts-ui.components.card.1.shadowless', true);
+    config()->set('ts-ui.components.card.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-card>Foo bar</x-card>')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200');
+
+        expect('<x-card skeleton />')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.card.1.shadowless', false);
+        config()->set('ts-ui.components.card.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the flat look props win over the global configuration', function () {
+    config()->set('ts-ui.components.card.1.shadowless', true);
+    config()->set('ts-ui.components.card.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-card :shadowless="false" :bordered="false">Foo bar</x-card>')->render()
+            ->not->toContain('shadow-none!')
+            ->not->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.card.1.shadowless', false);
+        config()->set('ts-ui.components.card.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
 
 it('can render the accent header variation')
     ->expect('<x-card color="red" accent header="Foo">Bar</x-card>')

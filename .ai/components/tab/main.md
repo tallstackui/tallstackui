@@ -75,8 +75,24 @@ around the slot, so the flag reaches every panel:
 | scroll-on-mobile | bool\|null   | null    | Shows horizontal scrollable tabs on mobile instead of a select dropdown                                                                     |
 | centered         | bool\|null   | null    | Centers the tab navigation items                                                                                                            |
 | paddingless      | bool\|null   | null    | When true, removes the padding of the content area. The padding sits on the single wrapper around the slot, so the flag reaches every panel |
-| shadowless       | bool\|null   | null    | Removes the wrapper shadow                                                                                                                  |
-| bordered         | bool\|null   | null    | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                                     |
+| shadowless       | bool\|null   | null (from config: false) | Removes the wrapper shadow                                                                                |
+| bordered         | bool\|null   | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                   |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'tab' => [
+    \TallStackUi\Components\Tab\Main\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores
+the shadow on a single tab while the configuration keeps it off everywhere else.
 
 ## Slots
 

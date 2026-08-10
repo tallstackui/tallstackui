@@ -50,6 +50,11 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? false;
+
         $this->style = $this->light ? 'light' : 'solid';
         $this->variation = $this->accent ? 'border' : 'background';
         $this->rounded = is_string($this->round) ? $this->round : 'lg';

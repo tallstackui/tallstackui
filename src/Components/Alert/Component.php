@@ -26,7 +26,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $dismiss = null,
         public ?string $rounded = 'lg',
         public ?bool $square = false,
-        public ?bool $shadowless = false,
+        public ?bool $shadowless = null,
         public ?string $bordered = null,
         #[SkipDebug]
         public ?string $style = 'solid',
@@ -35,6 +35,11 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public array $borderedAttributes = ['side' => null, 'color' => null],
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? null;
+
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
 
         if ($this->bordered !== null) {

@@ -40,8 +40,8 @@ A dismissible alert component for displaying contextual messages with optional t
 | outline    | bool         | false     | Uses the outline color style variant                                                                                                                      |
 | rounded    | string\|null | 'lg'      | Corner radius size: `xs`, `sm`, `md`, `lg`, `xl`                                                                                                          |
 | square     | bool         | false     | Forces square corners (`rounded-none`); overrides `rounded` when both set                                                                                 |
-| shadowless | bool         | false     | Removes the shadow carried by the light style (whole shadow tokens are stripped, covering published palettes too)                                         |
-| bordered   | string\|null | null      | Adds a thick side border. Format: `"left"`, `"right"`, or `"<side>:<color>"` (e.g., `"left:red"`). When the color is omitted, the alert's `color` is used |
+| shadowless | bool\|null   | null (from config: false) | Removes the shadow carried by the light style (whole shadow tokens are stripped, covering published palettes too)                         |
+| bordered   | string\|null | null (from config: null)  | Adds a thick side border. Format: `"left"`, `"right"`, or `"<side>:<color>"` (e.g., `"left:red"`). When the color is omitted, the alert's `color` is used |
 
 ## Auto-Dismiss
 
@@ -100,6 +100,24 @@ Adds a thick (`4px`) side border on the left or right edge of the alert. Useful 
 ```
 
 Accepts any of the 28 supported color names. Side must be `left` or `right`.
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'alert' => [
+    \TallStackUi\Components\Alert\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => null,
+    ],
+],
+```
+
+`bordered` takes the same `"side"` / `"side:color"` string as the inline prop and is
+validated the same way, so a bad side raises the usual exception. The inline prop always
+wins over the global default, so `:shadowless="false"` restores the shadow on a single
+alert while the configuration keeps it off everywhere else.
 
 ## Slots
 

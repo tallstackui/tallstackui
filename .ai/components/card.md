@@ -92,8 +92,8 @@ A versatile card container with optional header, footer, image, color styling, m
 | color       | string\|null       | null    | Color theme for the header background                                                                                                                              |
 | light       | bool               | null    | Uses the light color style variant                                                                                                                                 |
 | accent      | bool               | null    | Uses a colored top border on the header instead of background fill                                                                                                 |
-| shadowless  | bool               | null    | Removes the wrapper shadow                                                                                                                                         |
-| bordered    | bool               | null    | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                                                            |
+| shadowless  | bool\|null         | null (from config: false) | Removes the wrapper shadow                                                                                                       |
+| bordered    | bool\|null         | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look                                                          |
 | minimize    | string\|null       | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                                                                |
 | close       | bool               | null    | Shows a close button to hide the entire card                                                                                                                       |
 | loading     | string\|bool\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction                                      |
@@ -103,6 +103,23 @@ A versatile card container with optional header, footer, image, color styling, m
 | round       | bool\|string       | false   | Border radius size of the card wrapper. Accepts `xs`, `sm`, `md`, `lg`, `xl`, or `2xl`. When omitted or set to `true`, keeps the component default (`rounded-lg`). |
 | paddingless | bool\|null         | null    | When true, removes the padding of the body, leaving the default slot flush against the card edges. Header and footer keep their padding.                           |
 | skeleton    | bool\|int\|null    | null    | Renders a structural placeholder instead of the content. A bare flag draws 3 body lines; an integer sets the count. See [Skeleton](#skeleton)                      |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'card' => [
+    \TallStackUi\Components\Card\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores
+the shadow on a single card while the configuration keeps it off everywhere else. The
+skeleton reads the same flags, so a card configured as flat stays flat while it loads.
 
 ## Slots
 

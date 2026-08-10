@@ -106,7 +106,21 @@ return [
             ],
         ],
         'accordion.items' => Components\Accordion\Items\Component::class,
-        'alert' => Components\Alert\Component::class,
+        'alert' => [
+            Components\Alert\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Alert Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the side border by default, following the same
+            | "side" or "side:color" syntax of the inline prop (Allowed sides: left, right).
+            */
+            [
+                'shadowless' => false,
+                'bordered' => null,
+            ],
+        ],
         'autocomplete' => [
             Components\Form\Autocomplete\Component::class,
             [
@@ -153,6 +167,7 @@ return [
             | Avatar Global Settings
             |----------------------------------------------------------------------
             | size: controls the avatar size (Allowed: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+            | borderless: removes the border by default.
             | gravatar.default: the image Gravatar serves when the email has no account and
             | no name is available to fall back to the letters (Allowed: 404, mp, identicon,
             | monsterid, wavatar, retro, robohash, blank).
@@ -160,6 +175,7 @@ return [
             */
             [
                 'size' => 'md',
+                'borderless' => false,
                 'gravatar' => [
                     'default' => 'mp',
                     'rating' => 'g',
@@ -203,9 +219,35 @@ return [
         ],
         'button.circle' => Components\Button\Circle\Component::class,
         'button.group' => Components\Button\Group\Component::class,
-        'calendar' => Components\Calendar\Component::class,
+        'calendar' => [
+            Components\Calendar\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Calendar Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
+            */
+            [
+                'shadowless' => false,
+                'bordered' => false,
+            ],
+        ],
         'carousel' => Components\Carousel\Component::class,
-        'card' => Components\Card\Component::class,
+        'card' => [
+            Components\Card\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Card Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
+            */
+            [
+                'shadowless' => false,
+                'bordered' => false,
+            ],
+        ],
         'chart' => [
             Components\Chart\Component::class,
             /*
@@ -395,7 +437,20 @@ return [
         ],
         'environment' => Components\Environment\Component::class,
         'error' => Components\Form\Error\Component::class,
-        'errors' => Components\Errors\Component::class,
+        'errors' => [
+            Components\Errors\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Errors Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
+            */
+            [
+                'shadowless' => false,
+                'bordered' => false,
+            ],
+        ],
         'floating' => Components\Floating\Component::class,
         'gallery' => [
             Components\Gallery\Component::class,
@@ -751,7 +806,20 @@ return [
                 'size' => 'md',
             ],
         ],
-        'stats' => Components\Stats\Component::class,
+        'stats' => [
+            Components\Stats\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Stats Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
+            */
+            [
+                'shadowless' => false,
+                'bordered' => false,
+            ],
+        ],
         'step' => [
             Components\Step\Main\Component::class,
             /*
@@ -785,7 +853,20 @@ return [
                 'select' => null,
             ],
         ],
-        'tab' => Components\Tab\Main\Component::class,
+        'tab' => [
+            Components\Tab\Main\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Tab Global Settings
+            |----------------------------------------------------------------------
+            | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
+            */
+            [
+                'shadowless' => false,
+                'bordered' => false,
+            ],
+        ],
         'tag' => Components\Form\Tag\Component::class,
         'table' => [
             Components\Table\Component::class,

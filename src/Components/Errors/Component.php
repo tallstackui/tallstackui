@@ -30,10 +30,15 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $withoutTitle = false,
         public ?bool $listNumeric = false,
         public ?bool $paddingless = false,
-        public ?bool $shadowless = false,
-        public ?bool $bordered = false,
+        public ?bool $shadowless = null,
+        public ?bool $bordered = null,
         public ComponentSlot|string|null $footer = null,
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? false;
+
         $this->title ??= trans('ts-ui::messages.errors.title');
 
         $this->only = match (true) {

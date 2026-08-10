@@ -56,8 +56,8 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 | decrease       | bool                                   | false     | Downward trend arrow on the right (mutually exclusive with `increase`)                        |
 | navigate       | bool                                   | null      | Livewire `wire:navigate` when using `href`                                                    |
 | navigate-hover | bool                                   | null      | Livewire `wire:navigate.hover` when using `href`                                              |
-| shadowless     | bool                                   | null      | Removes the wrapper shadow                                                                    |
-| bordered       | bool                                   | null      | Adds a border to the wrapper. Combine with `shadowless` for a flat look                       |
+| shadowless     | bool\|null                             | null (from config: false) | Removes the wrapper shadow                                                    |
+| bordered       | bool\|null                             | null (from config: false) | Adds a border to the wrapper. Combine with `shadowless` for a flat look       |
 | chart          | array\|Collection\|ComponentSlot\|null | null      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
 | skeleton       | bool\|null                             | null      | Renders a structural placeholder instead of the content. Flag only — an integer throws        |
 
@@ -68,6 +68,23 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 | `href` filled                           | `<a>`   | Optional `navigate` / `navigate-hover` |
 | `wire:click` / `x-on:click` (no `href`) | `<div>` | Still gets `cursor-pointer`            |
 | Neither                                 | `<div>` | Static card                            |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'stats' => [
+    \TallStackUi\Components\Stats\Component::class,
+    [
+        'shadowless' => false,
+        'bordered' => false,
+    ],
+],
+```
+
+The inline prop always wins over the global default, so `:shadowless="false"` restores
+the shadow on a single stats while the configuration keeps it off everywhere else. The
+skeleton reads the same flags, so a stats configured as flat stays flat while it loads.
 
 ## Slots
 

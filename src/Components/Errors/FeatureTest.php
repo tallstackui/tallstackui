@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Errors\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -117,6 +118,42 @@ it('can render shadowless', function () {
 
 it('can render bordered', function () {
     expect('<x-errors bordered />')->render()->toContain('border-red-200');
+});
+
+it('can render the flat look through the global configuration', function () {
+    config()->set('ts-ui.components.errors.1.shadowless', true);
+    config()->set('ts-ui.components.errors.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-errors />')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border-red-200');
+    } finally {
+        config()->set('ts-ui.components.errors.1.shadowless', false);
+        config()->set('ts-ui.components.errors.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the flat look props win over the global configuration', function () {
+    config()->set('ts-ui.components.errors.1.shadowless', true);
+    config()->set('ts-ui.components.errors.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-errors :shadowless="false" :bordered="false" />')->render()
+            ->not->toContain('shadow-none!')
+            ->not->toContain('border-red-200');
+    } finally {
+        config()->set('ts-ui.components.errors.1.shadowless', false);
+        config()->set('ts-ui.components.errors.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
 });
 
 it('can filter the messages using only', function (string $only) {

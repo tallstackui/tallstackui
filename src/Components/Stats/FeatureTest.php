@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Stats\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -278,6 +279,46 @@ it('can render shadowless and bordered together')
     ->render()
     ->toContain('shadow-none!')
     ->toContain('border border-gray-200 dark:border-dark-700');
+
+it('can render the flat look through the global configuration', function () {
+    config()->set('ts-ui.components.stats.1.shadowless', true);
+    config()->set('ts-ui.components.stats.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-stats number="1" />')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200');
+
+        expect('<x-stats number="1" skeleton />')->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.stats.1.shadowless', false);
+        config()->set('ts-ui.components.stats.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the flat look props win over the global configuration', function () {
+    config()->set('ts-ui.components.stats.1.shadowless', true);
+    config()->set('ts-ui.components.stats.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-stats number="1" :shadowless="false" :bordered="false" />')->render()
+            ->not->toContain('shadow-none!')
+            ->not->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.stats.1.shadowless', false);
+        config()->set('ts-ui.components.stats.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
 
 it('can render the skeleton instead of the content')
     ->expect('<x-stats skeleton number="1234" title="Users" />')

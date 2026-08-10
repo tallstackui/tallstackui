@@ -1,5 +1,6 @@
 <?php
 
+use TallStackUi\Components\Tab\Main\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -89,6 +90,58 @@ it('can render shadowless and bordered together', function () {
     expect($component)->render()
         ->toContain('shadow-none!')
         ->toContain('border border-gray-200 dark:border-dark-600');
+});
+
+it('can render the flat look through the global configuration', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A">
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    config()->set('ts-ui.components.tab.1.shadowless', true);
+    config()->set('ts-ui.components.tab.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect($component)->render()
+            ->toContain('shadow-none!')
+            ->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.tab.1.shadowless', false);
+        config()->set('ts-ui.components.tab.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the flat look props win over the global configuration', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A" :shadowless="false" :bordered="false">
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    config()->set('ts-ui.components.tab.1.shadowless', true);
+    config()->set('ts-ui.components.tab.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect($component)->render()
+            ->not->toContain('shadow-none!')
+            ->not->toContain('border border-gray-200');
+    } finally {
+        config()->set('ts-ui.components.tab.1.shadowless', false);
+        config()->set('ts-ui.components.tab.1.bordered', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
 });
 
 it('can render with title', function () {

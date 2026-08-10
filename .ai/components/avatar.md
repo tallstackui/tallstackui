@@ -49,7 +49,7 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 | square           | bool          | false       | Renders with square corners instead of rounded                                |
 | property         | string\|null  | 'name'      | Model attribute used for the avatar text                                      |
 | background       | string\|null  | '0D8ABC'    | Hex background color for UI Avatars                                           |
-| borderless       | bool          | false       | Removes the border around the avatar                                          |
+| borderless       | bool\|null    | null (from config: false) | Removes the border around the avatar                            |
 | options          | array\|null   | []          | Additional query parameters passed to UI Avatars API                          |
 | presence         | bool\|Closure | false       | Shows an online presence indicator dot                                        |
 | presenceColor    | string\|null  | 'green'     | Color of the presence indicator dot                                           |
@@ -122,6 +122,7 @@ way.
     \TallStackUi\Components\Avatar\Component::class,
     [
         'size' => 'md',
+        'borderless' => false,
         'gravatar' => [
             'default' => 'mp',
             'rating' => 'g',
@@ -133,6 +134,9 @@ way.
 A shorthand wins over `size`, and `size` wins over the configuration, so
 `<x-avatar sm size="7xl" />` renders small. `gravatarDefault` and `gravatarRating`
 fall back to the `gravatar` block the same way.
+
+The inline prop always wins over `borderless`, so `:borderless="false"` restores the
+border on a single avatar while the configuration keeps it off everywhere else.
 
 ## Slots
 

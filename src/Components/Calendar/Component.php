@@ -41,6 +41,11 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $shadowless = null,
         public ?bool $bordered = null,
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? false;
+
         $this->disable = collect($this->disable)
             ->flatten()
             ->unique()

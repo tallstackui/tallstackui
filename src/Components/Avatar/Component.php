@@ -53,7 +53,7 @@ class Component extends TallStackUiComponent implements Customization
         public bool $square = false,
         public ?string $property = 'name',
         public ?string $background = '0D8ABC',
-        public ?bool $borderless = false,
+        public ?bool $borderless = null,
         public ?array $options = [],
         public bool|Closure $presence = false,
         public ?string $presenceColor = 'green',
@@ -62,6 +62,8 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $size = null,
     ) {
+        $this->borderless ??= __ts_get_component_configuration(self::class, 'borderless') ?? false;
+
         $this->presence = value($this->presence);
         $this->pulse = value($this->pulse);
     }
