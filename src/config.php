@@ -153,9 +153,17 @@ return [
             | Avatar Global Settings
             |----------------------------------------------------------------------
             | size: controls the avatar size (Allowed: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+            | gravatar.default: the image Gravatar serves when the email has no account and
+            | no name is available to fall back to the letters (Allowed: 404, mp, identicon,
+            | monsterid, wavatar, retro, robohash, blank).
+            | gravatar.rating: the highest rating Gravatar is allowed to serve (Allowed: g, pg, r, x).
             */
             [
                 'size' => 'md',
+                'gravatar' => [
+                    'default' => 'mp',
+                    'rating' => 'g',
+                ],
             ],
         ],
         'avatar.group' => Components\Avatar\Group\Component::class,

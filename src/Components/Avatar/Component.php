@@ -22,6 +22,24 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(AvatarRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    public const DIMENSIONS = [
+        'xs' => 24,
+        'sm' => 32,
+        'md' => 48,
+        'lg' => 56,
+        'xl' => 64,
+        '2xl' => 80,
+        '3xl' => 96,
+        '4xl' => 112,
+        '5xl' => 128,
+        '6xl' => 144,
+        '7xl' => 160,
+    ];
+
+    public const GRAVATAR_DEFAULTS = ['404', 'mp', 'identicon', 'monsterid', 'wavatar', 'retro', 'robohash', 'blank'];
+
+    public const GRAVATAR_RATINGS = ['g', 'pg', 'r', 'x'];
+
     public const SIZES = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
 
     public function __construct(
@@ -29,6 +47,9 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $text = null,
         public ?string $color = 'primary',
         public ?string $image = null,
+        public bool|string|null $gravatar = null,
+        public ?string $gravatarDefault = null,
+        public ?string $gravatarRating = null,
         public bool $square = false,
         public ?string $property = 'name',
         public ?string $background = '0D8ABC',
@@ -122,20 +143,49 @@ class Component extends TallStackUiComponent implements Customization
                     'left-top' => 'top-0 left-0',
                     'left-bottom' => 'bottom-0 left-0',
                 ],
+                'offsets' => [
+                    'right-top' => 'translate-x-[14.6%] -translate-y-[14.6%]',
+                    'right-bottom' => 'translate-x-[14.6%] translate-y-[14.6%]',
+                    'left-top' => '-translate-x-[14.6%] -translate-y-[14.6%]',
+                    'left-bottom' => '-translate-x-[14.6%] translate-y-[14.6%]',
+                ],
             ],
         ]);
     }
 
-    final public function modelable(): string
+    final public function gravatarable(): ?string
+    {
+        $email = $this->email();
+
+        if (blank($email)) {
+            return null;
+        }
+
+        $params = Arr::query([
+            's' => $this->dimension(),
+            'd' => $this->fallback(),
+            'r' => $this->gravatarRating,
+        ]);
+
+        return 'https://gravatar.com/avatar/'.hash('sha256', mb_strtolower(trim($email)))."?{$params}";
+    }
+
+    final public function modelable(?string $name = null): string
     {
         $params = Arr::query([
-            'name' => $this->model->getAttribute($this->property),
+            'name' => $name ?? $this->model->getAttribute($this->property),
             'background' => $this->background,
             'color' => $this->color,
+            'size' => $this->dimension(),
             ...$this->options,
         ]);
 
         return "https://ui-avatars.com/api?{$params}";
+    }
+
+    final public function source(): ?string
+    {
+        return $this->image ?? $this->gravatarable() ?? ($this->model ? $this->modelable() : null);
     }
 
     /** @throws InvalidArgumentException */
@@ -163,6 +213,27 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [presence-position] must be one of: right-top, right-bottom, left-top, left-bottom.');
         }
 
+        $gravatar = __ts_get_component_configuration(self::class, 'gravatar');
+
+        $this->gravatarDefault ??= data_get($gravatar, 'default') ?? 'mp';
+        $this->gravatarRating ??= data_get($gravatar, 'rating') ?? 'g';
+
+        if (! in_array($this->gravatarDefault, self::GRAVATAR_DEFAULTS, true)) {
+            __ts_validation_exception($this, 'The [gravatar-default] must be one of: '.implode(', ', self::GRAVATAR_DEFAULTS));
+        }
+
+        if (! in_array($this->gravatarRating, self::GRAVATAR_RATINGS, true)) {
+            __ts_validation_exception($this, 'The [gravatar-rating] must be one of: '.implode(', ', self::GRAVATAR_RATINGS));
+        }
+
+        if ($this->gravatar) {
+            if (blank($this->email())) {
+                __ts_validation_exception($this, 'The [gravatar] requires an email, either inline or through a model carrying it.');
+            }
+
+            return;
+        }
+
         if (! $this->model && ! $this->text) {
             return;
         }
@@ -177,5 +248,28 @@ class Component extends TallStackUiComponent implements Customization
         if (blank($property)) {
             __ts_validation_exception($this, "The property [{$this->property}] does not exists or is blank at the model [$model]");
         }
+    }
+
+    private function dimension(): int
+    {
+        return self::DIMENSIONS[$this->size ?? 'md'] * 2;
+    }
+
+    private function email(): ?string
+    {
+        if (is_string($this->gravatar)) {
+            return str_contains($this->gravatar, '@')
+                ? $this->gravatar
+                : $this->model?->getAttribute($this->gravatar);
+        }
+
+        return $this->gravatar === true ? $this->model?->getAttribute('email') : null;
+    }
+
+    private function fallback(): string
+    {
+        $name = $this->text ?? $this->model?->getAttribute($this->property);
+
+        return filled($name) ? $this->modelable($name) : $this->gravatarDefault;
     }
 }

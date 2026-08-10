@@ -12,12 +12,12 @@
             $colors['background'] => !$model,
             $customization['wrapper.sizes.' . $scale],
         ])->except('x-bind:src') }}>
-            @if ($model || $image)
+            @if ($src)
                 <img @class([
                 $customization['border.radius'] => !$square,
                 $customization['content.image.class'],
                 $customization['content.image.sizes.' . $scale],
-            ]) {{ $attributes->only('x-bind:src') }} src="{{ $image ?? $modelable() }}"
+            ]) {{ $attributes->only('x-bind:src') }} src="{{ $src }}"
                      alt="{{ $text ?? $model?->getAttribute($property ?? null) }}" />
             @elseif ($text || $slot->isNotEmpty())
                 <span @class([
@@ -39,6 +39,7 @@
             <span @class([
             $customization['presence.wrapper'],
             $customization['presence.positions.' . $presencePosition],
+            $customization['presence.offsets.' . $presencePosition] => $square,
         ])>
             @if ($pulse)
                     <span @class([

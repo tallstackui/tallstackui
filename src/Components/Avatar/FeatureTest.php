@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Avatar\Component;
 use Tests\TestCase;
@@ -186,6 +187,21 @@ it('can render presence at left-bottom')
     ->render()
     ->toContain('bottom-0 left-0');
 
+it('can nudge the presence dot into the corner when square', function (string $position, string $expected) {
+    expect("<x-avatar text=\"AJ\" square presence presence-position=\"{$position}\" />")->render()->toContain($expected);
+})->with([
+    'right-top' => ['right-top', 'translate-x-[14.6%] -translate-y-[14.6%]'],
+    'right-bottom' => ['right-bottom', 'translate-x-[14.6%] translate-y-[14.6%]'],
+    'left-top' => ['left-top', '-translate-x-[14.6%] -translate-y-[14.6%]'],
+    'left-bottom' => ['left-bottom', '-translate-x-[14.6%] translate-y-[14.6%]'],
+]);
+
+it('cannot nudge the presence dot when the avatar is round')
+    ->expect('<x-avatar text="AJ" presence />')
+    ->render()
+    ->not
+    ->toContain('translate-x-[14.6%]');
+
 it('can render presence with pulse')
     ->expect('<x-avatar text="AJ" presence pulse />')
     ->render()
@@ -201,4 +217,102 @@ it('cannot use invalid presence position', function () {
     $this->expectException(ViewException::class);
 
     expect('<x-avatar text="AJ" presence presence-position="center" />')->render();
+});
+
+function avatar_model(array $attributes = ['name' => 'AJ Meireles', 'email' => 'AJ@Mail.com']): Model
+{
+    return new class($attributes) extends Model
+    {
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct();
+
+            $this->attributes = $attributes;
+        }
+    };
+}
+
+it('can render a gravatar from an inline email')
+    ->expect('<x-avatar gravatar="aj@mail.com" />')
+    ->render()
+    ->toContain('https://gravatar.com/avatar/'.hash('sha256', 'aj@mail.com'));
+
+it('can normalize the email before hashing it')
+    ->expect('<x-avatar gravatar=" AJ@Mail.com " />')
+    ->render()
+    ->toContain(hash('sha256', 'aj@mail.com'));
+
+it('can render a gravatar from the model email', function () {
+    expect('<x-avatar :model="$user" gravatar />')
+        ->render(['user' => avatar_model()])
+        ->toContain(hash('sha256', 'aj@mail.com'));
+});
+
+it('can point the gravatar at another model column', function () {
+    expect('<x-avatar :model="$user" gravatar="contact" />')
+        ->render(['user' => avatar_model(['name' => 'AJ', 'contact' => 'other@mail.com'])])
+        ->toContain(hash('sha256', 'other@mail.com'));
+});
+
+it('can fall back to the letters when the gravatar is missing')
+    ->expect('<x-avatar gravatar="aj@mail.com" text="AJ" />')
+    ->render()
+    ->toContain('d='.urlencode('https://ui-avatars.com/api?name=AJ'));
+
+it('can fall back to the gravatar default without a name')
+    ->expect('<x-avatar gravatar="aj@mail.com" />')
+    ->render()
+    ->toContain('d=mp');
+
+it('can ask gravatar for twice the rendered size', function (string $size, string $expected) {
+    expect("<x-avatar gravatar=\"aj@mail.com\" size=\"{$size}\" />")->render()->toContain($expected);
+})->with([
+    'md' => ['md', 's=96'],
+    'xl' => ['xl', 's=128'],
+    '7xl' => ['7xl', 's=320'],
+]);
+
+it('can ask ui-avatars for twice the rendered size', function () {
+    expect('<x-avatar :model="$user" 7xl />')
+        ->render(['user' => avatar_model()])
+        ->toContain('size=320');
+});
+
+it('can let the image win over the gravatar')
+    ->expect('<x-avatar image="https://cdn.test/a.png" gravatar="aj@mail.com" />')
+    ->render()
+    ->toContain('src="https://cdn.test/a.png"')
+    ->not
+    ->toContain('gravatar.com');
+
+it('can read the gravatar defaults from the configuration', function () {
+    config()->set('ts-ui.components.avatar.1.gravatar', ['default' => 'identicon', 'rating' => 'pg']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-avatar gravatar="aj@mail.com" />')->render()->toContain('d=identicon')->toContain('r=pg');
+    } finally {
+        config()->set('ts-ui.components.avatar.1.gravatar', ['default' => 'mp', 'rating' => 'g']);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('cannot use an invalid gravatar default', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-avatar gravatar="aj@mail.com" gravatar-default="bogus" />')->render();
+});
+
+it('cannot use an invalid gravatar rating', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-avatar gravatar="aj@mail.com" gravatar-rating="bogus" />')->render();
+});
+
+it('cannot use the gravatar without an email', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-avatar text="AJ" gravatar />')->render();
 });

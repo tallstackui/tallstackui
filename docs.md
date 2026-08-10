@@ -96,6 +96,74 @@ TallStackUi::customize()
     ->block('wrapper.sizes.7xl', 'w-48 h-48 text-8xl');
 ```
 
+### Added — `gravatar`
+
+The component could already turn a model into coloured initials through
+ui-avatars. It now also reads a real photo from Gravatar:
+
+```blade
+<x-avatar gravatar="aj@mail.com" />
+<x-avatar :model="$user" gravatar />
+<x-avatar :model="$user" gravatar="contact_email" />
+```
+
+One prop covers the three shapes because an email always carries an `@` and a
+column name never does. A value with one is the address itself, a value without
+one names the model column holding it, and `true` reads the model's `email`. The
+address is lowercased and trimmed before being hashed with SHA-256, which is what
+Gravatar asks for today.
+
+Gravatar accepts a URL in its `d` parameter, so the two sources chain instead of
+competing: when a name is around — `text`, or the model's `property` — `d` points
+at the ui-avatars URL the component already builds, and an email with no Gravatar
+account lands on the same initials it would have rendered anyway. Without a name,
+`d` carries `gravatar-default`.
+
+Both services are now asked for twice the rendered size, so a `7xl` avatar
+requests 320 pixels and stays sharp on a retina screen. ui-avatars was previously
+asked for no size at all and served its own default.
+
+The fallback image and the rating answer to the configuration:
+
+```php
+'avatar' => [
+    Components\Avatar\Component::class,
+    [
+        'size' => 'md',
+        'gravatar' => [
+            'default' => 'mp',
+            'rating' => 'g',
+        ],
+    ],
+],
+```
+
+`image` still wins over everything, then `gravatar`, then `model`.
+
+### Changed — the template picks the image source through `$src`
+
+The template used to decide between `image` and `modelable()` inline, which no
+longer holds with a third source in the ladder. `AvatarRuntime` now resolves it
+once and hands the template `$src`. The name is deliberate: a public method is
+already exposed to the view under its own name as an invokable variable, so a
+runtime key called `source` would be silently overwritten by the wrapper around
+`source()`. Only an application that replaced the avatar view through deep
+customization needs to care.
+
+### Fixed — the presence dot fell short of the corner on a square avatar
+
+`presence.positions.*` pins the dot's own box to the corner of the avatar's box,
+which is exactly right for the round avatar: the dot lands on the diagonal where
+the circle passes, so it straddles the rim. On a square avatar the shape does
+reach the corner, but the dot is still `rounded-full`, so its curve pulled back
+from the quoin and left a gap — about 2 pixels at `md`, 8 at `7xl`.
+
+A new `presence.offsets.{position}` block nudges the dot out along the diagonal by
+`(√2-1)/2` of its own size, 14.6% per axis, and the template applies it only when
+`square` is on. The existing `presence.positions.*` blocks are untouched, so an
+application already customizing them keeps working — the nudge is a `translate`
+that stacks on top rather than a competing `top`/`right`.
+
 ### Fixed — the presence dot drifted away from the avatar inside a flex column
 
 `presence.base` wrapped the avatar in `relative inline-flex` and nothing else. Put

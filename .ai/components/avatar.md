@@ -31,6 +31,9 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 | text             | string\|null  | null        | Text or initials displayed inside the avatar                                  |
 | color            | string\|null  | 'primary'   | Background color theme                                                        |
 | image            | string\|null  | null        | URL to a custom avatar image                                                  |
+| gravatar         | bool\|string\|null | null   | An email, a model column holding one, or `true` to read the model's `email`   |
+| gravatarDefault  | string\|null  | null        | Gravatar's own fallback when no name is available (404, mp, identicon, monsterid, wavatar, retro, robohash, blank) |
+| gravatarRating   | string\|null  | null        | Highest rating Gravatar may serve (g, pg, r, x)                               |
 | size             | string\|null  | null        | Size of the avatar, any value of the scale (see Sizes)                        |
 | xs               | bool          | false       | Shorthand for `size="xs"` (24x24)                                             |
 | sm               | bool          | false       | Shorthand for `size="sm"` (32x32)                                             |
@@ -84,6 +87,33 @@ The shorthands are not declared props — `2xl` and above would compile to inval
 PHP variables like `$2xl` — so they are read from the attribute bag and removed
 from it before the tag is rendered.
 
+## Gravatar
+
+```blade
+<x-avatar gravatar="aj@mail.com" />
+<x-avatar :model="$user" gravatar />
+<x-avatar :model="$user" gravatar="contact_email" />
+```
+
+The `gravatar` prop takes three shapes, told apart by the `@`: a value carrying
+one is the email itself, a value without one is the model column holding it, and
+`true` reads the model's `email`.
+
+The email is lowercased and trimmed before being hashed with SHA-256, which is
+what Gravatar asks for.
+
+**Fallback.** Gravatar accepts a URL in its `d` parameter, so when a name is
+available — `text`, or the model's `property` — the component points `d` at the
+ui-avatars URL it already knows how to build. An email with no Gravatar account
+lands on the same coloured initials the component renders elsewhere. Without a
+name, `d` carries `gravatarDefault` instead.
+
+**Size.** `s` is sent at twice the rendered size, so a `7xl` avatar asks for
+320px and stays sharp on a retina screen. `size` is sent to ui-avatars the same
+way.
+
+**Precedence.** `image` wins over `gravatar`, which wins over `model`.
+
 ## Global Configuration
 
 ```php
@@ -92,12 +122,17 @@ from it before the tag is rendered.
     \TallStackUi\Components\Avatar\Component::class,
     [
         'size' => 'md',
+        'gravatar' => [
+            'default' => 'mp',
+            'rating' => 'g',
+        ],
     ],
 ],
 ```
 
 A shorthand wins over `size`, and `size` wins over the configuration, so
-`<x-avatar sm size="7xl" />` renders small.
+`<x-avatar sm size="7xl" />` renders small. `gravatarDefault` and `gravatarRating`
+fall back to the `gravatar` block the same way.
 
 ## Slots
 
@@ -108,6 +143,9 @@ A shorthand wins over `size`, and `size` wins over the configuration, so
 ## Validation Constraints
 
 - `size` must be one of: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `6xl`, `7xl`. The configuration value is validated the same way.
+- `gravatarDefault` must be one of: `404`, `mp`, `identicon`, `monsterid`, `wavatar`, `retro`, `robohash`, `blank`.
+- `gravatarRating` must be one of: `g`, `pg`, `r`, `x`.
+- `gravatar` needs an email it can actually reach, inline or through the model.
 - Only one shorthand can be used at a time: `<x-avatar sm 7xl />` raises an exception.
 - When `presence` is true, `presencePosition` must be one of: `right-top`, `right-bottom`, `left-top`, `left-bottom`.
 - When `model` is provided, the specified `property` must exist and be non-blank on the model.
@@ -146,3 +184,4 @@ TallStackUi::customize()
 | presence.positions.right-bottom | Position classes for right-bottom                                                       |
 | presence.positions.left-top     | Position classes for left-top                                                           |
 | presence.positions.left-bottom  | Position classes for left-bottom                                                        |
+| presence.offsets.{position}     | Extra nudge applied only when `square`, so the round dot reaches the corner              |
