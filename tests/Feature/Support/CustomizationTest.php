@@ -741,7 +741,7 @@ it('can remove a class without touching the ones that contain it', function () {
     expect(app('ts-ui::customization.step')->get('panels-shape'))
         ->not->toContain(' border ')
         ->toContain('border-gray-200')
-        ->toContain('dark:border-dark-600');
+        ->toContain('dark:border-dark-700');
 });
 
 it('can remove more than one class from a single string', function () {

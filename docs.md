@@ -1073,7 +1073,8 @@ result is now a pair of attributes on the component itself:
 ```
 
 The flags are independent: `shadowless` alone drops the shadow, `bordered` alone draws
-`border border-gray-200 dark:border-dark-600` around the wrapper while keeping the
+`border border-gray-200` around the wrapper, with the dark shade of the recalibrated
+ladder, while keeping the
 shadow. Each one is a block of its own — `shadowless` (`shadow-none!`) and `bordered` —
 so soft customization can retarget them. On Card and Stats the flags also reach the
 skeleton view, keeping the placeholder shaped like the card it stands in for.

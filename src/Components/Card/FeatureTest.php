@@ -151,13 +151,13 @@ it('can render shadowless')
 it('can render bordered')
     ->expect('<x-card bordered>Foo bar</x-card>')
     ->render()
-    ->toContain('border border-gray-200 dark:border-dark-600');
+    ->toContain('border border-gray-200 dark:border-dark-700');
 
 it('can render shadowless and bordered together')
     ->expect('<x-card shadowless bordered>Foo bar</x-card>')
     ->render()
     ->toContain('shadow-none!')
-    ->toContain('border border-gray-200 dark:border-dark-600');
+    ->toContain('border border-gray-200 dark:border-dark-700');
 
 it('can render the flat look through the global configuration', function () {
     config()->set('ts-ui.components.card.1.shadowless', true);

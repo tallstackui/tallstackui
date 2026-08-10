@@ -75,7 +75,7 @@ it('can render bordered', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('border border-gray-200 dark:border-dark-600');
+        ->toContain('border border-gray-200 dark:border-dark-700');
 });
 
 it('can render shadowless and bordered together', function () {
@@ -89,7 +89,7 @@ it('can render shadowless and bordered together', function () {
 
     expect($component)->render()
         ->toContain('shadow-none!')
-        ->toContain('border border-gray-200 dark:border-dark-600');
+        ->toContain('border border-gray-200 dark:border-dark-700');
 });
 
 it('can render the flat look through the global configuration', function () {

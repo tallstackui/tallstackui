@@ -53,7 +53,7 @@ it('can keep the panels scroll container free of the border and the radius', fun
     // horizontal scrollbar along the corner. A border or a radius on the <ul>
     // itself puts the scrollbar outside that clip and squares off its tips.
     expect($component)->render()
-        ->toContain('class="overflow-hidden mb-2 rounded-md border border-gray-200 dark:border-dark-600"')
+        ->toContain('class="overflow-hidden mb-2 rounded-md border border-gray-200 dark:border-dark-700"')
         ->toContain('class="md:flex overflow-auto soft-scrollbar"');
 });
 
