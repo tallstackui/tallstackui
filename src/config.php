@@ -146,7 +146,18 @@ return [
                 'size' => 'md',
             ],
         ],
-        'avatar' => Components\Avatar\Component::class,
+        'avatar' => [
+            Components\Avatar\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Avatar Global Settings
+            |----------------------------------------------------------------------
+            | size: controls the avatar size (Allowed: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+            */
+            [
+                'size' => 'md',
+            ],
+        ],
         'avatar.group' => Components\Avatar\Group\Component::class,
         'badge' => Components\Badge\Component::class,
         'banner' => Components\Banner\Component::class,

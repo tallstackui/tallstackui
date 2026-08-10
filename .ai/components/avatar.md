@@ -19,6 +19,10 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 <x-avatar :model="$user" property="name" presence pulse />
 ```
 
+```blade
+<x-avatar text="AB" size="3xl" />
+```
+
 ## Attributes
 
 | Attribute        | Type          | Default     | Description                                                                   |
@@ -27,10 +31,18 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 | text             | string\|null  | null        | Text or initials displayed inside the avatar                                  |
 | color            | string\|null  | 'primary'   | Background color theme                                                        |
 | image            | string\|null  | null        | URL to a custom avatar image                                                  |
-| xs               | bool          | null        | Extra-small size (24x24)                                                      |
-| sm               | bool          | null        | Small size (32x32)                                                            |
-| md               | bool          | null        | Medium size (48x48, default)                                                  |
-| lg               | bool          | null        | Large size (56x56)                                                            |
+| size             | string\|null  | null        | Size of the avatar, any value of the scale (see Sizes)                        |
+| xs               | bool          | false       | Shorthand for `size="xs"` (24x24)                                             |
+| sm               | bool          | false       | Shorthand for `size="sm"` (32x32)                                             |
+| md               | bool          | false       | Shorthand for `size="md"` (48x48, the resolved default)                       |
+| lg               | bool          | false       | Shorthand for `size="lg"` (56x56)                                             |
+| xl               | bool          | false       | Shorthand for `size="xl"` (64x64)                                             |
+| 2xl              | bool          | false       | Shorthand for `size="2xl"` (80x80)                                            |
+| 3xl              | bool          | false       | Shorthand for `size="3xl"` (96x96)                                            |
+| 4xl              | bool          | false       | Shorthand for `size="4xl"` (112x112)                                          |
+| 5xl              | bool          | false       | Shorthand for `size="5xl"` (128x128)                                          |
+| 6xl              | bool          | false       | Shorthand for `size="6xl"` (144x144)                                          |
+| 7xl              | bool          | false       | Shorthand for `size="7xl"` (160x160)                                          |
 | square           | bool          | false       | Renders with square corners instead of rounded                                |
 | property         | string\|null  | 'name'      | Model attribute used for the avatar text                                      |
 | background       | string\|null  | '0D8ABC'    | Hex background color for UI Avatars                                           |
@@ -41,6 +53,52 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 | presencePosition | string\|null  | 'right-top' | Position of the presence dot (right-top, right-bottom, left-top, left-bottom) |
 | pulse            | bool\|Closure | false       | Adds a ping animation to the presence indicator                               |
 
+The size shorthands are usable like any other attribute, including the bound form
+`:lg="$condition"`, but they are not declared constructor props — see Sizes.
+
+## Sizes
+
+| Size | Avatar  | Text        | Presence dot |
+|------|---------|-------------|--------------|
+| xs   | 24x24   | `text-xs`   | 6x6          |
+| sm   | 32x32   | `text-sm`   | 8x8          |
+| md   | 48x48   | `text-base` | 12x12        |
+| lg   | 56x56   | `text-lg`   | 14x14        |
+| xl   | 64x64   | `text-xl`   | 16x16        |
+| 2xl  | 80x80   | `text-2xl`  | 20x20        |
+| 3xl  | 96x96   | `text-3xl`  | 24x24        |
+| 4xl  | 112x112 | `text-4xl`  | 28x28        |
+| 5xl  | 128x128 | `text-5xl`  | 32x32        |
+| 6xl  | 144x144 | `text-6xl`  | 36x36        |
+| 7xl  | 160x160 | `text-7xl`  | 40x40        |
+
+Every size of the scale is a shorthand, and `size` takes the same values:
+
+```blade
+<x-avatar text="AB" lg />
+<x-avatar text="AB" 5xl />
+<x-avatar text="AB" size="5xl" />
+```
+
+The shorthands are not declared props — `2xl` and above would compile to invalid
+PHP variables like `$2xl` — so they are read from the attribute bag and removed
+from it before the tag is rendered.
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'avatar' => [
+    \TallStackUi\Components\Avatar\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+A shorthand wins over `size`, and `size` wins over the configuration, so
+`<x-avatar sm size="7xl" />` renders small.
+
 ## Slots
 
 | Slot      | Description                                                                    |
@@ -49,6 +107,8 @@ A versatile avatar component supporting images, text initials, Eloquent model in
 
 ## Validation Constraints
 
+- `size` must be one of: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `6xl`, `7xl`. The configuration value is validated the same way.
+- Only one shorthand can be used at a time: `<x-avatar sm 7xl />` raises an exception.
 - When `presence` is true, `presencePosition` must be one of: `right-top`, `right-bottom`, `left-top`, `left-bottom`.
 - When `model` is provided, the specified `property` must exist and be non-blank on the model.
 
@@ -66,32 +126,23 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                      | Purpose                                      |
-|---------------------------------|----------------------------------------------|
-| wrapper.class                   | Base wrapper styles (inline-flex, alignment) |
-| wrapper.sizes.xs                | Extra-small wrapper dimensions               |
-| wrapper.sizes.sm                | Small wrapper dimensions                     |
-| wrapper.sizes.md                | Medium wrapper dimensions                    |
-| wrapper.sizes.lg                | Large wrapper dimensions                     |
-| content.image.class             | Image element base styles                    |
-| content.image.sizes.xs          | Extra-small image dimensions                 |
-| content.image.sizes.sm          | Small image dimensions                       |
-| content.image.sizes.md          | Medium image dimensions                      |
-| content.image.sizes.lg          | Large image dimensions                       |
-| content.text.class              | Text/initials font styles                    |
-| content.text.colors.colorful    | Text color when background is not white      |
-| content.text.colors.white       | Text color when background is white          |
-| border.base                     | Border width styles                          |
-| border.radius                   | Border radius (rounded-full)                 |
-| presence.base                   | Presence indicator outer wrapper             |
-| presence.wrapper                | Presence dot positioning wrapper             |
-| presence.dot                    | Presence dot shape and ring styles           |
-| presence.ping                   | Pulse animation styles                       |
-| presence.sizes.xs               | Presence dot size at xs                      |
-| presence.sizes.sm               | Presence dot size at sm                      |
-| presence.sizes.md               | Presence dot size at md                      |
-| presence.sizes.lg               | Presence dot size at lg                      |
-| presence.positions.right-top    | Position classes for right-top               |
-| presence.positions.right-bottom | Position classes for right-bottom            |
-| presence.positions.left-top     | Position classes for left-top                |
-| presence.positions.left-bottom  | Position classes for left-bottom             |
+| Block Name                      | Purpose                                                                                 |
+|---------------------------------|-----------------------------------------------------------------------------------------|
+| wrapper.class                   | Base wrapper styles (inline-flex, alignment)                                            |
+| wrapper.sizes.{size}            | Wrapper dimensions of a size of the scale                                               |
+| content.image.class             | Image element base styles                                                               |
+| content.image.sizes.{size}      | Image dimensions of a size of the scale                                                 |
+| content.text.class              | Text/initials font styles                                                               |
+| content.text.colors.colorful    | Text color when background is not white                                                 |
+| content.text.colors.white       | Text color when background is white                                                     |
+| border.base                     | Border width styles                                                                     |
+| border.radius                   | Border radius (rounded-full)                                                            |
+| presence.base                   | Presence indicator outer wrapper, kept at `w-fit` so it does not stretch as a flex item |
+| presence.wrapper                | Presence dot positioning wrapper                                                        |
+| presence.dot                    | Presence dot shape and ring styles                                                      |
+| presence.ping                   | Pulse animation styles                                                                  |
+| presence.sizes.{size}           | Presence dot size at a size of the scale                                                |
+| presence.positions.right-top    | Position classes for right-top                                                          |
+| presence.positions.right-bottom | Position classes for right-bottom                                                       |
+| presence.positions.left-top     | Position classes for left-top                                                           |
+| presence.positions.left-bottom  | Position classes for left-bottom                                                        |

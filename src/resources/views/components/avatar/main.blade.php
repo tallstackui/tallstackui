@@ -10,13 +10,13 @@
             $customization['border.radius'] => !$square,
             $customization['wrapper.class'],
             $colors['background'] => !$model,
-            $customization['wrapper.sizes.' . $size],
+            $customization['wrapper.sizes.' . $scale],
         ])->except('x-bind:src') }}>
             @if ($model || $image)
                 <img @class([
                 $customization['border.radius'] => !$square,
                 $customization['content.image.class'],
-                $customization['content.image.sizes.' . $size],
+                $customization['content.image.sizes.' . $scale],
             ]) {{ $attributes->only('x-bind:src') }} src="{{ $image ?? $modelable() }}"
                      alt="{{ $text ?? $model?->getAttribute($property ?? null) }}" />
             @elseif ($text || $slot->isNotEmpty())
@@ -49,7 +49,7 @@
             <span @class([
                 'relative inline-flex',
                 $customization['presence.dot'],
-                $customization['presence.sizes.' . $size],
+                $customization['presence.sizes.' . $scale],
                 $colors['presence'],
             ])></span>
         </span>

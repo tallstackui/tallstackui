@@ -38,6 +38,123 @@ The inline prop always wins, so `:compact="false"` gives a single table the
 roomy padding back. The skeleton reads the same flag, so a table configured as
 compact stays compact while it loads.
 
+## Avatar
+
+### Added — the size scale goes all the way up to `7xl`
+
+The scale stopped at `lg`, 56 pixels, which is the size of an avatar sitting in a
+table row. A profile header, an empty state or a card that leads with a face had
+to leave the component behind and write the dimensions by hand, or reach for a
+customization that then applied to every avatar in the application.
+
+The scale now runs the full length the Icon component already had — `xs`, `sm`,
+`md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `6xl`, `7xl` — from 24 to 160
+pixels. The wrapper, the image and the presence dot all grow together, the dot
+holding the quarter of the avatar it has always held:
+
+| Size  | Avatar  | Text       | Presence dot |
+|-------|---------|------------|--------------|
+| `xs`  | 24x24   | `text-xs`  | 6x6          |
+| `sm`  | 32x32   | `text-sm`  | 8x8          |
+| `md`  | 48x48   | `text-base` | 12x12       |
+| `lg`  | 56x56   | `text-lg`  | 14x14        |
+| `xl`  | 64x64   | `text-xl`  | 16x16        |
+| `2xl` | 80x80   | `text-2xl` | 20x20        |
+| `3xl` | 96x96   | `text-3xl` | 24x24        |
+| `4xl` | 112x112 | `text-4xl` | 28x28        |
+| `5xl` | 128x128 | `text-5xl` | 32x32        |
+| `6xl` | 144x144 | `text-6xl` | 36x36        |
+| `7xl` | 160x160 | `text-7xl` | 40x40        |
+
+Every size of the scale is a shorthand, `size` takes the same values, and the two
+can be mixed across call sites:
+
+```blade
+<x-avatar text="AB" xl />
+<x-avatar text="AB" 5xl />
+<x-avatar :model="$user" size="7xl" presence pulse />
+```
+
+`xs`, `sm`, `md` and `lg` stopped being declared props to get there. A parameter
+cannot be named `2xl` — `$2xl` is not a valid PHP variable — so the whole scale is
+read from the attribute bag instead, the way the Icon component already reads its
+own, and the keys are removed from the bag before the tag renders. Nothing changes
+at the call site: `<x-avatar lg />` and `:lg="$condition"` behave as they did.
+
+Using two at once is now an error rather than a silent pick:
+
+```blade
+<x-avatar sm 7xl /> {{-- Only one size can be used at a time, but [sm, 7xl] were given --}}
+```
+
+The new keys follow the ones that were already there, so a customization that
+targets a single size keeps the shape it had:
+
+```php
+TallStackUi::customize()
+    ->avatar()
+    ->block('wrapper.sizes.7xl', 'w-48 h-48 text-8xl');
+```
+
+### Fixed — the presence dot drifted away from the avatar inside a flex column
+
+`presence.base` wrapped the avatar in `relative inline-flex` and nothing else. Put
+that wrapper inside a flex container and it becomes a flex item, so the default
+`align-items: stretch` blew its width out to the whole cross axis — and `right-0`
+anchored the dot to the edge of the container instead of the edge of the avatar:
+
+```blade
+<div class="flex flex-col gap-2">
+    <x-avatar text="AJ" presence /> {{-- the dot sat at the far right of the row --}}
+</div>
+```
+
+Avatars without `presence` never showed it because their root carries an explicit
+width — `w-12`, `w-40` — and stretch does not apply to a flex item whose width is
+not `auto`. The presence wrapper had no width at all. It now carries `w-fit`,
+which pins it back to the avatar in flex, grid and block parents alike.
+
+### Fixed — `md` asked for a class Tailwind does not have
+
+`wrapper.sizes.md` and `content.image.sizes.md` carried `text-md`, which is not a
+Tailwind class and therefore did nothing: the initials of a medium avatar simply
+inherited the font size of whatever wrapped them. They now carry `text-base`, the
+step the rest of the scale is built on. An avatar sitting inside a container with
+its own font size — a `text-sm` card, say — renders its initials at 16 pixels now
+instead of following the container.
+
+### Changed — the template reads the size through `$scale`
+
+The size is only known once the attribute bag is populated, which happens after
+the component data has been captured, so writing it back into `$size` was silently
+undone on render. The avatar joined the components that carry a runtime — the new
+`AvatarRuntime` — and its template reads `$scale`. This only matters to an
+application that replaced the avatar view through deep customization.
+
+### Added — `size` answers to the configuration
+
+An application that leads with one avatar size had to repeat the shorthand at
+every call site. The default now lives in the component configuration:
+
+```php
+'avatar' => [
+    Components\Avatar\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+A shorthand wins over `size`, and `size` wins over the configuration, so
+`<x-avatar sm size="7xl" />` renders small and a lone `<x-avatar />` renders
+whatever the configuration says.
+
+### Added — `size` is validated
+
+An unknown size used to reach the Blade template and fail on a missing
+customization key. It now raises a validation exception naming the whole scale,
+which also covers a bad value coming from the configuration.
+
 ## Link
 
 ### Added — `navigate` and `navigate-hover` answer to the configuration
