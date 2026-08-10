@@ -1,7 +1,7 @@
 # TallStackUI: Slide
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A slide-over panel component that animates in from the edge of the screen (right, left, top, or bottom) with optional title, footer, blur backdrop, and configurable sizes. Useful for secondary navigation, detail views, or forms without leaving the current page.
 

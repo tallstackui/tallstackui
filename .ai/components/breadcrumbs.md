@@ -1,7 +1,7 @@
 # TallStackUI: Breadcrumbs
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A breadcrumb navigation component that renders a trail of links with configurable separators, icons, tooltips, and multiple sizes. Items can be passed directly as an array or resolved automatically from a route-based breadcrumb registry.
 

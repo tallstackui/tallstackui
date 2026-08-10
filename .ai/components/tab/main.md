@@ -1,7 +1,7 @@
 # TallStackUI: Tab
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A tabbed interface component with underline-styled tab navigation and content panels. On mobile, tabs collapse to a select dropdown by default (unless scroll-on-mobile is enabled). Supports Livewire property binding and tab-change events.
 

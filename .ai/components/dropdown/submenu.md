@@ -1,7 +1,7 @@
 # TallStackUI: Dropdown Submenu
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A nested submenu within a Dropdown component that opens a secondary floating panel on click. Displays a chevron indicator for the submenu direction and supports icons and separators.
 

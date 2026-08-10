@@ -1,7 +1,7 @@
 # TallStackUI: Dropdown Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 An individual menu item within a Dropdown component, rendering as a button, link, or div depending on the provided attributes. Supports icons, separators, and Livewire navigation.
 

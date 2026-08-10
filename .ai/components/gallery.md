@@ -1,7 +1,7 @@
 # TallStackUI: Gallery
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 An image gallery component with three layouts — a uniform responsive grid, a masonry column flow, and a feature layout with one large cover above a thumbnail row. Every layout supports an opt-in lightbox that expands an image fullscreen with prev/next navigation, keyboard control, and optional captions.
 

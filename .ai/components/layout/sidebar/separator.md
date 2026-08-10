@@ -1,7 +1,7 @@
 # TallStackUI: Sidebar Separator
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A sidebar section separator component that visually divides navigation groups. Available in three styles: simple text label, centered line with text, and right-aligned line with text. Respects the collapsible sidebar state by animating visibility.
 

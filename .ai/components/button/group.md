@@ -1,7 +1,7 @@
 # TallStackUI: Button Group
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A purely visual container that groups one or more `<x-button>` siblings into a cohesive segment, collapsing adjacent borders, rounding only the outer corners, and isolating focus rings so they sit above neighbours. Mirrors the segmented "button group" pattern from Flowbite and TailwindUI.
 

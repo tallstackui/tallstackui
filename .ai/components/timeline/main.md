@@ -1,7 +1,7 @@
 # TallStackUI: Timeline
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A server-side component for displaying sequential events or milestones. Supports two orientations (vertical / horizontal), an optional alternating layout, Tailwind-palette colors with solid / light / outline styles, and two render modes: passing an array/Collection via `:items` OR declaring items directly via `<x-timeline.items>` slot children. No JavaScript — purely rendered on the server.
 

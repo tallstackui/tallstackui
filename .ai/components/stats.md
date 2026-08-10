@@ -1,7 +1,7 @@
 # TallStackUI: Stats
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A statistics card component for displaying numeric metrics with titles, icons, and trend indicators. Supports solid, light, and outline styles, animated number counting, colorized number text, and optional link/click behavior with Livewire navigation.
 

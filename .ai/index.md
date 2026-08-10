@@ -1,9 +1,9 @@
 # TallStackUI Component Documentation
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 >
-> **Stack:** PHP 8.1+, Laravel 10/11/12/13, Livewire 3.5+, Tailwind CSS 4, Alpine.js 3
+> **Stack:** PHP 8.1+, Laravel 10/11/12/13, Livewire 4, Tailwind CSS 4, Alpine.js 3
 
 ## Component Index
 
@@ -199,11 +199,12 @@ what is allowed instead of adding to it.
 
 ## Skeleton
 
-Six components accept a `skeleton` prop that renders a structural placeholder
+Seven components accept a `skeleton` prop that renders a structural placeholder
 shaped like the component itself, for the first paint before any data exists:
 [Card](components/card.md#skeleton), [Stats](components/stats.md#skeleton),
 [Table](components/table.md#skeleton), [List](components/list/main.md#skeleton),
-[Step](components/step/main.md#skeleton) and [Chart](components/chart.md#skeleton).
+[Step](components/step/main.md#skeleton), [Chart](components/chart.md#skeleton)
+and [QR Code](components/qr-code.md#skeleton).
 
 ```blade
 <x-card skeleton />                          {{-- bare flag: 3 body lines --}}
@@ -218,10 +219,11 @@ shaped like the component itself, for the first paint before any data exists:
 | Step      | step indicators         | 3       |
 | Chart     | data points (or slices) | 6       |
 | Stats     | — (flag only)           | n/a     |
+| QR Code   | — (flag only)           | n/a     |
 
 Everything else is derived from props the component already has. The prop is
-`bool|int|null` everywhere except `Stats`, where an integer throws. Any integer
-below `1` throws.
+`bool|int|null` everywhere. Any integer below `1` throws. `Stats` throws on any
+integer, and `QR Code` ignores it — both draw a fixed shape with nothing to count.
 
 What is already known stays legible; only the unknown becomes a bar — the table
 keeps its real header labels, for instance.

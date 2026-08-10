@@ -1,7 +1,7 @@
 # TallStackUI: Step Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A child component of `<x-step>` that defines a single step's content panel and metadata (title, description, completion state). The content is shown or hidden based on the currently selected step.
 

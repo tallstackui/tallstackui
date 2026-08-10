@@ -1,7 +1,7 @@
 # TallStackUI: Step
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A multi-step wizard component with three visual variations: simple bar indicators, numbered circles with dividers, and bordered panels. The navigation bar (`helpers`) ships in three looks — `default`, `minimal` and `compact` — and accepts fully custom previous/next buttons through slots. Supports Livewire property binding and step-change events.
 

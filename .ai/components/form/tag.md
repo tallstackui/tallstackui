@@ -1,7 +1,7 @@
 # TallStackUI: Tag
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A tag input component that allows users to add multiple tag values by pressing Enter, with individual tag removal, a bulk erase button, optional prefix character filtering, and configurable tag limits. It can also offer a floating list of tags to reuse. The value is stored as an array.
 

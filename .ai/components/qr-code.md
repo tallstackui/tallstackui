@@ -1,7 +1,7 @@
 # TallStackUI: QrCode
 
-> TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A dependency-free QR code rendered as inline SVG. The whole of ISO/IEC 18004
 lives in `src/Support/QrCode/`: Reed-Solomon over GF(256), the version and
@@ -142,7 +142,8 @@ or printed small.
 ```
 
 It honours `size` and takes the same shared `animation` and `bar` blocks every
-other skeleton uses.
+other skeleton uses. The shape is fixed, so it is a flag: an integer is ignored,
+and one below `1` throws.
 
 ## Soft Customization
 

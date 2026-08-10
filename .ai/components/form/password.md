@@ -1,7 +1,7 @@
 # TallStackUI: Password
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A password input component with toggle visibility, strength indicator rules (minimum length, mixed case, numbers, symbols), password generator, and caps lock detection. Rules are displayed in a floating panel and validate as the user types.
 

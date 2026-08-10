@@ -1,7 +1,7 @@
 # TallStackUI: Icon
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 An icon component that renders SVG icons from Heroicons (built-in) or BladeUI icon packages. Size and color come from bare shorthand attributes, with left/right slots for text or content alongside the icon and an error state that applies red coloring.
 

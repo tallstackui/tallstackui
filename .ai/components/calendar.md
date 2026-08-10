@@ -1,7 +1,7 @@
 # TallStackUI: Calendar
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 An **inline** date picker — the same grid-based calendar you get from `<x-date>`, but rendered directly in the page with no input field and no floating popover. Useful for dashboards, filter panels, scheduling screens, and inline reports. Supports single, range, and multi-date selection, plus an optional `double` mode that displays two months side-by-side for easier range selection.
 

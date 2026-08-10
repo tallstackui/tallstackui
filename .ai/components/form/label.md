@@ -1,7 +1,7 @@
 # TallStackUI: Label
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A form label component that renders a `<label>` element with optional required-field asterisk support and error state styling. Appending ` *` to the label text automatically renders a styled red asterisk indicator.
 

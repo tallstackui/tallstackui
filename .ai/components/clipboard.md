@@ -1,7 +1,7 @@
 # TallStackUI: Clipboard
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A copy-to-clipboard component with two display modes: an input field with a copy button, or a standalone icon-only trigger. Supports label, hint, secret masking, button placement, and custom copy/copied icons.
 

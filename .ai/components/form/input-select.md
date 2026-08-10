@@ -1,7 +1,7 @@
 # TallStackUI: Input Select
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A combined text input with a native select dropdown side-by-side. Supports icons, prefix/suffix addons, clearable values, and can be used as a compound input with a select on the left or right side. Typically used with `<x-select.native>` as a left or right addon.
 

@@ -1,7 +1,7 @@
 # TallStackUI: Autocomplete
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 An input-first single-select component: a regular text `<input>` paired with a floating dropdown of suggestions that filters as the user types. Each item supports a `value`, an optional `description` shown as a subtitle line, an optional `image` rendered as a circular avatar to the left, and an optional `metadata` object carried through untouched for the consumer to read after selection. Free text is allowed by default; an opt-in `strict` mode constrains `wire:model` to predefined values only. Items can be supplied locally via `:items` or fetched on demand with `:request`.
 

@@ -1,7 +1,7 @@
 # TallStackUI: Swap
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A compact value cycler shaped like an input: a chevron button on each side and the selected value in the middle. The value changes through the buttons, through a drag over the value (mouse and touch, via pointer events) or through the keyboard arrows while either button holds focus. Options loop infinitely by default.
 

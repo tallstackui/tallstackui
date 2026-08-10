@@ -1,7 +1,7 @@
 # TallStackUI: Dialog
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A modal dialog component for displaying alerts, confirmations, and question prompts with icon, title, description, and action buttons. Dispatched programmatically from Livewire components or controllers via the Interactions trait.
 

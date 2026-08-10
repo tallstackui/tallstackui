@@ -1,7 +1,7 @@
 # TallStackUI: Modal
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A modal overlay component for displaying content in a centered or top-aligned dialog with optional title, footer, blur backdrop, scrollable body, and configurable sizes. Can be controlled via `wire:model`, JavaScript API, or Livewire events.
 

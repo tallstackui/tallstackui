@@ -1,7 +1,7 @@
 # TallStackUI: Back to Top
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A floating button that appears when the user scrolls down, allowing them to smoothly scroll back to the top of the page or to a specific anchor element.
 

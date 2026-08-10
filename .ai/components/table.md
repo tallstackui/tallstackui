@@ -1,7 +1,7 @@
 # TallStackUI: Table
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A full-featured data table component with server-side sorting, search filtering, pagination, row selection, expandable rows, row highlighting, and clickable row links. Inside Livewire it drives everything through wire directives; outside it, sorting, filtering and pagination travel through the query string. See [Outside Livewire](#outside-livewire).
 

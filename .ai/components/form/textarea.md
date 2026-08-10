@@ -1,7 +1,7 @@
 # TallStackUI: Textarea
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A textarea component with optional manual resize, automatic height resizing, and a character counter that highlights when a maxlength limit is reached.
 

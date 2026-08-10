@@ -1,7 +1,7 @@
 # TallStackUI: Spinner
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A purely visual loading indicator. Thirteen animated variants, four sizes, 29 colors and an optional label. It binds nothing to Livewire and holds no state, so it can be dropped anywhere: inside a card, next to a button, in an empty state or in a `#[Lazy]` placeholder.
 

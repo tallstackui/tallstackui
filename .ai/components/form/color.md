@@ -1,7 +1,7 @@
 # TallStackUI: Color
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A color picker component with two modes: a full Tailwind CSS palette picker with shade range slider, or a custom colors-only picker. Supports selectable-only mode, clearable values, and the ability to exclude specific colors or shade steps from the palette.
 

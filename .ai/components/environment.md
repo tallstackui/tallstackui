@@ -1,7 +1,7 @@
 # TallStackUI: Environment
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A badge-like component that displays the current Laravel application environment (e.g., "Environment: Local") and optionally shows the current Git branch name. Useful for development toolbars and admin panels.
 

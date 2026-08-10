@@ -1,7 +1,7 @@
 # TallStackUI: Checkbox Group
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A group of checkbox options rendered from an array, in one of four presentations:
 stacked rows, cards, panels or an inline segmented control. The selected state is

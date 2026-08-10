@@ -1,7 +1,7 @@
 # TallStackUI: Editor
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A WYSIWYG rich text editor with no external JavaScript dependency. It is built on `contenteditable`, outputs HTML or Markdown, and exposes a curated toolbar covering inline formatting, headings, lists, indentation, alignment, quotes, rules, code, links, images, history and fullscreen.
 

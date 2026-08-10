@@ -1,7 +1,7 @@
 # TallStackUI: Link
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A styled anchor link component with color theming, text formatting options (bold, underline, italic), optional icons, query string building, and fragment anchors. Supports Livewire's wire:navigate for SPA-style navigation.
 

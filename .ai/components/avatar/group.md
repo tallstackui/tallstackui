@@ -1,7 +1,7 @@
 # TallStackUI: Avatar Group
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A wrapper component that stacks multiple avatar components together with overlapping negative spacing, creating a grouped avatar display commonly used for showing team members or participants.
 

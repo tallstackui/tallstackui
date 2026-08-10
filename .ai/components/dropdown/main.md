@@ -1,7 +1,7 @@
 # TallStackUI: Dropdown
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A dropdown menu component that displays a floating panel of actions triggered by a text label, icon, or custom action slot. Supports configurable positioning via the Floating component and Alpine.js anchor.
 

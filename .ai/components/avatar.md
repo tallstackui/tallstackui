@@ -1,7 +1,7 @@
 # TallStackUI: Avatar
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A versatile avatar component supporting images, text initials, Eloquent model integration via ui-avatars.com, presence indicators with pulse animation, and multiple sizes.
 

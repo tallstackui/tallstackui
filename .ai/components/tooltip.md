@@ -1,7 +1,7 @@
 # TallStackUI: Tooltip
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A tooltip icon component that displays informational text on hover, focus or tap. Renders an icon (default: question mark circle) that shows a positioned balloon with custom text content. The balloon is built by the package itself, with no external dependency.
 

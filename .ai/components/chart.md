@@ -1,7 +1,7 @@
 # TallStackUI: Chart
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A dependency-free chart rendered as inline SVG. Every path, rectangle and arc is
 computed server-side and shipped as markup, so there is no charting library and

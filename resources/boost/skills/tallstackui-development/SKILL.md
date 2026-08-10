@@ -43,16 +43,15 @@ Or commit a `.mcp.json` in the project root so the whole team gets it:
 }
 ```
 
-| Kind | Name | Use it for |
-| --- | --- | --- |
-| Tool | `list_components` | Listing components, optionally by category |
-| Tool | `get_component` | Full documentation for one component |
-| Tool | `search_documentation` | Full-text search across every component |
-| Tool | `search_customization` | Finding the customization options of a component |
-| Tool | `search_classes` | Locating a CSS class across all components; returns the matching blocks with a ready override snippet |
-| Resource | `tallstackui://docs/index` | The whole index in a single read |
-| Resource | `tallstackui://docs/internal-scopes` | Every internal `scope="..."` a component declares |
-| Prompt | `customize-component` | Guided soft customization: fetches the blocks, resolves nested scopes, writes the provider code |
+| Tool | Use it for |
+| --- | --- |
+| `list-components-tool` | Listing components, optionally by category |
+| `get-component-tool` | Full documentation for one component |
+| `search-documentation-tool` | Full-text search across every component |
+| `search-customization-tool` | Finding the customization options of a component |
+| `search-classes-tool` | Locating a CSS class across all components; returns the matching blocks with a ready override snippet |
+
+The server exposes tools only — there is no resource or prompt to read the index or the internal scopes from. Those come from the files under `.ai/`.
 
 ## Before writing any tag
 
@@ -226,7 +225,7 @@ Custom columns and expandable rows come from the `@interact` directive, keyed by
 
 `skeleton` stands in for content that does not exist yet, and belongs in the `placeholder()` of a `#[Lazy]` Livewire component. `loading` (Card and Table only) dims content already on screen during a round trip. They are not interchangeable.
 
-Card, Stats, Table, List, Step and Chart accept it. A bare flag uses the component's default count; an integer sets it, and anything below `1` throws — as does any integer on Stats, which is flag-only.
+Card, Table, List, Step and Chart accept it as a count: a bare flag uses the component's default, an integer sets it, and anything below `1` throws. Stats and QR Code are flag-only, because they have nothing to repeat — an integer on Stats throws, and on QR Code it is ignored.
 
 ```blade
 <x-card skeleton />

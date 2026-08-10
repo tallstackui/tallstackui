@@ -1,7 +1,7 @@
 # TallStackUI: Banner
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A top-of-page banner component for announcements or notifications. Supports static text, randomized messages from arrays, animated entrance/exit transitions, scheduled display via an `until` date, and Livewire-driven wire mode for dynamic dispatching from the backend.
 

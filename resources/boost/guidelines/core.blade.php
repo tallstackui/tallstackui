@@ -1,7 +1,6 @@
 # TallStackUI
 
-- TallStackUI is a suite of 80+ Blade components for TALL Stack applications (Tailwind CSS, Alpine.js, Laravel, Livewire).
-- The complete documentation ships inside the package and matches the installed version. Read it before writing markup — never guess a prop, a slot, an event or a configuration key, and never invent a component that is not in the index.
+- TallStackUI is a suite of 80+ Blade components for TALL Stack applications (Tailwind CSS, Alpine.js, Laravel, Livewire). The complete documentation ships inside the package and matches the installed version. Read it before writing markup — never guess a prop, a slot, an event or a configuration key, and never invent a component that is not in the index.
 
 ## Where the documentation lives
 
@@ -29,9 +28,7 @@ claude mcp add --transport http tallstackui https://tallstackui.com/mcp/tallstac
 }
 @endboostsnippet
 
-- Tools: `list_components`, `get_component`, `search_documentation`, `search_customization` and `search_classes` — the last one returns the matching blocks with a ready override snippet.
-- Resources: `tallstackui://docs/index` and `tallstackui://docs/internal-scopes`.
-- Prompt: `customize-component`, a guided workflow that fetches the blocks, resolves nested scopes and writes the `TallStackUi::customize()` code.
+- Tools: `list-components-tool`, `get-component-tool`, `search-documentation-tool`, `search-customization-tool` and `search-classes-tool` — the last one returns the matching blocks with a ready override snippet.
 
 ## Component prefix
 

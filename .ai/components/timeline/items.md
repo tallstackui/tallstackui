@@ -1,7 +1,7 @@
 # TallStackUI: Timeline Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A child component of `<x-timeline>` that renders a single event in the timeline. Provides a marker (bullet / icon / custom slot), a content block with optional title, description, and date, plus a default slot for additional rich content.
 

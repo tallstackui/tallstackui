@@ -1,7 +1,7 @@
 # TallStackUI: Accordion Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A child component of `<x-accordion>` that defines a single collapsible panel. Each item has a trigger (clickable header) and a body (rich content). Supports per-item default-open state, custom Heroicon replacement, a full custom icon slot, and a rich trigger slot.
 

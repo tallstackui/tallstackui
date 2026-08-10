@@ -1,7 +1,7 @@
 # TallStackUI: Card
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A versatile card container with optional header, footer, image, color styling, minimize/expand toggle, close button, and Livewire loading indicator. Supports both solid and light color variants with accent (colored top border) or background variations.
 

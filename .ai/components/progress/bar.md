@@ -1,7 +1,7 @@
 # TallStackUI: Progress Bar
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A horizontal progress bar component with three display variations: simple inline bar, floating label above the bar, and a title variation with label and percentage side by side. Supports solid and light color styles, four sizes, and an optional footer slot.
 

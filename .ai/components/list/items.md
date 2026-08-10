@@ -1,7 +1,7 @@
 # TallStackUI: List Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A row inside a `<x-list>`. Renders a bold `name`, an optional `caption` (plain text or arbitrary markup through its slot form), optional inline default-slot content, an optional `action` slot holding raw controls on the right, and an optional ellipsis-vertical menu trigger that opens a dropdown with the consumer's menu items. **Must be used inside `<x-list>`** — relies on the parent's Alpine scope for search filtering.
 

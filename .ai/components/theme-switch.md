@@ -1,7 +1,7 @@
 # TallStackUI: Theme Switch
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A dark mode toggle component with two display variations: a segmented control (with light/dark/system options) and a simple toggle switch. Persists the user's theme preference and supports multiple sizes.
 

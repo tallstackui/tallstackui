@@ -1,7 +1,7 @@
 # TallStackUI: List
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A card-shaped, action-oriented list component for browsing or managing a collection of items. Each row displays a name, an optional caption (plain text or arbitrary markup), optional raw controls on the right, and an optional ellipsis-vertical menu trigger that opens a per-row dropdown. Optional client-side search filters rows by name and caption. Renders an optional `<x-label>` above the box and `<x-hint>` below. In data-driven mode, `lazy` moves the row rendering to the client and reveals a slice at a time on scroll.
 

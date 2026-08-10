@@ -1,7 +1,7 @@
 # TallStackUI: Accordion
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A collapsible panel group for progressively disclosed content such as FAQs, configuration sections, or grouped detail views. By default the accordion opens one item at a time (opening another closes the current one), matches the Radix/shadcn single-open UX, and animates expansion via the `@alpinejs/collapse` plugin. Supports multi-open mode, flat visual style, a shadowless variant, chevron positioning, default-open items, rich triggers, and custom icons.
 

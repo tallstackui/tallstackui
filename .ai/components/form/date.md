@@ -1,7 +1,7 @@
 # TallStackUI: Date
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A date picker component with a floating calendar panel, month/year pickers, range selection, multiple date selection, configurable date format, min/max date and year constraints, disabled dates, day-of-week filtering, helper buttons (yesterday/today/tomorrow), and month-year-only mode.
 

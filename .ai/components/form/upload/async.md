@@ -1,7 +1,7 @@
 # TallStackUI: Upload Async
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 65+ Blade components for building modern web interfaces.
+> component library providing 80+ Blade components for building modern web interfaces.
 
 A chunked, asynchronous file upload component. The browser slices each file and posts the pieces straight to a controller of your own, bypassing Livewire's upload pipeline entirely, so a file no longer has to fit inside PHP's request limits. Files around 1 GB are the target.
 
