@@ -444,6 +444,27 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function drops_the_accent_when_the_color_is_explicitly_null(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" :color="null" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-gray-600")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-primary-600")');
+    }
+
+    #[Test]
     public function follows_the_primary_color_by_default(): void
     {
         Livewire::visit(new class extends Component

@@ -21,10 +21,14 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(KeyValueRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    // A sentinel default is what tells an omitted color apart from an
+    // explicit null one, since both would reach the constructor as null.
+    protected const UNSPECIFIED = '__ts_unspecified__';
+
     public function __construct(
         public ?string $label = null,
         public ?string $value = null,
-        public ?string $color = null,
+        public ?string $color = self::UNSPECIFIED,
         public ?bool $colorless = null,
         public ?bool $compact = false,
         public ?int $limit = null,
@@ -49,8 +53,8 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'dark:bg-dark-800 dark:border-dark-700 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
-                'wrapper' => 'dark:border-dark-700 dark:bg-dark-950 bg-gray-50 grid grid-cols-2 border-b border-gray-100 px-4 py-2',
-                'wrapper-compact' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-100 px-4 py-1',
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-950 bg-gray-50 grid grid-cols-2 border-b border-gray-200 px-4 py-2',
+                'wrapper-compact' => 'dark:border-dark-700 grid grid-cols-2 border-b border-gray-200 px-4 py-1',
                 'neutral' => 'dark:text-dark-300 text-gray-600',
                 'key' => 'font-semibold',
                 'value' => 'font-semibold',
@@ -79,6 +83,18 @@ class Component extends TallStackUiComponent implements Customization
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],
         ]);
+    }
+
+    protected function setup(): void
+    {
+        // An explicit null color is a shortcut to colorless, so a dynamic
+        // :color that resolves to nothing drops the accent instead of
+        // silently falling back to the default one.
+        if ($this->color === null) {
+            $this->colorless = true;
+        }
+
+        $this->color = $this->color === self::UNSPECIFIED ? null : $this->color;
     }
 
     protected function validate(): void
