@@ -12,6 +12,53 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Password
+
+### Added — `generator` takes the field it should fill
+
+Generating a password and mirroring it into the confirmation field was left to the
+application, and the shortest form of it reached into the DOM:
+
+```blade
+<x-password wire:model="password"
+            generator
+            x-on:generate="document.getElementById('password_confirmation').value = $event.detail.password" />
+```
+
+That line writes the value and nothing else — `wire:model` never hears about it, so the
+confirmation reaches the server empty. The working version had to go through Livewire
+instead (`$wire.set('password_confirmation', $event.detail.password)`), which is easy to
+get wrong and impossible to guess.
+
+`generator` now accepts the name of the field it should fill:
+
+```blade
+<x-password wire:model="password" generator="password_confirmation" />
+
+<x-password wire:model="password_confirmation" />
+```
+
+Nothing is asked of the target. The input already renders its `id` from the bound
+property, so a field bound to `password_confirmation` is addressable by that name; an
+explicit `id` or `x-ref` works the same way, resolved in that order, the way
+`$tsui.focus` does it. A CSS selector is not accepted.
+
+How the value lands depends on what the target is. Another `<x-password>` owns its own
+state, so the fill goes through its setter and the input, the entangled model and the
+rules checklist all move together. Anything else — `<x-input>`, a bare `<input>` — takes
+the value plus an `input` event, which is what `wire:model` listens to, so it also works
+outside Livewire.
+
+The generated password is revealed on the component that generated it, as before, and the
+target stays masked: the confirmation is a field the user is meant to confirm, not read.
+
+The `generate` event still fires, after the fill, so an existing `x-on:generate` keeps
+working and remains the last word if it wants to overwrite the target. A target that does
+not exist logs to the console and leaves the generating field filled.
+
+Passing an empty string — the shape `:generator="$name"` takes when the variable is
+empty — raises an exception instead of silently dropping the button.
+
 ## Card, Stats, Calendar, Tab, Errors, Alert & Avatar
 
 ### Added — the flat-look flags answer to the configuration

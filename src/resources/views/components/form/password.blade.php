@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-<div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules ?? []), @js($typingOnly), @js($value))"
+<div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules ?? []), @js($typingOnly), @js($value), @js($target))"
      class="relative" x-cloak x-on:click.outside="rules = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.password.input"

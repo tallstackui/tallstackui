@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -46,4 +47,20 @@ it('can render with rules using default', function () {
         ->toContain(trans('ts-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#$%^&amp;*()_+-=']))
         ->toContain(trans('ts-ui::messages.password.rules.formats.numbers'))
         ->toContain(trans('ts-ui::messages.password.rules.formats.mixed'));
+});
+
+it('can render the generator without a target')
+    ->expect('<x-password generator />')
+    ->render()
+    ->toContain('null, null, null)');
+
+it('can render the generator with a target')
+    ->expect('<x-password generator="password_confirmation" />')
+    ->render()
+    ->toContain("'password_confirmation')");
+
+it('cannot render the generator with an empty target', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-password generator="" />')->render();
 });

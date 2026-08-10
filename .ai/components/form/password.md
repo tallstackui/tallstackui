@@ -26,6 +26,12 @@ A password input component with toggle visibility, strength indicator rules (min
 <x-password wire:model="password" label="Password" :rules="true" typing-only />
 ```
 
+```blade
+<x-password wire:model="password" label="Password" :rules="true" generator="password_confirmation" />
+
+<x-password wire:model="password_confirmation" label="Confirm password" :rules="true" />
+```
+
 ## Attributes
 
 | Attribute   | Type                          | Default | Description                                                                                                                             |
@@ -34,7 +40,7 @@ A password input component with toggle visibility, strength indicator rules (min
 | hint        | string\|ComponentSlot\|null   | null    | Hint text displayed below the input                                                                                                     |
 | rules       | Collection\|array\|bool\|null | null    | Password strength rules. Pass true for defaults from config, or an array of rule strings (e.g., 'min:8', 'symbols', 'numbers', 'mixed') |
 | mixed-case  | bool\|null                    | false   | When true, disables the caps lock indicator icon                                                                                        |
-| generator   | bool\|null                    | null    | Shows a password generator button that creates a random password matching the rules                                                     |
+| generator   | bool\|string\|null            | null    | Shows a password generator button that creates a random password matching the rules. A string names the field the generated password is also written to |
 | invalidate  | bool\|null                    | null    | Prevents displaying validation error messages for this input                                                                            |
 | typing-only | bool\|null                    | null    | When true, the rules floating panel only appears while typing (not on focus)                                                            |
 
@@ -48,6 +54,7 @@ A password input component with toggle visibility, strength indicator rules (min
 ## Validation Constraints
 
 - The `generator` requires the `rules` to be set. You cannot use the generator without defining password rules.
+- The `generator` target cannot be an empty string.
 
 ## Configuration
 
@@ -81,6 +88,39 @@ When enabled, adds a generate button that creates passwords matching the specifi
 ```blade
 <x-password generator :rules="['min:5', 'symbols:!@']" />
 ```
+
+### Auto-Filling a Confirmation Field
+
+Passing a string to `generator` also writes the generated password into another field, so
+the confirmation does not have to be wired by hand:
+
+```blade
+<x-password wire:model="password" :rules="true" generator="password_confirmation" />
+
+<x-password wire:model="password_confirmation" :rules="true" />
+```
+
+The target is resolved by `id` first, then by `x-ref`. CSS selectors are not accepted. The
+input renders its `id` from the bound property, so a field bound to `password_confirmation`
+is already addressable by that name without an explicit `id`.
+
+Any field works as a target, not only another password:
+
+```blade
+<x-password wire:model="password" :rules="true" generator="password_confirmation" />
+
+<x-input wire:model="password_confirmation" />
+```
+
+When the target is another `<x-password>`, the fill goes through its own state, so the
+input, the bound model and the rules checklist stay in sync. Any other element receives the
+value plus an `input` event, which is what `wire:model` listens to, so it also works outside
+Livewire.
+
+The generating field reveals the password; the target stays masked. The `generate` event is
+still dispatched after the fill, so an `x-on:generate` handler keeps working and can
+override the target. A target that cannot be found is reported in the console and does not
+prevent the generating field from being filled.
 
 ### Custom Generator Algorithm
 

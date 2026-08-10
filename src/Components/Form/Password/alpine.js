@@ -1,8 +1,11 @@
-export default (model, rules, typingOnly, value = null) => ({
+import { error } from '../../../../js/helpers';
+
+export default (model, rules, typingOnly, value = null, target = null) => ({
   model: model,
   show: false,
   rules: false,
   input: '',
+  target: target,
   min: rules.min ?? null,
   symbols: rules.symbols ?? null,
   numbers: rules.numbers ?? null,
@@ -117,9 +120,46 @@ export default (model, rules, typingOnly, value = null) => ({
 
     this.password = password;
 
+    this.fill(password);
+
     this.$el.dispatchEvent(new CustomEvent('generate', { detail: { password: password } }));
 
     setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
+  },
+  /**
+   * Fill the target element with the generated password.
+   *
+   * @param {String} password
+   * @returns {void}
+   */
+  fill(password) {
+    if (!this.target) {
+      return;
+    }
+
+    const element =
+      document.getElementById(this.target) ?? document.querySelector(`[x-ref="${this.target}"]`);
+
+    if (!element) {
+      error(`The generator target [${this.target}] was not found.`);
+
+      return;
+    }
+
+    const root = element.closest('[x-data^="tallstackui_formPassword"]');
+
+    // Another password component owns its own state, so we
+    // go through the setter to keep the input, the entangled
+    // model and the rules checklist in sync.
+    if (root) {
+      Alpine.$data(root).password = password;
+
+      return;
+    }
+
+    element.value = password;
+
+    element.dispatchEvent(new Event('input', { bubbles: true }));
   },
   /**
    * Generate a cryptographically secure random integer in [0, max).

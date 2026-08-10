@@ -24,7 +24,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $hint = null,
         public Collection|array|bool|null $rules = null,
         public ?bool $mixedCase = false,
-        public ?bool $generator = null,
+        public bool|string|null $generator = null,
         public ?bool $invalidate = null,
         public ?bool $typingOnly = null,
         #[SkipDebug]
@@ -98,6 +98,10 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws Exception */
     protected function validate(): void
     {
+        if (is_string($this->generator) && trim($this->generator) === '') {
+            __ts_validation_exception($this, 'The [generator] target cannot be empty.');
+        }
+
         if ($this->generator && $this->rules?->isEmpty()) {
             __ts_validation_exception($this, 'The [generator] requires the [rules] of the password.');
         }

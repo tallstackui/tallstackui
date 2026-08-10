@@ -11,9 +11,12 @@ class PasswordRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
+        $generator = $this->data('generator');
+
         return [
             ...$this->bind(),
             'value' => $this->sanitize(),
+            'target' => is_string($generator) ? $generator : null,
             'icon' => [
                 'x-circle' => TallStackUi::icon('x-circle'),
                 'check-circle' => TallStackUi::icon('check-circle'),
