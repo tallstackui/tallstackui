@@ -759,6 +759,13 @@ inline prop always winning:
 
 ## Calendar
 
+### Fixed — `bordered` was left one step behind the dark ladder
+
+The recalibration moved borders from `dark-600` to `dark-700`, and Card, Stats and
+Tab followed, but the Calendar `bordered` block kept the old shade. Against a
+`dark-800` panel it read as a lighter outline than the same flag draws anywhere
+else. It is now `border border-gray-200 dark:border-dark-700`, like its siblings.
+
 ### Changed — the pickers are a faithful copy of the date picker
 
 The calendar is meant to be the `<x-date>` panel without the input, and the

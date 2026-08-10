@@ -68,13 +68,13 @@ it('renders shadowless', function () {
 });
 
 it('renders bordered', function () {
-    expect('<x-calendar bordered />')->render()->toContain('border border-gray-200 dark:border-dark-600');
+    expect('<x-calendar bordered />')->render()->toContain('border border-gray-200 dark:border-dark-700');
 });
 
 it('renders shadowless and bordered together', function () {
     expect('<x-calendar shadowless bordered />')->render()
         ->toContain('shadow-none!')
-        ->toContain('border border-gray-200 dark:border-dark-600');
+        ->toContain('border border-gray-200 dark:border-dark-700');
 });
 
 it('renders the flat look through the global configuration', function () {
@@ -86,7 +86,7 @@ it('renders the flat look through the global configuration', function () {
     try {
         expect('<x-calendar />')->render()
             ->toContain('shadow-none!')
-            ->toContain('border border-gray-200 dark:border-dark-600');
+            ->toContain('border border-gray-200 dark:border-dark-700');
     } finally {
         config()->set('ts-ui.components.calendar.1.shadowless', false);
         config()->set('ts-ui.components.calendar.1.bordered', false);
@@ -104,7 +104,7 @@ it('lets the flat look props win over the global configuration', function () {
     try {
         expect('<x-calendar :shadowless="false" :bordered="false" />')->render()
             ->not->toContain('shadow-none!')
-            ->not->toContain('border border-gray-200 dark:border-dark-600');
+            ->not->toContain('border border-gray-200 dark:border-dark-700');
     } finally {
         config()->set('ts-ui.components.calendar.1.shadowless', false);
         config()->set('ts-ui.components.calendar.1.bordered', false);

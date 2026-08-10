@@ -79,7 +79,7 @@ class Component extends TallStackUiComponent implements Customization
                 'days-grid' => 'grid grid-cols-7',
             ],
             'shadowless' => 'shadow-none!',
-            'bordered' => 'border border-gray-200 dark:border-dark-600',
+            'bordered' => 'border border-gray-200 dark:border-dark-700',
             'box' => [
                 'picker' => [
                     'button' => 'text-gray-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 mb-6 text-sm font-semibold focus:outline-hidden focus:ring-2 dark:text-white',
