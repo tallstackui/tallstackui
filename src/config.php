@@ -511,7 +511,23 @@ return [
             ],
         ],
         'layout.header' => Components\Layout\Header\Component::class,
-        'link' => Components\Link\Component::class,
+        'link' => [
+            Components\Link\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Link Global Settings
+            |----------------------------------------------------------------------
+            | navigate: adds wire:navigate to every link by default.
+            | navigate-hover: adds wire:navigate.hover to every link by default.
+            |
+            | The two are mutually exclusive, so declaring either one of them
+            | inline suppresses the global default of both.
+            */
+            [
+                'navigate' => false,
+                'navigate-hover' => false,
+            ],
+        ],
         'list' => Components\List\Main\Component::class,
         'list.items' => Components\List\Items\Component::class,
         'loading' => [

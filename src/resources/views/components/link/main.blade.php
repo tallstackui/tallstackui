@@ -10,8 +10,8 @@
         $customization['icon.base'] => $icon,
         $customization['sizes.'.$size],
         $colors['text'] => !$colorless,
-    ]) }} @if ($blank) target="_blank" @endif @if ($navigate) wire:navigate
-   @elseif ($navigateHover) wire:navigate.hover @endif>
+    ]) }} @if ($blank) target="_blank" @endif @if ($configurations['navigate']) wire:navigate
+   @elseif ($configurations['navigateHover']) wire:navigate.hover @endif>
     @if ($icon && $position === 'left')
         <x-dynamic-component :component="TallStackUi::prefix('icon')" :$icon internal
                              class="{{ $customization['icon.size'] }}" />

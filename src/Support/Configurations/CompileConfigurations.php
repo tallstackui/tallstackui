@@ -16,6 +16,7 @@ use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Gallery\Component as Gallery;
 use TallStackUi\Components\Kbd\Component as Kbd;
+use TallStackUi\Components\Link\Component as Link;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\QrCode\Component as QrCode;
@@ -42,6 +43,7 @@ class CompileConfigurations
             $component instanceof Editor => fn () => self::editor($component),
             $component instanceof Gallery => fn () => self::gallery($component),
             $component instanceof Kbd => fn () => self::kbd($component),
+            $component instanceof Link => fn () => self::link($component),
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
             $component instanceof Number => fn () => self::number($component),
@@ -271,6 +273,28 @@ class CompileConfigurations
         return [
             'borderless' => $component->borderless,
             'shadowless' => $component->shadowless,
+        ];
+    }
+
+    /**
+     * Define the Link component configurations.
+     *
+     * @throws Exception
+     */
+    private static function link(Link $component): array
+    {
+        $configuration = __ts_get_component_configuration(Link::class);
+
+        // Both are mutually exclusive, so deciding either one of
+        // them inline suppresses the global default of both.
+        if ($component->navigate === null && $component->navigateHover === null) {
+            $component->navigate = $configuration['navigate'] ?? false;
+            $component->navigateHover = $configuration['navigate-hover'] ?? false;
+        }
+
+        return [
+            'navigate' => $component->navigate ?? false,
+            'navigateHover' => $component->navigateHover ?? false,
         ];
     }
 

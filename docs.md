@@ -12,6 +12,33 @@ such change is listed under **Migration**.
 
 ---
 
+## Link
+
+### Added — `navigate` and `navigate-hover` answer to the configuration
+
+An application that navigates through Livewire had to repeat `navigate` on every
+single link. Both flags now exist as global defaults in the component
+configuration:
+
+```php
+'link' => [
+    Components\Link\Component::class,
+    [
+        'navigate' => false,
+        'navigate-hover' => false,
+    ],
+],
+```
+
+They are mutually exclusive — the template only ever emits one of the two — so
+declaring either one of them inline suppresses the global default of both, and
+`:navigate="false"` opts a single link out of a global `navigate`:
+
+```blade
+<x-link href="/dashboard" :navigate="false" />
+<x-link href="/dashboard" navigate-hover />
+```
+
 ## Form / Autocomplete
 
 ### Added — `select` remaps the item keys
