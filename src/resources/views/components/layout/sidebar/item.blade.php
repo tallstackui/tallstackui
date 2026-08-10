@@ -128,6 +128,7 @@
                    }"
                    x-tooltip="{{ $text }}"
                    data-position="right"
+                   data-tooltip-delay="flash"
                    x-bind:data-tooltip-disabled="! railed"
                @endif
                @if ($navigate && ! $href)
