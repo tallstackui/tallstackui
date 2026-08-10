@@ -23,6 +23,14 @@ A circular button component for icon-only or single-character actions. Supports 
 <x-button.circle icon="arrow-right" href="/next" lg />
 ```
 
+Submitting a form. Like `<x-button>`, the circle renders `type="button"` by
+default. Use the `submit` prop — never write `type="submit"` by hand:
+
+```blade
+<x-button.circle submit icon="check" />           {{-- correct --}}
+<x-button.circle type="submit" icon="check" />    {{-- wrong: use the submit prop --}}
+```
+
 Choosing the loading indicator. `spinner` renders one of the nine visual
 [Spinner](../spinner.md) variants as the `wire:loading` indicator — `ring`,
 `throbber`, `gradient`, `ping`, `dots`, `pulse`, `typing`, `bars` or `wave`.
@@ -55,7 +63,7 @@ default effect. The textual variants (`shimmer`, `caret`, `terminal`,
 | outline   | bool         | null      | Uses the outline color style variant                                                                                                |
 | light     | bool         | false     | Uses the light color style variant                                                                                                  |
 | flat      | bool         | false     | Uses the flat color style variant (no border)                                                                                       |
-| submit    | bool         | false     | Sets button type to 'submit' for form submission                                                                                    |
+| submit    | bool         | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                    |
 | unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                        |
 
 ## Slots

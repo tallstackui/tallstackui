@@ -32,7 +32,7 @@ It shares nothing with `<x-upload />` beyond the namespace. Unlike that one, it 
 <form method="POST" action="{{ route('posts.store') }}">
     @csrf
     <x-upload.async name="attachments" :route="route('uploads.store')" multiple />
-    <x-button type="submit" text="Save" />
+    <x-button submit text="Save" />
 </form>
 ```
 

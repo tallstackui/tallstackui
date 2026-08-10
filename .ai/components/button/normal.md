@@ -23,6 +23,24 @@ A versatile button component supporting solid, light, outline, and flat styles w
 <x-button text="Visit Site" href="https://example.com" flat />
 ```
 
+Submitting a form. The button renders `type="button"` by default, so it does
+**not** submit the surrounding form until `submit` is set. Use the `submit`
+prop — never write `type="submit"` by hand:
+
+```blade
+<x-button submit text="Save" />           {{-- correct --}}
+<x-button type="submit" text="Save" />    {{-- wrong: use the submit prop --}}
+```
+
+To submit a form declared elsewhere in the DOM, keep `submit` and add the
+native `form` attribute pointing at the form's `id`:
+
+```blade
+<form id="post-form" wire:submit="save"> ... </form>
+
+<x-button submit form="post-form" text="Save" loading="save" />
+```
+
 Controlling the border radius. `round` on its own gives a pill; with a size it gives
 that exact radius. `square` drops the radius altogether and wins over `round`:
 
@@ -80,7 +98,7 @@ animate their own text and throw inside a button:
 | outline   | bool               | false     | Uses the outline color style variant                                                                                                   |
 | light     | bool               | false     | Uses the light color style variant                                                                                                     |
 | flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                          |
-| submit    | bool               | false     | Sets button type to 'submit' for form submission                                                                                       |
+| submit    | bool               | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                       |
 | unfocus   | bool               | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                           |
 | tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                            |
 

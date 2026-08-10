@@ -26,7 +26,7 @@ It is content focused rather than a document editor: no tables, no image resize 
 <form method="POST" action="{{ route('posts.store') }}">
     @csrf
     <x-editor name="body" label="Body" />
-    <x-button type="submit" text="Save" />
+    <x-button submit text="Save" />
 </form>
 ```
 
