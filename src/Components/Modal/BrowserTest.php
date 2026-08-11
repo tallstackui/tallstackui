@@ -203,11 +203,13 @@ class BrowserTest extends BrowserTestCase
             ->click('@open')
             ->waitForText('Foo bar')
             ->assertSee('Foo bar')
+            ->waitForTextIn('@target', 'Opened')
             ->assertSeeIn('@target', 'Opened')
             ->pause(500)
             ->click('@tallstackui_modal_close')
             ->waitUntilMissingText('Foo bar')
             ->assertDontSee('Foo bar')
+            ->waitForTextIn('@target', 'Closed')
             ->assertSeeIn('@target', 'Closed');
     }
 

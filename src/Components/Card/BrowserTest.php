@@ -85,6 +85,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('TallStackUi')
             ->click('@tallstackui_card_close')
             ->waitUntilMissingText('TallStackUi')
+            ->waitForTextIn('@target', 'Closed')
             ->assertSeeIn('@target', 'Closed');
     }
 
@@ -112,6 +113,7 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('TallStackUi')
             ->click('@tallstackui_card_minimize')
             ->waitForText('TallStackUi')
+            ->waitForTextIn('@target', 'Maximized')
             ->assertSeeIn('@target', 'Maximized');
     }
 
@@ -139,6 +141,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('TallStackUi')
             ->click('@tallstackui_card_minimize')
             ->waitUntilMissingText('TallStackUi')
+            ->waitForTextIn('@target', 'Minimized')
             ->assertSeeIn('@target', 'Minimized');
     }
 
