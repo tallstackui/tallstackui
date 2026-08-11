@@ -29,6 +29,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_image')
             ->pause(500)
             ->type('#content-image-url', 'https://tallstackui.com/logo.png')
@@ -60,6 +61,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_style')
             ->pause(400)
@@ -85,6 +87,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_bold')
             ->pause(700)
@@ -108,6 +111,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->keys('@tallstackui_editor_bold', '{enter}')
             ->pause(700)
@@ -131,6 +135,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->keys('@tallstackui_editor_editable', ['{control}', 'b'])
             ->pause(700)
@@ -154,6 +159,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', '## Title')
             ->pause(900)
@@ -177,6 +183,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', '**loud**')
             ->pause(900)
@@ -199,6 +206,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->pause(700)
             ->assertPresent('[dusk=tallstackui_editor_editable] h1')
             ->assertPresent('[dusk=tallstackui_editor_editable] strong')
@@ -224,6 +232,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', 'teste', '{enter}')
             ->pause(700)
@@ -249,6 +258,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->waitUntil("!! document.querySelector('[dusk=tallstackui_editor_editable]')")
             ->pause(700)
             ->assertSee('2 words')
@@ -272,6 +282,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', 'one two three')
             ->pause(700)
@@ -296,6 +307,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_ordered_list')
             ->pause(700)
@@ -319,6 +331,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', 'one', '{enter}', 'two')
             ->pause(400)
@@ -365,6 +378,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_indent')
             ->pause(500)
@@ -398,6 +412,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_blockquote')
             ->pause(700)
@@ -421,6 +436,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_hr')
             ->pause(700)
@@ -444,6 +460,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_link')
             ->pause(600)
@@ -474,6 +491,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_image')
             ->pause(600)
             ->type('#content-image-url', 'https://tallstackui.com/logo.png')
@@ -511,6 +529,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_image')
             ->pause(600)
             ->attach('input[type=file]', __DIR__.'/test.jpeg')
@@ -538,6 +557,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_image')
             ->pause(600)
             ->type('#content-image-url', 'https://tallstackui.com/logo.png')
@@ -567,6 +587,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->waitUntil("!! document.querySelector('[dusk=tallstackui_editor_editable]')")
             ->pause(700)
             ->assertScript(
@@ -601,6 +622,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->resize(574, 700)
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 window.__maxScroll = 0;
@@ -640,6 +662,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
@@ -682,6 +705,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
@@ -720,6 +744,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
@@ -753,6 +778,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', 'Hello world')
             ->pause(700)
@@ -776,6 +802,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_link')
             ->pause(600)
@@ -806,6 +833,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_link')
             ->pause(600)
@@ -834,6 +862,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->waitUntil("!! document.querySelector('[dusk=tallstackui_editor_editable]')")
             ->pause(700)
             ->assertScript(
@@ -859,6 +888,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
@@ -897,6 +927,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->waitUntil("!! document.querySelector('[dusk=tallstackui_editor_editable]')")
             ->pause(700)
             ->assertScript(
@@ -922,6 +953,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_unordered_list')
             ->pause(700)
@@ -945,6 +977,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_bold')
             ->pause(700)
@@ -968,6 +1001,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_fullscreen')
             ->pause(500)
             ->assertScript(
@@ -1001,6 +1035,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_code_block')
             ->pause(700)
@@ -1030,6 +1065,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', '# Title')
             ->pause(900)
@@ -1056,6 +1092,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->keys('@tallstackui_editor_editable', 'abc')
             ->pause(700)
@@ -1085,6 +1122,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->assertScript(
                 "document.querySelector('[dusk=tallstackui_editor_style]').getAttribute('tabindex')",
                 '0'
@@ -1117,6 +1155,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()));
 
         foreach (range(1, 10) as $ignored) {
@@ -1142,6 +1181,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
             ->click('@tallstackui_editor_link')
             ->pause(600)
@@ -1170,6 +1210,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_editable')
             ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
@@ -1213,11 +1254,21 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
+            ->waitUntil($this->booted())
             ->click('@tallstackui_editor_image')
             ->pause(600)
             ->attach('input[type=file]', __DIR__.'/test.jpeg')
             ->pause(1200)
             ->assertSee('File type not allowed.');
+    }
+
+    /**
+     * The editable is rendered empty and filled on boot, so anything typed or
+     * clicked before that is wiped by the very first render.
+     */
+    private function booted(): string
+    {
+        return "!! document.querySelector('[dusk=tallstackui_editor_editable]')?.innerHTML";
     }
 
     /** Both Escape listeners sit on window, so the event goes straight there. */
