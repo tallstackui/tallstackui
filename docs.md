@@ -2116,6 +2116,39 @@ so it reports no match instead of throwing.
 
 ## Loading
 
+### Added — `indicator`, the overlay can render a Spinner
+
+The default overlay is still the original SVG. A Spinner takes its place through
+`indicator`, inline or as the `loading.indicator` config default. The inline
+prop always wins:
+
+```blade
+<x-loading />
+<x-loading indicator="spinner.bars" />
+<x-loading indicator="spinner" />
+```
+
+```php
+'loading' => [
+    Components\Loading\Component::class,
+    [
+        'indicator' => null, // or 'spinner', or 'spinner.bars'
+    ],
+],
+```
+
+`null` keeps the SVG. `spinner` renders `<x-spinner>` with that component's
+own type default. `spinner.{type}` pins a variant. An unknown prefix or type
+throws. `shimmer` and `caret` still require their own text, and Loading's
+`text`/slot replace the indicator entirely, so those two throw.
+
+A `text` attribute or the default slot still replaces the indicator entirely,
+same as before.
+
+The overlay renders the real `<x-spinner>` component — prefix-aware, so a
+customized Spinner is the one that shows up — rather than inlining the type
+partials the way the buttons do.
+
 ### Fixed — the body overflow was never locked
 
 ```js

@@ -618,11 +618,15 @@ return [
                 | overflow: avoids hiding the overflow, allowing the scroll of the page.
                 | blur: enables the background blur effect by default.
                 | opacity: enables the background opacity by default.
+                | indicator: the default overlay indicator. Null keeps the original.
+                | Use "spinner" or "spinner.{type}" to render a Spinner instead
+                | (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 */
                 'z-index' => 'z-50',
                 'overflow' => false,
                 'blur' => false,
                 'opacity' => true,
+                'indicator' => null,
             ],
         ],
         'kbd' => [

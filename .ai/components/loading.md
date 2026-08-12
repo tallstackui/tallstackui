@@ -14,6 +14,10 @@ A full-screen loading overlay that displays automatically during Livewire reques
 ```
 
 ```blade
+<x-loading indicator="spinner.bars" />
+```
+
+```blade
 <x-loading loading="save, delete" text="Processing your request..." />
 ```
 
@@ -26,6 +30,35 @@ A full-screen loading overlay that displays automatically during Livewire reques
 </x-loading>
 ```
 
+## Indicator
+
+The default overlay is the original SVG. `indicator` swaps it for a
+[Spinner](spinner.md). The inline prop wins over the `loading.indicator`
+config default:
+
+```blade
+<x-loading />
+<x-loading indicator="spinner.bars" />
+<x-loading indicator="spinner" />
+```
+
+| Value            | Result                                                |
+|------------------|-------------------------------------------------------|
+| `null`           | Original SVG (the shipped default)                    |
+| `spinner`        | `<x-spinner>` using that component's own type default |
+| `spinner.{type}` | `<x-spinner>` pinned to that variant                  |
+
+An unknown prefix or type throws. `shimmer` and `caret` still require their
+own text, and Loading's `text`/slot replace the indicator entirely, so those
+two throw:
+
+```blade
+<x-loading indicator="spinner.shimmer" />   {{-- throws --}}
+```
+
+The overlay renders the real `<x-spinner>` component — prefix-aware, so a
+customized Spinner is the one that shows up.
+
 ## Attributes
 
 | Attribute | Type         | Default                    | Description                                                                                     |
@@ -37,6 +70,7 @@ A full-screen loading overlay that displays automatically during Livewire reques
 | blur      | bool\|null   | null (from config: false)  | Enables backdrop blur effect                                                                    |
 | opacity   | bool\|null   | true (from config: true)   | Enables background opacity effect                                                               |
 | overflow  | bool\|null   | null (from config: false)  | When true, avoids hiding body overflow                                                          |
+| indicator | string\|null | null (from config: null)   | Overlay indicator: `null` keeps the SVG, `spinner` or `spinner.{type}` renders a Spinner        |
 
 ## Body overflow
 
@@ -54,17 +88,19 @@ never reaches the morph.
 ## Validation Constraints
 
 - The `zIndex` (from config `z-index`) must start with `z-` prefix.
+- The `indicator` must be `null`, `spinner`, or `spinner.{type}` where type is one of the Spinner variants. `shimmer` and `caret` throw because they animate their own text.
 
 ## Configuration
 
 In `config/tallstackui.php` under `components.loading`:
 
-| Option   | Type   | Default | Description                            |
-|----------|--------|---------|----------------------------------------|
-| z-index  | string | 'z-50'  | Default z-index class                  |
-| overflow | bool   | false   | When true, avoids hiding body overflow |
-| blur     | bool   | false   | Enables background blur effect         |
-| opacity  | bool   | true    | Enables background opacity effect      |
+| Option    | Type         | Default | Description                                                                                 |
+|-----------|--------------|---------|---------------------------------------------------------------------------------------------|
+| z-index   | string       | 'z-50'  | Default z-index class                                                                       |
+| overflow  | bool         | false   | When true, avoids hiding body overflow                                                      |
+| blur      | bool         | false   | Enables background blur effect                                                              |
+| opacity   | bool         | true    | Enables background opacity effect                                                           |
+| indicator | string\|null | null    | Default overlay indicator. `null` keeps the SVG; `spinner` or `spinner.{type}` uses Spinner |
 
 ## Livewire Integration Details
 
