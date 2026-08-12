@@ -12,6 +12,71 @@ such change is listed under **Migration**.
 
 ---
 
+## Clipboard
+
+### Fixed — the two rings met at the seam and stacked into a brighter mark
+
+The input and the copy button each carried a `ring-1` of their own, and `-ml-px`
+(or `-mr-px` with `left`) only butted the two boxes together. That collapses the
+doubled line along most of the seam — the button's background covers the input's
+ring — but not where the bands cross: at the corners where the vertical seam meets
+the top and the bottom edge, both rings paint the same pixel. Both are `/50`, so the
+alpha stacks to `1 - 0.5² = 75%` and the crossing reads as a brighter nick hanging
+off the ends of the divider.
+
+Sampled from a dark render, with the surfaces at `dark-800` on a `dark-900` page:
+
+| Point                        | Value | Is                                    |
+|------------------------------|-------|---------------------------------------|
+| outer edge                   | `36`  | `dark-600` at 50% over the page       |
+| seam, mid height             | `40`  | `dark-600` at 50% over `dark-800`     |
+| seam, where it meets the top | `51`  | `dark-600` at **75%** over `dark-800` |
+
+It reads the same with the button on either side, since the overlap is only
+mirrored. Light mode has the same geometry and hides it: `gray-200` on `bg-white`
+is far enough from the surface that the extra 25% of alpha does not register.
+
+The outline moved up to the outer wrapper instead, which is the arrangement
+`<x-input>` already uses for its prefix and suffix slots — one box draws the
+border, the pieces inside it draw none:
+
+| Element        | Was                             | Is                                    |
+|----------------|---------------------------------|---------------------------------------|
+| outer wrapper  | nothing                         | `ring-1` plus `focus-within:ring-2`   |
+| input          | `ring-1`, `focus:ring-2`        | `ring-0`, no ring at all              |
+| button         | `ring-1`, `-ml-px` / `-mr-px`   | no ring, one border on the seam side  |
+
+Only one element paints a line anywhere now, so there is nothing left to stack. The
+divider is a `border-l` (or `border-r`) rather than a ring because a border is the
+one thing that applies to a single side — a ring is a box-shadow spread and always
+covers all four.
+
+The focus treatment changed with it. It was `focus:ring-2` on the input, so the
+control only lit up while the input itself held the focus; it is now
+`focus-within:ring-2` on the wrapper, which also covers the button.
+
+**Migration** — a new block, and four that changed shape:
+
+| Block                | Was                                            | Is                                             |
+|----------------------|------------------------------------------------|------------------------------------------------|
+| `wrapper.base`       | —                                              | new: the ring, the radius and the focus ring   |
+| `input.wrapper`      | carried `ring-inset` and `focus-within:z-10`   | layout only                                    |
+| `input.base`         | `ring-1 ring-gray-200`, `focus:ring-2`         | `ring-0`, focus neutralized                    |
+| `input.color.base`   | carried `ring-gray-200 dark:ring-dark-600/50`  | text color only                                |
+| `input.buttons.base` | carried the ring                               | no ring                                        |
+| `input.buttons.*`    | radius plus the negative margin                | radius plus the divider border                 |
+
+An application customizing any of them has to choose between the chrome, which now
+lives on `wrapper.base`, and what is left on the piece it used to target.
+
+`wrapper.base` is applied only in input mode: the icon mode has no field to enclose.
+
+Two side effects worth knowing. The negative margins are gone, so the control is one
+pixel wider than it was. And `input.color.base` is now written by the component
+rather than taken whole from `FormDefaultInputClasses`, since the ring classes it
+contributes are exactly what had to go — the trait is untouched, so every other form
+component keeps reading it as before.
+
 ## Form / Password
 
 ### Added — `generator` takes the field it should fill

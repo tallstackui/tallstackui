@@ -58,21 +58,25 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => [
                 'spacing-top' => 'mt-1',
+                'base' => 'dark:ring-dark-600/50 dark:focus-within:ring-primary-600 flex rounded-md ring-1 ring-gray-200 focus-within:ring-2 focus-within:ring-primary-600',
             ],
             'input' => [
-                'wrapper' => 'relative flex grow items-stretch ring-inset focus-within:z-10',
+                'wrapper' => 'relative flex grow items-stretch',
                 'buttons' => [
-                    'base' => 'dark:ring-dark-600/50 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 cursor-pointer',
-                    'left' => '-mr-px rounded-l-md',
-                    'right' => '-ml-px rounded-r-md',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 cursor-pointer',
+                    'left' => 'dark:border-dark-600/50 rounded-l-md border-r border-gray-200',
+                    'right' => 'dark:border-dark-600/50 rounded-r-md border-l border-gray-200',
                     'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
                     'text' => [
                         'left' => '',
                         'right' => '',
                     ],
                 ],
-                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-200 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
-                'color' => [...$this->input()['color']],
+                'base' => 'block w-full rounded-none border-0 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:outline-hidden focus:ring-transparent sm:text-sm sm:leading-6',
+                'color' => [
+                    ...$this->input()['color'],
+                    'base' => 'dark:text-dark-300 text-gray-600',
+                ],
                 'sides' => [
                     'left' => 'rounded-r-md',
                     'right' => 'rounded-l-md',

@@ -6,7 +6,11 @@
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" scope="clipboard.label" :$label />
     @endif
-    <div class="{{ $customization['wrapper.spacing-top'] }} flex" wire:key="{{ uniqid() }}" wire:ignore.self>
+    <div @class([
+             $customization['wrapper.spacing-top'],
+             $customization['wrapper.base'] => $type === 'input',
+             'flex' => $type !== 'input',
+         ]) wire:key="{{ uniqid() }}" wire:ignore.self>
         @if ($type === 'input')
             @if ($left)
                 <button data-hash="{{ $hash }}"

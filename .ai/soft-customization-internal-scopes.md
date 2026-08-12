@@ -43,7 +43,7 @@ TallStackUi::customize()
 | Scope             | Target        | Line(s) |
 |-------------------|---------------|---------|
 | `clipboard.label` | `<x-label />` | 7       |
-| `clipboard.hint`  | `<x-hint />`  | 68      |
+| `clipboard.hint`  | `<x-hint />`  | 72      |
 
 ### `dialog`
 
