@@ -25,6 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $description = null,
         public ComponentSlot|string|null $tip = null,
         public ?bool $multiple = false,
+        public ?bool $preview = true,
         public ?bool $manual = false,
         public ?bool $disabled = false,
         public ?int $limit = null,
@@ -98,7 +99,8 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'tile' => [
                 'wrapper' => 'group/tile relative aspect-square overflow-hidden rounded-md bg-gray-100 dark:bg-dark-700',
-                'image' => 'h-full w-full cursor-pointer object-cover',
+                'image' => 'h-full w-full object-cover',
+                'image-clickable' => 'cursor-pointer',
                 'document' => 'flex h-full w-full flex-col items-center justify-center gap-1',
                 'document-icon' => 'h-12 w-12 text-gray-400 dark:text-dark-300',
                 'extension' => 'rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-gray-700 dark:bg-dark-800/90 dark:text-dark-200',

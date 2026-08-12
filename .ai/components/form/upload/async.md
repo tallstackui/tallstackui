@@ -38,6 +38,12 @@ It shares nothing with `<x-upload />` beyond the namespace. Unlike that one, it 
 
 The `route` accepts a named route or a plain URL. Either `wire:model` or `name` is required.
 
+An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns that off: the lightbox is not rendered at all, the thumbnail stops reacting to the click and loses its pointer cursor. Non-image tiles were never clickable, so nothing changes for them.
+
+```blade
+<x-upload.async wire:model="gallery" :route="route('uploads.gallery')" accept="image/*" multiple :preview="false" />
+```
+
 ## Attributes
 
 | Attribute   | Type                        | Default     | Description                                                    |
@@ -50,6 +56,7 @@ The `route` accepts a named route or a plain URL. Either `wire:model` or `name` 
 | description | string\|null                | translation | Placeholder subtitle inside the drop area                      |
 | tip         | string\|ComponentSlot\|null | null        | Extra line under the description, hidden once a file is picked |
 | multiple    | bool                        | false       | Allows multiple file selection                                 |
+| preview     | bool                        | true        | Opens the image lightbox when a thumbnail is clicked           |
 | manual      | bool                        | false       | Stages the files and waits for the Send button                 |
 | disabled    | bool                        | false       | Blocks drop, click and keyboard                                |
 | limit       | int\|null                   | null        | Maximum number of files, only meaningful with `multiple`       |
@@ -270,6 +277,7 @@ TallStackUi::customize()
 | grid.cols.1 … grid.cols.6    | Responsive column counts, picked by the `columns` attribute     |
 | tile.wrapper                 | File tile container                                             |
 | tile.image                   | Image thumbnail inside the tile                                 |
+| tile.image-clickable         | Added to the thumbnail only while `preview` is on               |
 | tile.document                | Non-image tile container                                        |
 | tile.document-icon           | Non-image tile icon                                             |
 | tile.extension               | Uppercase extension pill of a non-image tile                    |

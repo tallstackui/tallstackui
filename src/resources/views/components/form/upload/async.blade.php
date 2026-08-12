@@ -80,8 +80,11 @@
                     <template x-if="image(file)">
                         <img x-bind:src="file.preview"
                              x-bind:alt="file.real_name"
-                             x-on:click.stop="expand(file)"
-                             class="{{ $customization['tile.image'] }}" />
+                             @if ($preview) x-on:click.stop="expand(file)" @endif
+                             @class([
+                                 $customization['tile.image'],
+                                 $customization['tile.image-clickable'] => $preview,
+                             ]) />
                     </template>
                     <template x-if="!image(file)">
                         <div class="{{ $customization['tile.document'] }}">
@@ -227,31 +230,33 @@
         </template>
     @endif
 
-    <template x-teleport="body">
-        <div x-show="preview.open"
-             x-on:click="collapse()"
-             x-on:keydown.escape.window="collapse()"
-             role="dialog"
-             aria-modal="true"
-             class="{{ $customization['lightbox.backdrop'] }}"
-             dusk="tallstackui_upload_async_lightbox">
-            <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
-                <button type="button"
-                        x-on:click="collapse()"
-                        aria-label="Close preview"
-                        class="{{ $customization['lightbox.close'] }}">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('x-mark')"
-                                         internal
-                                         class="{{ $customization['lightbox.close-icon'] }}" />
-                </button>
-                <div class="{{ $customization['lightbox.wrapper'] }}">
-                    <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
-                    <p x-text="preview.name"
-                       x-transition.opacity
-                       class="{{ $customization['lightbox.caption'] }}"></p>
+    @if ($preview)
+        <template x-teleport="body">
+            <div x-show="preview.open"
+                 x-on:click="collapse()"
+                 x-on:keydown.escape.window="collapse()"
+                 role="dialog"
+                 aria-modal="true"
+                 class="{{ $customization['lightbox.backdrop'] }}"
+                 dusk="tallstackui_upload_async_lightbox">
+                <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
+                    <button type="button"
+                            x-on:click="collapse()"
+                            aria-label="Close preview"
+                            class="{{ $customization['lightbox.close'] }}">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('x-mark')"
+                                             internal
+                                             class="{{ $customization['lightbox.close-icon'] }}" />
+                    </button>
+                    <div class="{{ $customization['lightbox.wrapper'] }}">
+                        <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
+                        <p x-text="preview.name"
+                           x-transition.opacity
+                           class="{{ $customization['lightbox.caption'] }}"></p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </template>
+        </template>
+    @endif
 </div>

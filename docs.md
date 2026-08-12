@@ -12,6 +12,32 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Upload / Async
+
+### Added — `preview` turns the lightbox off
+
+Clicking an image tile opened a fullscreen lightbox, and there was no way to say
+no. `<x-upload />` already carried `preview` for exactly this, so the async
+variant now takes the same prop, defaulting to `true`:
+
+```blade
+<x-upload.async wire:model="gallery" :route="route('uploads.gallery')" multiple :preview="false" />
+```
+
+With `:preview="false"` the teleported lightbox is not rendered at all, the
+thumbnail drops its click handler and no longer shows the pointer cursor. Non-image
+tiles never opened anything, so they are unaffected.
+
+| Block                  | Was                                     | Is                                             |
+|------------------------|-----------------------------------------|------------------------------------------------|
+| `tile.image`           | also carried `cursor-pointer`           | the sizing and the fit only                    |
+| `tile.image-clickable` | —                                       | new: `cursor-pointer`, applied only when `preview` |
+
+**Migration** — a customization that removed `cursor-pointer` from `tile.image`
+now targets nothing. The class moved to `tile.image-clickable`, which the same
+`remove()` reaches; the shorter route is dropping `preview` on the component
+instead.
+
 ## Accordion
 
 ### Changed — the flat look is `shadowless` and `bordered`, and `flat` is gone
