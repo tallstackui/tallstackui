@@ -326,6 +326,8 @@ describe('the paginator variants', function () {
 
         expect($html)->toContain('>3</span>')
             ->and($html)->toContain('>12</span>')
+            ->and($html)->toContain('dark:bg-dark-800')
+            ->and($html)->toContain('dark:border-dark-700')
             ->and($html)->not->toContain('Go to page');
     });
 

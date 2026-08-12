@@ -113,6 +113,8 @@ it('can render the compact helpers variant', function () {
 
     expect($component)->render()
         ->toContain('tabular-nums')
+        ->toContain('dark:bg-dark-800')
+        ->toContain('dark:border-dark-700')
         ->toContain('dusk="tallstackui_step_previous"')
         ->toContain('dusk="tallstackui_step_next"');
 });

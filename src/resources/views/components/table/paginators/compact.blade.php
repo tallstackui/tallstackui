@@ -1,11 +1,11 @@
 @php
 // One control for every width: the page indicator replaces the number list,
 // so there is no separate mobile block to fall back to.
-$shell = 'inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-xs dark:border-dark-600 dark:bg-dark-700';
+$shell = 'inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-xs dark:border-dark-700 dark:bg-dark-800';
 $wrapper = 'inline-flex items-center';
 
 $nav = 'inline-flex size-7 shrink-0 items-center justify-center rounded-md outline-hidden transition duration-200 focus-visible:ring-2 focus-visible:ring-primary-500';
-$navIdle = 'cursor-pointer text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-dark-200 dark:hover:bg-dark-500 dark:hover:text-white';
+$navIdle = 'cursor-pointer text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-dark-200 dark:hover:bg-dark-700 dark:hover:text-white';
 $navOff = 'cursor-not-allowed select-none text-gray-300 dark:text-dark-400';
 
 // Tabular figures keep the indicator from resizing between 9 and 10.
