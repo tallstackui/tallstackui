@@ -13,11 +13,14 @@ class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?bool $multiple = false,
-        public ?bool $flat = false,
         public ?bool $shadowless = null,
+        public ?bool $bordered = null,
         public ?string $chevron = 'right',
     ) {
-        //
+        $configuration = __ts_get_component_configuration(self::class);
+
+        $this->shadowless ??= $configuration['shadowless'] ?? false;
+        $this->bordered ??= $configuration['bordered'] ?? false;
     }
 
     public function blade(): View
@@ -29,11 +32,11 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'dark:bg-dark-800 w-full bg-white',
-                'bordered' => 'overflow-hidden rounded-lg border border-gray-200 dark:border-dark-700 shadow-md',
+                'base' => 'dark:bg-dark-800 w-full overflow-hidden rounded-lg bg-white shadow-md',
                 'chevron-left-cascade' => '[&>div>button]:flex-row-reverse [&>div>button]:justify-end',
             ],
             'shadowless' => 'shadow-none!',
+            'bordered' => 'border border-gray-200 dark:border-dark-700',
         ]);
     }
 

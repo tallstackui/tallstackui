@@ -8,8 +8,8 @@
     dusk="tallstackui_accordion"
     {{ $attributes->class([
         $customization['wrapper.base'],
-        $customization['wrapper.bordered'] => ! $flat,
-        $customization['shadowless'] => $configurations['shadowless'],
+        $customization['shadowless'] => $shadowless,
+        $customization['bordered'] => $bordered,
         $customization['wrapper.chevron-left-cascade'] => $chevron === 'left',
     ]) }}
 >

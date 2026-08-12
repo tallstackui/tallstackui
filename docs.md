@@ -12,6 +12,85 @@ such change is listed under **Migration**.
 
 ---
 
+## Accordion
+
+### Changed — the flat look is `shadowless` and `bordered`, and `flat` is gone
+
+The wrapper drew its border, its rounding and its shadow from a single block, and
+`flat` was the one switch that took all three away together. That left the
+component with exactly two looks and no way to ask for anything between them: the
+shadow could not go without the border, and the border could not go at all.
+
+It now carries the pair the rest of the library already shares — Card, Stats,
+Calendar, Tab and Errors:
+
+| Written                | Renders                                        |
+|------------------------|------------------------------------------------|
+| *(nothing)*            | rounded and clipped, with the shadow, no border |
+| `shadowless`           | the flat look: same shape, no shadow           |
+| `bordered`             | the border, keeping the shadow                 |
+| `shadowless bordered`  | flat, with the border                          |
+
+```blade
+<x-accordion bordered>
+    <x-accordion.items title="First" id="first">Bordered, with the shadow.</x-accordion.items>
+</x-accordion>
+
+<x-accordion shadowless bordered>
+    <x-accordion.items title="First" id="first">Flat, with the border.</x-accordion.items>
+</x-accordion>
+```
+
+Both exist as global defaults, the inline prop always winning, so
+`:bordered="false"` and `:shadowless="false"` opt a single accordion out of
+whatever the configuration says:
+
+```php
+'accordion' => [
+    Components\Accordion\Main\Component::class,
+    ['shadowless' => false, 'bordered' => false],
+],
+```
+
+The rounding and the clipping stopped being optional along the way. They were
+only ever removable together with the shadow, and the two have to travel
+together regardless: the wrapper is what clips the first item's hover fill and
+the last item's separator against the rounded corners, so a radius without the
+clipping squares them off again. Square corners are reachable through
+`TallStackUi::globals()->square()` or a customization of `wrapper.base`.
+
+**Migration** — `flat` no longer exists. It does not raise: an undeclared
+attribute falls through to the bag, so `<x-accordion flat>` still renders and
+simply lands a stray `flat` attribute on the `<div>` while changing nothing.
+`shadowless` is the replacement for what it was mostly reached for.
+
+The border being opt-in is the other break: an accordion that relied on it has to
+pass `bordered`, or set the configuration default once.
+
+| Block              | Was                                                            | Is                                                 |
+|--------------------|----------------------------------------------------------------|----------------------------------------------------|
+| `wrapper.base`     | the background and the width                                   | also the rounding, the clipping and the shadow     |
+| `wrapper.bordered` | the border, the rounding, the clipping and the shadow, unless `flat` | removed                                      |
+| `shadowless`       | `shadow-none!`                                                 | unchanged                                          |
+| `bordered`         | —                                                              | new: `border border-gray-200 dark:border-dark-700` |
+
+`wrapper.bordered` is gone rather than renamed because everything it carried
+either moved into `wrapper.base` or became a flag of its own, and a block by that
+name sitting next to a real `bordered` block would read as the same thing twice.
+
+### Changed — the flat-look defaults resolve in the constructor
+
+The accordion was the only one of the components carrying these flags that read
+its default through `CompileConfigurations`. `shadowless` joined `bordered` in
+the constructor, matching Card, Stats, Calendar, Tab, Errors and Alert, and
+`CompileConfigurations::accordion()` is gone along with its entry in the
+dispatcher.
+
+**Migration** — nothing for an application on the bundled view. One that replaced
+the accordion view through deep customization has to read the `$shadowless` and
+`$bordered` props: `$configurations['shadowless']` is no longer populated, since
+the component no longer produces a configuration array at all.
+
 ## Clipboard
 
 ### Fixed — the two rings met at the seam and stacked into a brighter mark
@@ -602,33 +681,6 @@ them.
 An unknown size used to reach the Blade template and fail on a missing
 customization key. It now raises the same validation exception `position` does,
 which also covers a bad value coming from the configuration.
-
-## Accordion
-
-### Added — `shadowless`, as a prop and in the configuration
-
-`flat` was the only way to drop the shadow, and it takes the border and the
-rounding with it, since `shadow-md` lives inside the `wrapper.bordered` block.
-`shadowless` is the middle ground: the outline stays, only the shadow goes.
-
-```blade
-<x-accordion shadowless>
-    <x-accordion.items title="First" id="first">Bordered, without the shadow.</x-accordion.items>
-</x-accordion>
-```
-
-It also exists as a global default, the inline prop always winning, so
-`:shadowless="false"` restores the shadow on a single accordion:
-
-```php
-'accordion' => [
-    Components\Accordion\Main\Component::class,
-    ['shadowless' => false],
-],
-```
-
-The reset arrives through a new `shadowless` block, mirroring the card and the
-kbd rather than pulling `shadow-md` out of `wrapper.bordered`.
 
 ## Form / Date
 

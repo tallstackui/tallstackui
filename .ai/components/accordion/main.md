@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A collapsible panel group for progressively disclosed content such as FAQs, configuration sections, or grouped detail views. By default the accordion opens one item at a time (opening another closes the current one), matches the Radix/shadcn single-open UX, and animates expansion via the `@alpinejs/collapse` plugin. Supports multi-open mode, flat visual style, a shadowless variant, chevron positioning, default-open items, rich triggers, and custom icons.
+A collapsible panel group for progressively disclosed content such as FAQs, configuration sections, or grouped detail views. By default the accordion opens one item at a time (opening another closes the current one), matches the Radix/shadcn single-open UX, and animates expansion via the `@alpinejs/collapse` plugin. Supports multi-open mode, shadowless and bordered variants, chevron positioning, default-open items, rich triggers, and custom icons.
 
 ## Basic Usage
 
@@ -27,22 +27,33 @@ Allow multiple panels to stay open:
 </x-accordion>
 ```
 
-Flat visual style (no outer border / shadow):
+Drawing an outer border, which is opt-in:
 
 ```blade
-<x-accordion flat>
-    <x-accordion.items title="First" id="first">No outer border.</x-accordion.items>
-    <x-accordion.items title="Second" id="second">Item separators only.</x-accordion.items>
+<x-accordion bordered>
+    <x-accordion.items title="First" id="first">Bordered, with the shadow.</x-accordion.items>
 </x-accordion>
 ```
 
-Keeping the border and the rounding, but dropping the shadow:
+Dropping the shadow, for the flat look:
 
 ```blade
 <x-accordion shadowless>
-    <x-accordion.items title="First" id="first">Bordered, without the shadow.</x-accordion.items>
+    <x-accordion.items title="First" id="first">Flat, no outline.</x-accordion.items>
 </x-accordion>
 ```
+
+The two are independent, so combining them gives the flat outlined panel:
+
+```blade
+<x-accordion shadowless bordered>
+    <x-accordion.items title="First" id="first">Flat, with the border.</x-accordion.items>
+</x-accordion>
+```
+
+The rounding and the clipping are always applied. Reach for
+`TallStackUi::globals()->square()` or a customization of `wrapper.base` to
+drop them.
 
 Chevron on the left:
 
@@ -78,8 +89,8 @@ Binding events to a Livewire method:
 | Attribute  | Type         | Default   | Description                                                                       |
 |------------|--------------|-----------|-----------------------------------------------------------------------------------|
 | multiple   | bool\|null   | false     | When set, multiple items can be open at the same time. Default is single-open.    |
-| flat       | bool\|null   | false     | Removes the outer border, rounding, and shadow. Item separators remain.           |
-| shadowless | bool\|null   | null      | Removes the shadow while keeping the border and the rounding.                     |
+| shadowless | bool\|null   | null      | Removes the shadow, which is the flat look.                                       |
+| bordered   | bool\|null   | null      | Draws a border around the wrapper. Independent of `shadowless`.                   |
 | chevron    | string\|null | `'right'` | Position of the trigger's trailing icon. Accepts `'right'` (default) or `'left'`. |
 
 ## Slots
@@ -121,11 +132,12 @@ Single-open mode (default): opening an item automatically closes any other curre
     \TallStackUi\Components\Accordion\Main\Component::class,
     [
         'shadowless' => false,
+        'bordered' => false,
     ],
 ],
 ```
 
-The inline prop always wins over the global default, so `:shadowless="false"` restores the shadow on a single accordion while the configuration keeps it off everywhere else.
+The inline prop always wins over the global default, so `:shadowless="false"` restores the shadow on a single accordion while the configuration keeps it off everywhere else. The same holds for `:bordered="false"`.
 
 ## Validation
 
@@ -147,7 +159,7 @@ TallStackUi::customize()
 
 ```php
 TallStackUi::customize('accordion', scope: 'muted')
-    ->block('wrapper.bordered', 'border border-dashed border-gray-400 rounded-xl');
+    ->block('bordered', 'border border-dashed border-gray-400');
 ```
 
 Then in Blade:
@@ -160,9 +172,9 @@ Then in Blade:
 
 ### Available Blocks
 
-| Block Name                   | Purpose                                                                           |
-|------------------------------|-----------------------------------------------------------------------------------|
-| wrapper.base                 | Base container styles applied to every accordion (background, width).             |
-| wrapper.bordered             | Border, radius, shadow, and overflow clipping applied when `flat` is not set.     |
-| wrapper.chevron-left-cascade | Tailwind arbitrary-variant class that flips trigger layout when `chevron="left"`. |
-| shadowless                   | Shadow reset applied when `shadowless` is set.                                    |
+| Block Name                   | Purpose                                                                                            |
+|------------------------------|----------------------------------------------------------------------------------------------------|
+| wrapper.base                 | Base container styles applied to every accordion: background, width, radius, clipping, and shadow. |
+| wrapper.chevron-left-cascade | Tailwind arbitrary-variant class that flips trigger layout when `chevron="left"`.                  |
+| shadowless                   | Shadow reset applied when `shadowless` is set.                                                     |
+| bordered                     | Wrapper border applied when `bordered` is set.                                                     |

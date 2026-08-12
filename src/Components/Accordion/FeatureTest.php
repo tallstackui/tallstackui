@@ -74,12 +74,50 @@ it('renders custom icon slot replacing default chevron', function () {
         ->not->toContain('chevron-down');
 });
 
-it('removes bordered classes when flat prop is set', function () {
-    $bordered = '<x-accordion><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>';
-    $flat = '<x-accordion flat><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>';
+it('can render without the border by default')
+    ->expect('<x-accordion><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+    ->render()
+    ->toContain('rounded-lg')
+    ->not->toContain('border border-gray-200');
 
-    expect($bordered)->render()->toContain('border');
-    expect($flat)->render()->not->toContain('rounded-lg border border-gray-200');
+it('can render bordered')
+    ->expect('<x-accordion bordered><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+    ->render()
+    ->toContain('border border-gray-200 dark:border-dark-700')
+    ->toContain('shadow-md');
+
+it('can render bordered and shadowless together')
+    ->expect('<x-accordion bordered shadowless><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+    ->render()
+    ->toContain('border border-gray-200')
+    ->toContain('shadow-none!');
+
+it('can render bordered through the global configuration', function () {
+    config()->set('ts-ui.components.accordion.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-accordion><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+        ->render()
+        ->toContain('border border-gray-200');
+
+    config()->set('ts-ui.components.accordion.1.bordered', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can let the bordered prop win over the global configuration', function () {
+    config()->set('ts-ui.components.accordion.1.bordered', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-accordion :bordered="false"><x-accordion.items title="A" id="a">Body</x-accordion.items></x-accordion>')
+        ->render()
+        ->not->toContain('border border-gray-200');
+
+    config()->set('ts-ui.components.accordion.1.bordered', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
 });
 
 it('can render with shadow by default')

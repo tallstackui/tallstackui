@@ -100,9 +100,11 @@ return [
             | Accordion Global Settings
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
+            | bordered: adds the border by default.
             */
             [
                 'shadowless' => false,
+                'bordered' => false,
             ],
         ],
         'accordion.items' => Components\Accordion\Items\Component::class,
