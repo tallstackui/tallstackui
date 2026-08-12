@@ -2139,11 +2139,9 @@ prop always wins:
 
 `null` keeps the SVG. `spinner` renders `<x-spinner>` with that component's
 own type default. `spinner.{type}` pins a variant. An unknown prefix or type
-throws. `shimmer` and `caret` still require their own text, and Loading's
-`text`/slot replace the indicator entirely, so those two throw.
-
-A `text` attribute or the default slot still replaces the indicator entirely,
-same as before.
+throws. `text` is handed to the Spinner as its label, so `shimmer` and
+`caret` work when `text` is set. The default slot still replaces the
+indicator entirely.
 
 The overlay renders the real `<x-spinner>` component — prefix-aware, so a
 customized Spinner is the one that shows up — rather than inlining the type

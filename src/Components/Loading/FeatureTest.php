@@ -43,7 +43,7 @@ it('can render spinner indicator variants', function (string $type) {
     expect($component)->render()->toContain('dusk="spinner-'.$type.'"');
 })->with(array_values(array_diff(Spinner::TYPES, ['shimmer', 'caret'])));
 
-it('cannot use shimmer or caret as an indicator', function (string $type) {
+it('cannot use shimmer or caret as an indicator without text', function (string $type) {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('animates its own text');
 
@@ -52,6 +52,16 @@ it('cannot use shimmer or caret as an indicator', function (string $type) {
     HTML;
 
     expect($component)->render();
+})->with(['shimmer', 'caret']);
+
+it('can use shimmer or caret as an indicator with text', function (string $type) {
+    $component = <<<HTML
+    <x-loading indicator="spinner.$type" text="Waiting..." />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('dusk="spinner-'.$type.'"')
+        ->toContain('Waiting...');
 })->with(['shimmer', 'caret']);
 
 it('can use the global indicator configuration', function () {
@@ -109,11 +119,17 @@ it('cannot use an invalid indicator', function (string $indicator) {
     'spinner.',
 ]);
 
-it('keeps custom text instead of the indicator')
-    ->expect('<x-loading indicator="spinner.bars" text="Please wait" />')
+it('can render the spinner with text')
+    ->expect('<x-loading indicator="spinner.typing" text="Waiting..." />')
+    ->render()
+    ->toContain('dusk="spinner-typing"')
+    ->toContain('Waiting...');
+
+it('keeps text instead of the default svg')
+    ->expect('<x-loading text="Please wait" />')
     ->render()
     ->toContain('Please wait')
-    ->not->toContain('dusk="spinner-bars"');
+    ->not->toContain('h-12 w-12 animate-spin text-primary-700');
 
 it('keeps the slot instead of the indicator')
     ->expect('<x-loading indicator="spinner.bars"><span>Hold on</span></x-loading>')

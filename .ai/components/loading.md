@@ -48,11 +48,12 @@ config default:
 | `spinner`        | `<x-spinner>` using that component's own type default |
 | `spinner.{type}` | `<x-spinner>` pinned to that variant                  |
 
-An unknown prefix or type throws. `shimmer` and `caret` still require their
-own text, and Loading's `text`/slot replace the indicator entirely, so those
-two throw:
+An unknown prefix or type throws. `text` is handed to the Spinner as its
+label, so `shimmer` and `caret` work when `text` is set and throw without it.
+The default slot still replaces the indicator entirely:
 
 ```blade
+<x-loading indicator="spinner.typing" text="Waiting..." />
 <x-loading indicator="spinner.shimmer" />   {{-- throws --}}
 ```
 
@@ -64,7 +65,7 @@ customized Spinner is the one that shows up.
 | Attribute | Type         | Default                    | Description                                                                                     |
 |-----------|--------------|----------------------------|-------------------------------------------------------------------------------------------------|
 | zIndex    | string\|null | null (from config: 'z-50') | CSS z-index class                                                                               |
-| text      | string\|null | null                       | Text displayed in place of the default spinner                                                  |
+| text      | string\|null | null                       | Label next to a Spinner indicator, or the overlay content when no indicator is set              |
 | loading   | string\|null | null                       | Comma-separated Livewire method names to scope the loading indicator to (maps to `wire:target`) |
 | delay     | string\|null | null                       | Delay modifier for `wire:loading` (e.g., 'short', 'long', 'longest')                            |
 | blur      | bool\|null   | null (from config: false)  | Enables backdrop blur effect                                                                    |
@@ -88,7 +89,7 @@ never reaches the morph.
 ## Validation Constraints
 
 - The `zIndex` (from config `z-index`) must start with `z-` prefix.
-- The `indicator` must be `null`, `spinner`, or `spinner.{type}` where type is one of the Spinner variants. `shimmer` and `caret` throw because they animate their own text.
+- The `indicator` must be `null`, `spinner`, or `spinner.{type}` where type is one of the Spinner variants. `shimmer` and `caret` require `text`.
 
 ## Configuration
 
