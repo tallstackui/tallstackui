@@ -27,11 +27,11 @@
                     @foreach ($bars as $bar)
                         <path class="{{ $customization['skeleton.fill'] }}" d="{{ $bar['path'] }}" />
                     @endforeach
-                    @if ($area)
-                        <path class="{{ $customization['skeleton.fill'] }}" d="{{ $area }}" />
+                    @if ($fill)
+                        <path class="{{ $customization['skeleton.fill'] }}" d="{{ $fill }}" />
                     @endif
-                    @if ($line)
-                        <path class="{{ $customization['skeleton.stroke'] }}" d="{{ $line }}" />
+                    @if ($stroke)
+                        <path class="{{ $customization['skeleton.stroke'] }}" d="{{ $stroke }}" />
                     @endif
                 @endif
             </svg>

@@ -265,14 +265,16 @@ class ChartRuntime extends AbstractRuntime
     {
         $values = $this->shape($this->skeleton(6));
 
+        // Named after what they paint rather than after the chart types, whose
+        // names now belong to the flags that pick one.
         $payload = [
             'radial' => $radial,
             'aspect' => $radial ? 'xMidYMid meet' : 'none',
             'viewbox' => Plot::viewbox(),
             'slices' => [],
             'bars' => [],
-            'line' => '',
-            'area' => '',
+            'stroke' => '',
+            'fill' => '',
         ];
 
         if ($radial) {
@@ -292,8 +294,8 @@ class ChartRuntime extends AbstractRuntime
 
         return [
             ...$payload,
-            'line' => $line,
-            'area' => $type === 'area' && $line !== ''
+            'stroke' => $line,
+            'fill' => $type === 'area' && $line !== ''
                 ? $line.' L'.Plot::WIDTH.','.Plot::bottom().' L0,'.Plot::bottom().' Z'
                 : '',
         ];

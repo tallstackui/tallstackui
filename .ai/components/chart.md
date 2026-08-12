@@ -49,6 +49,11 @@ its code ships in its own bundle rather than in the main one.
 | series    | array\|Collection\|null | null      | Values to plot, flat or grouped. Required                                                                                              |
 | labels    | array\|Collection\|null | null      | Horizontal axis captions, or slice names on radial types                                                                               |
 | type      | string\|null            | 'area'    | One of: area, line, bar, pie, donut                                                                                                    |
+| area      | bool\|null              | null      | Shorthand for `type="area"`. See [Type flags](#type-flags)                                                                             |
+| line      | bool\|null              | null      | Shorthand for `type="line"`                                                                                                            |
+| bar       | bool\|null              | null      | Shorthand for `type="bar"`                                                                                                             |
+| pie       | bool\|null              | null      | Shorthand for `type="pie"`                                                                                                             |
+| donut     | bool\|null              | null      | Shorthand for `type="donut"`                                                                                                           |
 | stacked   | bool\|null              | null      | Stacks series instead of overlaying them. Area and bar only                                                                            |
 | color     | string\|null            | 'primary' | Base color, and the first of the cycled palette                                                                                        |
 | colors    | array\|Collection\|null | null      | Explicit color names, cycled across series or slices                                                                                   |
@@ -62,6 +67,30 @@ its code ships in its own bundle rather than in the main one.
 | decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise                                                                           |
 | formatter | Closure\|null           | null      | Formats every value, winning over the three above                                                                                      |
 | skeleton  | bool\|int\|null         | null      | Renders a structural placeholder instead of the plot. A bare flag draws 6 points; an integer sets the count. See [Skeleton](#skeleton) |
+
+### Type flags
+
+Every type also answers to a flag of its own name, so the common case loses the
+attribute:
+
+```blade
+<x-chart :series="$revenue" line />
+<x-chart :series="$split" :labels="$sources" donut legend />
+```
+
+`type` is untouched and keeps working, including alongside a flag that says the
+same thing. Two flags at once throw, and so does a flag beside a `type` that
+contradicts it.
+
+The per-series `type` stays a string — a key inside `:series` has no attribute
+to be a flag of:
+
+```blade
+<x-chart bar stacked :series="[
+    ['name' => 'Novos', 'data' => $new],
+    ['name' => 'Total', 'data' => $total, 'type' => 'line'],
+]" />
+```
 
 ### Formatting
 
@@ -380,6 +409,12 @@ is on screen.
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
+Soft customization reaches how the SVG is painted, not how it is drawn. Fill,
+stroke, width and opacity are Tailwind classes on the elements, so every
+`plot.*` block works like any other. The shapes themselves are computed
+server-side and exposed nowhere: curvature, corner radius, the donut hole and
+the tick count are fixed.
+
 ### Customization
 
 ```php
@@ -387,6 +422,13 @@ TallStackUi::customize()
     ->chart()
     ->block('plot.line', 'fill-none stroke-current stroke-[3]');
 ```
+
+Two blocks are worth a warning. `plot.line` paints from `stroke-current`, and
+`currentColor` comes from the `<g>` the series is wrapped in, not from the
+block — replacing it with a literal `stroke-red-500` paints every series red
+and takes `color`, `colors` and the legend toggle down with it. And the stroke
+carries `vector-effect="non-scaling-stroke"`, so `stroke-[3]` is three screen
+pixels at any chart size rather than three viewBox units.
 
 ### Available Blocks
 

@@ -131,6 +131,25 @@ it('can render each type', function (string $type, string $expected) {
     'donut' => ['donut', 'A26.68,26.68'],
 ]);
 
+it('can render each type through a flag', function (string $type, string $expected) {
+    expect("<x-chart :series=\"[10, 40, 25, 60]\" {$type} />")
+        ->render()
+        ->toContain($expected);
+})->with([
+    'area' => ['area', '<path'],
+    'line' => ['line', 'stroke-current'],
+    'bar' => ['bar', 'A0.6,0.6'],
+    'pie' => ['pie', 'A46,46'],
+    'donut' => ['donut', 'A26.68,26.68'],
+]);
+
+it('can repeat a type as both a flag and an attribute', function () {
+    // They say the same thing, so there is nothing to disagree about.
+    expect('<x-chart :series="[10, 40, 25, 60]" type="bar" bar />')
+        ->render()
+        ->toContain('A0.6,0.6');
+});
+
 it('keeps the aspect ratio only on radial types', function (string $type, string $aspect) {
     expect("<x-chart :series=\"[10, 40, 25]\" type=\"{$type}\" />")
         ->render()
@@ -584,6 +603,20 @@ it('cannot render with an unknown type', function () {
     $this->expectExceptionMessage('The [type] must be one of: area, line, bar, pie, donut.');
 
     expect('<x-chart :series="[1, 2, 3]" type="radar" />')->render();
+});
+
+it('cannot combine two type flags', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('Only one type can be used at a time, but [line, bar] were given.');
+
+    expect('<x-chart :series="[1, 2, 3]" line bar />')->render();
+});
+
+it('cannot combine a type flag with a type that contradicts it', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [type] and the [bar] flag cannot be used together.');
+
+    expect('<x-chart :series="[1, 2, 3]" type="line" bar />')->render();
 });
 
 it('cannot render with an invalid height', function () {

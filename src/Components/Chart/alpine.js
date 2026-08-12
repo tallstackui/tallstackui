@@ -2,7 +2,7 @@ export default (options) => ({
   active: null,
   hidden: [],
   pointer: { x: 0, y: 0 },
-  tip: 0,
+  tip: { width: 0, height: 0 },
   length: options.length ?? 0,
   series: options.series ?? [],
   slices: options.slices ?? [],
@@ -24,15 +24,19 @@ export default (options) => ({
     }
 
     const width = plot.getBoundingClientRect().width;
-    const half = this.tip / 2;
+    const half = this.tip.width / 2;
 
     // A pie has no horizontal axis to anchor to, so it trails the pointer.
     const anchor = this.radial
       ? this.pointer.x
       : (this.abscissa(this.active) / this.plot.width) * width;
     const left = Math.max(half, Math.min(width - half, anchor));
+    // The box hangs above its own anchor, so an anchor closer to the top than
+    // the box is tall leaves the whole tooltip outside the plot, where an
+    // ancestor with overflow-hidden clips it away.
+    const top = Math.max(this.tip.height, this.pointer.y - 12);
 
-    return `left: ${left}px; top: ${Math.max(0, this.pointer.y - 12)}px; transform: translate(-50%, -100%)`;
+    return `left: ${left}px; top: ${top}px; transform: translate(-50%, -100%)`;
   },
   get radial() {
     return this.type === 'pie' || this.type === 'donut';
@@ -170,11 +174,13 @@ export default (options) => ({
 
     this.pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
 
-    // Measured a tick later because the width only settles once x-text has
-    // filled the rows, and reading it in the same tick returns the width of
+    // Measured a tick later because the size only settles once x-text has
+    // filled the rows, and reading it in the same tick returns the size of
     // an empty tooltip. Hidden through visibility so it is measurable at all.
     this.$nextTick(() => {
-      this.tip = this.$refs.tip?.offsetWidth ?? 0;
+      const tip = this.$refs.tip;
+
+      this.tip = { width: tip?.offsetWidth ?? 0, height: tip?.offsetHeight ?? 0 };
     });
   },
   // Markers live in html, so they cannot ride the svg transform and have to

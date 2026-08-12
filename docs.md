@@ -4343,6 +4343,35 @@ sums.
 Legend rescaling is disabled while a bar is on the plot, on top of the cases
 that already disabled it.
 
+### Added — a flag for every type
+
+`type` names one of five values, and four of them are the whole attribute:
+
+```blade
+<x-chart :series="$revenue" line />
+<x-chart :series="$split" :labels="$sources" donut legend />
+```
+
+`area`, `line`, `bar`, `pie` and `donut` each resolve to the type of the same
+name, the way `<x-spinner dots />` already picks a variant. `type` keeps
+working and nothing about it changed — the flag is a shorthand, not a
+replacement, and the two can even repeat each other.
+
+Two flags at once throw, since a chart is one type. So does a flag beside a
+`type` that contradicts it: silently picking a winner would hide the typo that
+put both there.
+
+The per-series `type` stays a string. A key inside `:series` has no attribute
+to be a flag of, and inventing `['name' => 'Total', 'line' => true]` would
+trade one clear spelling for two:
+
+```blade
+<x-chart bar stacked :series="[
+    ['name' => 'Novos', 'data' => $new],
+    ['name' => 'Total', 'data' => $total, 'type' => 'line'],
+]" />
+```
+
 ### Fixed — a pie dropped every series but the first
 
 A radial type draws `$series[0]` and nothing else, so a pie built from grouped
@@ -4393,6 +4422,25 @@ it was computed to touch.
 
 The tags hug the content now, the same way the skeleton view already did, so
 an axis with nothing to show is truly empty and the plot bleeds to the edges.
+
+### Fixed — the tooltip was cut off near the top of the plot
+
+The tooltip is placed above the pointer, through `translate(-50%, -100%)`, so
+the box hangs above the coordinate it is given. That coordinate was clamped at
+zero, which reads as protection but is not: at zero the anchor sits on the top
+edge and the whole box lands above it, outside the plot. Inside `<x-card>`,
+which is `overflow-hidden`, it was simply gone; outside one it landed over
+whatever the chart was sitting under.
+
+The clamp now measures the box instead of the anchor. `locate()` reads
+`offsetHeight` alongside the width it already read, and the anchor cannot rise
+above the height of the tooltip — the same rule the horizontal edges have
+always had, which is why the first and last index never lost half a tooltip.
+
+Reaching the top edge, the tooltip stops there and starts covering the plot
+rather than leaving it. Flipping below the pointer was the alternative and was
+rejected: near the threshold it swaps sides on every pixel of movement, and
+damping that needs a second rule where clamping needs none.
 
 ### Changed — the chart ships in its own bundle
 

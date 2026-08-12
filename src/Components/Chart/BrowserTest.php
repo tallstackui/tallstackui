@@ -161,6 +161,24 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function keeps_the_tooltip_inside_the_plot_at_the_top(): void
+    {
+        // The box hangs above its own anchor, so clamping the anchor at zero
+        // used to leave the whole tooltip above the plot, out of sight inside
+        // any card, which is overflow-hidden.
+        Livewire::visit(new ChartComparison)
+            ->waitFor('@tallstackui_chart')
+            ->tap(function (Browser $browser): void {
+                foreach ([0.0, 0.05, 0.5] as $level) {
+                    $browser->script($this->hover(0.5, $level));
+                    $browser->pause(120);
+
+                    Assert::assertLessThanOrEqual(1, $this->overflow($browser)[2], "tooltip escapes on the top at {$level}");
+                }
+            });
+    }
+
+    #[Test]
     public function rescales_the_remaining_series_with_a_transform(): void
     {
         Livewire::visit(new ChartComparison)
@@ -229,7 +247,7 @@ class BrowserTest extends BrowserTestCase
         )[0];
     }
 
-    private function hover(float $ratio): string
+    private function hover(float $ratio, float $level = 0.5): string
     {
         // Pointer events rather than mouse ones, which is what also makes the
         // chart reachable from touch.
@@ -239,20 +257,20 @@ class BrowserTest extends BrowserTestCase
 
         plot.dispatchEvent(new PointerEvent('pointermove', {
             clientX: rect.left + rect.width * {$ratio},
-            clientY: rect.top + rect.height / 2,
+            clientY: rect.top + rect.height * {$level},
             pointerType: 'mouse',
             bubbles: true,
         }));
         JS;
     }
 
-    /** How many pixels the tooltip spills past each edge of the plot. */
+    /** How many pixels the tooltip spills past the left, right and top of the plot. */
     private function overflow(Browser $browser): array
     {
         return $browser->script(
             "const plot = document.querySelector('[dusk=tallstackui_chart]').getBoundingClientRect();
              const tip = document.querySelector('[dusk=tallstackui_chart_tooltip]').getBoundingClientRect();
-             return [plot.left - tip.left, tip.right - plot.right];"
+             return [plot.left - tip.left, tip.right - plot.right, plot.top - tip.top];"
         )[0];
     }
 

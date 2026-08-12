@@ -31,6 +31,11 @@ class Component extends TallStackUiComponent implements Customization
         public Collection|array|null $series = null,
         public Collection|array|null $labels = null,
         public ?string $type = null,
+        public ?bool $area = null,
+        public ?bool $line = null,
+        public ?bool $bar = null,
+        public ?bool $pie = null,
+        public ?bool $donut = null,
         public ?bool $stacked = null,
         public ?string $color = 'primary',
         public Collection|array|null $colors = null,
@@ -97,7 +102,7 @@ class Component extends TallStackUiComponent implements Customization
                 'text' => 'dark:text-dark-300 text-gray-600',
             ],
             'tooltip' => [
-                'wrapper' => 'dark:bg-dark-800 dark:ring-dark-700 pointer-events-none absolute z-10 rounded-md bg-white px-2.5 py-1.5 shadow-lg ring-1 ring-gray-200',
+                'wrapper' => 'dark:bg-dark-900 dark:ring-dark-700 pointer-events-none absolute z-10 rounded-md bg-white px-2.5 py-1.5 ring-1 ring-gray-200',
                 'title' => 'dark:text-dark-200 mb-1 text-xs font-medium text-gray-700',
                 'row' => 'flex items-center gap-1.5 text-xs whitespace-nowrap',
                 'dot' => 'size-2 shrink-0 rounded-sm bg-current',
@@ -122,6 +127,13 @@ class Component extends TallStackUiComponent implements Customization
         ]);
     }
 
+    protected function setup(): void
+    {
+        // Filled only while [type] is absent, so validate() can still catch a
+        // flag contradicting an explicit type by seeing the two disagree.
+        $this->type ??= $this->flags()[0] ?? null;
+    }
+
     protected function validate(): void
     {
         $this->guard();
@@ -129,6 +141,14 @@ class Component extends TallStackUiComponent implements Customization
         // The series is the content, which is what a placeholder stands in for.
         if (! $this->skeletonized() && ($violation = Series::violation($this->series))) {
             __ts_validation_exception($this, $violation);
+        }
+
+        if (count($flags = $this->flags()) > 1) {
+            __ts_validation_exception($this, 'Only one type can be used at a time, but ['.implode(', ', $flags).'] were given.');
+        }
+
+        if ($flags !== [] && $this->type !== $flags[0]) {
+            __ts_validation_exception($this, 'The [type] and the ['.$flags[0].'] flag cannot be used together.');
         }
 
         if ($this->type !== null && ! in_array($this->type, self::TYPES, true)) {
@@ -178,5 +198,15 @@ class Component extends TallStackUiComponent implements Customization
         if (count($series) > 1) {
             __ts_validation_exception($this, 'The ['.$this->type.'] type accepts only one series.');
         }
+    }
+
+    /**
+     * The types asked for as a flag rather than through [type].
+     *
+     * @return list<string>
+     */
+    private function flags(): array
+    {
+        return array_values(array_filter(self::TYPES, fn (string $type): bool => $this->{$type} === true));
     }
 }

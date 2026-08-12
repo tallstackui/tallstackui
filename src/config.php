@@ -263,7 +263,7 @@ return [
             | markers: default dot on every plotted point.
             */
             [
-                'height' => 64,
+                'height' => 240,
                 'grid' => false,
                 'legend' => false,
                 'tooltip' => false,
