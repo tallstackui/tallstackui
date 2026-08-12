@@ -12,6 +12,34 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_see_loading_using_spinner_indicator(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-loading loading="save" indicator="spinner.bars" />
+
+                    <x-button dusk="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                sleep(1);
+            }
+        })
+            ->assertSee('Save')
+            ->assertMissing('@spinner-bars')
+            ->click('@save')
+            ->waitFor('@spinner-bars')
+            ->assertVisible('@spinner-bars');
+    }
+
+    #[Test]
     public function can_see_loading_using_svg(): void
     {
         Livewire::visit(new class extends Component

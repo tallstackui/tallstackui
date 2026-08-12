@@ -14,6 +14,10 @@ A full-screen loading overlay that displays automatically during Livewire reques
 ```
 
 ```blade
+<x-loading indicator="spinner.bars" />
+```
+
+```blade
 <x-loading loading="save, delete" text="Processing your request..." />
 ```
 
@@ -26,17 +30,48 @@ A full-screen loading overlay that displays automatically during Livewire reques
 </x-loading>
 ```
 
+## Indicator
+
+The default overlay is the original SVG. `indicator` swaps it for a
+[Spinner](spinner.md). The inline prop wins over the `loading.indicator`
+config default:
+
+```blade
+<x-loading />
+<x-loading indicator="spinner.bars" />
+<x-loading indicator="spinner" />
+```
+
+| Value            | Result                                                |
+|------------------|-------------------------------------------------------|
+| `null`           | Original SVG (the shipped default)                    |
+| `spinner`        | `<x-spinner>` using that component's own type default |
+| `spinner.{type}` | `<x-spinner>` pinned to that variant                  |
+
+An unknown prefix or type throws. `text` is handed to the Spinner as its
+label, so `shimmer` and `caret` work when `text` is set and throw without it.
+The default slot still replaces the indicator entirely:
+
+```blade
+<x-loading indicator="spinner.typing" text="Waiting..." />
+<x-loading indicator="spinner.shimmer" />   {{-- throws --}}
+```
+
+The overlay renders the real `<x-spinner>` component — prefix-aware, so a
+customized Spinner is the one that shows up.
+
 ## Attributes
 
 | Attribute | Type         | Default                    | Description                                                                                     |
 |-----------|--------------|----------------------------|-------------------------------------------------------------------------------------------------|
 | zIndex    | string\|null | null (from config: 'z-50') | CSS z-index class                                                                               |
-| text      | string\|null | null                       | Text displayed in place of the default spinner                                                  |
+| text      | string\|null | null                       | Label next to a Spinner indicator, or the overlay content when no indicator is set              |
 | loading   | string\|null | null                       | Comma-separated Livewire method names to scope the loading indicator to (maps to `wire:target`) |
 | delay     | string\|null | null                       | Delay modifier for `wire:loading` (e.g., 'short', 'long', 'longest')                            |
 | blur      | bool\|null   | null (from config: false)  | Enables backdrop blur effect                                                                    |
 | opacity   | bool\|null   | true (from config: true)   | Enables background opacity effect                                                               |
 | overflow  | bool\|null   | null (from config: false)  | When true, avoids hiding body overflow                                                          |
+| indicator | string\|null | null (from config: null)   | Overlay indicator: `null` keeps the SVG, `spinner` or `spinner.{type}` renders a Spinner        |
 
 ## Body overflow
 
@@ -54,17 +89,19 @@ never reaches the morph.
 ## Validation Constraints
 
 - The `zIndex` (from config `z-index`) must start with `z-` prefix.
+- The `indicator` must be `null`, `spinner`, or `spinner.{type}` where type is one of the Spinner variants. `shimmer` and `caret` require `text`.
 
 ## Configuration
 
 In `config/tallstackui.php` under `components.loading`:
 
-| Option   | Type   | Default | Description                            |
-|----------|--------|---------|----------------------------------------|
-| z-index  | string | 'z-50'  | Default z-index class                  |
-| overflow | bool   | false   | When true, avoids hiding body overflow |
-| blur     | bool   | false   | Enables background blur effect         |
-| opacity  | bool   | true    | Enables background opacity effect      |
+| Option    | Type         | Default | Description                                                                                 |
+|-----------|--------------|---------|---------------------------------------------------------------------------------------------|
+| z-index   | string       | 'z-50'  | Default z-index class                                                                       |
+| overflow  | bool         | false   | When true, avoids hiding body overflow                                                      |
+| blur      | bool         | false   | Enables background blur effect                                                              |
+| opacity   | bool         | true    | Enables background opacity effect                                                           |
+| indicator | string\|null | null    | Default overlay indicator. `null` keeps the SVG; `spinner` or `spinner.{type}` uses Spinner |
 
 ## Livewire Integration Details
 
