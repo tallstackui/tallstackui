@@ -66,7 +66,7 @@ class Component extends TallStackUiComponent implements Customization
             'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
             'placeholder' => [
                 'input' => 'absolute inset-0 z-50 h-full w-full cursor-pointer opacity-0 outline-hidden',
-                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition',
+                'wrapper' => 'dark:border-dark-600 dark:bg-dark-800/50 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 transition',
                 'wrapper-dragging' => 'bg-primary-100',
                 'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-dark-400',

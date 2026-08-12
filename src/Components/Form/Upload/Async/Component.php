@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'flex flex-col gap-2',
             'dropzone' => [
-                'base' => 'group relative flex w-full cursor-pointer flex-col justify-center gap-3 overflow-hidden rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-3 transition dark:border-dark-600 dark:bg-dark-700',
+                'base' => 'group relative flex w-full cursor-pointer flex-col justify-center gap-3 overflow-hidden rounded-lg border-1 border-dashed border-gray-200 bg-gray-50 p-3 transition dark:border-dark-700 dark:bg-dark-800',
                 'dragging' => 'border-primary-500 bg-primary-50 scale-[1.01] dark:bg-primary-900/20',
                 'disabled' => 'opacity-60 cursor-not-allowed',
                 'input' => 'pointer-events-none absolute inset-0 h-full w-full opacity-0 outline-hidden',
