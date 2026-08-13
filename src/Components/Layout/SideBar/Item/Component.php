@@ -58,10 +58,7 @@ class Component extends TallStackUiComponent implements Customization
                 'badge.hidden' => 'max-w-0 opacity-0',
                 'dot' => 'absolute top-1.5 left-1/2 translate-x-1.5',
                 'flyout' => [
-                    // The frame is kept out of the scrolling element on purpose: a
-                    // scrollbar is painted in the border box, so a radius only shapes
-                    // it when an ancestor clips along with it.
-                    'wrapper' => collect(app(Floating::class)->customization())->get('wrapper').' w-60 overflow-hidden',
+                    'wrapper' => Arr::toCssClasses([collect(app(Floating::class)->customization())->get('wrapper'), 'w-60', 'overflow-hidden']),
                     'scroll' => 'max-h-[min(24rem,calc(100dvh-2rem))] overflow-y-auto px-2 pb-2',
                     'scrollbar.thin' => 'soft-scrollbar',
                     'scrollbar.thick' => 'custom-scrollbar',
