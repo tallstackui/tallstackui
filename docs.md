@@ -12,6 +12,119 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Readonly & Disabled
+
+### Fixed — `readonly` did nothing on half of the form components
+
+The browser only honours `readonly` on text inputs and textareas. On a checkbox,
+radio, range or select the attribute is inert, and the components that forwarded it
+straight to the element inherited that hole: the control rendered `readonly` and kept
+working exactly as before.
+
+```blade
+{{-- all four still changed on click --}}
+<x-checkbox wire:model="accept" label="Accept" readonly />
+<x-toggle wire:model="active" label="Active" readonly />
+<x-range wire:model="volume" readonly />
+<x-select.native wire:model="status" :options="$options" readonly />
+```
+
+`readonly` now means the same as `disabled` everywhere, minus one detail: the value is
+still submitted. Where the browser refuses to lock the control, the library emulates it
+— the element keeps its enabled state, which is what makes it submit, and the pointer
+and keyboard are swallowed instead. On a checkbox, radio and toggle a single
+`click.prevent` covers both, since the space bar fires a click of its own. `Range` and
+`Select/Native` swallow the pointer and every key except `Tab`, so the field keeps its
+place in the tab order the way a natively readonly input does.
+
+### Fixed — the buttons inside a component never locked
+
+A composite component is an input plus its own buttons, and only the input was ever
+told about the lock. The buttons are siblings, so they kept firing:
+
+```blade
+{{-- the × still emptied the field --}}
+<x-date wire:model="published_at" readonly />
+<x-time wire:model="starts_at" readonly />
+
+{{-- the swatch still opened the palette --}}
+<x-color wire:model="brand" readonly />
+
+{{-- the × on each tag still removed it, disabled included --}}
+<x-tag wire:model="tags" readonly />
+```
+
+`Date` was the clearest case: `select()` guarded itself but `clear()` did not, and the
+clear button carried `readonly` — inert on a `<button>`. Every such button is now
+`disabled` outright, which is the right tool since a button carries no value, and the
+matching Alpine method bails out as well.
+
+### Added — `Pin`, `Upload` and `Upload/Async` accept a lock
+
+`Pin` never forwarded the attributes to its boxes, so `<x-pin disabled />` rendered a
+fully usable component. `Upload` accepted neither attribute and did not forward the
+attribute bag to its inner input either. `Upload/Async` had `disabled` but no
+`readonly`.
+
+### Added — `Input/Select` passes its lock into the side slot
+
+The slot holds a separate component, so a lock on the wrapper stopped at the text input
+and left the select usable. It now travels down, and a lock declared on the slot's own
+component still wins:
+
+```blade
+{{-- both halves locked --}}
+<x-input.select wire:model="phone" readonly>
+    <x-slot:left>
+        <x-select.native wire:model="code" :options="$codes" side="left" />
+    </x-slot:left>
+</x-input.select>
+```
+
+### Fixed — `Select/Styled` showed a light ring in dark mode while locked
+
+```
+disabled:ring-gray-200   →  .disabled\:ring-gray-200:disabled                (0,2,0)
+dark:ring-dark-600/50    →  .dark\:ring-dark-600\/50:where(.dark,.dark *)    (0,1,0)
+```
+
+The `disabled:` variant outranks the plain `dark:` one, so the light ring won in dark
+mode. Adding `dark:disabled:ring-dark-600/50` mirrors the `dark:disabled:bg-dark-900`
+already there.
+
+### Changed — one resolver, one JavaScript helper
+
+Six different mechanisms were resolving the pair: the raw attribute bag, a
+`get('disabled', get('readonly'))` fallback, a runtime folding both into one boolean,
+a runtime keeping two, constructor properties, and a `disables` object handed to Alpine
+that `Time` never even read. `AbstractRuntime::locks()` replaces all of them and hands
+every template a `$disabled`, `$readonly` and `$locked`, reading a declared property
+first and falling back to the attribute bag. Alpine components share `lockable()` and
+bail out of anything that mutates state while `locked()` is true.
+
+Both flags live under `lock` in the Alpine data rather than at the top level, because
+the bare names collide: `Date` already had a `disabled(date)` method, and a method
+declared after the spread silently replaced the flag.
+
+### Migration — customization blocks
+
+Blocks holding the locked styles were renamed, and the classes inside them dropped the
+`disabled:` variant, which by definition cannot match an element that is only
+`readonly`.
+
+| Component      | Before              | After             |
+|----------------|---------------------|-------------------|
+| `Form/Range`   | `input.disabled`    | `input.locked`    |
+| `Form/Pin`     | —                   | `input.locked`    |
+| `Swap`         | `input.disabled`    | `input.locked`    |
+| `Upload/Async` | `dropzone.disabled` | `dropzone.locked` |
+
+`Form/Checkbox`, `Form/Radio` and `Form/Toggle` gained a `locked` block, and
+`Wrapper/Radio` gained `locked.wrapper` and `locked.text` — none of the three painted
+any locked state before, not even for `disabled`.
+
+---
+
 ## Form / Upload / Async
 
 ### Added — `preview` turns the lightbox off

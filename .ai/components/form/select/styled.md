@@ -49,6 +49,8 @@ A feature-rich styled select component built with Alpine.js, supporting single a
 | unfiltered   | bool\|null          | null        | Disables client-side filtering for API mode (overrides config)                                                       |
 | options      | Collection\|array   | []          | Array of options for client-side mode                                                                                |
 | after        | string\|null        | null        | Custom HTML content displayed when no options match the search                                                       |
+| disabled     | bool                | false       | Locks the trigger and the panel. The value is not submitted.                                                         |
+| readonly     | bool                | false       | Locks the trigger and the panel. The value is still submitted.                                                       |
 
 ## Grouped Options
 

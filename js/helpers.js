@@ -256,15 +256,17 @@ export const lock_keydown = (event) => {
  * Spread into the Alpine data, then bail out of every method that
  * mutates state while `locked()` is true.
  *
+ * Both flags live under `lock` because the bare names are already taken by
+ * component methods, as `disabled(date)` in the date picker.
+ *
  * @param disabled {Boolean}
  * @param readonly {Boolean}
  * @return {Object}
  */
 export const lockable = (disabled = false, readonly = false) => ({
-  disabled: disabled,
-  readonly: readonly,
+  lock: { disabled: disabled, readonly: readonly },
   locked() {
-    return this.disabled || this.readonly;
+    return this.lock.disabled || this.lock.readonly;
   },
 });
 

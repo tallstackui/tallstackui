@@ -64,7 +64,8 @@ picked value to the server, and `value` seeds the initial selection.
 | strict       | bool\|null              | null (or global from config)                        | Constrains `wire:model` to values that exist in the items list. See "Strict mode".                                            |
 | select       | string\|null            | null (or global from config)                        | Remaps the item keys, e.g. `value:name\|description:email\|image:avatar`. See "Field Mapping".                                |
 | lazy         | int\|null               | null                                                | Minimum chars before the dropdown opens / a remote request is fired.                                                          |
-| disabled     | bool\|null              | null                                                | Disables the input and prevents the dropdown from opening.                                                                    |
+| disabled     | bool\|null              | null                                                | Locks the input and the dropdown. The value is not submitted.                                                                 |
+| readonly     | bool\|null              | null                                                | Locks the input and the dropdown. The value is still submitted.                                                               |
 | placeholders | array\|null             | merged from `trans('ts-ui::messages.autocomplete')` | Override translation strings (`empty`, `loading`, `default`).                                                                 |
 
 The component does **not** support `multiple`. Reach for `Form/Select/Styled` when multiple selection is required.
