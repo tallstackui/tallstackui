@@ -1461,8 +1461,9 @@ Two changes untangle it:
   across Card, Modal, Slide, List, Dropdown, Accordion, Tab, Toggle, Tag and the
   sidebar moved to the equivalent `gray-*` shade, 1:1 (Slate → Gray, near-identical
   values). Light mode now has a single neutral system (`gray-*`), mirroring `dark-*`
-  in dark mode. The question dialog icon followed along
-  (`text-gray-600 dark:text-dark-500`) so it does not turn violet.
+  in dark mode. The question dialog icon uses the primary palette
+  (`text-primary-600 dark:text-primary-500` on `bg-primary-100`) so it
+  matches the confirm button and does not turn violet.
 
 **Migration** — `color="secondary"` on any component now renders violet instead of
 slate-gray; applications that relied on the gray look should switch those calls to
@@ -5508,6 +5509,22 @@ the answer it is waiting for, not a way around it.
 The confirm button is always present, including for the four non-question types
 where it renders as a centered **OK**, so there is no dialog that `Enter` cannot
 answer.
+
+### Fixed — the confirmation icon was gray on a violet circle
+
+`question()` is the confirmation dialog. After `secondary` became violet, the icon
+circle stayed `bg-secondary-100` while the glyph was moved to
+`text-gray-600 dark:text-dark-500` so it would not turn violet. The result was a
+gray mark on a violet disc, and in dark mode `dark-500` on `dark-600` nearly
+vanished.
+
+It now follows the same pairing as the other types, and as the confirm button
+already used:
+
+```
+bg-primary-100  text-primary-600
+dark:bg-dark-600  dark:text-primary-500
+```
 
 ---
 

@@ -83,14 +83,14 @@ class DialogColors
                 'error' => 'bg-red-100 dark:bg-dark-600',
                 'info' => 'bg-blue-100 dark:bg-dark-600',
                 'warning' => 'bg-yellow-100 dark:bg-dark-600',
-                'question' => 'bg-secondary-100 dark:bg-dark-600',
+                'question' => 'bg-primary-100 dark:bg-dark-600',
             ],
             'icon' => [
                 'success' => 'text-green-600 dark:text-green-500',
                 'error' => 'text-red-600 dark:text-red-500',
                 'info' => 'text-blue-600 dark:text-blue-500',
                 'warning' => 'text-yellow-600 dark:text-yellow-500',
-                'question' => 'text-gray-600 dark:text-dark-500',
+                'question' => 'text-primary-600 dark:text-primary-500',
             ],
         ];
     }
