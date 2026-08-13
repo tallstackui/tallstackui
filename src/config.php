@@ -35,7 +35,7 @@ return [
     | set this value as "true," you will use "invalidate" of all form components
     | globally, without the need to specific it individually per component.
     */
-    'invalidate_global' => false,
+    'invalidate_global' => env('TALLSTACKUI_INVALIDATE_GLOBAL', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,11 +68,7 @@ return [
         | Controls the environments where the debug mode can be enabled.
         |----------------------------------------------------------------------
         */
-        'environments' => [
-            'local',
-            'sandbox',
-            'staging',
-        ],
+        'environments' => array_map('trim', explode(',', env('TALLSTACKUI_DEBUG_ENVIRONMENTS', 'local,sandbox,staging'))),
 
         /*
         |----------------------------------------------------------------------
@@ -192,9 +188,7 @@ return [
             | Badge Global Settings
             |----------------------------------------------------------------------
             |
-            | round: the default corner shape. False keeps rounded-md. True is the
-            | pill. A size name (xs, sm, md, lg, xl) picks that radius. The inline
-            | prop always wins, including :round="false".
+            | round: the default corner shape. False keeps rounded-md.
             */
             [
                 'round' => false,
@@ -908,8 +902,6 @@ return [
             | indicator: the default loading overlay. Null keeps the original icon.
             | Use "spinner" or "spinner.{type}" to render a Spinner instead
             | (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
-            |
-            | These are defaults: the inline prop always wins, including :paginate="false".
             */
             [
                 'paginator' => 'simple',
@@ -966,8 +958,6 @@ return [
             | color: controls the balloon color (Allowed: any palette key, or black).
             | size: controls the balloon size (Allowed: sm, md, lg).
             | invert: controls the dark mode inversion of the default balloon.
-            |
-            | These are defaults for every x-tooltip: the inline prop always wins.
             */
             [
                 'delay' => null,

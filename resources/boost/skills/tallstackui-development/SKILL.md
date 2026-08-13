@@ -245,7 +245,21 @@ Lists of scalars are the exception — they are taken as published rather than m
 'quantity' => [15, 30],   // the table now offers exactly 15 and 30
 ```
 
-Per-component defaults live under `components.<name>` and are documented on each component's page. Global keys are `prefix`, `invalidate_global` and `floating_scroll_lock`.
+Per-component defaults live under `components.<name>` and are documented on each component's page.
+
+These top-level keys also read from the environment:
+
+| Variable | Config key | Default | What it does |
+| --- | --- | --- | --- |
+| `TALLSTACKUI_PREFIX` | `prefix` | `null` | Prefixes every component tag (`ts-` → `<x-ts-alert />`) |
+| `TALLSTACKUI_COLOR_CLASSES_NAMESPACE` | `color_classes_namespace` | `App\View\Components\TallStackUi\Colors` | Namespace of published color classes |
+| `TALLSTACKUI_INVALIDATE_GLOBAL` | `invalidate_global` | `false` | Suppresses validation errors on every form component |
+| `TALLSTACKUI_FLOATING_SCROLL_LOCK` | `floating_scroll_lock` | `false` | Locks page scroll while any floating popup is open |
+| `TALLSTACKUI_DEBUG_MODE` | `debug.status` | `false` | Enables the debug overlay |
+| `TALLSTACKUI_DEBUG_ENVIRONMENTS` | `debug.environments` | `local,sandbox,staging` | Comma-separated environments where debug mode can run |
+| `TALLSTACKUI_ICON_TYPE` | `components.icon.type` | `heroicons` | Icon set: `heroicons` or a BladeUI set |
+| `TALLSTACKUI_ICON_STYLE` | `components.icon.style` | `solid` | Icon style: `solid` or `outline` |
+| `TALLSTACKUI_IGNORE_LAYOUT_REGISTRATION` | `components.layout.ignore` | `false` | Skips registering the layout components |
 
 ## Global JavaScript API
 

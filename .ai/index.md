@@ -171,8 +171,11 @@ are documented on each component's page.
 | Key                    | Type   | Default | Description                                                  |
 |------------------------|--------|---------|--------------------------------------------------------------|
 | `prefix`               | string | null    | Prefixes every component, so `ts-` gives `<x-ts-alert />`    |
-| `invalidate_global`    | bool   | false   | Suppresses validation errors on every form component         |
+| `invalidate_global`    | bool   | false   | Suppresses validation errors on every form component (`TALLSTACKUI_INVALIDATE_GLOBAL`) |
 | `floating_scroll_lock` | bool   | false   | Locks the page scroll while any floating-based popup is open |
+
+`debug.environments` is a comma-separated list via `TALLSTACKUI_DEBUG_ENVIRONMENTS`
+(default `local,sandbox,staging`).
 
 `floating_scroll_lock` covers Dropdown and its Submenu, Autocomplete, Color,
 Date, Password, Select Styled, Time, Upload, Calendar and the List Items menu —

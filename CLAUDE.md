@@ -657,6 +657,8 @@ Livewire::visit(new class extends Component {
 - `TALLSTACKUI_ICON_TYPE` - Icon type: `heroicons` or BladeUI
 - `TALLSTACKUI_ICON_STYLE` - Icon style: `solid` or `outline`
 - `TALLSTACKUI_DEBUG_MODE` - Enable debug mode
+- `TALLSTACKUI_DEBUG_ENVIRONMENTS` - Comma-separated environments where debug mode can run (default: `local,sandbox,staging`)
+- `TALLSTACKUI_INVALIDATE_GLOBAL` - Suppress validation errors on every form component
 - `TALLSTACKUI_FLOATING_SCROLL_LOCK` - Lock page scroll while a floating popup is open
 
 ## Branch Strategy

@@ -2229,6 +2229,27 @@ of which reaches the morph, so the lock would otherwise outlive the spinner.
 
 ## Configuration
 
+### Added — `invalidate_global` and `debug.environments` read from the environment
+
+Both keys were config-only. They now follow the same `env()` pattern as `prefix`
+and `debug.status`:
+
+```php
+'invalidate_global' => env('TALLSTACKUI_INVALIDATE_GLOBAL', false),
+
+'debug' => [
+    'status' => env('TALLSTACKUI_DEBUG_MODE', false),
+    'environments' => array_map('trim', explode(',', env('TALLSTACKUI_DEBUG_ENVIRONMENTS', 'local,sandbox,staging'))),
+],
+```
+
+```dotenv
+TALLSTACKUI_INVALIDATE_GLOBAL=true
+TALLSTACKUI_DEBUG_ENVIRONMENTS=local,staging
+```
+
+The default environment list is unchanged. Spaces around commas are trimmed.
+
 ### Fixed — a published config could not shorten a list
 
 `array_replace_recursive` merges numerically indexed arrays index by index, so a
