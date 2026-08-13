@@ -190,7 +190,17 @@ it('can render the chart from the array shorthand')
     ->toContain('<svg')
     ->toContain('relative')
     ->toContain('isolate')
-    ->toContain('-z-10');
+    ->toContain('-z-10')
+    ->toContain('min-height: 64px')
+    ->not->toContain('min-height: 240px');
+
+it('cannot change the shorthand chart height from the stats tag', function () {
+    expect('<x-stats number="33" :chart="[10, 40, 25, 60]" :height="240" />')
+        ->render()
+        ->toContain('min-height: 64px')
+        ->not->toContain('min-height: 240px')
+        ->not->toContain('height="240"');
+});
 
 it('can render the chart inheriting the stats color')
     ->expect('<x-stats number="33" color="green" :chart="[10, 40, 25, 60]" />')
