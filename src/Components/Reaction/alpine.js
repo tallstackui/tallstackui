@@ -8,7 +8,7 @@ const ARROW = 8;
 // arrow (bounding box ~11.3px) clear of the corner arc when it clamps.
 const INSET = 16;
 
-export default (model, content, position, flash = false) => {
+export default (model, content, position, delay = null) => {
   let popover = null;
   let arrow = null;
   let frame = null;
@@ -67,9 +67,10 @@ export default (model, content, position, flash = false) => {
       popover.setAttribute('dusk', 'tallstackui_reaction_popover');
       popover.innerHTML = content;
 
-      // The flash global: the balloon appears and disappears instantly.
-      if (flash) {
+      if (delay === 'flash') {
         popover.setAttribute('data-instant', '');
+      } else if (delay) {
+        popover.setAttribute('data-delay', delay);
       }
 
       arrow = document.createElement('span');

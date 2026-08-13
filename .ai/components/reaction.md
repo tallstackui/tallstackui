@@ -34,6 +34,7 @@ An emoji reaction picker component using Google Noto Emoji icons. Displays a flo
 | quantity     | ComponentSlot\|string\|null | null    | When set as a string, displays the reaction count from the wire:model data. When used as a slot, renders custom quantity markup |
 | react-method | string                      | 'react' | Livewire method name called when an emoji is clicked                                                                            |
 | position     | string\|null                | 'auto'  | Floating panel position relative to the button                                                                                  |
+| delay        | string\|null                | null    | Panel open/close animation; null falls back to the config, then to `fast` (150ms). Allowed: `slow`, `fast`, `faster`, `flash`   |
 
 ## Slots
 
@@ -105,7 +106,13 @@ The panel is created by JavaScript, so it is **not** reachable through `TallStac
 
 Its position is resolved by the same placement helper the tooltip uses: the requested `position` flips to the opposite side when it does not fit and slides along the cross axis to stay inside the viewport. Clicking outside or pressing <kbd>Escape</kbd> closes it. The panel carries an arrow pointing at the trigger; it inherits the panel's background and border color, so the override above restyles it as well.
 
-The panel honors `TallStackUi::customize()->globals()->flash()` (including `only`/`except`): the CSS transition is turned off through a `data-instant` attribute, so it appears and disappears instantly.
+The panel honors `delay` with the same named steps the tooltip uses: `slow` (400ms), `fast` (150ms, the default), `faster` (75ms) and `flash` (instant). Set it on the tag or through the `reaction.delay` config; the inline prop always wins.
+
+```blade
+<x-reaction delay="faster" />
+```
+
+The panel also honors `TallStackUi::customize()->globals()->flash()` (including `only`/`except`): the CSS transition is turned off through a `data-instant` attribute, so it appears and disappears instantly. An inline `delay` still wins over that global.
 
 The emoji grid inside the panel is regular soft customization, through the `box.*` and `icon` blocks below.
 

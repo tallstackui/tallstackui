@@ -726,6 +726,18 @@ matching the calendar, and its value changed from `h-[17rem]` to
 
 ## Reaction & Tooltip
 
+### Added — `delay` on `<x-reaction>`
+
+The emoji panel used a fixed 150ms fade. It now accepts the same named steps as
+`x-tooltip`: `slow` (400ms), `fast` (150ms), `faster` (75ms) and `flash`
+(instant). The inline prop wins over the `reaction.delay` config, and over the
+flash global when the instance sets a delay of its own.
+
+```blade
+<x-reaction delay="faster" />
+<x-reaction delay="flash" />
+```
+
 ### Fixed — the balloons now honor the flash global
 
 `globals()->flash()` works by stripping the `x-transition` directives from the

@@ -19,6 +19,7 @@ use TallStackUi\Components\Link\Component as Link;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\QrCode\Component as QrCode;
+use TallStackUi\Components\Reaction\Component as Reaction;
 use TallStackUi\Components\Slide\Component as Slide;
 use TallStackUi\Components\Toast\Component as Toast;
 
@@ -46,6 +47,7 @@ class CompileConfigurations
             $component instanceof Modal => fn () => self::modal($component),
             $component instanceof Number => fn () => self::number($component),
             $component instanceof QrCode => fn () => self::qrCode($component),
+            $component instanceof Reaction => fn () => self::reaction($component),
             $component instanceof SelectStyled => fn () => self::select($component),
             $component instanceof Slide => fn () => self::slide($component),
             $component instanceof Toast => fn () => Toast::class,
@@ -384,6 +386,26 @@ class CompileConfigurations
         $component->size ??= $configuration['size'] ?? 'md';
 
         return ['pixels' => $configuration['pixels'] ?? 1024];
+    }
+
+    /**
+     * Define the Reaction component configurations.
+     *
+     * @throws Exception
+     */
+    private static function reaction(Reaction $component): array
+    {
+        $configuration = __ts_get_component_configuration(Reaction::class) ?? [];
+
+        // The inline prop wins. The flash global still turns the panel instant
+        // when this instance did not set a delay of its own.
+        if ($component->delay === null && __ts_global('flash', $component::class)) {
+            $component->delay = 'flash';
+        }
+
+        $component->delay ??= $configuration['delay'] ?? null;
+
+        return ['delay' => $component->delay];
     }
 
     private static function select(SelectStyled $component): array

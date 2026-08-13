@@ -986,7 +986,19 @@ return [
                 'keep' => 60 * 60 * 6,
             ],
         ],
-        'reaction' => Components\Reaction\Component::class,
+        'reaction' => [
+            Components\Reaction\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Reaction Global Settings
+            |----------------------------------------------------------------------
+            |
+            | delay: controls the panel open/close animation (Allowed: slow, fast, faster, flash).
+            */
+            [
+                'delay' => null,
+            ],
+        ],
         'wrapper.input' => Components\Wrapper\Input\Component::class,
         'wrapper.radio' => Components\Wrapper\Radio\Component::class,
     ],

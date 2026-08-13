@@ -10,6 +10,7 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Support\Runtime\Components\ReactionRuntime;
@@ -55,6 +56,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $quantity = null,
         public string $reactMethod = 'react',
         public ?string $position = 'auto',
+        public ?string $delay = null,
         #[SkipDebug]
         public ?array $icons = null,
     ) {
@@ -124,6 +126,10 @@ class Component extends TallStackUiComponent implements Customization
     {
         if (blank($this->reactMethod)) {
             __ts_validation_exception($this, 'The react [reactMethod] is required.');
+        }
+
+        if ($this->delay !== null && ! in_array($this->delay, Tooltip::DELAYS)) {
+            __ts_validation_exception($this, 'The [delay] must be one of the following: ['.implode(', ', Tooltip::DELAYS).']');
         }
 
         if (array_diff($this->only ?? [], array_keys(self::ICONS)) !== []) {

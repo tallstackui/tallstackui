@@ -5,14 +5,16 @@ shared placement helper, today only `<x-reaction>`.
 [data-tsui-popover] {
     @apply bg-dark-900 border-dark-700 fixed top-0 left-0 z-50 w-max rounded-lg border p-2 shadow-lg;
 
+    --tsui-popover-duration: 150ms;
+
     visibility: hidden;
     opacity: 0;
     scale: 0.96;
 
     transition:
-        opacity 150ms ease-out,
-        scale 150ms ease-out,
-        visibility 0s linear 150ms;
+        opacity var(--tsui-popover-duration) ease-out,
+        scale var(--tsui-popover-duration) ease-out,
+        visibility 0s linear var(--tsui-popover-duration);
 }
 
 [data-tsui-popover][data-show] {
@@ -20,13 +22,28 @@ shared placement helper, today only `<x-reaction>`.
     opacity: 1;
     scale: 1;
     transition:
-        opacity 150ms ease-out,
-        scale 150ms ease-out,
+        opacity var(--tsui-popover-duration) ease-out,
+        scale var(--tsui-popover-duration) ease-out,
         visibility 0s;
 }
 
-/* The flash global: the panel appears and disappears instantly. */
+[data-tsui-popover][data-delay='slow'] {
+    --tsui-popover-duration: 400ms;
+}
+
+[data-tsui-popover][data-delay='fast'] {
+    --tsui-popover-duration: 150ms;
+}
+
+[data-tsui-popover][data-delay='faster'] {
+    --tsui-popover-duration: 75ms;
+}
+
+/* The flash step and the flash global: the panel appears and disappears instantly. */
+[data-tsui-popover][data-delay='flash'],
 [data-tsui-popover][data-instant] {
+    --tsui-popover-duration: 0ms;
+
     transition: none;
 }
 

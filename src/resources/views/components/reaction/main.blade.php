@@ -3,7 +3,7 @@
 @endphp
 
 <div wire:ignore>
-    <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position), @js($ts_ui__flash))"
+    <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position), @js($configurations['delay']))"
             x-on:click="show = !show"
             dusk="tallstackui_reaction_button"
             x-ref="button"

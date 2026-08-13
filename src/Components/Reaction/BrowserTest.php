@@ -10,6 +10,54 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_open_the_panel_instantly_when_delay_is_flash(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-reaction delay="flash" />
+                </div>
+                HTML;
+            }
+
+            public function react(string $reaction): void
+            {
+                //
+            }
+        })
+            ->click('@tallstackui_reaction_button')
+            ->waitFor('@tallstackui_reaction_popover')
+            ->assertAttribute('@tallstackui_reaction_popover', 'data-instant', '');
+    }
+
+    #[Test]
+    public function can_open_the_panel_with_a_named_delay(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-reaction delay="slow" />
+                </div>
+                HTML;
+            }
+
+            public function react(string $reaction): void
+            {
+                //
+            }
+        })
+            ->click('@tallstackui_reaction_button')
+            ->waitFor('@tallstackui_reaction_popover')
+            ->assertAttribute('@tallstackui_reaction_popover', 'data-delay', 'slow');
+    }
+
+    #[Test]
     public function can_react(): void
     {
         Livewire::visit(new class extends Component
