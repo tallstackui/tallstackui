@@ -20,6 +20,10 @@ beforeEach(function () {
     view()->shared('__livewire')->setId('reactions');
 });
 
+afterEach(function () {
+    Globals::reset();
+});
+
 it('can render')
     ->expect('<x-reaction id="reactions" />')
     ->render()
