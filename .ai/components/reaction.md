@@ -102,21 +102,21 @@ See [Tooltip](tooltip.md#balloon-colors).
 
 ## Behavior
 
-| Trigger     | Opens                         | Closes                                      |
-|-------------|-------------------------------|---------------------------------------------|
-| Click       | On click (the default)        | Click outside, or <kbd>Escape</kbd>         |
-| Mouse hover | On enter, when `hover` is on  | On leave, after 300ms; <kbd>Escape</kbd>    |
-| Touch       | On tap                        | Tap outside, or <kbd>Escape</kbd>           |
+| Trigger     | Opens                        | Closes                                   |
+|-------------|------------------------------|------------------------------------------|
+| Click       | On click (the default)       | Click outside, or <kbd>Escape</kbd>      |
+| Mouse hover | On enter, when `hover` is on | On leave, after 300ms; <kbd>Escape</kbd> |
+| Touch       | On tap                       | Tap outside, or <kbd>Escape</kbd>        |
 
 ## Global Configuration
 
 Under `components.reaction` in `config/tallstackui.php`:
 
-| Key       | Type         | Default | Description                                              |
-|-----------|--------------|---------|----------------------------------------------------------|
-| `delay`   | string\|null | null    | Default panel animation step                             |
-| `balloon` | string\|null | null    | Default panel color                                      |
-| `hover`   | bool         | false   | Opens the panel when the pointer rests on the trigger    |
+| Key       | Type         | Default | Description                                           |
+|-----------|--------------|---------|-------------------------------------------------------|
+| `delay`   | string\|null | null    | Default panel animation step                          |
+| `balloon` | string\|null | null    | Default panel color                                   |
+| `hover`   | bool         | false   | Opens the panel when the pointer rests on the trigger |
 
 ```php
 'reaction' => [
@@ -188,12 +188,12 @@ Its position is resolved by the same placement helper the tooltip uses: the requ
 
 While open, the panel carries:
 
-| Attribute      | When                                                         |
-|----------------|--------------------------------------------------------------|
-| `data-side`    | Always: the side it settled on (`top`, `bottom`, `left`, `right`) |
-| `data-delay`   | A named animation other than `flash`                         |
+| Attribute      | When                                                                 |
+|----------------|----------------------------------------------------------------------|
+| `data-side`    | Always: the side it settled on (`top`, `bottom`, `left`, `right`)    |
+| `data-delay`   | A named animation other than `flash`                                 |
 | `data-instant` | `delay="flash"`, or the flash global when nothing else named a delay |
-| `data-color`   | A `balloon` color was asked for                              |
+| `data-color`   | A `balloon` color was asked for                                      |
 
 The animation duration is `--tsui-popover-duration`. A colored panel sets `--tsui-popover-bg` and `--tsui-popover-border` from JavaScript.
 

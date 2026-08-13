@@ -203,7 +203,7 @@ TallStackUi::customize()
 |-----------------------|-----------------------|---------|
 | `table.select-styled` | `<x-select.styled />` | 26, 34  |
 | `table.input`         | `<x-input />`         | 48, 56  |
-| `table.checkbox`      | `<x-checkbox />`      | 84, 157 |
+| `table.checkbox`      | `<x-checkbox />`      | 92, 165 |
 
 ### `wrapper/input`
 

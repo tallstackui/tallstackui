@@ -534,6 +534,13 @@ It works the same for local `:items` and for the rows fetched by `:request`.
 
 The inline attribute always wins.
 
+### Changed — remote requests send `X-TallStack-Ui`
+
+Autocomplete's fetch only sent `Accept`. It now uses the same request headers
+as Select Styled: `X-TallStack-Ui`, `X-Requested-With`, `Content-Type` and the
+CSRF token when one is on the page. Command Palette's actionable POST does the
+same.
+
 ## Form / Select (Styled & Native), Checkbox Group, Radio Group & Swap
 
 ### Added — `select` answers to the configuration
@@ -834,6 +841,9 @@ can override it like any other palette.
 Soft customization gained the `shadowless`, `bordered` and `paddingless.*`
 blocks.
 
+`paddingless` and `numeric` (`list-numeric` on the tag) are also defaults
+under `components.errors`. The inline prop always wins.
+
 ### Changed — `only` accepts a comma separated list and collections
 
 Besides a single field and an array, `only` now parses a comma separated string
@@ -981,6 +991,21 @@ inline prop always winning:
 'kbd' => [
     Components\Kbd\Component::class,
     ['borderless' => false, 'shadowless' => false],
+],
+```
+
+## Badge
+
+### Added — `round` in the configuration
+
+The corner shape can be set once for every badge. `false` keeps `rounded-md`,
+`true` is the pill, and a size name (`xs`, `sm`, `md`, `lg`, `xl`) picks that
+radius. The inline prop always wins, including `:round="false"`.
+
+```php
+'badge' => [
+    Components\Badge\Component::class,
+    ['round' => false],
 ],
 ```
 
@@ -3240,6 +3265,11 @@ as a badge continues to match its visible text.
 rendered only a menu now carry one extra `<div>`. Applications selecting the menu
 wrapper by DOM position rather than by class may need adjusting.
 
+### Changed — the debug overlay tooltip opens as flash
+
+The debug icon next to a component now declares `data-tooltip-delay="flash"`,
+so the property dump opens on the tick the pointer arrives.
+
 ### Changed — `caption` excluded from the debug overlay
 
 `caption` gained `#[SkipDebug]`, matching `menu` and `empty`, because a
@@ -3249,6 +3279,16 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 ---
 
 ## Table
+
+### Added — `indicator` for the loading overlay
+
+`loading` can render a Spinner instead of the original spinning icon, the same
+way `<x-loading>` already does. Set `indicator="spinner"` or `indicator="spinner.bars"`
+on the tag, or the `indicator` key under `components.table`.
+
+```blade
+<x-table :$headers :$rows loading indicator="spinner.dots" />
+```
 
 ### Changed — `simple-pagination` alone turns pagination on
 
@@ -4503,7 +4543,7 @@ top-level key rather than one per component:
 
 ```php
 // config/tallstackui.php
-'floating_scroll_lock' => true,
+'floating_scroll_lock' => env('TALLSTACKUI_FLOATING_SCROLL_LOCK', false),
 ```
 
 It reaches Dropdown and its Submenu, Autocomplete, Color, Date, Password, Select
@@ -6122,6 +6162,10 @@ card's `color`:
 ```blade
 <x-stats number="45231" title="Revenue" increase :chart="[10, 40, 25, 60, 30, 80]" />
 ```
+
+The shorthand pins the internal chart at 64px so the card does not inherit the
+standalone chart default of 240. A `height` attribute on `<x-stats>` is ignored.
+Change the height through the slot.
 
 The slot takes over completely, for a chart that should differ from the card:
 
