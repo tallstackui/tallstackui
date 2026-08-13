@@ -106,7 +106,8 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 | compact             | bool                                               | false             | Tightens the vertical padding of the header, the rows, the empty message and the expandable content. Globally configurable                                                  |
 | sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                                                         |
 | filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable                                        |
-| loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                                                                     |
+| loading             | bool                                               | false             | Shows a loading overlay during Livewire updates                                                                                                                             |
+| indicator           | string\|null                                       | null              | Loading overlay look. Null keeps the original icon. `spinner` or `spinner.{type}` renders a Spinner. Falls back to the table `indicator` config                             |
 | quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select. Globally configurable                                                                                                             |
 | paginate            | bool                                               | false             | Enables pagination links below the table. Globally configurable                                                                                                             |
 | persistent          | bool\|string                                       | false             | Keeps the table in view after paginating or filtering. A bare flag anchors on the table itself; a string anchors on the element with that id. See [Persistent](#persistent) |
@@ -302,7 +303,7 @@ Such a view receives `paginator`, `elements`, and `livewire`, `simple`, `name`, 
 
 ## Global Defaults
 
-Six props can be set once for every table, in `config/ts-ui.php`:
+Seven props can be set once for every table, in `config/ts-ui.php`:
 
 ```php
 'table' => [
@@ -314,6 +315,7 @@ Six props can be set once for every table, in `config/ts-ui.php`:
         'filter' => true,
         'quantity' => [5, 10, 25],
         'compact' => true,
+        'indicator' => null, // 'spinner' or 'spinner.bars'
     ],
 ],
 ```
@@ -484,7 +486,8 @@ TallStackUi::customize()
 | table.thead.normal         | Default header row background                                         |
 | table.thead.striped        | Header background when striped is enabled                             |
 | loading.table              | Loading state overlay opacity and cursor                              |
-| loading.icon               | Loading spinner positioning and animation                             |
+| loading.icon               | Default loading icon positioning and animation                        |
+| loading.indicator          | Wrapper around a Spinner `indicator`                                  |
 | empty                      | Empty state cell text styling                                         |
 | empty-compact              | Empty state cell used instead of `empty` under `compact`              |
 | filter.wrapper             | Filter controls container flex layout                                 |

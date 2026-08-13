@@ -69,8 +69,16 @@
             <table class="{{ $customization['table.base'] }}"
                    @if ($livewire && $loading) wire:loading.class="{{ $customization['loading.table'] }}" @endif>
                 @if ($livewire && $loading)
-                    <x-ts-ui::icon.generic.loading class="{{ $customization['loading.icon'] }}"
-                                                   wire:loading="{{ $target }}" />
+                    @if ($spinner)
+                        <div class="{{ $customization['loading.indicator'] }}"
+                             wire:loading="{{ $target }}">
+                            <x-dynamic-component :component="TallStackUi::prefix('spinner')"
+                                                 :type="$spinner" />
+                        </div>
+                    @else
+                        <x-ts-ui::icon.generic.loading class="{{ $customization['loading.icon'] }}"
+                                                       wire:loading="{{ $target }}" />
+                    @endif
                 @endif
                 @if (!$headerless)
                     <thead @class([$customization['table.th-uppercase'], $customization['table.thead.normal'] => !$striped, $customization['table.thead.striped'] => $striped])>
