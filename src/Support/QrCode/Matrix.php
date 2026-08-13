@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/** The module grid: patterns, data placement, masking and information blocks. */
 final class Matrix
 {
     /** Generator of the BCH code protecting the format information. */
@@ -14,10 +13,8 @@ final class Matrix
     /** Generator of the BCH code protecting the version information. */
     private const VERSION_GENERATOR = 0x1F25;
 
-    /** True where a module is dark. */
     private array $modules = [];
 
-    /** True where a module belongs to a function pattern and must not carry data. */
     private array $reserved = [];
 
     public function __construct(public readonly int $version, public readonly string $level)
@@ -85,10 +82,6 @@ final class Matrix
         return $value;
     }
 
-    /**
-     * Lowest scoring mask wins. The format information is drawn per candidate
-     * because its modules count towards the score.
-     */
     private function elected(): int
     {
         $best = 0;
@@ -122,10 +115,6 @@ final class Matrix
         }
     }
 
-    /**
-     * The four light modules may fall outside the symbol, hence the padding,
-     * and two occurrences may overlap, hence the scan.
-     */
     private function finders(string $line): int
     {
         $line = '0000'.$line.'0000';
@@ -143,7 +132,6 @@ final class Matrix
         return $found;
     }
 
-    /** Written twice, so the code still reads when one of the blocks is damaged. */
     private function format(int $mask): void
     {
         $size = $this->size();
@@ -298,7 +286,6 @@ final class Matrix
         return $total + 10 * intdiv((int) floor(abs($ratio - 50)), 5);
     }
 
-    /** Two module wide zigzag from the bottom right. Leftover modules stay light. */
     private function place(array $codewords): void
     {
         $size = $this->size();

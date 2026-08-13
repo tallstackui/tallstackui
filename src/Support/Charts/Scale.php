@@ -2,12 +2,9 @@
 
 namespace TallStackUi\Support\Charts;
 
-/**
- * @internal
- */
+/** @internal */
 final class Scale
 {
-    /** How many labelled rows an axis is divided into. */
     public const TICKS = 5;
 
     private function __construct(
@@ -58,10 +55,6 @@ final class Scale
         return new self($min, $max, false);
     }
 
-    /**
-     * Rounds a raw step up to the nearest 1, 2, 2.5, 5 or 10 times a power of
-     * ten, which is what makes an axis read as 20, 40, 60 rather than 23.7.
-     */
     private static function step(float $range, int $count = 5): float
     {
         $raw = $range / max(1, $count - 1);
@@ -105,10 +98,6 @@ final class Scale
         return round(Plot::bottom() - (($value - $this->min) / ($this->max - $this->min)) * Plot::band(), 2);
     }
 
-    /**
-     * Where the baseline of a filled area or a bar sits: on zero when the
-     * domain crosses it, on the nearest edge otherwise.
-     */
     public function zero(): float
     {
         return $this->y(max($this->min, min($this->max, 0.0)));

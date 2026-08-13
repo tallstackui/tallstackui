@@ -2,14 +2,8 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/**
- * Arithmetic over GF(256), the field used for error correction.
- *
- * Elements are bytes: addition is XOR, multiplication is a log table lookup.
- */
 final class Galois
 {
-    /** Primitive polynomial x^8 + x^4 + x^3 + x^2 + 1, fixed by the specification. */
     private const PRIMITIVE = 0x11D;
 
     private static array $exponents = [];
@@ -18,7 +12,6 @@ final class Galois
 
     private static array $logarithms = [];
 
-    /** Check codewords: the data polynomial divided by the generator, remainder kept. */
     public static function remainder(array $data, int $degree): array
     {
         self::tables();
@@ -43,7 +36,6 @@ final class Galois
         return array_slice($result, $length, $degree);
     }
 
-    /** Product of (x + a^i) up to the degree, highest term first. */
     private static function generator(int $degree): array
     {
         if (isset(self::$generators[$degree])) {
@@ -75,7 +67,6 @@ final class Galois
         return self::$exponents[self::$logarithms[$left] + self::$logarithms[$right]];
     }
 
-    /** Exponents run past 255 so a sum of logarithms indexes without wrapping. */
     private static function tables(): void
     {
         if (self::$exponents !== []) {

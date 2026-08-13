@@ -2,18 +2,10 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/**
- * The specification tables: capacity, error correction blocks and alignment
- * pattern centres. Transcribed, not derived.
- */
 final class Version
 {
     public const LEVELS = ['L', 'M', 'Q', 'H'];
 
-    /**
-     * Centre coordinates of the alignment patterns, per version. Every pair of
-     * coordinates holds a pattern except the three that would land on a finder.
-     */
     private const ALIGNMENTS = [
         1 => [],
         2 => [6, 18],
@@ -57,10 +49,6 @@ final class Version
         40 => [6, 30, 58, 86, 114, 142, 170],
     ];
 
-    /**
-     * [check codewords per block, blocks, data codewords, blocks, data codewords].
-     * The second group is absent when the version divides evenly.
-     */
     private const BLOCKS = [
         1 => ['L' => [7, 1, 19], 'M' => [10, 1, 16], 'Q' => [13, 1, 13], 'H' => [17, 1, 9]],
         2 => ['L' => [10, 1, 34], 'M' => [16, 1, 28], 'Q' => [22, 1, 22], 'H' => [28, 1, 16]],
@@ -104,7 +92,6 @@ final class Version
         40 => ['L' => [30, 19, 118, 6, 119], 'M' => [28, 18, 47, 31, 48], 'Q' => [30, 34, 24, 34, 25], 'H' => [30, 20, 15, 61, 16]],
     ];
 
-    /** Two bit indicator written into the format information, per level. */
     private const INDICATORS = ['L' => 0b01, 'M' => 0b00, 'Q' => 0b11, 'H' => 0b10];
 
     public static function alignments(int $version): array
@@ -133,7 +120,6 @@ final class Version
         return $coordinates;
     }
 
-    /** Layout of a version and level as [check codewords, [data codewords per block, ...]]. */
     public static function blocks(int $version, string $level): array
     {
         [$check, $first, $data] = self::BLOCKS[$version][$level];
@@ -166,10 +152,6 @@ final class Version
         return 17 + 4 * $version;
     }
 
-    /**
-     * The character count indicator widens at version ten, so the required
-     * length is re-checked against each candidate instead of computed once.
-     */
     public static function smallest(int $length, string $level): ?int
     {
         for ($version = 1; $version <= 40; $version++) {

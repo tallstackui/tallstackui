@@ -10,7 +10,6 @@ use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class QrCodeRuntime extends AbstractRuntime
 {
-    /** Invented layout, so the placeholder keeps the shape of a real code. */
     private const SHAPE = [
         [0, 0, 4, 4], [11, 0, 4, 4], [0, 11, 4, 4],
         [5, 0, 1, 1], [7, 0, 2, 1], [6, 1, 1, 2], [9, 1, 1, 1], [5, 2, 2, 1], [8, 2, 1, 2], [5, 3, 1, 1], [7, 3, 1, 1],
@@ -21,10 +20,6 @@ class QrCodeRuntime extends AbstractRuntime
         [9, 12, 1, 2], [11, 13, 1, 1], [13, 14, 1, 1], [5, 14, 1, 1],
     ];
 
-    /**
-     * [scale] and [mark] avoid the [size] and [watermark] property names: the
-     * view data is reapplied over the runtime and would win.
-     */
     public function runtime(): array
     {
         /** @var QrCode $component */
@@ -47,8 +42,7 @@ class QrCodeRuntime extends AbstractRuntime
             'actions' => (bool) $component->copy || $format !== null,
             'export' => [
                 'format' => $format,
-                // Read from the config rather than $this->data(): the snapshot
-                // predates what CompileConfigurations resolves.
+                // Read from the config rather than $this->data(): the snapshot predates what CompileConfigurations resolves.
                 'pixels' => __ts_get_component_configuration(QrCode::class, 'pixels') ?? 1024,
             ],
         ];

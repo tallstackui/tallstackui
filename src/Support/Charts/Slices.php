@@ -2,14 +2,11 @@
 
 namespace TallStackUi\Support\Charts;
 
-/**
- * @internal
- */
+/** @internal */
 final class Slices
 {
     public const CENTER = 50.0;
 
-    /** Share of the outer radius left hollow by the donut variant. */
     public const HOLE = 0.58;
 
     public const RADIUS = 46.0;

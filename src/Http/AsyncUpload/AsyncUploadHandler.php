@@ -27,11 +27,7 @@ class AsyncUploadHandler
         'tmp_disk' => 'string',
     ];
 
-    /**
-     * @param  array<string, mixed>  $options
-     *
-     * @throws AsyncUploadException
-     */
+    /** @throws AsyncUploadException */
     public function __construct(private readonly array $options = [])
     {
         $this->validate();

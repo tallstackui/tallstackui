@@ -2,21 +2,13 @@
 
 namespace TallStackUi\Support\Charts;
 
-/**
- * @internal
- */
+/** @internal */
 final class Bars
 {
-    /** Share of a slot left empty, so neighbouring categories stay apart. */
     public const GUTTER = 0.3;
 
     public const RADIUS = 0.6;
 
-    /**
-     * Which corners of each stacked segment may round, resolved per index and
-     * per sign. A column that crosses zero has an end on either side of it, and
-     * rounding both sides of a seam opens a gap the card shows through.
-     */
     public static function corners(array $series, int $length, array $groups = []): array
     {
         $first = [];
@@ -51,7 +43,6 @@ final class Bars
         return $corners;
     }
 
-    /** Keyed by the original position, so a subset of bars still finds its own scale. */
     public static function of(array $series, array $scales, int $length): array
     {
         if ($series === [] || $length === 0) {
@@ -97,12 +88,6 @@ final class Bars
         return $bars;
     }
 
-    /**
-     * The running total each entry stacks on top of, accumulated within its own
-     * group so a curve drawn over a stack of bars is not swallowed into it, and
-     * within its own sign so a negative segment hangs below zero rather than
-     * being painted over the positive ones.
-     */
     public static function offsets(array $series, int $length, array $groups = []): array
     {
         $offsets = [];
@@ -127,11 +112,6 @@ final class Bars
         return $offsets;
     }
 
-    /**
-     * A rectangle as a path, because SVG rounds all four corners of a rect at
-     * once. Inside a stack only the two ends of the column may round: an
-     * arc on both sides of a seam opens a gap the card shows through.
-     */
     public static function path(array $bar, bool $top = true, bool $bottom = true): string
     {
         $left = $bar['x'];
@@ -184,7 +164,6 @@ final class Bars
         return $reached;
     }
 
-    /** The index of every value of an entry, keyed by the stack it belongs to. */
     private static function keys(array $entry, string $group, int $length): array
     {
         $keys = [];

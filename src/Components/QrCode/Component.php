@@ -103,10 +103,6 @@ class Component extends TallStackUiComponent implements Customization
         return Views::exists('components.'.str_replace(['views/components/', '/'], ['', '.'], $type).'.'.$this->watermark);
     }
 
-    /**
-     * The highest level is what pays for the modules a watermark removes, so
-     * it is not offered as a choice: asking for a watermark asks for it.
-     */
     public function level(): string
     {
         return $this->watermark !== null ? 'H' : 'M';

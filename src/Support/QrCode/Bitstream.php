@@ -2,25 +2,17 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/**
- * Payload in, interleaved codewords out.
- *
- * Byte mode only: the tighter modes rarely fit a URL.
- */
 final class Bitstream
 {
     private const MODE = 0b0100;
 
-    /** Alternating filler written once the payload and its terminator are in. */
     private const PADDING = [0xEC, 0x11];
 
-    /** Width of the character count indicator. */
     public static function counter(int $version): int
     {
         return $version < 10 ? 8 : 16;
     }
 
-    /** Interleaved so that damage in one spot is spread across every block. */
     public static function of(string $data, int $version, string $level): array
     {
         $codewords = self::codewords($data, $version, $level);

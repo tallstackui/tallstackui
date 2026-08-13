@@ -6,7 +6,6 @@ use InvalidArgumentException;
 
 final class Encoder
 {
-    /** Three codewords are held back for the header, which is twenty bits wide here. */
     public static function limit(string $level): int
     {
         return Version::capacity(40, $level) - 3;

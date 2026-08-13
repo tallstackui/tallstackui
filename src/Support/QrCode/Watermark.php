@@ -2,34 +2,18 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/**
- * Geometry of the region a watermark takes at the centre of the grid.
- *
- * Modules are removed, not covered: there is no background to hide them
- * behind. The highest error correction level is what pays for the loss.
- */
 final class Watermark
 {
-    /** Average glyph width relative to the font size, used to fit text into the strip. */
     private const GLYPH = 0.62;
 
-    /** Strip width granted per character, relative to its height. */
     private const PITCH = 0.75;
 
-    /**
-     * Widest a caption strip may get. Without it the strip grows with the
-     * caption until it hits the outer bound, which on a large symbol means
-     * most of the width and a code no reader will take.
-     */
     private const SPAN = 0.40;
 
-    /** Share of the width a square watermark takes. */
     private const SQUARE = 0.26;
 
-    /** Share of the width the height of a text watermark takes. */
     private const STRIP = 0.16;
 
-    /** @return array{knockout: array, x: float, y: float, size: float} */
     public static function icon(int $version): array
     {
         $size = Version::size($version);
@@ -41,7 +25,6 @@ final class Watermark
         return ['knockout' => $knockout, 'x' => $inner['x'], 'y' => $inner['y'], 'size' => $inner['width']];
     }
 
-    /** @return array{knockout: array, x: float, y: float, font: float} */
     public static function text(int $version, int $length): array
     {
         $size = Version::size($version);
@@ -69,7 +52,6 @@ final class Watermark
         ];
     }
 
-    /** The drawing area, in view box coordinates, inset half a module all round. */
     private static function inner(array $knockout): array
     {
         return [
@@ -80,7 +62,6 @@ final class Watermark
         ];
     }
 
-    /** Largest odd length that stays clear of rows and columns six and eight. */
     private static function odd(float $length, int $version): int
     {
         $bounded = min((int) $length, Version::size($version) - 18);

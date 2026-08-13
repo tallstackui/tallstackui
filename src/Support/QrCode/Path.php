@@ -2,19 +2,10 @@
 
 namespace TallStackUi\Support\QrCode;
 
-/**
- * Draws the grid as a single SVG path.
- *
- * One node per module would be thousands, so runs are merged into one path.
- */
 final class Path
 {
-    /** Light border the specification requires around the code, in modules. */
     public const QUIET = 4;
 
-    /**
-     * @param  array  $knockout  Region left blank, as x, y, width and height in modules.
-     */
     public static function of(Matrix $matrix, array $knockout = []): string
     {
         $rows = $matrix->toArray();

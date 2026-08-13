@@ -2,22 +2,11 @@
 
 namespace TallStackUi\Support\Charts;
 
-/**
- * Monotone cubic interpolation (Fritsch-Carlson) as cubic Beziers, so the
- * curve never leaves the range of the points it passes through.
- *
- * @internal
- */
+/** @internal */
 final class Spline
 {
-    /** Above this, buckets collapse to their lowest and highest value. */
     public const MAX_POINTS = 120;
 
-    /**
-     * Which indexes survive downsampling. Shared across every series so the
-     * curves stay aligned on the horizontal axis, and chosen by looking at
-     * where any series peaks, so no spike is bucketed away.
-     */
     public static function indexes(array $series, int $length): array
     {
         if ($length <= self::MAX_POINTS) {
@@ -75,11 +64,6 @@ final class Spline
         return $path;
     }
 
-    /**
-     * Rounding happens here and not in path() so the tangents come from the
-     * same numbers that end up in the markup. The horizontal position follows
-     * the original index, keeping a downsampled series on the same time axis.
-     */
     public static function points(array $values, Scale $scale, array $indexes, int $length, array $offsets = [], bool $slotted = false): array
     {
         // A single value is a constant series, the same as [7, 7, 7], so it
@@ -122,11 +106,6 @@ final class Spline
         return round($point[0], 2).','.round($point[1], 2);
     }
 
-    /**
-     * Fritsch-Carlson tangents: flatten at every local extremum, then clamp
-     * each pair into the circle of radius 3 so no segment can bulge past
-     * either of its own two points.
-     */
     private static function slopes(array $points): array
     {
         $count = count($points);

@@ -4,9 +4,7 @@ namespace TallStackUi\Support\Charts;
 
 use Illuminate\Support\Collection;
 
-/**
- * @internal
- */
+/** @internal */
 final class Series
 {
     public const AXES = ['left', 'right'];
@@ -60,7 +58,6 @@ final class Series
         return array_values(array_filter(array_column($series, 'type')));
     }
 
-    /** A single bar is enough to divide the horizontal axis into slots, curves included. */
     public static function slotted(array $series, string $type): bool
     {
         foreach ($series as $entry) {
@@ -77,10 +74,6 @@ final class Series
         return $series === [] ? [] : array_merge(...array_column($series, 'data'));
     }
 
-    /**
-     * NAN and INF pass is_numeric() and would poison min()/max() into a path
-     * of "NAN,NAN", which renders as nothing at all.
-     */
     public static function violation(Collection|array|null $series): ?string
     {
         if ($series instanceof Collection) {
@@ -129,10 +122,6 @@ final class Series
         return array_values(array_map(static fn (mixed $value): float => (float) $value, $values));
     }
 
-    /**
-     * Tells the grouped shape from the flat one by looking at the first entry:
-     * a series row is an array or a collection, a plotted value never is.
-     */
     private static function grouped(array $series): bool
     {
         $first = reset($series);
