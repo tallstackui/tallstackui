@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Badge\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -48,6 +49,46 @@ it('cannot accept invalid round value', function () {
     $this->expectException(ViewException::class);
 
     expect('<x-badge round="huge">Foo bar</x-badge>')->render();
+});
+
+it('can render round through the global configuration', function () {
+    config()->set('ts-ui.components.badge.1.round', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-badge>Foo bar</x-badge>')->render()
+        ->toContain('rounded-full')
+        ->not->toContain('rounded-md');
+
+    config()->set('ts-ui.components.badge.1.round', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can render a named round through the global configuration', function () {
+    config()->set('ts-ui.components.badge.1.round', 'lg');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-badge>Foo bar</x-badge>')->render()->toContain('rounded-lg');
+
+    config()->set('ts-ui.components.badge.1.round', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can suppress the global round through the inline prop', function () {
+    config()->set('ts-ui.components.badge.1.round', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-badge :round="false">Foo bar</x-badge>')->render()
+        ->not->toContain('rounded-full')
+        ->toContain('rounded-md');
+
+    config()->set('ts-ui.components.badge.1.round', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
 });
 
 it('can render size variations', function (array $size) {
