@@ -16,7 +16,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 rounded-lg border-transparent;
+    @apply bg-gray-300 rounded-lg border-transparent;
 }
 
 /* Dark mode styles */
@@ -25,5 +25,5 @@
 }
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-dark-400 cursor-pointer;
+    @apply bg-dark-300 cursor-pointer;
 }

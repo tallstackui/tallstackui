@@ -12,7 +12,7 @@
 }
 
 .soft-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 cursor-pointer;
+    @apply bg-gray-300 cursor-pointer;
 }
 
 /* Dark mode styles */
@@ -21,5 +21,5 @@
 }
 
 .dark .soft-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 cursor-pointer;
+    @apply bg-dark-300 cursor-pointer;
 }
