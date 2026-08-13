@@ -5,7 +5,7 @@ import {
   register_ui_element,
   unregister_ui_element,
 } from '../../../js/helpers';
-import { body } from '../Form/Select/helpers';
+import { body, headers } from '../Form/Select/helpers';
 
 export default (
   request,
@@ -258,16 +258,9 @@ export default (
     try {
       this.loading = true;
 
-      const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
-
       const response = await fetch(this._url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          ...(token ? { 'X-CSRF-TOKEN': token } : {}),
-        },
+        headers: headers(),
         body: JSON.stringify({
           item: item,
           search: this.search,
