@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\PinRuntime;
@@ -27,11 +26,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $numbers = null,
         public ?bool $letters = null,
         public ?bool $smart = null,
-        #[SkipDebug]
-        public ?string $mask = null,
     ) {
-        // This pattern is part of the AlpineJS mask plugin
-        $this->mask = $this->numbers ? '9' : ($this->letters ? 'a' : null);
+        //
     }
 
     public function blade(): View
@@ -68,6 +64,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->prefix && strlen($this->prefix) > 3) {
             __ts_validation_exception($this, 'The [prefix] must be 3 characters or less.');
+        }
+
+        if ($this->numbers && $this->letters) {
+            __ts_validation_exception($this, 'The [numbers] and [letters] cannot be used together.');
         }
     }
 }

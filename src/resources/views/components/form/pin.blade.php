@@ -25,7 +25,7 @@
              @js($attributes->get('value')),
              @js($change),
              @js($smart))"
-         x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore.self>
+         x-on:paste="paste($event)" x-cloak wire:ignore.self>
         <div class="{{ $customization['wrapper'] }}"
              x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)
@@ -37,13 +37,12 @@
                             $customization['input.base'],
                             $customization['input.color.background'],
                             $customization['input.color.base'],
-                       ]) readonly />
+                       ]) readonly tabindex="-1" aria-hidden="true" />
             @endif
             @foreach (range(1, $length) as $index)
                 <input type="text"
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
-                       @if ($mask) x-mask="{{ $mask }}" @endif
                        @if ($livewire)
                            value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}"
                        @elseif ($property)
@@ -56,20 +55,20 @@
                        ]) x-bind:class="{
                            '{{ $customization['input.color.base'] }}': !error,
                            '{{ $customization['input.color.error'] }}': @js($invalidate ?? false) === false && error,
-                       }" maxlength="1"
-                       autocomplete="false"
+                       }"
+                       autocomplete="{{ $numbers && $index === 1 ? 'one-time-code' : 'off' }}"
                        @if ($numbers)
                            inputmode="numeric"
                        @endif
                        @required($attributes->get('required', false))
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
-                       x-on:keyup="keyup(@js($index))"
-                       x-on:keyup.left="left(@js($index))"
-                       x-on:keyup.right="right(@js($index))"
-                       x-on:keyup.up="left(@js($index))"
-                       x-on:keyup.down="right(@js($index))"
-                       x-on:keyup.delete="backspace($event, @js($index))"
-                       x-on:keyup.backspace="backspace($event, @js($index))" />
+                       x-on:input="type(@js($index))"
+                       x-on:keydown.left.prevent="left(@js($index))"
+                       x-on:keydown.right.prevent="right(@js($index))"
+                       x-on:keydown.up.prevent="left(@js($index))"
+                       x-on:keydown.down.prevent="right(@js($index))"
+                       x-on:keydown.delete="backspace($event, @js($index))"
+                       x-on:keydown.backspace="backspace($event, @js($index))" />
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">

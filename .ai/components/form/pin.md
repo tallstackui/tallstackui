@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A PIN/OTP input component that renders individual character boxes with automatic focus navigation, paste support, optional numeric or letter-only masks, a static prefix, and a clear button.
+A PIN/OTP input component that renders individual character boxes with automatic focus navigation, paste support, optional numeric or letter-only restriction, a static prefix, and a clear button.
 
 ## Basic Usage
 
@@ -37,8 +37,8 @@ A PIN/OTP input component that renders individual character boxes with automatic
 | prefix     | string\|null                | null    | Static text prefix displayed before the pin boxes (max 3 characters)                |
 | clear      | bool\|null                  | null    | Shows a clear button to reset all pin inputs                                        |
 | invalidate | bool\|null                  | null    | Prevents displaying validation error messages                                       |
-| numbers    | bool\|null                  | null    | Restricts input to numbers only (applies Alpine.js mask)                            |
-| letters    | bool\|null                  | null    | Restricts input to letters only (applies Alpine.js mask)                            |
+| numbers    | bool\|null                  | null    | Restricts input to numbers only (cannot be used with `letters`)                     |
+| letters    | bool\|null                  | null    | Restricts input to letters only (cannot be used with `numbers`)                     |
 | smart      | bool\|null                  | null    | Enables smart paste: automatically distributes a pasted string across all pin boxes |
 
 ## Alpine.js Events
@@ -52,6 +52,7 @@ A PIN/OTP input component that renders individual character boxes with automatic
 
 - The `length` is mandatory and must be set.
 - The `prefix` must be 3 characters or less.
+- The `numbers` and `letters` cannot be used together.
 
 ## Event Payload Details
 

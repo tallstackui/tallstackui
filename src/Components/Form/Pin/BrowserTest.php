@@ -270,6 +270,60 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_focus_the_last_input_when_pasting(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    <input dusk="copy" value="1515" />
+
+                    <x-pin length="4" wire:model.live="value" numbers />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->clickAtVisibleXPath('//input[@dusk="pin-1"]')
+            ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->waitForTextIn('@value', '1515')
+            ->assertFocused('@pin-4');
+    }
+
+    #[Test]
+    public function can_keep_every_character_when_typing_fast(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    <x-pin length="4" wire:model.live="value" numbers />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->clickAtVisibleXPath('//input[@dusk="pin-1"]')
+            ->keys('@pin-1', '1', '5', '1', '5')
+            ->waitForTextIn('@value', '1515')
+            ->assertSeeIn('@value', '1515');
+    }
+
+    #[Test]
     public function can_paste_letters(): void
     {
         Livewire::visit(new class extends Component
@@ -376,6 +430,35 @@ class BrowserTest extends BrowserTestCase
             ->waitUntilMissingText('1515')
             ->assertDontSeeIn('@value', '1515')
             ->assertSee('The value field is required.');
+    }
+
+    #[Test]
+    public function can_shift_the_characters_when_backspacing(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '1234';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    <x-pin length="4" wire:model.live="value" numbers />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->clickAtVisibleXPath('//input[@dusk="pin-2"]')
+            ->keys('@pin-2', [WebDriverKeys::BACKSPACE])
+            ->waitForTextIn('@value', '134')
+            ->assertSeeIn('@value', '134')
+            ->assertInputValue('@pin-1', '1')
+            ->assertInputValue('@pin-2', '3')
+            ->assertInputValue('@pin-3', '4')
+            ->assertInputValue('@pin-4', '');
     }
 
     #[Test]

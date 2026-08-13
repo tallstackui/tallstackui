@@ -33,3 +33,9 @@ it('cannot use the pin without length', function () {
 
     expect('<x-pin />')->render();
 });
+
+it('cannot use numbers and letters together', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-pin length="4" numbers letters />')->render();
+});

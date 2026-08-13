@@ -17,7 +17,6 @@ export default (
   id: id,
   length: length,
   clear: clear,
-  pasting: false,
   observer: null,
   observing: false,
   error: false,
@@ -149,92 +148,106 @@ export default (
     this.focus(index + 1);
   },
   /**
-   * Get the last input that is filled.
-   *
-   * @return {Number}
-   */
-  filled() {
-    for (let index = this.length; index > 0; index--) {
-      if (this.input(index)?.value === '') {
-        continue;
-      }
-
-      return index;
-    }
-  },
-  /**
-   * Handle the keyup event.
+   * Handle the typing. We rely on the input event instead of keyup because
+   * keyup only fires when the key is released, which happens after the next
+   * keydown when typing fast, making the characters be discarded.
    *
    * @param {Number} index
    * @return {void}
    */
-  keyup(index) {
-    // This code aims to ensure that typing always occurs starting with the
-    // first input, so that the person cannot start typing from the last input.
-    if (index !== 1) {
-      for (let i = 1; i < index; i++) {
-        const previous = this.input(i);
+  type(index) {
+    const element = this.input(index);
 
-        if (previous.value === '') {
-          this.focus(i);
-
-          this.input(i).value = this.input(index).value;
-          this.input(index).value = '';
-
-          this.syncModel();
-
-          return;
-        }
-      }
+    if (!element) {
+      return;
     }
 
-    if (this.pasting) {
-      this.pasting = false;
+    const characters = element.value.split('').filter((character) => !this.invalidate(character));
+
+    if (characters.length === 0) {
+      element.value = '';
+
       this.syncModel();
 
       return;
     }
 
-    const input = this.input(index);
+    // This code aims to ensure that typing always occurs starting with the
+    // first input, so that the person cannot start typing from the last input.
+    const gap = this.gap(index);
 
-    if (input.value && index !== this.length) {
-      if (this.input(index + 1)?.value !== '') {
-        this.focus(index + 1);
+    if (gap !== index) {
+      element.value = '';
 
-        return;
-      }
+      this.input(gap).value = characters[0];
 
-      this.focus(index + 1);
+      this.focus(Math.min(gap + 1, this.length));
+      this.syncModel();
+
+      return;
     }
 
+    // More than one character means the person typed faster than the focus
+    // was able to move, so we spread the surplus over the next inputs.
+    let cursor = index;
+
+    for (const character of characters) {
+      const input = this.input(cursor);
+
+      if (!input) {
+        break;
+      }
+
+      input.value = character;
+
+      cursor++;
+    }
+
+    this.focus(Math.min(cursor, this.length));
     this.syncModel();
   },
   /**
-   * Handle the backspace key.
+   * Get the first empty input placed before the given index.
+   *
+   * @param {Number} index
+   * @return {Number}
+   */
+  gap(index) {
+    for (let previous = 1; previous < index; previous++) {
+      if (this.input(previous)?.value === '') {
+        return previous;
+      }
+    }
+
+    return index;
+  },
+  /**
+   * Handle the backspace key. Just like the typing, this runs on keydown
+   * because keyup arrives too late when the key is pressed repeatedly.
    *
    * @param {KeyboardEvent} event
    * @param {Number} index
    * @return {void}
    */
   backspace(event, index) {
-    const current = this.input(index);
+    event.preventDefault();
 
-    // If the attempt here is to clear an input that is not the last one, we go to the last filled input.
-    // Otherwise, cleaning occurs normally. This was done to correct the attempt to delete an intermediate
-    // input, which doesn't work very well due to the logic we adopted in the component's behavior.
-    if (current?.value !== '' && index !== this.length) {
-      const last = this.filled();
+    // An empty input means the deletion must happen at the previous one.
+    const target = this.input(index)?.value !== '' ? index : index - 1;
 
-      this.focus(last);
-      this.input(last).value = '';
-
-      this.syncModel();
-
+    if (target < 1) {
       return;
-    } else if (index !== 1) {
-      this.focus(index - 1);
     }
 
+    // The characters at the right are shifted to the left to avoid gaps
+    // between the filled inputs, which would break the model order.
+    for (let position = target; position < this.length; position++) {
+      this.input(position).value = this.input(position + 1).value;
+    }
+
+    this.input(this.length).value = '';
+
+    this.focus(target);
     this.syncModel();
   },
   /**
@@ -317,7 +330,7 @@ export default (
   paste(event) {
     event.preventDefault();
 
-    const data = event.clipboardData.getData('text');
+    const data = event.clipboardData.getData('text').trim();
 
     if (!data) return;
 
@@ -325,14 +338,17 @@ export default (
     // values different from the mask
     if (this.invalidate(data)) return;
 
-    for (let index = 0; index <= this.length; index++) {
-      const input = this.input(index + 1);
+    const characters = data.slice(0, this.length).split('');
 
-      if (!input || !data[index]) continue;
+    for (let index = 1; index <= this.length; index++) {
+      const input = this.input(index);
 
-      input.value += data[index];
+      if (!input) continue;
+
+      input.value = characters[index - 1] ?? '';
     }
 
+    this.focus(Math.min(characters.length + 1, this.length));
     this.syncModel();
   },
   /**
