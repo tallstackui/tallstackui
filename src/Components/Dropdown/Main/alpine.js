@@ -3,15 +3,20 @@ export default (animate, hover = false) => ({
   animate: animate,
   hover: hover,
   timeout: null,
+  scroll: null,
   init() {
-    window.addEventListener('scroll', () => {
+    this.scroll = () => {
       const element = this.$refs.dropdown?.getBoundingClientRect();
       this.show =
         element?.bottom < 0 || (element?.top > window.innerHeight && this.show) ? false : this.show;
-    });
+    };
+
+    window.addEventListener('scroll', this.scroll);
   },
   destroy() {
     clearTimeout(this.timeout);
+
+    window.removeEventListener('scroll', this.scroll);
   },
   // The pointerType guard restricts hover to real pointers: on touch the tap
   // fires pointerenter right before click, and the two would cancel each other.

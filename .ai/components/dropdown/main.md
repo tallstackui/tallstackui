@@ -64,7 +64,7 @@ With a header slot:
 | sm        | bool\|null   | null         | Small size: items shrink one step from the default                                                                                                                                                                                                                                            |
 | md        | bool\|null   | null         | Medium size (the default content density)                                                                                                                                                                                                                                                     |
 | lg        | bool\|null   | null         | Large size: roomier paddings, font and icons on every item                                                                                                                                                                                                                                    |
-| width     | string\|null | null         | Floating panel width. Accepts `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`. When omitted, falls back to whichever size flag is active (`xs`, `sm`, `md`, or `lg`); when none of those is set, defaults to `md` (`w-56`). Pass `width` explicitly to decouple panel footprint from item density. |
+| width     | string\|null | null         | Floating panel minimum width. Accepts `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`. When omitted, falls back to whichever size flag is active (`xs`, `sm`, `md`, or `lg`); when none of those is set, defaults to `md` (`min-w-56`). Pass `width` explicitly to decouple panel footprint from item density. |
 
 ## Slots
 
@@ -84,7 +84,9 @@ With a header slot:
 The dropdown exposes two orthogonal axes:
 
 - **Size** (boolean flags `xs`, `sm`, `md`, `lg`) controls the **content density** of every item — padding, font size, icon size. Cascades automatically to nested `<x-dropdown.items>` and `<x-dropdown.submenu>`.
-- **Width** (string prop `width`) controls only the **floating panel width**. Accepts `xxs` (`w-32`), `xs` (`w-40`), `sm` (`w-48`), `md` (`w-56`), `lg` (`w-64`), `xl` (`w-72`), `2xl` (`w-80`). Defaults to the active size when not set.
+- **Width** (string prop `width`) controls only the **floating panel footprint**, as a minimum width. Accepts `xxs` (`min-w-32`), `xs` (`min-w-40`), `sm` (`min-w-48`), `md` (`min-w-56`), `lg` (`min-w-64`), `xl` (`min-w-72`), `2xl` (`min-w-80`). Defaults to the active size when not set.
+
+The panel is absolutely positioned, so it shrinks to fit its content and the width acts as a floor rather than a fixed footprint: items never wrap or clip, and a label wider than the chosen step grows the panel instead of being cut off by the panel's `overflow-hidden`. Pick a wider step only when the panel should stay roomy even with short labels.
 
 ```blade
 <x-dropdown text="Account" xs>
@@ -123,13 +125,13 @@ TallStackUi::customize()
 | header.wrapper      | Header content container with margin                     |
 | slot.wrapper        | Menu items container with overflow and rounding          |
 | floating.default    | Floating panel base styles (background, border, shadow)  |
-| floating.widths.xxs | Floating panel width when `width="xxs"` (`w-32`)         |
-| floating.widths.xs  | Floating panel width when `width="xs"` (`w-40`)          |
-| floating.widths.sm  | Floating panel width when `width="sm"` (`w-48`)          |
-| floating.widths.md  | Floating panel width when `width="md"` (`w-56`, default) |
-| floating.widths.lg  | Floating panel width when `width="lg"` (`w-64`)          |
-| floating.widths.xl  | Floating panel width when `width="xl"` (`w-72`)          |
-| floating.widths.2xl | Floating panel width when `width="2xl"` (`w-80`)         |
-| action.wrapper      | Trigger button flex container                            |
+| floating.widths.xxs | Floating panel minimum width when `width="xxs"` (`min-w-32`)         |
+| floating.widths.xs  | Floating panel minimum width when `width="xs"` (`min-w-40`)          |
+| floating.widths.sm  | Floating panel minimum width when `width="sm"` (`min-w-48`)          |
+| floating.widths.md  | Floating panel minimum width when `width="md"` (`min-w-56`, default) |
+| floating.widths.lg  | Floating panel minimum width when `width="lg"` (`min-w-64`)          |
+| floating.widths.xl  | Floating panel minimum width when `width="xl"` (`min-w-72`)          |
+| floating.widths.2xl | Floating panel minimum width when `width="2xl"` (`min-w-80`)         |
+| action.wrapper      | Trigger button itself, wrapping the text and the chevron |
 | action.text         | Trigger text styles                                      |
 | action.icon         | Trigger icon and chevron styles                          |

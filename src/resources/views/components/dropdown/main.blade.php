@@ -16,32 +16,30 @@
          @endif
             {{ $attributes->only(['x-on:open', 'x-on:select']) }}>
         @if ($text)
-            <div class="{{ $customization['action.wrapper'] }}">
+            <button type="button"
+                    class="{{ $customization['action.wrapper'] }}"
+                    x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
+                    aria-controls="dropdown-menu"
+                    dusk="tallstackui_open_dropdown">
                 <span class="{{ $customization['action.text'] }}">{{ $text }}</span>
-                <button type="button"
-                        x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
-                        aria-controls="dropdown-menu"
-                        dusk="tallstackui_open_dropdown">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('chevron-down')"
-                                         internal
-                                         class="{{ $customization['action.icon'] }}"
-                                         x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
-                </button>
-            </div>
+                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                     :icon="TallStackUi::icon('chevron-down')"
+                                     internal
+                                     class="{{ $customization['action.icon'] }}"
+                                     x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
+            </button>
         @elseif ($icon)
-            <div class="{{ $customization['action.wrapper'] }}">
-                <button type="button"
-                        x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
-                        aria-controls="dropdown-menu"
-                        dusk="tallstackui_open_dropdown">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :$icon
-                                         internal
-                                         class="{{ $customization['action.icon'] }}"
-                                         x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
-                </button>
-            </div>
+            <button type="button"
+                    class="{{ $customization['action.wrapper'] }}"
+                    x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
+                    aria-controls="dropdown-menu"
+                    dusk="tallstackui_open_dropdown">
+                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                     :$icon
+                                     internal
+                                     class="{{ $customization['action.icon'] }}"
+                                     x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
+            </button>
         @else
             {!! $action !!}
         @endif

@@ -1052,6 +1052,60 @@ milliseconds.
 
 ## Dropdown
 
+### Fixed — the trigger text did nothing when clicked
+
+`<x-dropdown text="Options">` rendered the label as a `<span>` next to a separate
+button that held only the chevron, and the toggle lived on that button: clicking the
+word did nothing, and the click target was the icon alone. The label and the chevron
+now sit inside the same `<button>`, which is the whole trigger — the same element for
+both the text and the icon variants.
+
+**Migration:** `action.wrapper` used to style a `<div>` around the trigger and now
+styles the trigger button itself, gaining `cursor-pointer` and `items-center`. An
+application that appends to the block is unaffected; one that replaced it should
+carry the two classes over.
+
+### Fixed — a scroll listener survived the dropdown
+
+`init()` registered a `scroll` listener on `window` to close the panel once the
+trigger left the viewport, and `destroy()` only cleared the hover timeout. Every
+dropdown removed by a Livewire re-render or a `wire:navigate` visit left its listener
+behind, with the closure holding the component — a table with one dropdown per row
+accumulated them on each render. The listener is kept in a property and removed on
+`destroy()`.
+
+### Fixed — a long item was cut in half by the panel width
+
+`size` and `width` are two axes: the size flags (`xs`, `sm`, `md`, `lg`) set the
+content density of every item, and `width` sets the panel footprint, falling back
+to the active size when it is not passed. The footprint was a fixed width, and the
+items are `whitespace-nowrap` inside an `overflow-hidden` panel — so `<x-dropdown sm>`
+locked the panel at `w-48` and any label wider than that was clipped mid-glyph, with
+no ellipsis and no wrap.
+
+The steps are minimum widths now (`min-w-32` through `min-w-80`). The panel is
+absolutely positioned, so it shrinks to fit its content and the step acts as a floor:
+a short menu renders exactly as before, and a long label grows the panel instead of
+being cut. Passing `width` to decouple the footprint from the density keeps working
+the same way.
+
+```blade
+{{-- small items, and the panel grows to fit "Sidebar Separator as markdown" --}}
+<x-dropdown text="Options" sm>
+    <x-dropdown.items text="Sidebar Separator as markdown" />
+</x-dropdown>
+```
+
+**Migration:** the `floating.widths.*` blocks on `dropdown` and `dropdown.submenu`
+kept their names and now hold `min-w-*` instead of `w-*`. An application that wants
+the old fixed footprint back can replace the class on the block it uses:
+
+```php
+TallStackUi::customize()
+    ->dropdown()
+    ->block('floating.widths.sm', "data-[tsui-dropdown-width='sm']:w-48");
+```
+
 ### Added — `hover`
 
 Opens the dropdown when the pointer enters the trigger and closes it when the
