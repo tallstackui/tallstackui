@@ -994,9 +994,13 @@ return [
             |----------------------------------------------------------------------
             |
             | delay: controls the panel open/close animation (Allowed: slow, fast, faster, flash).
+            | balloon: controls the panel color (Allowed: any palette key, or black).
+            | hover: opens the panel when the pointer rests on the trigger.
             */
             [
                 'delay' => null,
+                'balloon' => null,
+                'hover' => false,
             ],
         ],
         'wrapper.input' => Components\Wrapper\Input\Component::class,

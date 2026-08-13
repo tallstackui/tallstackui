@@ -95,6 +95,8 @@ The color is resolved as `var(--color-<name>-600)`, so a palette the application
 
 Without a color, the balloon is high contrast and follows the theme: dark on light, light on dark. With a color, it keeps that color in both themes.
 
+`<x-reaction balloon="...">` accepts the same list. See [Reaction](reaction.md#balloon-colors).
+
 ## Behavior
 
 | Trigger        | Opens                     | Closes                             |

@@ -1,11 +1,10 @@
-/*
-Panel for the JavaScript-built popups appended to `<body>` and placed by the
-shared placement helper, today only `<x-reaction>`.
-*/
 [data-tsui-popover] {
-    @apply bg-dark-900 border-dark-700 fixed top-0 left-0 z-50 w-max rounded-lg border p-2 shadow-lg;
+    @apply fixed top-0 left-0 z-50 w-max rounded-lg border p-2 shadow-lg;
 
     --tsui-popover-duration: 150ms;
+
+    background-color: var(--tsui-popover-bg, var(--color-dark-900));
+    border-color: var(--tsui-popover-border, var(--color-dark-700));
 
     visibility: hidden;
     opacity: 0;
@@ -47,17 +46,11 @@ shared placement helper, today only `<x-reaction>`.
     transition: none;
 }
 
-/* Dark mode styles */
-.dark [data-tsui-popover] {
+/* Dark mode styles. A colored panel keeps its palette in both themes. */
+.dark [data-tsui-popover]:not([data-color]) {
     @apply bg-dark-800 border-dark-600/50;
 }
 
-/*
-The arrow is a square rotated 45deg, half sticking out of the panel. It
-inherits the panel's background and border color, so overriding
-`[data-tsui-popover]` restyles it too. Only the two outward-facing edges
-carry a border, continuing the panel's own border around the tip.
-*/
 [data-tsui-popover] > [data-arrow] {
     @apply absolute h-2 w-2 rotate-45 bg-inherit;
 

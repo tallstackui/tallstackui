@@ -8,7 +8,7 @@ const ARROW = 8;
 // arrow (bounding box ~11.3px) clear of the corner arc when it clamps.
 const INSET = 16;
 
-export default (model, content, position, delay = null) => {
+export default (model, content, position, delay = null, balloon = null, hover = false) => {
   let popover = null;
   let arrow = null;
   let frame = null;
@@ -19,6 +19,7 @@ export default (model, content, position, delay = null) => {
   return {
     show: false,
     quantity: model,
+    timeout: null,
     init() {
       follow = () => this.reposition();
 
@@ -48,6 +49,37 @@ export default (model, content, position, delay = null) => {
         this.close();
       });
     },
+    // The pointerType guard restricts hover to real pointers: on touch the tap
+    // fires pointerenter right before click, and the two would cancel each other.
+    enter(event) {
+      if (!hover || event.pointerType !== 'mouse') {
+        return;
+      }
+
+      clearTimeout(this.timeout);
+
+      this.show = true;
+    },
+    // The delay is a grace period to cross the offset gap between the trigger
+    // and the floating panel without collapsing the popover mid-way.
+    leave(event) {
+      if (!hover || event.pointerType !== 'mouse') {
+        return;
+      }
+
+      clearTimeout(this.timeout);
+
+      this.timeout = setTimeout(() => {
+        this.show = false;
+      }, 300);
+    },
+    toggle(event) {
+      if (hover && event.pointerType === 'mouse') {
+        return;
+      }
+
+      this.show = !this.show;
+    },
     attach() {
       window.addEventListener('scroll', follow, { capture: true, passive: true });
       window.addEventListener('resize', follow, { passive: true });
@@ -73,10 +105,29 @@ export default (model, content, position, delay = null) => {
         popover.setAttribute('data-delay', delay);
       }
 
+      if (balloon) {
+        popover.setAttribute('data-color', balloon);
+        popover.style.setProperty(
+          '--tsui-popover-bg',
+          balloon === 'black' ? 'var(--color-black)' : `var(--color-${balloon}-600)`
+        );
+        popover.style.setProperty(
+          '--tsui-popover-border',
+          balloon === 'black' ? 'var(--color-black)' : `var(--color-${balloon}-700)`
+        );
+      }
+
       arrow = document.createElement('span');
       arrow.setAttribute('data-arrow', '');
 
       popover.append(arrow);
+
+      // The panel is `position: fixed`, so it does not sit in the wrapper's
+      // hit box. Without these, crossing the offset gap collapses the hover.
+      if (hover) {
+        popover.addEventListener('pointerenter', (event) => this.enter(event));
+        popover.addEventListener('pointerleave', (event) => this.leave(event));
+      }
 
       this.$refs.button.parentElement.append(popover);
     },
@@ -88,6 +139,8 @@ export default (model, content, position, delay = null) => {
       this.detach();
     },
     destroy() {
+      clearTimeout(this.timeout);
+
       this.detach();
 
       popover?.remove();

@@ -2,9 +2,13 @@
     $customization = $classes();
 @endphp
 
-<div wire:ignore>
-    <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position), @js($configurations['delay']))"
-            x-on:click="show = !show"
+<div wire:ignore
+     x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position), @js($configurations['delay']), @js($configurations['balloon']), @js($configurations['hover']))"
+     @if ($configurations['hover'])
+         x-on:pointerenter="enter($event)"
+         x-on:pointerleave="leave($event)"
+     @endif>
+    <button x-on:click="toggle($event)"
             dusk="tallstackui_reaction_button"
             x-ref="button"
             class="{{ $customization['wrapper.first'] }}"

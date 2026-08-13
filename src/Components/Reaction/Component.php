@@ -57,6 +57,8 @@ class Component extends TallStackUiComponent implements Customization
         public string $reactMethod = 'react',
         public ?string $position = 'auto',
         public ?string $delay = null,
+        public ?string $balloon = null,
+        public ?bool $hover = null,
         #[SkipDebug]
         public ?array $icons = null,
     ) {
@@ -130,6 +132,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->delay !== null && ! in_array($this->delay, Tooltip::DELAYS)) {
             __ts_validation_exception($this, 'The [delay] must be one of the following: ['.implode(', ', Tooltip::DELAYS).']');
+        }
+
+        if ($this->balloon !== null && ! in_array($this->balloon, Tooltip::BALLOONS)) {
+            __ts_validation_exception($this, 'The [balloon] must be one of the following: ['.implode(', ', Tooltip::BALLOONS).']');
         }
 
         if (array_diff($this->only ?? [], array_keys(self::ICONS)) !== []) {

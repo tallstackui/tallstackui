@@ -397,15 +397,21 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Reaction::class) ?? [];
 
-        // The inline prop wins. The flash global still turns the panel instant
-        // when this instance did not set a delay of its own.
+        // Inline prop, then config.php, then the flash global as a last
+        // resort when neither side named a delay.
+        $component->delay ??= $configuration['delay'] ?? null;
+        $component->balloon ??= $configuration['balloon'] ?? null;
+        $component->hover ??= $configuration['hover'] ?? false;
+
         if ($component->delay === null && __ts_global('flash', $component::class)) {
             $component->delay = 'flash';
         }
 
-        $component->delay ??= $configuration['delay'] ?? null;
-
-        return ['delay' => $component->delay];
+        return [
+            'delay' => $component->delay,
+            'balloon' => $component->balloon,
+            'hover' => $component->hover,
+        ];
     }
 
     private static function select(SelectStyled $component): array

@@ -726,17 +726,41 @@ matching the calendar, and its value changed from `h-[17rem]` to
 
 ## Reaction & Tooltip
 
-### Added — `delay` on `<x-reaction>`
+### Added — `delay`, `balloon` and `hover` on `<x-reaction>`
 
-The emoji panel used a fixed 150ms fade. It now accepts the same named steps as
-`x-tooltip`: `slow` (400ms), `fast` (150ms), `faster` (75ms) and `flash`
-(instant). The inline prop wins over the `reaction.delay` config, and over the
-flash global when the instance sets a delay of its own.
+The emoji panel used a fixed 150ms fade, a single dark surface and click-to-open.
+It now accepts the same named animation steps as `x-tooltip` (`slow` 400ms,
+`fast` 150ms, `faster` 75ms, `flash` instant), the same `balloon` palette, and
+a `hover` flag that opens the panel the way `<x-dropdown hover>` already does.
+
+Each reaction builds its own panel, so two instances on the same page can
+differ. Hover is mouse-only — a tap still toggles on touch — and a 300ms leave
+delay lets the pointer cross the gap to the panel.
 
 ```blade
 <x-reaction delay="faster" />
 <x-reaction delay="flash" />
+<x-reaction balloon="red" />
+<x-reaction balloon="emerald" delay="faster" hover />
 ```
+
+All three also live under `components.reaction` in the config. Resolution is
+always **inline → config → (delay only) flash global**. The flash global only
+fills `delay` when neither the tag nor the config named one.
+
+```php
+'reaction' => [
+    Components\Reaction\Component::class,
+    [
+        'delay' => null,    // slow | fast | faster | flash
+        'balloon' => null,  // any palette key, or black
+        'hover' => false,
+    ],
+],
+```
+
+A colored panel keeps that color in both themes (`--color-<name>-600` fill,
+`-700` border). The uncolored default still follows the theme.
 
 ### Fixed — the balloons now honor the flash global
 
@@ -747,7 +771,8 @@ global. Both now mark the balloon with `data-instant`, which turns the
 transition off.
 
 The reaction resolves the flag per instance, through the same `only`/`except`
-resolution every Blade component uses. The tooltip is a directive that can run
+resolution every Blade component uses, and only when `delay` is still empty
+after the inline prop and the config. The tooltip is a directive that can run
 on elements with no component behind them, so it reads the flag from the same
 `data-tsui-*` attributes on the script tag that carry the other tooltip
 globals — meaning it is frozen when the view compiles, exactly like
@@ -3017,9 +3042,11 @@ became one at ~58 KB, and one request less.
 
 ### Changed — off tippy, onto the shared placement helper
 
-Reaction was the other tippy consumer, and it is not a tooltip: it is a click-triggered
-interactive popover. It keeps its own trigger, click-outside and <kbd>Escape</kbd>
-handling, and asks `place()` for coordinates like the tooltip does.
+Reaction was the other tippy consumer, and it is not a tooltip: it is an
+interactive popover. Click is the default; `hover` opens it on pointer enter
+the same way the dropdown does. It keeps its own trigger, click-outside and
+<kbd>Escape</kbd> handling, and asks `place()` for coordinates like the tooltip
+does.
 
 The panel is built once and appended **inside** the `wire:ignore` wrapper, next to the
 trigger. Not to `<body>`, which is where a floating element would normally go: `$wire`
@@ -3039,7 +3066,9 @@ rounded with a shadow.
 
 Like the tooltip balloon, it is built by JavaScript and therefore outside
 `customization()`. It is styled in `css/plugins/popover.css` and overridden through
-`[data-tsui-popover]`:
+`[data-tsui-popover]`. `delay` writes `data-delay` or `data-instant`, `balloon`
+writes `data-color` plus `--tsui-popover-bg` / `--tsui-popover-border`, and the
+uncolored default still uses the surfaces above.
 
 ```css
 [data-tsui-popover] { background-color: #101828; }
