@@ -36,6 +36,8 @@ A versatile text input component with support for icons, prefix/suffix addons (t
 | position    | string\|null                | 'left'  | Icon position: 'left' or 'right'                             |
 | prefix      | string\|ComponentSlot\|null | null    | Prefix content (text string or slot with button/component)   |
 | suffix      | string\|ComponentSlot\|null | null    | Suffix content (text string or slot with button/component)   |
+| disabled    | bool                        | false   | Locks the input. The value is not submitted.                 |
+| readonly    | bool                        | false   | Locks the input. The value is still submitted.               |
 
 ## Slots
 

@@ -26,7 +26,7 @@ trait FormDefaultInputClasses
             'color' => [
                 'base' => 'dark:ring-dark-600/50 dark:text-dark-300 text-gray-600 ring-gray-200',
                 'background' => 'dark:bg-dark-800 bg-white',
-                'disabled' => 'dark:bg-dark-600 bg-gray-100',
+                'disabled' => 'dark:bg-dark-900 bg-gray-100',
             ],
         ];
     }

@@ -89,7 +89,18 @@ it('can render disabled', function () {
 HTML;
 
     expect($component)->render()
-        ->toContain('disabled');
+        ->toContain('disabled')
+        ->toContain('dark:bg-dark-900');
+});
+
+it('can render readonly', function () {
+    $component = <<<'HTML'
+    <x-autocomplete readonly :items="[['value' => 'Foo']]" />
+HTML;
+
+    expect($component)->render()
+        ->toContain('readonly')
+        ->toContain('dark:bg-dark-900');
 });
 
 it('can render with description and image fields', function () {

@@ -65,6 +65,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'error' => 'bg-red-600 group-focus:ring-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600',
+            'locked' => 'cursor-not-allowed!',
         ]);
     }
 }

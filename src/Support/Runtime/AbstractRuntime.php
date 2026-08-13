@@ -133,6 +133,34 @@ abstract class AbstractRuntime
     }
 
     /**
+     * Both lock the component and paint the same. Only `readonly` keeps
+     * submitting the value.
+     *
+     * @return array{disabled: bool, readonly: bool, locked: bool}
+     */
+    protected function locks(bool $inherit = false): array
+    {
+        $disabled = $this->data('disabled') ?? $this->data['attributes']->get('disabled');
+        $readonly = $this->data('readonly') ?? $this->data['attributes']->get('readonly');
+
+        // A side component is half of input.select, so the lock belongs to the
+        // compound control. Reached last, so its own lock still wins.
+        if ($inherit) {
+            $disabled ??= $this->factory->getConsumableComponentData('disabled');
+            $readonly ??= $this->factory->getConsumableComponentData('readonly');
+        }
+
+        $disabled = (bool) $disabled;
+        $readonly = (bool) $readonly;
+
+        return [
+            'disabled' => $disabled,
+            'readonly' => $readonly,
+            'locked' => $disabled || $readonly,
+        ];
+    }
+
+    /**
      * Get the correct value to use in the validation step.
      * The value of a Livewire component is `$property` - when in
      * the context of Livewire, or the `$value` provided.

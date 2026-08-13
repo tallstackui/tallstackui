@@ -56,6 +56,8 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 | only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)           |
 | weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)              |
 | weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)            |
+| disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted. |
+| readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted. |
 
 ## Alpine.js Events
 

@@ -12,9 +12,12 @@ class SelectNativeRuntime extends AbstractRuntime
     {
         [$left, $right] = $this->slots();
 
+        $side = $left ? 'left' : ($right ? 'right' : null);
+
         return [
             ...$this->bind()->only('property', 'error', 'validate'),
-            'side' => $left ? 'left' : ($right ? 'right' : null),
+            ...$this->locks(inherit: $side !== null),
+            'side' => $side,
         ];
     }
 }

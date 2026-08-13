@@ -6,7 +6,7 @@
     <input hidden name="{{ $property }}">
 @endif
 
-<div x-data="tallstackui_autocomplete({!! $entangle !!}, @js($items), @js($selectable), @js($request), @js((bool) $strict), @js($lazy), @js($livewire), @js($property), @js($value))"
+<div x-data="tallstackui_autocomplete({!! $entangle !!}, @js($items), @js($selectable), @js($request), @js((bool) $strict), @js($lazy), @js($livewire), @js($property), @js($value), @js($disabled), @js($readonly))"
      @if ($attributes->whereStartsWith('x-model'))
          x-modelable="model"
          {{ $attributes->whereStartsWith('x-model') }}
@@ -27,6 +27,7 @@
                          :placeholder="$placeholder"
                          :invalidate="$invalidate"
                          :disabled="$disabled"
+                         :readonly="$readonly"
                          floatable
                          x-ref="input"
                          x-model="search"
@@ -50,7 +51,7 @@
                                              internal
                                              class="{{ $customization['icon.loading'] }}" />
                     </template>
-                    @if ($clearable)
+                    @if ($clearable && ! $locked)
                         <button type="button"
                                 x-show="!loading && (search || selected)"
                                 x-on:click="clear()"

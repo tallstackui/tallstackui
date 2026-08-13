@@ -1,4 +1,4 @@
-import { overflow } from '../../../../../js/helpers';
+import { lockable, overflow } from '../../../../../js/helpers';
 
 const readable = (bytes) => {
   if (!bytes) {
@@ -48,7 +48,7 @@ export default (options) => ({
   method: options.method,
   multiple: options.multiple,
   manual: options.manual,
-  disabled: options.disabled,
+  ...lockable(options.disabled, options.readonly),
   limit: options.limit,
   config: options.config,
   i18n: options.i18n || {},
@@ -138,7 +138,7 @@ export default (options) => ({
   },
 
   pick() {
-    if (this.disabled) {
+    if (this.locked()) {
       return;
     }
 
@@ -158,7 +158,7 @@ export default (options) => ({
   },
 
   select(event) {
-    if (this.disabled) {
+    if (this.locked()) {
       return;
     }
 
@@ -168,7 +168,7 @@ export default (options) => ({
   },
 
   drop(event) {
-    if (this.disabled) {
+    if (this.locked()) {
       return;
     }
 
@@ -251,6 +251,10 @@ export default (options) => ({
   },
 
   remove(file) {
+    if (this.locked()) {
+      return;
+    }
+
     this.aborts.get(file.uuid)?.abort();
     this.aborts.delete(file.uuid);
 
@@ -262,6 +266,10 @@ export default (options) => ({
   },
 
   clear() {
+    if (this.locked()) {
+      return;
+    }
+
     for (const file of this.files) {
       this.aborts.get(file.uuid)?.abort();
     }
@@ -273,6 +281,10 @@ export default (options) => ({
   },
 
   send() {
+    if (this.locked()) {
+      return;
+    }
+
     for (const file of this.pending) {
       this.upload(file);
     }

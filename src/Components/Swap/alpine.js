@@ -1,4 +1,4 @@
-import { wireChange } from '../../../js/helpers';
+import { lockable, wireChange } from '../../../js/helpers';
 
 export default (
   model = null,
@@ -7,6 +7,7 @@ export default (
   vertical = false,
   loop = true,
   disabled = false,
+  readonly = false,
   livewire = false,
   value = null,
   change = null
@@ -16,7 +17,7 @@ export default (
   preview: preview,
   vertical: vertical,
   loop: loop,
-  disabled: disabled,
+  ...lockable(disabled, readonly),
   livewire: livewire,
   change: change,
   items: [],
@@ -68,7 +69,7 @@ export default (
     this.to(this.slot + steps);
   },
   to(target) {
-    if (this.disabled || this.options.length === 0) {
+    if (this.locked() || this.options.length === 0) {
       return;
     }
 
@@ -100,7 +101,7 @@ export default (
     wireChange(this.change, this.model);
   },
   start(event) {
-    if (this.disabled || this.options.length < 2 || event.button > 0) {
+    if (this.locked() || this.options.length < 2 || event.button > 0) {
       return;
     }
 

@@ -92,3 +92,15 @@ it('can override the global configuration keys inline', function () {
         ->toContain('Apple')
         ->toContain('value="1"');
 });
+
+it('can render readonly', function () {
+    expect('<x-select.native :options="[1, 2]" readonly />')->render()
+        ->toContain('readonly')
+        ->toContain('dark:bg-dark-900');
+});
+
+it('can render disabled', function () {
+    expect('<x-select.native :options="[1, 2]" disabled />')->render()
+        ->toContain('disabled')
+        ->toContain('dark:bg-dark-900');
+});

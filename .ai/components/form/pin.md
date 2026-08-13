@@ -40,6 +40,8 @@ A PIN/OTP input component that renders individual character boxes with automatic
 | numbers    | bool\|null                  | null    | Restricts input to numbers only (cannot be used with `letters`)                     |
 | letters    | bool\|null                  | null    | Restricts input to letters only (cannot be used with `numbers`)                     |
 | smart      | bool\|null                  | null    | Enables smart paste: automatically distributes a pasted string across all pin boxes |
+| disabled   | bool                        | false   | Locks every box and the clear button. The value is not submitted.                   |
+| readonly   | bool                        | false   | Locks every box and the clear button. The value is still submitted.                 |
 
 ## Alpine.js Events
 
@@ -95,3 +97,4 @@ TallStackUi::customize()
 | input.color.background | Background color                                       |
 | input.color.error      | Error state border, ring, and text colors              |
 | button                 | Clear button icon size and color                       |
+| input.locked           | Cursor and opacity applied while disabled or readonly  |

@@ -13,6 +13,7 @@ class SwapRuntime extends AbstractRuntime
         $bind = $this->bind();
 
         return [
+            ...$this->locks(),
             'property' => $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
@@ -20,8 +21,6 @@ class SwapRuntime extends AbstractRuntime
             'validate' => $bind->get('validate'),
             'value' => $this->sanitize(),
             'change' => $this->change(),
-            'disabled' => (bool) $this->data['attributes']->get('disabled', false),
-            'readonly' => (bool) $this->data['attributes']->get('readonly', false),
         ];
     }
 }

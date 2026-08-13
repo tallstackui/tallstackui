@@ -4,16 +4,16 @@
 
 <div>
     <div class="{{ $customization['wrapper.first'] }}">
-        <label @if ($id) for="{{ $id }}" @endif class="{{ $customization['label.wrapper'] }}">
+        <label @if ($id) for="{{ $id }}" @endif @class([$customization['label.wrapper'], $customization['locked.wrapper'] => $locked])>
             <div @class($customization['wrapper.second.'.$alignment])>
                 @if ($label && $position === 'left')
-                    <span @class([$customization['label.text'], $customization['label.error'] => $error, $customization['label.spacing.left']])>
+                    <span @class([$customization['label.text'], $customization['label.error'] => $error, $customization['locked.text'] => $locked, $customization['label.spacing.left']])>
                     {!! $label !!}
                 </span>
                 @endif
                 {!! $slot !!}
                 @if ($label && $position === 'right')
-                    <span @class([$customization['label.text'], $customization['label.error'] => $error, $customization['label.spacing.right']])>
+                    <span @class([$customization['label.text'], $customization['label.error'] => $error, $customization['locked.text'] => $locked, $customization['label.spacing.right']])>
                     {!! $label !!}
                 </span>
                 @endif

@@ -9,7 +9,14 @@
            {{ $attributes->class([
                 $customization['input.base'],
                 $customization['input.sizes.' . $size],
-                $customization['input.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+                $customization['input.locked'] => $locked,
                 $colors['thumb'],
-            ]) }} dusk="tallstackui_form_range_input">
+            ]) }}
+           @if ($readonly)
+               x-data
+               x-on:pointerdown.prevent
+               x-on:keydown="window.tallstackui_lockKeydown($event)"
+               aria-readonly="true"
+           @endif
+           dusk="tallstackui_form_range_input">
 </x-dynamic-component>

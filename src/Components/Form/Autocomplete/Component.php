@@ -35,6 +35,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $strict = null,
         public ?int $lazy = null,
         public ?bool $disabled = null,
+        public ?bool $readonly = null,
         #[SkipDebug]
         public ?array $placeholders = null,
         #[SkipDebug]

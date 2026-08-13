@@ -43,6 +43,8 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 | clearable      | bool\|null                  | null    | Shows a clear button to reset the selected color                                                                                 |
 | excluded-color | string\|array\|null         | null    | Tailwind color name(s) to exclude from the palette (e.g., 'slate', 'gray')                                                       |
 | excluded-step  | string\|array\|null         | null    | Tailwind shade step(s) to exclude from the palette (e.g., '50', '950'). Only works with `picker`                                 |
+| disabled       | bool                        | false   | Locks the input and the palette. The value is not submitted.                                                                     |
+| readonly       | bool                        | false   | Locks the input and the palette. The value is still submitted.                                                                   |
 
 ## Alpine.js Events
 

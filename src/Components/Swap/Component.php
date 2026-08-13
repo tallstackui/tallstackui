@@ -56,7 +56,7 @@ class Component extends TallStackUiComponent implements Customization
                 'background' => 'dark:bg-dark-800 bg-white',
                 'error' => $this->error(),
                 'block' => 'flex w-full',
-                'disabled' => 'dark:bg-dark-600 cursor-not-allowed bg-gray-100 opacity-60',
+                'locked' => 'dark:bg-dark-900 cursor-not-allowed bg-gray-100 opacity-60',
             ],
             'button' => [
                 'base' => 'dark:text-dark-400 dark:hover:text-dark-200 flex shrink-0 cursor-pointer items-center justify-center text-gray-400 transition-colors hover:text-gray-600 focus:outline-hidden disabled:cursor-default disabled:opacity-40 disabled:hover:text-gray-400 dark:disabled:hover:text-dark-400',

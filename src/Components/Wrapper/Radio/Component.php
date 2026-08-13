@@ -23,6 +23,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $alignment = 'middle',
         public ?bool $invalidate = null,
         public ?bool $error = false,
+        public ?bool $locked = false,
     ) {
         $this->invalidate ??= config('ts-ui.invalidate_global') ?? false;
     }
@@ -50,6 +51,10 @@ class Component extends TallStackUiComponent implements Customization
                     'left' => 'mr-2',
                     'right' => 'ml-2',
                 ],
+            ],
+            'locked' => [
+                'wrapper' => 'cursor-not-allowed! opacity-60',
+                'text' => 'cursor-not-allowed!',
             ],
         ]);
     }

@@ -37,6 +37,8 @@ A numeric input component with increment/decrement buttons, configurable min/max
 | invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this input                                                              |
 | centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides                                                               |
 | step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode                                                    |
+| disabled    | bool                        | false   | Locks the input and both steppers. The value is not submitted.                                                            |
+| readonly    | bool                        | false   | Locks the input and both steppers. The value is still submitted.                                                          |
 
 ## Additional Options
 

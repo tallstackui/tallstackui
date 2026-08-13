@@ -1,4 +1,4 @@
-import { wireChange } from '../../../../js/helpers';
+import { lockable, wireChange } from '../../../../js/helpers';
 import dayjs from 'dayjs';
 
 // Pixels of vertical drag required to move one step.
@@ -16,7 +16,8 @@ export default (
   livewire,
   property,
   value,
-  disables = [],
+  disabled = false,
+  readonly = false,
   change = null
 ) => ({
   model: model,
@@ -38,7 +39,7 @@ export default (
   property: property,
   value: value,
   empty: false,
-  disables: disables,
+  ...lockable(disabled, readonly),
   dragging: null,
   scrolling: null,
   init() {
@@ -292,7 +293,9 @@ export default (
    * @return {void}
    */
   clear() {
-    if (required) return;
+    if (required || this.locked()) {
+      return;
+    }
 
     const model = this.model;
 

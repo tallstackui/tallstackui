@@ -14,7 +14,8 @@
     @js($livewire),
     @js($property),
     @js($attributes->get('value')),
-    @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
+    @js($disabled),
+    @js($readonly),
     @js($change))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
@@ -26,14 +27,14 @@
                          :alternative="$property"
                          floatable
                          x-ref="input"
-                         x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
+                         x-on:click="!locked() && (show = !show)"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_time_input"
                          class="cursor-pointer {{ $customization['input.caret'] }}">
         <x-slot:suffix :class="$customization['slot.spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 @if (!$attributes->has('required'))
-                    <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model">
+                    <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model" @disabled($locked)>
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              dusk="tallstackui_time_clear"
                                              internal
@@ -41,8 +42,7 @@
                                 @class([$customization['icon.size'], $customization['icon.clear']]) />
                     </button>
                 @endif
-                <button type="button" class="cursor-pointer"
-                        x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show">
+                <button type="button" class="cursor-pointer" x-on:click="show = !show" @disabled($locked)>
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('clock')"
                                          internal

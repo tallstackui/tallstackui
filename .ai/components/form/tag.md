@@ -49,6 +49,8 @@ over the key.
 | invalidate   | bool\|null                  | null    | Prevents displaying validation error messages                                                                                            |
 | options      | Collection\|array\|null     | null    | Tags offered for reuse in a floating list. Values are cast to strings and de-duplicated.                                                 |
 | placeholders | array\|null                 | null    | Overrides the list messages. Only `empty` is used.                                                                                       |
+| disabled     | bool                        | false   | Locks the input and the remove buttons. The value is not submitted.                                                                      |
+| readonly     | bool                        | false   | Locks the input and the remove buttons. The value is still submitted.                                                                    |
 
 ## Slots
 

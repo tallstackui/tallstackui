@@ -1,4 +1,4 @@
-import { error as alert, wireChange } from '../../../../js/helpers';
+import { error as alert, lockable, wireChange } from '../../../../js/helpers';
 
 export default (
   model,
@@ -11,9 +11,12 @@ export default (
   property,
   value,
   change = null,
-  smart = null
+  smart = null,
+  disabled = false,
+  readonly = false
 ) => ({
   model: model,
+  ...lockable(disabled, readonly),
   id: id,
   length: length,
   clear: clear,
@@ -156,6 +159,10 @@ export default (
    * @return {void}
    */
   type(index) {
+    if (this.locked()) {
+      return;
+    }
+
     const element = this.input(index);
 
     if (!element) {
@@ -230,6 +237,10 @@ export default (
    * @return {void}
    */
   backspace(event, index) {
+    if (this.locked()) {
+      return;
+    }
+
     event.preventDefault();
 
     // An empty input means the deletion must happen at the previous one.
@@ -328,6 +339,10 @@ export default (
    * @return {void}
    */
   paste(event) {
+    if (this.locked()) {
+      return;
+    }
+
     event.preventDefault();
 
     const data = event.clipboardData.getData('text').trim();
@@ -358,6 +373,10 @@ export default (
    * @return {void}
    */
   erase(internal = false) {
+    if (this.locked()) {
+      return;
+    }
+
     for (let index = 1; index <= this.length; index++) {
       const input = this.input(index);
 

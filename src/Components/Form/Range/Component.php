@@ -49,7 +49,7 @@ class Component extends TallStackUiComponent implements Customization
                     'md' => 'h-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                     'lg' => 'h-3 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 ],
-                'disabled' => 'disabled:opacity-50 disabled:cursor-not-allowed',
+                'locked' => 'cursor-not-allowed! opacity-50',
             ],
         ]);
     }

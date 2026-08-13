@@ -4,7 +4,7 @@
     $colors['border'],
     $colors['solid'] => $variant === 'inline',
     $colors['background'] => $variant !== 'inline',
-    $customization['item.disabled'] => $item['disabled'],
+    $customization['item.disabled'] => $item['disabled'] || $locked,
     $customization['item.error'] => $error,
 ])>
     <input type="{{ $type }}"
@@ -15,6 +15,7 @@
            @disabled($item['disabled'])
            @if ($required && $type === 'radio') required @endif
            @if (!isset($option) && $shows['description'] && $item['description']) aria-describedby="{{ $reference }}-{{ $index }}-description" @endif
+           @if ($readonly) x-data x-on:click.prevent aria-readonly="true" @endif
            {{ $attributes->except(['id', 'name', 'type', 'value', 'class'])->class([
                 $customization['control.base'],
                 $customization['control.shape'],

@@ -71,7 +71,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600/50 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-900 dark:disabled:ring-dark-600/50 dark:ring-dark-600/50 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-200',
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-hidden focus:ring-2',
                     'error' => $this->error(),
                     'round' => [

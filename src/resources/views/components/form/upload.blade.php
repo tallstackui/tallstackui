@@ -11,7 +11,9 @@
         @js($placeholder),
         @js(trans('ts-ui::messages.upload.uploaded')),
         @js($overflow),
-        @js($closeAfterUpload))"
+        @js($closeAfterUpload),
+        @js($disabled),
+        @js($readonly))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
      x-on:livewire-upload-finish="uploading = false"
@@ -25,7 +27,9 @@
                          scope="form.upload.input"
                          :value="$placeholder"
                          :$hint
-                         x-on:click="show = !show"
+                         :$disabled
+                         :$readonly
+                         x-on:click="!locked() && (show = !show)"
                          x-ref="input"
                          class="cursor-pointer {{ $customization['input.caret'] }}"
                          x-on:keydown="$event.preventDefault()"
@@ -34,7 +38,7 @@
                          invalidate
                          floatable>
         <x-slot:suffix :class="$customization['slot.spacing']">
-            <button type="button" class="cursor-pointer" x-on:click="show = !show">
+            <button type="button" class="cursor-pointer" x-on:click="show = !show" @disabled($locked)>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('arrow-up-tray')"
                                      internal
@@ -113,6 +117,7 @@
                            @if (!app()->runningUnitTests()) class="{{ $customization['placeholder.input'] }}" @endif
                            x-ref="files"
                            {{ $attributes->only(['accept', 'x-on:upload']) }}
+                           @disabled($locked)
                            x-on:change="upload()"
                            x-on:dragover="dragging = true"
                            x-on:dragleave="dragging = false"
@@ -160,7 +165,7 @@
                                 </div>
                             </div>
                             <div @class(['flex shrink-0', $customization['item.actions']])>
-                                @if ($delete)
+                                @if ($delete && ! $locked)
                                     <button type="button"
                                             class="cursor-pointer"
                                             {{ $attributes->only('x-on:remove') }}

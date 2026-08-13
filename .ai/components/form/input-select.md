@@ -38,6 +38,8 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 | invalidate | bool\|null                  | null    | Prevents displaying validation error messages                        |
 | position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                                     |
 | floating   | string\|null                | null    | Class(es) replacing the styled select panel's `min-w-72` width floor |
+| disabled   | bool                        | false   | Locks the input and the side slot. The value is not submitted.       |
+| readonly   | bool                        | false   | Locks the input and the side slot. The value is still submitted.     |
 
 ## Slots
 

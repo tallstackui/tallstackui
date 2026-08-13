@@ -45,6 +45,8 @@ matters when the text wraps over more than one line.
 | position   | string\|null                | 'right'   | Label position relative to toggle: 'left' or 'right'                  |
 | color      | string\|null                | 'primary' | Color theme for the checked state                                     |
 | invalidate | bool\|null                  | null      | Prevents displaying validation error messages                         |
+| disabled   | bool                        | false     | Locks the toggle. The value is not submitted.                         |
+| readonly   | bool                        | false     | Locks the toggle. The value is still submitted.                       |
 
 ## Soft Customization
 
@@ -74,3 +76,4 @@ TallStackUi::customize()
 | background.sizes.md | Track dimensions for medium size                                      |
 | background.sizes.lg | Track dimensions for large size                                       |
 | error               | Error state styles applied when validation fails                      |
+| locked              | Cursor applied while disabled or readonly                             |

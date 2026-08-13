@@ -24,7 +24,9 @@
              @js($property),
              @js($attributes->get('value')),
              @js($change),
-             @js($smart))"
+             @js($smart),
+             @js($disabled),
+             @js($readonly))"
          x-on:paste="paste($event)" x-cloak wire:ignore.self>
         <div class="{{ $customization['wrapper'] }}"
              x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
@@ -37,6 +39,7 @@
                             $customization['input.base'],
                             $customization['input.color.background'],
                             $customization['input.color.base'],
+                            $customization['input.locked'] => $locked,
                        ]) readonly tabindex="-1" aria-hidden="true" />
             @endif
             @foreach (range(1, $length) as $index)
@@ -48,10 +51,13 @@
                        @elseif ($property)
                            value="{{ $attributes->get('value')[$index-1] ?? '' }}"
                        @endif
+                       @disabled($disabled)
+                       @readonly($readonly)
                        @class([
                             $customization['input.size.base'],
                             $customization['input.base'],
                             $customization['input.color.background'],
+                            $customization['input.locked'] => $locked,
                        ]) x-bind:class="{
                            '{{ $customization['input.color.base'] }}': !error,
                            '{{ $customization['input.color.error'] }}': @js($invalidate ?? false) === false && error,
@@ -71,7 +77,7 @@
                        x-on:keydown.backspace="backspace($event, @js($index))" />
             @endforeach
             <template x-if="clear && model">
-                <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
+                <button class="cursor-pointer" x-on:click="erase();" @disabled($locked) dusk="form_pin_clear">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-circle')"
                                          solid

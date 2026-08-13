@@ -46,6 +46,8 @@ A time picker component with a floating panel featuring range sliders for hours 
 | format      | string\|null                | '12'    | Time format: '12' for 12-hour with AM/PM, '24' for 24-hour            |
 | step-hour   | string\|null                | '1'     | Step interval for the hour slider                                     |
 | step-minute | string\|null                | '1'     | Step interval for the minute slider                                   |
+| disabled    | bool                        | false   | Locks the input, the picker and the clear button. The value is not submitted. |
+| readonly    | bool                        | false   | Locks the input, the picker and the clear button. The value is still submitted. |
 
 ## Slots
 

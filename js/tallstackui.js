@@ -42,7 +42,7 @@ import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
 import tooltip from '../src/Components/Tooltip/alpine';
 import unfocus from './helpers/unfocus';
-import { escape_claim, escape_claimed, flush_ui_elements } from './helpers';
+import { escape_claim, escape_claimed, flush_ui_elements, lock_keydown } from './helpers';
 
 if (!window.__tsui_elements) {
   window.__tsui_elements = [];
@@ -55,6 +55,7 @@ unfocus();
 window.tallstackui_floating = floating;
 window.tallstackui_escapeClaim = escape_claim;
 window.tallstackui_escapeClaimed = escape_claimed;
+window.tallstackui_lockKeydown = lock_keydown;
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(alpineCollapse);
