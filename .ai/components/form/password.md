@@ -43,6 +43,8 @@ A password input component with toggle visibility, strength indicator rules (min
 | generator   | bool\|string\|null            | null    | Shows a password generator button that creates a random password matching the rules. A string names the field the generated password is also written to |
 | invalidate  | bool\|null                    | null    | Prevents displaying validation error messages for this input                                                                                            |
 | typing-only | bool\|null                    | null    | When true, the rules floating panel only appears while typing (not on focus)                                                                            |
+| disabled    | bool                          | false   | Locks the input. The value is not submitted.                                                                                                            |
+| readonly    | bool                          | false   | Locks the input. The value is still submitted.                                                                                                          |
 
 ## Alpine.js Events
 

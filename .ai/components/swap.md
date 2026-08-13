@@ -125,7 +125,7 @@ TallStackUi::customize()
 | Block      | Purpose                                                                |
 |------------|------------------------------------------------------------------------|
 | wrapper    | Outer wrapper handed to the input wrapper                              |
-| input.*    | The input-like shell (base, color, background, error, block, disabled) |
+| input.*    | The input-like shell (base, color, background, error, block, locked)  |
 | button.*   | The chevron buttons (base, icon)                                       |
 | viewport.* | The value viewport (base, draggable, mask, touch.*, width.*)           |
 | track.*    | The sliding track (base, transition, vertical)                         |

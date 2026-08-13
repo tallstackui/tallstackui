@@ -56,6 +56,8 @@ it, rather than repeated under every option. `<x-radio.group>` centralises it on
 | position   | string\|null                | 'right'   | Label position relative to the radio button: 'left' or 'right'                  |
 | color      | string\|null                | 'primary' | Color theme for the radio button (e.g., 'primary', 'secondary', 'red', 'green') |
 | invalidate | bool\|null                  | null      | Prevents displaying validation error messages                                   |
+| disabled   | bool                        | false     | Locks the radio. The value is not submitted.                                    |
+| readonly   | bool                        | false     | Locks the radio. The value is still submitted.                                  |
 
 ## Colors
 
@@ -83,3 +85,4 @@ TallStackUi::customize()
 | input.sizes.md | Medium radio dimensions                                      |
 | input.sizes.lg | Large radio dimensions                                       |
 | error          | Error state border and text colors                           |
+| locked         | Cursor applied while disabled or readonly                    |

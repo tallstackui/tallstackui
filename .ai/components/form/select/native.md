@@ -36,6 +36,8 @@ A native HTML `<select>` component with support for simple arrays, key-value opt
 | selectable | array\|null       | []          | Resolved selectable keys (label, value) used internally after parsing `select`                                       |
 | invalidate | bool\|null        | null        | Prevents displaying validation error messages                                                                        |
 | grouped    | bool\|null        | null        | Enables optgroup rendering when option values are arrays                                                             |
+| disabled   | bool              | false       | Locks the select. The value is not submitted.                                                                        |
+| readonly   | bool              | false       | Locks the select. The value is still submitted.                                                                      |
 
 ## Slots
 

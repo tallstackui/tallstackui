@@ -15,7 +15,9 @@
         @js($attributes->get('value')),
         @js($configurations['clearable']),
         @js($excludedColor),
-        @js($excludedStep))"
+        @js($excludedStep),
+        @js($disabled),
+        @js($readonly))"
      x-cloak>
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.color.input"
@@ -34,13 +36,14 @@
                     <button type="button"
                             class="{{ $customization['selected.base'] }}"
                             x-bind:style="{ 'background-color': model }"
+                            @disabled($locked)
                             x-on:click="show = !show"></button>
                 </template>
             </div>
         </x-slot:prefix>
         <x-slot:suffix :class="$customization['icon.suffix-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
-                @if ($configurations['clearable'])
+                @if ($configurations['clearable'] && ! $locked)
                     <button type="button" class="{{ $customization['clearable.button'] }}"
                             dusk="tallstackui_form_color_clearable" x-show="clearable">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -51,7 +54,7 @@
                     </button>
                 @endif
                 <button type="button" class="cursor-pointer" x-on:click="show = !show"
-                        dusk="tallstackui_form_color_open_close">
+                        @disabled($locked) dusk="tallstackui_form_color_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('swatch')"
                                          internal

@@ -162,6 +162,55 @@ Components that carry no value — Modal, Slide, Toast and friends — are unaff
 way. Livewire's script still has to be on the page, since that is where Alpine comes
 from.
 
+## Readonly and disabled
+
+Every form component accepts both, and they mean the same thing except for one
+detail: `disabled` does not submit the value, `readonly` does. The visual is
+identical, and neither can be interacted with.
+
+```blade
+<x-input wire:model="name" readonly />
+<x-toggle wire:model="active" label="Active" disabled />
+<x-select.native :options="$options" readonly />
+<x-date wire:model="period" range disabled />
+```
+
+The browser only honours `readonly` on text inputs and textareas. On a checkbox,
+radio, range or select it does nothing at all, so the library emulates it: the
+control keeps its enabled state — which is what makes it submit — and the pointer
+and keyboard are swallowed instead. Buttons that live inside a component (the
+clear on `Date`, the tag remove on `Tag`, the palette on `Color`) are disabled
+outright, since a button carries no value.
+
+Supported by `Input`, `Textarea`, `Password`, `Number`, `Currency`, `Color`,
+`Date`, `Time`, `Tag`, `Pin`, `Range`, `Checkbox`, `Radio`, `Toggle`, `Upload`,
+`Upload/Async`, `Autocomplete`, `Select/Native`, `Select/Styled`, `Input/Select`,
+`Swap` and the `Checkbox`/`Radio` groups.
+
+`Input/Select` passes its own lock down to the component in the `left`/`right`
+slot, so the compound control locks as one. A lock declared on the slot's own
+component still wins:
+
+```blade
+{{-- both halves locked --}}
+<x-input.select wire:model="phone" readonly>
+    <x-slot:left>
+        <x-select.native wire:model="code" :options="$codes" side="left" />
+    </x-slot:left>
+</x-input.select>
+
+{{-- text locked, select still usable --}}
+<x-input.select wire:model="phone" readonly>
+    <x-slot:left>
+        <x-select.native wire:model="code" :options="$codes" side="left" :readonly="false" />
+    </x-slot:left>
+</x-input.select>
+```
+
+Components paint the state through a `locked` soft customization block, applied by
+the template rather than through Tailwind's `disabled:` variant — that variant
+cannot match an element that is only `readonly`.
+
 ## Global Configuration
 
 Top-level keys in `config/tallstackui.php`, applying across components rather

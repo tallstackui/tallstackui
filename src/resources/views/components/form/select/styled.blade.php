@@ -43,7 +43,7 @@
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
                 x-ref="button"
-                @disabled($disabled)
+                @disabled($locked)
                 @class([
                     $customization['input.wrapper.base'],
                     $customization['input.wrapper.color'] => !$error,
@@ -52,7 +52,7 @@
                     $customization['input.wrapper.round.right'] => $side === 'right',
                     $customization['input.wrapper.borderless'] => $side,
                 ])
-                @if (!$disabled) x-on:click="show = !show" @endif
+                @if (!$locked) x-on:click="show = !show" @endif
                 {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
                 aria-haspopup="listbox"
                 :aria-expanded="show"
@@ -89,7 +89,7 @@
                                             <span class="{{ $customization['items.multiple.label'] }}"
                                                   x-text="display(select)"></span>
                                         </div>
-                                        @if (!$disabled)
+                                        @if (!$locked)
                                             <div class="{{ $customization['items.multiple.icon'] }}">
                                                 <button type="button" class="cursor-pointer"
                                                         x-on:click="$event.stopPropagation(); clear(select)">
@@ -107,7 +107,7 @@
                     @endif
                 </div>
             </div>
-            @if (!$disabled)
+            @if (!$locked)
                 <div class="{{ $customization['buttons.wrapper'] }}" wire:ignore>
                     @if (!$required)
                         <template x-if="!empty">

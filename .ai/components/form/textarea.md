@@ -33,6 +33,8 @@ A textarea component with optional manual resize, automatic height resizing, and
 | resize-auto | bool\|null                  | false   | Enables automatic height adjustment as the user types                          |
 | invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this textarea                |
 | count       | bool\|null                  | false   | Shows a character counter below the textarea (pair with `maxlength` attribute) |
+| disabled    | bool                        | false   | Locks the textarea. The value is not submitted.                                |
+| readonly    | bool                        | false   | Locks the textarea. The value is still submitted.                              |
 
 ## Validation Constraints
 

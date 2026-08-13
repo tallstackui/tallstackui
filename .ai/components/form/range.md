@@ -30,6 +30,8 @@ A range slider input component with configurable sizes, color themes, and suppor
 | lg         | bool\|null                  | null      | Sets large size for the range slider            |
 | color      | string\|null                | 'primary' | Color theme for the slider thumb                |
 | invalidate | bool\|null                  | null      | Prevents displaying validation error messages   |
+| disabled   | bool                        | false     | Locks the slider. The value is not submitted.   |
+| readonly   | bool                        | false     | Locks the slider. The value is still submitted. |
 
 ## Soft Customization
 

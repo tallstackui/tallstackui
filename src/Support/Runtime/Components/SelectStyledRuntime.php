@@ -19,6 +19,7 @@ class SelectStyledRuntime extends AbstractRuntime
         $side = $left ? 'left' : ($right ? 'right' : null);
 
         return [
+            ...$this->locks(inherit: $side !== null),
             'property' => $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
@@ -26,7 +27,6 @@ class SelectStyledRuntime extends AbstractRuntime
             'validate' => $bind->get('validate'),
             'value' => $this->sanitize(),
             'change' => $this->change(),
-            'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)),
             'open' => $id ? str($id)->slug()->kebab().'-open' : null,
             'close' => $id ? str($id)->slug()->kebab().'-close' : null,
             'side' => $side,

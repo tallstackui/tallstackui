@@ -10,7 +10,8 @@
         method: @js($method),
         multiple: @js((bool) $multiple),
         manual: @js((bool) $manual),
-        disabled: @js((bool) $disabled),
+        disabled: @js($disabled),
+        readonly: @js($readonly),
         limit: @js($limit),
         config: @js($config),
         existing: @js($value),
@@ -38,19 +39,19 @@
          x-on:click="pick()"
          x-on:keydown.enter.prevent="pick()"
          x-on:keydown.space.prevent="pick()"
-         x-on:dragover.prevent="dragging = !disabled"
+         x-on:dragover.prevent="dragging = !locked()"
          x-on:dragleave.prevent="dragging = false"
          x-on:drop.prevent="drop($event)"
          x-bind:class="{
-            '{{ $customization['dropzone.dragging'] }}': dragging && !disabled,
-            '{{ $customization['dropzone.disabled'] }}': disabled,
+            '{{ $customization['dropzone.dragging'] }}': dragging && !locked(),
+            '{{ $customization['dropzone.locked'] }}': locked(),
          }"
          class="{{ $customization['dropzone.base'] }} {{ $height }}"
          dusk="tallstackui_upload_async_dropzone">
         <input type="file"
                x-ref="input"
                x-on:change="select($event)"
-               x-bind:disabled="disabled"
+               x-bind:disabled="locked()"
                class="{{ $customization['dropzone.input'] }}"
                @if ($accept) accept="{{ $accept }}" @endif
                @if ($multiple) multiple @endif
@@ -186,7 +187,7 @@
                 </x-dynamic-component>
                 <x-dynamic-component :component="TallStackUi::prefix('button')"
                                      scope="form.upload.async.send"
-                                     x-bind:disabled="!sendable() || disabled"
+                                     x-bind:disabled="!sendable() || locked()"
                                      x-on:click="send()"
                                      dusk="tallstackui_upload_async_send">
                     {{ $i18n['send'] }}

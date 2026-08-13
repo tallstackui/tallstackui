@@ -54,6 +54,8 @@ it, rather than repeated under every one bound to it.
 | position   | string\|null                | 'right'   | Label position relative to the checkbox: 'left' or 'right'                  |
 | color      | string\|null                | 'primary' | Color theme for the checkbox (e.g., 'primary', 'secondary', 'red', 'green') |
 | invalidate | bool\|null                  | null      | Prevents displaying validation error messages                               |
+| disabled   | bool                        | false     | Locks the checkbox. The value is not submitted.                             |
+| readonly   | bool                        | false     | Locks the checkbox. The value is still submitted.                           |
 
 ## Colors
 
@@ -81,3 +83,4 @@ TallStackUi::customize()
 | input.sizes.md | Medium checkbox dimensions                                         |
 | input.sizes.lg | Large checkbox dimensions                                          |
 | error          | Error state border and text colors                                 |
+| locked         | Cursor applied while disabled or readonly                          |

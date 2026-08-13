@@ -1,4 +1,4 @@
-import { overflow } from '../../../../js/helpers';
+import { lockable, overflow } from '../../../../js/helpers';
 
 export default (
   id,
@@ -9,8 +9,11 @@ export default (
   placeholder,
   placeholders,
   overflowing,
-  closeAfterUpload
+  closeAfterUpload,
+  disabled = false,
+  readonly = false
 ) => ({
+  ...lockable(disabled, readonly),
   show: false,
   uploading: false,
   error: false,
@@ -36,7 +39,7 @@ export default (
    * @returns {void}
    */
   upload() {
-    if (!this.$refs.files.files.length) return;
+    if (this.locked() || !this.$refs.files.files.length) return;
 
     this.uploading = true;
     this.error = false;
@@ -113,6 +116,10 @@ export default (
    * @returns {void}
    */
   remove(method, file) {
+    if (this.locked()) {
+      return;
+    }
+
     this.component.$wire.call(method, file);
 
     this.text();

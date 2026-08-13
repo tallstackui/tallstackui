@@ -18,7 +18,8 @@
      @js($value),
      @js($monthYearOnly),
      @js(trans('ts-ui::messages.date.calendar')),
-     @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
+     @js($disabled),
+     @js($readonly),
      @js($change),
      @js($start),
      @js($only),
@@ -34,22 +35,21 @@
                          :alternative="$property"
                          floatable
                          x-ref="input"
-                         x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
+                         x-on:click="!locked() && (show = !show)"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
                          class="cursor-pointer {{ $customization['input.caret'] }}">
         <x-slot:suffix :class="$customization['slot.icon-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0"
-                        {{ $attributes->only(['disabled', 'readonly', 'x-on:clear']) }} dusk="tallstackui_date_clear">
+                        @disabled($locked) {{ $attributes->only('x-on:clear') }} dusk="tallstackui_date_clear">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
                                          internal
                             @class([$customization['icon.size'], $customization['icon.clear']])/>
                 </button>
-                <button type="button" class="cursor-pointer"
-                        x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
-                        {{ $attributes->only(['disabled', 'readonly']) }} dusk="tallstackui_date_open_close">
+                <button type="button" class="cursor-pointer" x-on:click="show = !show"
+                        @disabled($locked) dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          internal

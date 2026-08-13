@@ -18,6 +18,7 @@ class CheckboxRuntime extends AbstractRuntime
 
         return [
             ...$bind,
+            ...$this->locks(),
             'id' => $this->identifier($bind->get('property')),
             'label' => $label,
         ];

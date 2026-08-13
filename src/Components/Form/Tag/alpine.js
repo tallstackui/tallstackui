@@ -1,3 +1,5 @@
+import { lockable } from '../../../../js/helpers';
+
 export default (
   model,
   limit,
@@ -7,9 +9,12 @@ export default (
   property,
   value,
   options = [],
-  listable = false
+  listable = false,
+  disabled = false,
+  readonly = false
 ) => ({
   model: model,
+  ...lockable(disabled, readonly),
   limit: limit,
   lazy: lazy,
   prefixes: prefixes,
@@ -52,7 +57,7 @@ export default (
     });
   },
   open() {
-    if (!this.listable || (this.limit && this.model?.length >= this.limit)) {
+    if (this.locked() || !this.listable || (this.limit && this.model?.length >= this.limit)) {
       return;
     }
 
@@ -132,7 +137,7 @@ export default (
    * @param event {Event}
    */
   add(event) {
-    if (event.key !== 'Enter' && event.key !== ',') return;
+    if (this.locked() || (event.key !== 'Enter' && event.key !== ',')) return;
 
     // Enter means "add a tag" here. Left alone it also submits the surrounding
     // form, so outside Livewire the first tag would send the page away.
@@ -200,7 +205,7 @@ export default (
    * @param event {Event}
    */
   remove(index, event = null) {
-    if (index < 0 || !this.model || this.model.length <= index) return;
+    if (this.locked() || index < 0 || !this.model || this.model.length <= index) return;
 
     if (event && event.target.value.trim() !== '') return;
 
@@ -214,6 +219,10 @@ export default (
    * @returns {void}
    */
   erase() {
+    if (this.locked()) {
+      return;
+    }
+
     this.$el.dispatchEvent(new CustomEvent('erase', { detail: { tags: this.model } }));
 
     this.model = [];

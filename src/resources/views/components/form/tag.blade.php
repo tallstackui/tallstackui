@@ -8,7 +8,7 @@
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint
                      :$invalidate>
-    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($lazy), @js($prefix), @js($livewire), @js($property), @js($value), @js($options), @js($listable))"
+    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($lazy), @js($prefix), @js($livewire), @js($property), @js($value), @js($options), @js($listable), @js($disabled), @js($readonly))"
          x-cloak
          @if ($listable) x-ref="anchor" @endif
          x-on:click="$refs.input.focus()"
@@ -17,15 +17,15 @@
                'block!',
                $customization['input.wrapper'],
                $customization['input.color.base'] => !$error,
-               $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-               $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+               $customization['input.color.background'] => !$locked,
+               $customization['input.color.disabled'] => $locked,
                $customization['error'] => $error
             ])>
         <div class="{{ $customization['wrapper'] }}">
             <template x-for="(tag, index) in (model ?? [])" :key="index">
                 <span class="{{ $customization['label.base'] }}">
                     <span x-text="tag"></span>
-                    <button type="button" {!! $attributes->only('x-on:remove') !!} x-on:click="remove(index)">
+                    <button type="button" {!! $attributes->only('x-on:remove') !!} @disabled($locked) x-on:click="remove(index)">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
                                              internal
@@ -56,6 +56,7 @@
         </div>
         <button type="button"
                 x-on:click.prevent="erase()"
+                @disabled($locked)
                 x-show="model?.length > 0"
                 dusk="tallstackui_tag_erase"
                 class="{{ $customization['button.wrapper'] }}"

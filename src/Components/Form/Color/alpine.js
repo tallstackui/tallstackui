@@ -1,3 +1,5 @@
+import { lockable } from '../../../../js/helpers';
+
 export default (
   model,
   mode,
@@ -7,8 +9,11 @@ export default (
   value,
   clearable,
   excludedColor,
-  excludedStep
+  excludedStep,
+  disabled = false,
+  readonly = false
 ) => ({
+  ...lockable(disabled, readonly),
   show: false,
   model: model,
   mode: mode,
@@ -385,6 +390,10 @@ export default (
    * @param {String} color
    */
   set(color) {
+    if (this.locked()) {
+      return;
+    }
+
     this.show = false;
     this.model = color;
     this.$refs.input.value = color;
@@ -437,6 +446,10 @@ export default (
    * @returns {void}
    */
   clear() {
+    if (this.locked()) {
+      return;
+    }
+
     this.model = null;
     this.clearable = false;
     this.$refs.input.value = '';

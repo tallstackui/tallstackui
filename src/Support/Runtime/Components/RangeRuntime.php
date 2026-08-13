@@ -10,6 +10,9 @@ class RangeRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
-        return [...$this->bind()->only('property', 'error', 'id')];
+        return [
+            ...$this->bind()->only('property', 'error', 'id'),
+            ...$this->locks(),
+        ];
     }
 }

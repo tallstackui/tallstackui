@@ -38,6 +38,8 @@ A currency input component that formats numeric values with locale-aware decimal
 | currency   | bool\|string\|null          | null    | Shows the locale currency code suffix (true for locale default, or a custom string)                                 |
 | mutate     | bool\|null                  | null    | When true, sends the formatted string exactly as displayed (e.g. `"2,000.00"`) to the Livewire property             |
 | decimal    | bool\|null                  | null    | When true, sends the parsed decimal string (e.g. `"2000.00"`) — group separator stripped, decimal normalized to `.` |
+| disabled   | bool                        | false   | Locks the input. The value is not submitted.                                                                        |
+| readonly   | bool                        | false   | Locks the input. The value is still submitted.                                                                      |
 
 ## Validation Constraints
 

@@ -16,7 +16,8 @@
             @js($preview),
             @js($vertical),
             @js($loop),
-            @js($disabled || $readonly),
+            @js($disabled),
+            @js($readonly),
             @js($livewire),
             @js($value),
             @js($change))"
@@ -34,8 +35,8 @@
              $customization['input.base'],
              $customization['input.color'] => !$error,
              $customization['input.error'] => $error,
-             $customization['input.background'] => !$disabled,
-             $customization['input.disabled'] => $disabled,
+             $customization['input.background'] => !$locked,
+             $customization['input.locked'] => $locked,
              $customization['input.block'] => $block,
          ])>
         @if (!$livewire && $property)
@@ -55,7 +56,7 @@
                     x-on:keydown.left.prevent="previous()"
                     x-on:keydown.right.prevent="next()"
                 @endif
-                x-bind:disabled="disabled || (!loop && slot <= 0)">
+                x-bind:disabled="locked() || (!loop && slot <= 0)">
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon($vertical ? 'chevron-up' : 'chevron-left')"
                                  internal
@@ -75,7 +76,7 @@
                  $customization['viewport.width.base'] => !$preview && !$block,
                  $customization['viewport.width.block'] => $block,
                  $customization['viewport.mask'] => $preview,
-                 $customization['viewport.draggable'] => !$disabled && !$readonly,
+                 $customization['viewport.draggable'] => !$locked,
              ])>
             <div x-ref="track"
                  x-bind:style="{ transform }"
@@ -113,7 +114,7 @@
                     x-on:keydown.left.prevent="previous()"
                     x-on:keydown.right.prevent="next()"
                 @endif
-                x-bind:disabled="disabled || (!loop && slot >= items.length - 1)">
+                x-bind:disabled="locked() || (!loop && slot >= items.length - 1)">
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon($vertical ? 'chevron-down' : 'chevron-right')"
                                  internal

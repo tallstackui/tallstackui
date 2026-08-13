@@ -24,6 +24,7 @@ class InputSelectRuntime extends AbstractRuntime
         }
 
         return [
+            ...$this->locks(),
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),

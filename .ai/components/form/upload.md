@@ -46,6 +46,8 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 | footer             | ComponentSlot\|null         | null           | Footer slot content displayed at the bottom of the floating panel            |
 | overflow           | bool\|null                  | null           | Controls body overflow when the upload panel is open                         |
 | close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded             |
+| disabled           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is not submitted. |
+| readonly           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is still submitted. |
 
 ## Slots
 

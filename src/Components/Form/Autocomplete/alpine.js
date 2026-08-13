@@ -1,4 +1,4 @@
-import { error, wireChange } from '../../../../js/helpers';
+import { error, lockable, wireChange } from '../../../../js/helpers';
 import { headers } from '../Select/helpers';
 
 const normalize = (text) => String(text ?? '').toLowerCase();
@@ -12,7 +12,9 @@ export default (
   lazy = null,
   livewire = false,
   property = null,
-  value = null
+  value = null,
+  disabled = false,
+  readonly = false
 ) => ({
   model: model,
   items: Array.isArray(items) ? items : [],
@@ -23,6 +25,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  ...lockable(disabled, readonly),
   show: false,
   loading: false,
   search: '',
@@ -199,6 +202,10 @@ export default (
    * @returns {void}
    */
   open() {
+    if (this.locked()) {
+      return;
+    }
+
     this.show = true;
   },
 
@@ -214,6 +221,10 @@ export default (
    * @returns {void}
    */
   toggle() {
+    if (this.locked()) {
+      return;
+    }
+
     if (this.show) {
       this.show = false;
 
@@ -246,6 +257,10 @@ export default (
    * @returns {void}
    */
   onInput() {
+    if (this.locked()) {
+      return;
+    }
+
     if (!this.strict) {
       this.model = this.search;
     }
@@ -294,7 +309,7 @@ export default (
    * @returns {void}
    */
   pick(item) {
-    if (item.disabled) {
+    if (this.locked() || item.disabled) {
       return;
     }
 
@@ -322,6 +337,10 @@ export default (
    * @returns {void}
    */
   clear() {
+    if (this.locked()) {
+      return;
+    }
+
     this.search = '';
     this.model = this.strict ? null : '';
     this.selected = null;
@@ -339,6 +358,10 @@ export default (
    * @returns {void}
    */
   navigate(event) {
+    if (this.locked()) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       if (this.show) {
         event.preventDefault();

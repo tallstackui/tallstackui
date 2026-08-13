@@ -6,18 +6,25 @@
     @if ($label && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('label')" scope="form.select-native.label" :$label :$error />
     @endif
-    <select {{ $attributes->class([
+    <select {{ $attributes->except(['disabled', 'readonly'])->class([
             $customization['wrapper'],
             $customization['input.wrapper'],
             $customization['input.base'],
             $customization['input.color.base'] => !$error,
-            $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $customization['input.color.background'] => !$locked,
+            $customization['input.color.disabled'] => $locked,
             $customization['error'] => $error && ! $side,
             $customization['input.round.left'] => $side === 'left',
             $customization['input.round.right'] => $side === 'right',
             $customization['input.borderless'] => $side,
-        ]) }}>
+        ]) }}
+            @disabled($disabled)
+            @if ($readonly)
+                x-data
+                x-on:mousedown.prevent
+                x-on:keydown="window.tallstackui_lockKeydown($event)"
+                aria-readonly="true"
+            @endif>
         @forelse ($options as $option)
             @if (!empty($selectable) && is_array($option[$selectable['value']]))
                 <optgroup label="{{ $option[$selectable['label']] }}">

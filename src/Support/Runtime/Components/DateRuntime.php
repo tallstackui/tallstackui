@@ -14,6 +14,7 @@ class DateRuntime extends AbstractRuntime
         $bind = $this->bind();
 
         $data = [
+            ...$this->locks(),
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),

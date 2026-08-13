@@ -37,6 +37,7 @@ class UploadAsyncRuntime extends AbstractRuntime
             : [];
 
         return [
+            ...$this->locks(),
             'id' => $bind->get('id') ?? uniqid('tsui-upload-async-'),
             'property' => $property,
             'name' => $name,

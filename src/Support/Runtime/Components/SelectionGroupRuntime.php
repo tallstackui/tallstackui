@@ -15,6 +15,7 @@ class SelectionGroupRuntime extends AbstractRuntime
 
         return [
             ...$bind,
+            ...$this->locks(),
             'reference' => $reference = $this->data('id') ?? $bind->get('id') ?? uniqid(),
             'legend' => $this->legend(),
             'name' => $this->name($reference),

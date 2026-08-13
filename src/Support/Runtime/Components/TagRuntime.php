@@ -13,6 +13,7 @@ class TagRuntime extends AbstractRuntime
         $bind = $this->bind();
 
         return [
+            ...$this->locks(),
             'property' => $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),

@@ -175,3 +175,15 @@ HTML;
 
     expect($component)->render();
 });
+
+it('can render readonly as disabled', function () {
+    expect('<x-select.styled :options="[1, 2]" readonly />')->render()
+        ->toContain('disabled')
+        ->toContain('dark:disabled:bg-dark-900');
+});
+
+it('can render disabled', function () {
+    expect('<x-select.styled :options="[1, 2]" disabled />')->render()
+        ->toContain('disabled')
+        ->toContain('dark:disabled:bg-dark-900');
+});

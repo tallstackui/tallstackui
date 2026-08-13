@@ -237,6 +237,39 @@ export const wireChange = (change, model) => {
   Livewire.find(change.id).call(change.method, model);
 };
 
+/**
+ * Swallow a keypress on a control the browser refuses to lock through
+ * `readonly`. Tab goes through, so the control keeps its place in the tab order.
+ *
+ * @param event {KeyboardEvent}
+ * @return {void}
+ */
+export const lock_keydown = (event) => {
+  if (event.key === 'Tab') {
+    return;
+  }
+
+  event.preventDefault();
+};
+
+/**
+ * Spread into the Alpine data, then bail out of every method that
+ * mutates state while `locked()` is true.
+ *
+ * Both flags live under `lock` because the bare names are already taken by
+ * component methods, as `disabled(date)` in the date picker.
+ *
+ * @param disabled {Boolean}
+ * @param readonly {Boolean}
+ * @return {Object}
+ */
+export const lockable = (disabled = false, readonly = false) => ({
+  lock: { disabled: disabled, readonly: readonly },
+  locked() {
+    return this.lock.disabled || this.lock.readonly;
+  },
+});
+
 /** @returns {string} */
 export const unique = () =>
   [...crypto.getRandomValues(new Uint8Array(12))]

@@ -22,8 +22,8 @@
             $customization['input.wrapper.round.left'] => $left,
             $customization['input.wrapper.round.right'] => $right,
             $customization['input.color.base'] => !$error,
-            $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $customization['input.color.background'] => !$locked,
+            $customization['input.color.disabled'] => $locked,
             $customization['error'] => $error
         ])>
         @if ($icon)
@@ -39,7 +39,7 @@
                                      ]) />
             </div>
         @endif
-        @if ($clearable)
+        @if ($clearable && ! $locked)
             <div x-data="tallstackui_formInputClearable(@js($ref))"
                  @class([$customization['clearable.wrapper'], $customization['clearable.padding'], $customization['input.paddings.icon-clearable-extra'] => $icon && $position === 'right']) x-show="clearable">
                 <button type="button" class="cursor-pointer" dusk="tallstackui_form_input_clearable">
@@ -65,6 +65,8 @@
         type="{{ $attributes->get('type', 'text') }}"
                x-ref="{{ $attributes->get('x-ref', $ref) }}"
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
+               @disabled($disabled)
+               @readonly($readonly)
                 {{ $attributes->class([
                      $customization['input.base'],
                      $customization['input.paddings.prefix'] => $prefix,

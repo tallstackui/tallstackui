@@ -55,6 +55,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'error' => 'border border-red-300 text-red-600 focus:border-red-400 focus:ring-red-600',
+            'locked' => 'cursor-not-allowed!',
         ]);
     }
 }

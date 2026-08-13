@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import isBetween from 'dayjs/plugin/isBetween';
-import { wireChange } from '../../../../js/helpers';
+import { lockable, wireChange } from '../../../../js/helpers';
 
 dayjs.extend(updateLocale);
 dayjs.extend(isBetween);
@@ -18,7 +18,8 @@ export default (
   value,
   monthYearOnly,
   calendar,
-  disables = [],
+  disabled = false,
+  readonly = false,
   change = null,
   start = 5,
   only = null,
@@ -54,7 +55,7 @@ export default (
     end: null,
   },
   disable: disable,
-  disables: disables,
+  ...lockable(disabled, readonly),
   interval: null,
   livewire: livewire,
   property: property,
@@ -231,7 +232,9 @@ export default (
    * @return {*}
    */
   select(event, day) {
-    if ((this.disables['disabled'] ?? false) || (this.disables['readonly'] ?? false)) return;
+    if (this.locked()) {
+      return;
+    }
 
     event.preventDefault();
 
@@ -560,6 +563,10 @@ export default (
    * @return {void}
    */
   clear() {
+    if (this.locked()) {
+      return;
+    }
+
     const model = this.model;
 
     this.input = this.model = this.value = this.date.start = this.date.end = null;
