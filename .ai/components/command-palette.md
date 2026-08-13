@@ -64,6 +64,8 @@ Use the `id` attribute to place multiple command palettes on the same page and t
 
 ## Basic Usage
 
+Search and actionable requests carry the same `X-TallStack-Ui` header as Select Styled.
+
 ```blade
 <x-command-palette request="/api/search" />
 ```

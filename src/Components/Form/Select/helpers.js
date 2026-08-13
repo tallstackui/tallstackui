@@ -47,6 +47,18 @@ const stringify = (params) => {
   return output.join('&');
 };
 
+export const headers = () => {
+  const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
+
+  return {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'X-TallStack-Ui': true,
+    ...(token ? { 'X-CSRF-TOKEN': token } : {}),
+  };
+};
+
 export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
@@ -58,19 +70,8 @@ export const body = (request, search, selected) => {
 
   const init = {
     method: method,
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'X-TallStack-Ui': true,
-    },
+    headers: headers(),
   };
-
-  const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
-
-  if (token) {
-    init.headers['X-CSRF-TOKEN'] = token;
-  }
 
   if (method === 'get') {
     if (search !== '') {

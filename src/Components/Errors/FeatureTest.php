@@ -120,6 +120,55 @@ it('can render bordered', function () {
     expect('<x-errors bordered />')->render()->toContain('border-red-200');
 });
 
+it('can render paddingless through the global configuration', function () {
+    config()->set('ts-ui.components.errors.1.paddingless', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-errors />')->render()->toContain('px-0!');
+    } finally {
+        config()->set('ts-ui.components.errors.1.paddingless', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can render numeric through the global configuration', function () {
+    config()->set('ts-ui.components.errors.1.numeric', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-errors />')->render()
+            ->toContain('list-decimal')
+            ->not->toContain('list-disc');
+    } finally {
+        config()->set('ts-ui.components.errors.1.numeric', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can suppress the global paddingless and numeric through the inline props', function () {
+    config()->set('ts-ui.components.errors.1.paddingless', true);
+    config()->set('ts-ui.components.errors.1.numeric', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-errors :paddingless="false" :list-numeric="false" />')->render()
+            ->not->toContain('px-0!')
+            ->toContain('list-disc')
+            ->not->toContain('list-decimal');
+    } finally {
+        config()->set('ts-ui.components.errors.1.paddingless', false);
+        config()->set('ts-ui.components.errors.1.numeric', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
 it('can render the flat look through the global configuration', function () {
     config()->set('ts-ui.components.errors.1.shadowless', true);
     config()->set('ts-ui.components.errors.1.bordered', true);

@@ -51,7 +51,7 @@ return [
     | Nested and stacked floatings are reference counted, so the lock is taken
     | by the first one to open and released only by the last one to close.
     */
-    'floating_scroll_lock' => false,
+    'floating_scroll_lock' => env('TALLSTACKUI_FLOATING_SCROLL_LOCK', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,7 +185,21 @@ return [
             ],
         ],
         'avatar.group' => Components\Avatar\Group\Component::class,
-        'badge' => Components\Badge\Component::class,
+        'badge' => [
+            Components\Badge\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Badge Global Settings
+            |----------------------------------------------------------------------
+            |
+            | round: the default corner shape. False keeps rounded-md. True is the
+            | pill. A size name (xs, sm, md, lg, xl) picks that radius. The inline
+            | prop always wins, including :round="false".
+            */
+            [
+                'round' => false,
+            ],
+        ],
         'banner' => Components\Banner\Component::class,
         'breadcrumbs' => [
             Components\Breadcrumbs\Component::class,
@@ -447,10 +461,14 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            | paddingless: removes the horizontal padding of the wrapper by default.
+            | numeric: renders the error list as an ordered list by default.
             */
             [
                 'shadowless' => false,
                 'bordered' => false,
+                'paddingless' => false,
+                'numeric' => false,
             ],
         ],
         'floating' => Components\Floating\Component::class,
@@ -887,6 +905,9 @@ return [
             | filter: controls the filter bar (true, or an array mapping the property names).
             | quantity: controls the options of the per-page select.
             | compact: tightens the padding of the cells, including the skeleton.
+            | indicator: the default loading overlay. Null keeps the original icon.
+            | Use "spinner" or "spinner.{type}" to render a Spinner instead
+            | (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
             |
             | These are defaults: the inline prop always wins, including :paginate="false".
             */
@@ -897,6 +918,7 @@ return [
                 'filter' => false,
                 'quantity' => [10, 25, 50, 100],
                 'compact' => false,
+                'indicator' => null,
             ],
         ],
         'tab.items' => Components\Tab\Items\Component::class,

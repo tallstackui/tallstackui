@@ -75,8 +75,8 @@ area stays; only the aligning wrapper is dropped:
 | color         | string\|null                    | 'red'                     | Color theme for the error box                                                                                              |
 | close         | bool                            | false                     | Shows a dismiss button to hide the error box                                                                               |
 | without-title | bool                            | false                     | Hides the title, icon, and the divider line between the title and the error list                                           |
-| list-numeric  | bool                            | false                     | Renders the error list as an ordered (numbered) list instead of bullet points                                              |
-| paddingless   | bool                            | false                     | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset |
+| list-numeric  | bool\|null                      | null (from config: false) | Renders the error list as an ordered (numbered) list instead of bullet points                                              |
+| paddingless   | bool\|null                      | null (from config: false) | Removes the horizontal padding of the wrapper so the title/body divider runs edge to edge; the content keeps its own inset |
 | shadowless    | bool\|null                      | null (from config: false) | Removes the wrapper shadow                                                                                                 |
 | bordered      | bool\|null                      | null (from config: false) | Draws a border following the component color (through the `bordered` palette of `ErrorsColors`)                            |
 
@@ -89,12 +89,15 @@ area stays; only the aligning wrapper is dropped:
     [
         'shadowless' => false,
         'bordered' => false,
+        'paddingless' => false,
+        'numeric' => false,
     ],
 ],
 ```
 
 The inline prop always wins over the global default, so `:shadowless="false"` restores
 the shadow on a single errors box while the configuration keeps it off everywhere else.
+`numeric` maps to the `list-numeric` prop.
 
 ## Slots
 

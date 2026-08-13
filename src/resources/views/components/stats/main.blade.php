@@ -7,7 +7,7 @@
 @elseif($navigateHover)
     wire:navigate.hover
 @endif @endif
-{{ $attributes->class([
+{{ $attributes->except('height')->class([
    $customization['wrapper.first'],
    $customization['wrapper.first-clickable'] => $clickable,
    $customization['wrapper.first-chart'] => $charted,
@@ -26,6 +26,7 @@ x-cloak>
             <x-dynamic-component :component="TallStackUi::prefix('chart')"
                                  :series="$chart"
                                  :$color
+                                 :height="64"
                                  class="{{ $customization['chart.element'] }}" />
         @endif
     </div>

@@ -1,4 +1,5 @@
 import { error, wireChange } from '../../../../js/helpers';
+import { headers } from '../Select/helpers';
 
 const normalize = (text) => String(text ?? '').toLowerCase();
 
@@ -467,11 +468,10 @@ export default (
       const params = this.$refs.params ? JSON.parse(this.$refs.params.textContent || '{}') : {};
 
       const url = new URL(this.request.url, window.location.origin);
-      const init = { signal: this._abort.signal, headers: { Accept: 'application/json' } };
+      const init = { signal: this._abort.signal, headers: headers() };
 
       if ((this.request.method ?? 'get').toLowerCase() === 'post') {
         init.method = 'POST';
-        init.headers['Content-Type'] = 'application/json';
         init.body = JSON.stringify({ search: this.search, ...params });
       } else {
         url.searchParams.set('search', this.search ?? '');

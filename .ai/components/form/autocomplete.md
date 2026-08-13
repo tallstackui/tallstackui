@@ -185,7 +185,7 @@ A global default is available so an entire application can opt every Autocomplet
 ]" />
 ```
 
-For remote mode the component fires a debounced request (~250 ms) every time the user types, sending the current query as `search`. Loading state shows a spinner inside the dropdown panel; the dropdown only opens once typing has begun (or if `lazy` is satisfied).
+For remote mode the component fires a debounced request (~250 ms) every time the user types, sending the current query as `search`. Every remote request carries the same `X-TallStack-Ui` header as Select Styled, plus `X-Requested-With` and, when present, the CSRF token. Loading state shows a spinner inside the dropdown panel; the dropdown only opens once typing has begun (or if `lazy` is satisfied).
 
 ## Lazy Threshold
 

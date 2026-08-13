@@ -14,7 +14,7 @@ it('can render')
     ->toContain('viewBox="0 0 100 100"')
     ->toContain('preserveAspectRatio="none"')
     ->toContain('vector-effect="non-scaling-stroke"')
-    ->toContain('min-height: 64px')
+    ->toContain('min-height: 240px')
     ->toContain('stroke-current')
     ->toContain('text-primary-500')
     ->toContain('d="M0,');

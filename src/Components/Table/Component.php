@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TableRuntime;
@@ -36,6 +37,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $sort = [],
         public bool|array|null $filter = null,
         public ?bool $loading = false,
+        public ?string $indicator = null,
         public ?array $quantity = null,
         public ?bool $paginate = null,
         public bool|string|null $persistent = false,
@@ -61,7 +63,9 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
         #[SkipDebug]
-        public ComponentSlot|string|null $empty = null
+        public ComponentSlot|string|null $empty = null,
+        #[SkipDebug]
+        public ?string $spinner = null,
     ) {
         $this->placeholders = array_merge(trans('ts-ui::messages.table'), $this->placeholders ?? []);
     }
@@ -100,6 +104,7 @@ class Component extends TallStackUiComponent implements Customization
             'loading' => [
                 'table' => 'cursor-not-allowed select-none opacity-25',
                 'icon' => 'text-primary-500 dark:text-dark-300 absolute bottom-0 left-0 right-0 top-0 m-auto grid h-10 w-10 animate-spin place-items-center',
+                'indicator' => 'text-primary-500 dark:text-dark-300 absolute inset-0 m-auto grid place-items-center',
             ],
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
             'empty-compact' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-2.5 text-sm text-gray-500',
@@ -260,6 +265,15 @@ class Component extends TallStackUiComponent implements Customization
         $this->quantity ??= __ts_get_component_configuration(self::class, 'quantity') ?? [10, 25, 50, 100];
         $this->filter ??= __ts_get_component_configuration(self::class, 'filter') ?? null;
         $this->compact ??= __ts_get_component_configuration(self::class, 'compact') ?? false;
+        $this->indicator ??= __ts_get_component_configuration(self::class, 'indicator');
+
+        if (blank($this->indicator)) {
+            $this->indicator = null;
+        } elseif ($this->indicator === 'spinner') {
+            $this->spinner = __ts_get_component_configuration(Spinner::class, 'type') ?? 'ring';
+        } elseif (str_starts_with($this->indicator, 'spinner.')) {
+            $this->spinner = substr($this->indicator, 8);
+        }
 
         $this->filter = $this->filter === true
             ? ['quantity' => 'quantity', 'search' => 'search']
@@ -309,6 +323,14 @@ class Component extends TallStackUiComponent implements Customization
 
         if (is_string($this->persistent) && blank($this->persistent)) {
             __ts_validation_exception($this, 'The [persistent] must be the id of an existing element when given as a string.');
+        }
+
+        if ($this->indicator === null) {
+            return;
+        }
+
+        if (! in_array($this->spinner, Spinner::TYPES, true)) {
+            __ts_validation_exception($this, 'The [indicator] must be [spinner] or [spinner.{type}], where type is one of ['.implode(', ', Spinner::TYPES).']');
         }
     }
 }

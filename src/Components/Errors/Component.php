@@ -28,8 +28,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $color = 'red',
         public ?bool $close = false,
         public ?bool $withoutTitle = false,
-        public ?bool $listNumeric = false,
-        public ?bool $paddingless = false,
+        public ?bool $listNumeric = null,
+        public ?bool $paddingless = null,
         public ?bool $shadowless = null,
         public ?bool $bordered = null,
         public ComponentSlot|string|null $footer = null,
@@ -38,6 +38,8 @@ class Component extends TallStackUiComponent implements Customization
 
         $this->shadowless ??= $configuration['shadowless'] ?? false;
         $this->bordered ??= $configuration['bordered'] ?? false;
+        $this->paddingless ??= $configuration['paddingless'] ?? false;
+        $this->listNumeric ??= $configuration['numeric'] ?? false;
 
         $this->title ??= trans('ts-ui::messages.errors.title');
 

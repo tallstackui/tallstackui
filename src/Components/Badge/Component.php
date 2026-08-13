@@ -25,7 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $lg = null,
         public ?string $color = 'primary',
         public ?bool $square = false,
-        public bool|string|null $round = false,
+        public bool|string|null $round = null,
         public ?bool $solid = true,
         public ?bool $outline = null,
         public ?bool $light = null,
@@ -43,6 +43,7 @@ class Component extends TallStackUiComponent implements Customization
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
         $this->position = $this->position === 'right' ? 'right' : 'left';
+        $this->round ??= __ts_get_component_configuration(self::class, 'round') ?? false;
         $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
     }
 

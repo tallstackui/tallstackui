@@ -418,6 +418,46 @@ describe('the global defaults', function () {
             ->render(['headers' => [['index' => 'name', 'label' => 'Name']], 'rows' => tablePaginator()])
             ->toContain('Showing');
     });
+
+    it('can render a spinner loading indicator from the configuration', function () {
+        livewireContext();
+
+        tableConfig(['indicator' => 'spinner.bars']);
+
+        expect('<x-table :$headers :$rows loading />')
+            ->render(['headers' => [['index' => 'name', 'label' => 'Name']], 'rows' => [['name' => 'AJ']]])
+            ->toContain('dusk="spinner-bars"');
+    });
+
+    it('can override the configured spinner indicator inline', function () {
+        livewireContext();
+
+        tableConfig(['indicator' => 'spinner.bars']);
+
+        expect('<x-table :$headers :$rows loading indicator="spinner.dots" />')
+            ->render(['headers' => [['index' => 'name', 'label' => 'Name']], 'rows' => [['name' => 'AJ']]])
+            ->toContain('dusk="spinner-dots"')
+            ->not->toContain('dusk="spinner-bars"');
+
+        tableConfig(['indicator' => null]);
+    });
+});
+
+it('can render a spinner loading indicator', function () {
+    livewireContext();
+
+    expect('<x-table :headers="[[\'index\' => \'name\', \'label\' => \'Name\']]" :rows="[[\'name\' => \'AJ\']]" loading indicator="spinner.dots" />')
+        ->render()
+        ->toContain('dusk="spinner-dots"');
+});
+
+it('cannot use an invalid loading indicator', function () {
+    livewireContext();
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [indicator] must be [spinner] or [spinner.{type}]');
+
+    expect('<x-table loading indicator="spinner.foo" />')->render();
 });
 
 it('renders the simple paginator when the rows are not length aware', function (array $headers) {

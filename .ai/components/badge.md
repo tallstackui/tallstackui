@@ -21,21 +21,35 @@ An inline badge component for labels, tags, and status indicators. Supports soli
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                                                                                                                                                                                                       |
-|-----------|--------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| text      | string\|null | null      | Text content of the badge                                                                                                                                                                                                                         |
-| icon      | string\|null | null      | Heroicon name displayed alongside the text                                                                                                                                                                                                        |
-| position  | string\|null | 'right'   | Icon position relative to text: 'left' or 'right'                                                                                                                                                                                                 |
-| xs        | bool         | null      | Extra-small size (default)                                                                                                                                                                                                                        |
-| sm        | bool         | null      | Small size                                                                                                                                                                                                                                        |
-| md        | bool         | null      | Medium size                                                                                                                                                                                                                                       |
-| lg        | bool         | null      | Large size                                                                                                                                                                                                                                        |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                                                                                                                   |
-| square    | bool         | false     | Removes border radius for square corners                                                                                                                                                                                                          |
-| round     | bool\|string | false     | When `true`, applies the historical fully-rounded (pill) shape. When set to `xs`, `sm`, `md`, `lg`, or `xl`, applies the matching `rounded-{size}` Tailwind utility. Without it, falls back to the default `rounded-md`. `square` overrides this. |
-| solid     | bool         | true      | Uses the solid color style variant                                                                                                                                                                                                                |
-| outline   | bool         | null      | Uses the outline color style variant                                                                                                                                                                                                              |
-| light     | bool         | null      | Uses the light color style variant                                                                                                                                                                                                                |
+| Attribute | Type               | Default   | Description                                                                                                                                                                                                                                        |
+|-----------|--------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null       | null      | Text content of the badge                                                                                                                                                                                                                          |
+| icon      | string\|null       | null      | Heroicon name displayed alongside the text                                                                                                                                                                                                         |
+| position  | string\|null       | 'right'   | Icon position relative to text: 'left' or 'right'                                                                                                                                                                                                  |
+| xs        | bool               | null      | Extra-small size (default)                                                                                                                                                                                                                         |
+| sm        | bool               | null      | Small size                                                                                                                                                                                                                                         |
+| md        | bool               | null      | Medium size                                                                                                                                                                                                                                        |
+| lg        | bool               | null      | Large size                                                                                                                                                                                                                                         |
+| color     | string\|null       | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                                                                                                                    |
+| square    | bool               | false     | Removes border radius for square corners                                                                                                                                                                                                           |
+| round     | bool\|string\|null | null      | When `true`, applies the historical fully-rounded (pill) shape. When set to `xs`, `sm`, `md`, `lg`, or `xl`, applies the matching `rounded-{size}` Tailwind utility. Null falls back to the config, then to `rounded-md`. `square` overrides this. |
+| solid     | bool               | true      | Uses the solid color style variant                                                                                                                                                                                                                 |
+| outline   | bool               | null      | Uses the outline color style variant                                                                                                                                                                                                               |
+| light     | bool               | null      | Uses the light color style variant                                                                                                                                                                                                                 |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'badge' => [
+    \TallStackUi\Components\Badge\Component::class,
+    [
+        'round' => false, // true, or xs | sm | md | lg | xl
+    ],
+],
+```
+
+The inline prop always wins, including `:round="false"`.
 
 ## Slots
 
