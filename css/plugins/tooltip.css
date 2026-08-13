@@ -19,8 +19,6 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
     opacity: 0;
     scale: 0.96;
 
-    /* `translate` is left out on purpose: repositioning on scroll must be
-       instant, only the open and close states animate. */
     transition:
         opacity 150ms ease-out,
         scale 150ms ease-out,
@@ -37,7 +35,6 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
         visibility 0s;
 }
 
-/* The flash global: the balloon appears and disappears instantly. */
 [data-tsui-tooltip][data-instant] {
     transition: none;
 }
@@ -49,8 +46,6 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
     border-radius: 1px;
 }
 
-/* Named sizes, opt-in through [data-tooltip-size]. The default balloon is the
-   `sm` step, so an inline size can undo a global one. */
 [data-tsui-tooltip][data-size='md'] {
     @apply px-3 py-2 text-sm;
 
@@ -63,12 +58,10 @@ have no component behind them. Override through `[data-tsui-tooltip]`.
     max-width: min(28rem, calc(100vw - 2rem));
 }
 
-/* Tapping a trigger must not flash the platform highlight behind it. */
 [x-tooltip] {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Dark mode inversion, opt-in through the [tooltip.invert] setting. */
 .dark [data-tsui-tooltip][data-invert]:not([data-color]) {
     background-color: var(--color-white);
     color: var(--color-dark-900);
