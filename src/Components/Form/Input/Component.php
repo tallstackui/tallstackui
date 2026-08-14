@@ -59,6 +59,10 @@ class Component extends TallStackUiComponent implements Customization
                 'slot-suffix-spacing' => 'ml-1 mr-2',
                 'addon' => [
                     'wrapper' => 'flex w-full rounded-md ring-1 focus-within:ring-2 focus-within:ring-primary-600 dark:focus-within:ring-primary-600',
+                    'paddings' => [
+                        'left' => 'pl-2!',
+                        'right' => 'pr-2!',
+                    ],
                     'round' => [
                         'left' => 'rounded-l-none!',
                         'right' => 'rounded-r-none!',
