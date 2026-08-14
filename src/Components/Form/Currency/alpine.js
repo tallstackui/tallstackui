@@ -27,7 +27,15 @@ export default (
     if (this.model) {
       this.input = this.model;
 
-      this.$nextTick(() => this.format());
+      this.$nextTick(() => {
+        this.format();
+
+        // Outside Livewire the hidden input is the only thing carrying the
+        // field, and nothing else writes to it until the user types.
+        if (!this.livewire) {
+          this.sync();
+        }
+      });
     }
 
     this.$watch('model', (value) => {

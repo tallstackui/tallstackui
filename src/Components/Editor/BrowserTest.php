@@ -45,6 +45,32 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_apply_a_heading_inside_a_list_item(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<ul><li>foo</li></ul>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->caretInsideItem()))
+            ->click('@tallstackui_editor_style')
+            ->pause(400)
+            ->clickAtXPath('//button[contains(., "Heading 3")]')
+            ->pause(700)
+            ->assertSeeIn('@output', '<h3>foo</h3>');
+    }
+
+    #[Test]
     public function can_apply_a_heading_via_the_dropdown(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -211,6 +237,33 @@ class BrowserTest extends BrowserTestCase
             ->assertPresent('[dusk=tallstackui_editor_editable] h1')
             ->assertPresent('[dusk=tallstackui_editor_editable] strong')
             ->assertPresent('[dusk=tallstackui_editor_editable] ul li');
+    }
+
+    #[Test]
+    public function can_change_a_heading_inside_a_list_item(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<ul><li><h3>foo</h3></li></ul>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->caretInsideItem()))
+            ->click('@tallstackui_editor_style')
+            ->pause(400)
+            ->clickAtXPath('//button[contains(., "Heading 1")]')
+            ->pause(700)
+            ->assertSeeIn('@output', '<h1>foo</h1>')
+            ->assertDontSeeIn('@output', '<h3>');
     }
 
     #[Test]
@@ -786,6 +839,33 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_remove_a_heading_inside_a_list_item(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<ul><li><h3>foo</h3></li></ul>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->caretInsideItem()))
+            ->click('@tallstackui_editor_style')
+            ->pause(400)
+            ->clickAtXPath('//button[contains(., "Paragraph")]')
+            ->pause(700)
+            ->assertDontSeeIn('@output', '<h3>')
+            ->assertSeeIn('@output', 'foo');
+    }
+
+    #[Test]
     public function can_restore_the_selection_when_a_dialog_is_dismissed(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -1269,6 +1349,20 @@ class BrowserTest extends BrowserTestCase
     private function booted(): string
     {
         return "!! document.querySelector('[dusk=tallstackui_editor_editable]')?.innerHTML";
+    }
+
+    /** Put the caret around the contents of the first list item. */
+    private function caretInsideItem(): string
+    {
+        return <<<'JS'
+        const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+        editable.focus();
+        const range = document.createRange();
+        range.selectNodeContents(editable.querySelector('li'));
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        JS;
     }
 
     /** Both Escape listeners sit on window, so the event goes straight there. */

@@ -42,7 +42,7 @@
                                      ]) />
             </div>
         @endif
-        @if ($clearable)
+        @if ($clearable && !$locked)
             <div x-data="tallstackui_formInputClearable(@js($ref))"
                  @class([$customization['clearable.wrapper'], $customization['clearable.padding'], $customization['input.paddings.icon-clearable-extra'] => $icon && $position === 'right']) x-show="clearable">
                 <button type="button" class="cursor-pointer" dusk="tallstackui_form_input_clearable">
@@ -78,8 +78,8 @@
                      $customization['input.paddings.prefix'] => $prefix && !$prefixed,
                      $customization['input.paddings.suffix'] => $suffix && !$suffixed,
                      $customization['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
-                     $customization['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable,
-                     $customization['input.paddings.clearable'] => $icon && $clearable && $position === 'right',
+                     $customization['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable && !$locked,
+                     $customization['input.paddings.clearable'] => $icon && $clearable && !$locked && $position === 'right',
                  ]) }}>
         @if (!$suffixed)
             @if ($suffix instanceof \Illuminate\View\ComponentSlot)

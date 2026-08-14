@@ -15,6 +15,7 @@ class PasswordRuntime extends AbstractRuntime
 
         return [
             ...$this->bind(),
+            ...$this->locks(),
             'value' => $this->sanitize(),
             'target' => is_string($generator) ? $generator : null,
             'icon' => [

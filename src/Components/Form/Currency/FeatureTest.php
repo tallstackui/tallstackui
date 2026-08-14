@@ -89,3 +89,13 @@ it('per-instance prop overrides the global default', function () {
         ->render()
         ->toMatch('/tallstackui_formCurrency\(\s*null,\s*2,\s*4,\s*null,\s*false,\s*false,/');
 });
+
+it('does not render the clearable button while locked', function (string $lock) {
+    expect("<x-currency name=\"foo\" value=\"9990\" clearable {$lock} />")->render()
+        ->not->toContain('tallstackui_form_currency_clearable');
+})->with(['readonly', 'disabled']);
+
+it('renders the clearable button when unlocked')
+    ->expect('<x-currency name="foo" value="9990" clearable />')
+    ->render()
+    ->toContain('tallstackui_form_currency_clearable');

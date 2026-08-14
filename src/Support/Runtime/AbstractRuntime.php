@@ -12,6 +12,7 @@ use Illuminate\View\ComponentSlot;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Support\Blade\BindProperty;
+use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\TallStackUiComponent;
 
 use function Livewire\invade;
@@ -234,32 +235,41 @@ abstract class AbstractRuntime
     }
 
     /**
-     * Tells whether the current component is rendering inside an ancestor's
-     * `<x-slot:left>` or `<x-slot:right>`. Used by select.native, select.styled
-     * and input.select to switch into "side" mode.
+     * Tells whether the select is rendering inside the `<x-slot:left>` or
+     * `<x-slot:right>` of an input.select, which is what turns on "side" mode.
+     * A left/right slot on any other component does not count.
      *
-     * Reads `slotStack` instead of `slots` because Laravel keeps closed slots
-     * in `slots` (the key stays, the value just becomes a ComponentSlot), so
-     * a closed slot on an ancestor would leak into a sibling that rendered
-     * after it (issue #1276). `slotStack` only holds slots whose body is
-     * currently being captured.
+     * Reads `slotStack` and not `slots` because Laravel keeps closed slots in
+     * `slots`, which would leak into a sibling rendered after it (issue #1276).
      */
     protected function slots(): array
     {
-        $slotStack = invade($this->factory)->slotStack ?? [];
+        $factory = invade($this->factory);
+
+        // renderComponent() pops the current component before the runtime
+        // runs, so the frame on top of the stack is the one wrapping it.
+        $parent = count($factory->componentStack) - 1;
+
+        if ($parent < 0) {
+            return [false, false];
+        }
+
+        $owner = $factory->componentData[$parent]['componentName'] ?? null;
+
+        if (app(ComponentPrefix::class)->remove((string) $owner) !== 'input.select') {
+            return [false, false];
+        }
 
         $left = false;
         $right = false;
 
-        foreach ($slotStack as $frame) {
-            foreach ($frame as $entry) {
-                $name = $entry[0] ?? null;
+        foreach ($factory->slotStack[$parent] ?? [] as $entry) {
+            $name = $entry[0] ?? null;
 
-                if ($name === 'left') {
-                    $left = true;
-                } elseif ($name === 'right') {
-                    $right = true;
-                }
+            if ($name === 'left') {
+                $left = true;
+            } elseif ($name === 'right') {
+                $right = true;
             }
         }
 

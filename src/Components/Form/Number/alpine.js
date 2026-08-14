@@ -1,10 +1,13 @@
-export default (model, min, max, delay, step, debounce) => ({
+import { lockable } from '../../../../js/helpers';
+
+export default (model, min, max, delay, step, debounce, disabled, readonly) => ({
   model: model,
   min: min,
   max: max,
   interval: null,
   delay: delay,
   debounce: debounce,
+  ...lockable(disabled, readonly),
   init() {
     if (this.defined) {
       this.disableMinus = this.atMinus;
@@ -23,6 +26,10 @@ export default (model, min, max, delay, step, debounce) => ({
    * @return {void}
    */
   increment() {
+    if (this.locked()) {
+      return;
+    }
+
     const update = (value) => {
       const input = parseFloat(this.$refs.input.step) || 1;
       const count = value / input;
@@ -75,6 +82,10 @@ export default (model, min, max, delay, step, debounce) => ({
    * @return {void}
    */
   decrement() {
+    if (this.locked()) {
+      return;
+    }
+
     const update = (value) => {
       const input = parseFloat(this.$refs.input.step) || 1;
       const count = value / input;
@@ -194,7 +205,9 @@ export default (model, min, max, delay, step, debounce) => ({
    * @return {void}
    */
   set disableMinus(disabled) {
-    this.$refs.minus.disabled = disabled;
+    // The callers only weigh the min/max range, so without this they would
+    // undo the disabled the server wrote.
+    this.$refs.minus.disabled = this.locked() || disabled;
   },
   /**
    * Disable the plus button.
@@ -202,6 +215,6 @@ export default (model, min, max, delay, step, debounce) => ({
    * @return {void}
    */
   set disablePlus(disabled) {
-    this.$refs.plus.disabled = disabled;
+    this.$refs.plus.disabled = this.locked() || disabled;
   },
 });

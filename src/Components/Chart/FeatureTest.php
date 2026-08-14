@@ -753,3 +753,15 @@ it('cannot render the skeleton with a count below one', function () {
 
     expect('<x-chart skeleton="0" />')->render();
 });
+
+it('addresses donut slices by position when a value is zero', function () {
+    $component = '<x-chart donut :series="[45, 0, 18]" :labels="[\'Direto\', \'Busca\', \'Social\']" legend tooltip />';
+
+    expect($component)->render()
+        ->toContain('x-bind:d="arc(0)"')
+        ->toContain('x-bind:d="arc(1)"')
+        ->not->toContain('x-bind:d="arc(2)"')
+        ->toContain('toggle(0)')
+        ->toContain('toggle(1)')
+        ->not->toContain('toggle(2)');
+});

@@ -20,6 +20,14 @@ it('can instantiate all components', function (string $component) {
     expect(TallStackUi::customize($component)->forward())->toBeInstanceOf(CustomizationFactory::class);
 })->with('customization.keys');
 
+it('can load the original blocks of all components', function (string $component) {
+    // forward() alone never touches the component: the blocks are only loaded
+    // once a block is interacted with, which is what every customization does.
+    $factory = TallStackUi::customize($component)->forward()->block('probe');
+
+    expect($factory->blocks)->not->toBeEmpty();
+})->with('customization.keys');
+
 it('can customize using facade and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');

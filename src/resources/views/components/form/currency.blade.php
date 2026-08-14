@@ -10,7 +10,7 @@
     {!! $entangle !!},
     @js($decimals),
     @js($precision),
-    @js($clearable),
+    @js($locked ? false : $clearable),
     @js($configurations['mutate']),
     @js($configurations['decimal']),
     @js($livewire),
@@ -28,7 +28,7 @@
                          :alternative="$property"
                          x-on:input="sync"
                          x-model="input">
-        @if ($symbol || $currency || $clearable)
+        @if ($symbol || $currency || ($clearable && !$locked))
             @if (!empty($symbols['symbol']) && $symbol)
                 <x-slot:prefix :class="$customization['symbol.spacing']">
                     {{ is_string($symbol) && $symbol !== '1' ? $symbol : $symbols['symbol'] }}
@@ -38,7 +38,7 @@
                 @if (!empty($symbols['currency']) && $currency)
                     {{ is_string($currency) && $currency !== '1' ? $currency : $symbols['currency'] }}
                 @endif
-                @if ($clearable)
+                @if ($clearable && !$locked)
                     <div @class([
                                 $customization['clearable.wrapper'],
                                 $customization['clearable.padding.with-currency'] => $currency,
