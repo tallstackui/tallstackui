@@ -31,6 +31,7 @@ class NumberRuntime extends AbstractRuntime
         $debounce = $support->debounced();
 
         $data = [
+            ...$this->locks(),
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),

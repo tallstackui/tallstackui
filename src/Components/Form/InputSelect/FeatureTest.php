@@ -44,3 +44,29 @@ HTML;
         ->toContain('min-w-40')
         ->not->toContain('min-w-72');
 });
+
+it('does not put a select in side mode inside a foreign left/right slot', function () {
+    $component = <<<'HTML'
+    <x-layout.header>
+        <x-slot:right>
+            <x-select.styled label="Idioma" :options="[]" />
+        </x-slot:right>
+    </x-layout.header>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Idioma')
+        ->not->toContain('ring-0!');
+});
+
+it('still puts a select in side mode inside the input.select slot', function () {
+    $component = <<<'HTML'
+    <x-input.select name="phone">
+        <x-slot:left>
+            <x-select.styled name="code" :options="[]" />
+        </x-slot:left>
+    </x-input.select>
+    HTML;
+
+    expect($component)->render()->toContain('ring-0!');
+});

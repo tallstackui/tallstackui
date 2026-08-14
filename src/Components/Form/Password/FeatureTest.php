@@ -64,3 +64,9 @@ it('cannot render the generator with an empty target', function () {
 
     expect('<x-password generator="" />')->render();
 });
+
+it('does not render the generator button while locked, but keeps the reveal', function (string $lock) {
+    expect("<x-password name=\"foo\" generator {$lock} />")->render()
+        ->not->toContain('tallstackui_form_password_generate')
+        ->toContain('tallstackui_form_password_reveal');
+})->with(['readonly', 'disabled']);

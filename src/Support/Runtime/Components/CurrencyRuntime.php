@@ -12,6 +12,7 @@ class CurrencyRuntime extends AbstractRuntime
     {
         return [
             ...$this->bind(),
+            ...$this->locks(),
             'value' => $this->sanitize(),
         ];
     }

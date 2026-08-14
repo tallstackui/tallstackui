@@ -117,3 +117,15 @@ it('can render the delay through the global configuration', function () {
 
     __ts_get_component_configuration(Component::class, flush: true);
 });
+
+it('does not wire the steppers while locked', function (string $lock) {
+    expect("<x-number name=\"foo\" {$lock} />")->render()
+        ->not->toContain('x-on:pointerdown')
+        ->not->toContain('x-on:click="increment()"')
+        ->not->toContain('x-on:click="decrement()"');
+})->with(['readonly', 'disabled']);
+
+it('wires the steppers when unlocked')
+    ->expect('<x-number name="foo" />')
+    ->render()
+    ->toContain('x-on:pointerdown');

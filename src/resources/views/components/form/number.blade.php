@@ -7,10 +7,10 @@
     <div @class([
             $customization['input.wrapper'],
             $customization['input.color.base'] => !$error,
-            $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $customization['input.color.background'] => !$locked,
+            $customization['input.color.disabled'] => $locked,
             $customization['error'] => $error === true
-        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($configurations['delay']), @js($step), @js($debounce))">
+        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($configurations['delay']), @js($step), @js($debounce), @js($disabled), @js($readonly))">
         <div @class([$customization['buttons.wrapper'], $customization['input.wrapper-centralized'] => $configurations['centralized']])>
             <input @if ($id) id="{{ $id }}" @endif
             type="number"
@@ -29,15 +29,15 @@
                    dusk="tallstackui_form_number_input"
                    x-on:blur="validate()"
                    x-ref="input">
-            <button @if (!$attributes->get('disabled', $attributes->get('readonly', false))) x-on:click="decrement()"
-                    @endif
+            <button @if (!$locked) x-on:click="decrement()"
                     x-on:pointerdown="if (!interval) interval = setInterval(() => decrement(), delay * 100);"
                     x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
                     x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
                     x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }"
+                    @endif
                     x-ref="minus"
                     type="button"
-                    @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
+                    @disabled($locked)
                     dusk="tallstackui_form_number_decrement"
                     @class([$customization['buttons.left.base'], $customization['buttons.left.centralized'] => $configurations['centralized']])>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -45,15 +45,15 @@
                                      internal
                         @class([$customization['buttons.left.size'], $customization['buttons.left.color'] => !$error, $customization['buttons.left.error'] => $error]) />
             </button>
-            <button @if (!$attributes->get('disabled', $attributes->get('readonly', false))) x-on:click="increment()"
-                    @endif
+            <button @if (!$locked) x-on:click="increment()"
                     x-on:pointerdown="if (!interval) interval = setInterval(() => increment(), delay * 100);"
                     x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
                     x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
                     x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }"
+                    @endif
                     x-ref="plus"
                     type="button"
-                    @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
+                    @disabled($locked)
                     dusk="tallstackui_form_number_increment"
                     @class([$customization['buttons.right.base'], $customization['buttons.right.separator'] => !$configurations['centralized']])>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"

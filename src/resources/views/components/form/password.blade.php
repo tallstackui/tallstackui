@@ -23,7 +23,7 @@
                         <x-ts-ui::icon.generic.password-capslock-indicator :class="$customization['icon.capslock']" />
                     </div>
                 @endif
-                @if ($generator)
+                @if ($generator && !$locked)
                     <button type="button" x-ref="generator" dusk="tallstackui_form_password_generate"
                             x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"

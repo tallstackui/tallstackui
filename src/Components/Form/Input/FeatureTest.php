@@ -132,3 +132,13 @@ it('does not render addon wrapper for slot prefix without button attribute', fun
         ->toContain('<input')
         ->not->toContain('flex-none');
 });
+
+it('does not render the clearable button while locked', function (string $lock) {
+    expect("<x-input name=\"foo\" value=\"bar\" clearable {$lock} />")->render()
+        ->not->toContain('tallstackui_form_input_clearable');
+})->with(['readonly', 'disabled']);
+
+it('renders the clearable button when unlocked')
+    ->expect('<x-input name="foo" value="bar" clearable />')
+    ->render()
+    ->toContain('tallstackui_form_input_clearable');

@@ -48,6 +48,17 @@ class NativeBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function submits_the_initial_value_untouched(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-currency')
+            ->waitFor('@filled')
+            ->pause(250)
+            ->click('@submit')
+            ->waitForText('received:')
+            ->assertSee('fee:9990'));
+    }
+
+    #[Test]
     public function submits_the_raw_value(): void
     {
         $this->browse(fn (Browser $browser) => $browser->visit('/native-currency')
@@ -88,6 +99,6 @@ class NativeBrowserTest extends BrowserTestCase
         </html>
         HTML));
 
-        $router->get('/native-currency/result', fn (Request $request): string => 'received:'.$request->query('price').' total:'.$request->query('total'));
+        $router->get('/native-currency/result', fn (Request $request): string => 'received:'.$request->query('price').' total:'.$request->query('total').' fee:'.$request->query('fee'));
     }
 }

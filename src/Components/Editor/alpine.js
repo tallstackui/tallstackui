@@ -486,11 +486,59 @@ export default (options) => ({
   },
 
   toggleBlock(tag) {
-    if (this.listed || this.ancestor('PRE')) {
+    if (this.ancestor('PRE')) {
+      return;
+    }
+
+    if (this.listed) {
+      this.formatItem(tag);
+
       return;
     }
 
     this.exec('formatBlock', `<${tag}>`);
+    this.blockType = tag;
+  },
+
+  // formatBlock only behaves inside a list when there is already a heading to
+  // rewrite. Handed a bare item it wraps the whole list in the heading, and
+  // splits the list when the item is not the first one.
+  formatItem(tag) {
+    const item = this.ancestor('LI');
+
+    if (!item) {
+      return;
+    }
+
+    // execCommand is a no-op on an editable that does not hold focus, and the
+    // toolbar button took it.
+    this.$refs.editable.focus();
+
+    const heading = item.querySelector('h1, h2, h3, h4, h5, h6');
+    const selection = window.getSelection();
+    const range = document.createRange();
+
+    if (heading) {
+      range.selectNodeContents(heading);
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      this.exec('formatBlock', `<${tag}>`);
+      this.blockType = tag;
+
+      return;
+    }
+
+    if (tag === 'p') {
+      return;
+    }
+
+    range.selectNodeContents(item);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    this.replaceSelection(`<${tag}>${item.innerHTML}</${tag}>`);
+
     this.blockType = tag;
   },
 

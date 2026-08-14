@@ -95,15 +95,15 @@
                     </g>
                 @endforeach
 
-                @foreach ($slices as $slice)
+                @foreach ($slices as $position => $slice)
                     <path class="{{ $customization['plot.slice'] }} {{ $slice['color'] }}"
                           fill="currentColor"
                           d="{{ $slice['path'] }}"
                           @if ($interactive)
-                              x-show="visible({{ $slice['index'] }})"
-                              x-bind:d="arc({{ $slice['index'] }})"
-                              x-on:pointermove="pick({{ $slice['index'] }}, $event)"
-                              x-on:pointerdown="pick({{ $slice['index'] }}, $event)"
+                              x-show="visible({{ $position }})"
+                              x-bind:d="arc({{ $position }})"
+                              x-on:pointermove="pick({{ $position }}, $event)"
+                              x-on:pointerdown="pick({{ $position }}, $event)"
                               x-on:pointerleave="release($event)"
                           @endif />
                 @endforeach

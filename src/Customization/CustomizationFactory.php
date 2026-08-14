@@ -5,6 +5,7 @@ namespace TallStackUi\Customization;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use ReflectionClass;
 use RuntimeException;
 
 /**
@@ -94,7 +95,10 @@ class CustomizationFactory implements Arrayable
         // is to avoid an unnecessary call every time the component is rendered,
         // even if it has no customizations to be applied.
         if ($this->original === []) {
-            $this->original = app($this->component)->customization();
+            // Bypassing the constructor because customization() never reads
+            // constructor state, and a component with a required parameter
+            // cannot be resolved by the container.
+            $this->original = (new ReflectionClass($this->component))->newInstanceWithoutConstructor()->customization();
             $this->blocks = array_keys($this->original);
         }
 

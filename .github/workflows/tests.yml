@@ -105,6 +105,44 @@ jobs:
         env:
           CI: true
 
+  assets:
+    runs-on: ubuntu-latest
+
+    name: Assets
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.x
+
+      - name: Cache Node modules
+        uses: actions/cache@v6
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            node-${{ runner.os }}-
+
+      - name: Install Node Dependencies
+        run: npm install
+
+      # dist/ is committed and is what the published package serves, so a
+      # forgotten build ships stale JS with nothing to signal it.
+      - name: Dist Is Up To Date
+        run: |
+          npm run build
+
+          if [ -n "$(git status --porcelain -- dist)" ]; then
+            echo "::error::dist/ does not match the source. Run 'npm run build' and commit the result."
+            git status --porcelain -- dist
+            git diff --stat -- dist
+            exit 1
+          fi
+
   browser:
     runs-on: ubuntu-latest
 
