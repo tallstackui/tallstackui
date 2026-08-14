@@ -557,7 +557,7 @@ Controller: `src/Http/Controllers/TallStackUiAssetsController.php` with configur
 - `tippy-*.css` - Tooltip styles
 - `.vite/manifest.json` - Asset manifest for dynamic loading
 
-**Key JS dependencies:** `clipboard` (copy), `dayjs` (date/time pickers), `qs` (query strings for select requests), `tippy.js` (tooltips)
+**Key JS dependencies:** `@alpinejs/collapse` only. Everything else is built by the package: `js/helpers/date.js` (date/time pickers), `js/helpers/placement.js` (tooltips and popovers), `src/Components/Clipboard/write.js` (copy).
 
 ## Testing Patterns
 

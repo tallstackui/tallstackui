@@ -1,5 +1,5 @@
 import { lockable, wireChange } from '../../../../js/helpers';
-import dayjs from 'dayjs';
+import { datetime } from '../../../../js/helpers/date';
 
 // Pixels of vertical drag required to move one step.
 const sensitivity = 10;
@@ -43,7 +43,7 @@ export default (
   dragging: null,
   scrolling: null,
   init() {
-    this.model ??= this.value ?? (required ? dayjs().format('HH:mm A') : null);
+    this.model ??= this.value ?? (required ? datetime().format('HH:mm A') : null);
     this.empty = this.model === null;
     this.hours = this.range.hour.min.toString().padStart(2, '0');
 
@@ -228,7 +228,7 @@ export default (
    * @return {void}
    */
   current() {
-    const date = dayjs();
+    const date = datetime();
 
     const hours = date.hour();
     const minutes = date.minute();
