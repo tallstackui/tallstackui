@@ -96,6 +96,44 @@ Soft customization gained `input.addon.paddings.left` and
 
 ---
 
+## Form / Select / Styled
+
+### Fixed — a locked select lost its chevron and squeezed the label
+
+`@if (!$locked)` wrapped the whole button row, and the row holds two different
+things: the clear button, which mutates and must go, and the chevron, which is
+not a control at all — it is the mark that says *this is a select*. Locking one
+removed both.
+
+The chevron's container also carries the right inset (`mr-2`), so its removal
+took the breathing room with it. The button collapsed from 85px to 23px and the
+label ended up against the edge of the field — most visible inside
+`<x-input.select>`, where the select sits flush against the border:
+
+```blade
+<x-input.select label="Phone" wire:model="phone" disabled>
+    <x-slot:right>
+        <x-select.styled wire:model="code" :options="$codes" />
+    </x-slot>
+</x-input.select>
+```
+
+Only the clear button is conditional now. A locked select keeps the chevron and
+the inset, and reads as the same control it is when open — 8px to the label,
+36px to the right edge, in both states.
+
+This applies to a standalone `<x-select.styled disabled />` just as much: it,
+too, used to render as a bare box.
+
+## Form / InputSelect
+
+### Fixed — a locked field kept the room reserved for the clear button
+
+The `×` is not rendered while the field is locked, but the input kept the `pr-8`
+that makes room for it, so a `readonly` field with `icon` and `clearable`
+carried 32px of dead space on its right. The padding now follows the button that
+justifies it.
+
 ## Form / Select / Native
 
 ### Fixed — a locked select kept the open background

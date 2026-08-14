@@ -72,8 +72,8 @@
                      $customization['input.paddings.prefix'] => $prefix,
                      $customization['input.paddings.suffix'] => $suffix,
                      $customization['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
-                     $customization['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable,
-                     $customization['input.paddings.clearable'] => $icon && $clearable && $position === 'right',
+                     $customization['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable && !$locked,
+                     $customization['input.paddings.clearable'] => $icon && $clearable && !$locked && $position === 'right',
                  ]) }}>
         @if ($suffix instanceof \Illuminate\View\ComponentSlot)
             <div {{ $suffix->attributes->merge(['class' => $customization['input.slot']]) }}>

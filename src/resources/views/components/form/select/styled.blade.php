@@ -107,28 +107,26 @@
                     @endif
                 </div>
             </div>
-            @if (!$locked)
-                <div class="{{ $customization['buttons.wrapper'] }}" wire:ignore>
-                    @if (!$required)
-                        <template x-if="!empty">
-                            <button dusk="tallstackui_select_clear"
-                                    id="select-clear"
-                                    type="button"
-                                    class="cursor-pointer"
-                                    x-on:click="$event.stopPropagation(); clear();">
-                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                     :icon="TallStackUi::icon('x-mark')"
-                                                     internal
-                                        @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
-                            </button>
-                        </template>
-                    @endif
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('chevron-up-down')"
-                                         internal
-                            @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
-                </div>
-            @endif
+            <div class="{{ $customization['buttons.wrapper'] }}" wire:ignore>
+                @if (!$required && !$locked)
+                    <template x-if="!empty">
+                        <button dusk="tallstackui_select_clear"
+                                id="select-clear"
+                                type="button"
+                                class="cursor-pointer"
+                                x-on:click="$event.stopPropagation(); clear();">
+                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                 :icon="TallStackUi::icon('x-mark')"
+                                                 internal
+                                    @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
+                        </button>
+                    </template>
+                @endif
+                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                     :icon="TallStackUi::icon('chevron-up-down')"
+                                     internal
+                        @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
+            </div>
         </button>
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
                              scope="form.select-styled.floating"

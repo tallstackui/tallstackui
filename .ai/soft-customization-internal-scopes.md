@@ -140,10 +140,10 @@ TallStackUi::customize()
 | Scope                         | Target           | Line(s) |
 |-------------------------------|------------------|---------|
 | `form.select-styled.label`    | `<x-label />`    | 41      |
-| `form.select-styled.floating` | `<x-floating />` | 134     |
-| `form.select-styled.input`    | `<x-input />`    | 143     |
-| `form.select-styled.hint`     | `<x-hint />`     | 267     |
-| `form.select-styled.error`    | `<x-error />`    | 270     |
+| `form.select-styled.floating` | `<x-floating />` | 132     |
+| `form.select-styled.input`    | `<x-input />`    | 141     |
+| `form.select-styled.hint`     | `<x-hint />`     | 265     |
+| `form.select-styled.error`    | `<x-error />`    | 268     |
 
 ### `form/tag`
 
