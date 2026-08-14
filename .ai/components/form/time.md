@@ -33,20 +33,20 @@ A time picker component with a floating panel featuring range sliders for hours 
 
 ## Attributes
 
-| Attribute   | Type                        | Default | Description                                                           |
-|-------------|-----------------------------|---------|-----------------------------------------------------------------------|
-| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                  |
-| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                   |
-| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages                         |
-| helper      | bool\|null                  | null    | Shows a "Current Time" button that sets the value to the current time |
-| min-hour    | int\|null                   | null    | Minimum selectable hour (0-23)                                        |
-| max-hour    | int\|null                   | null    | Maximum selectable hour (0-23)                                        |
-| min-minute  | int\|null                   | null    | Minimum selectable minute (0-59)                                      |
-| max-minute  | int\|null                   | null    | Maximum selectable minute (0-59)                                      |
-| format      | string\|null                | '12'    | Time format: '12' for 12-hour with AM/PM, '24' for 24-hour            |
-| step-hour   | string\|null                | '1'     | Step interval for the hour slider                                     |
-| step-minute | string\|null                | '1'     | Step interval for the minute slider                                   |
-| disabled    | bool                        | false   | Locks the input, the picker and the clear button. The value is not submitted. |
+| Attribute   | Type                        | Default | Description                                                                     |
+|-------------|-----------------------------|---------|---------------------------------------------------------------------------------|
+| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                            |
+| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                             |
+| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages                                   |
+| helper      | bool\|null                  | null    | Shows a "Current Time" button that sets the value to the current time           |
+| min-hour    | int\|null                   | null    | Minimum selectable hour (0-23)                                                  |
+| max-hour    | int\|null                   | null    | Maximum selectable hour (0-23)                                                  |
+| min-minute  | int\|null                   | null    | Minimum selectable minute (0-59)                                                |
+| max-minute  | int\|null                   | null    | Maximum selectable minute (0-59)                                                |
+| format      | string\|null                | '12'    | Time format: '12' for 12-hour with AM/PM, '24' for 24-hour                      |
+| step-hour   | string\|null                | '1'     | Step interval for the hour slider                                               |
+| step-minute | string\|null                | '1'     | Step interval for the minute slider                                             |
+| disabled    | bool                        | false   | Locks the input, the picker and the clear button. The value is not submitted.   |
 | readonly    | bool                        | false   | Locks the input, the picker and the clear button. The value is still submitted. |
 
 ## Slots

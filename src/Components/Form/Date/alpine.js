@@ -1,10 +1,5 @@
-import dayjs from 'dayjs';
-import updateLocale from 'dayjs/plugin/updateLocale';
-import isBetween from 'dayjs/plugin/isBetween';
+import { datetime, isDatetime, localize } from '../../../../js/helpers/date';
 import { lockable, wireChange } from '../../../../js/helpers';
-
-dayjs.extend(updateLocale);
-dayjs.extend(isBetween);
 
 export default (
   model,
@@ -71,8 +66,8 @@ export default (
 
     if (this.monthYearOnly) this.picker.month = true;
 
-    this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
-    this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
+    this.date.min = dates.date.min ? datetime(dates.date.min) : null;
+    this.date.max = dates.date.max ? datetime(dates.date.max) : null;
 
     if (!this.livewire && !this.model && this.value) this.model = this.value;
 
@@ -110,6 +105,10 @@ export default (
     this.calendar['months'] = Object.values(this.calendar['months']);
     this.calendar['week'] = Object.values(this.calendar['week']);
 
+    // Before the rotation below, because the format tokens index the weekdays
+    // by what the date reports, which always counts from Sunday.
+    localize({ months: this.calendar['months'], weekdays: this.calendar['week'] });
+
     // Reorder the week days according to the start day
     if (this.start > 0) {
       const days = [...this.calendar['week']];
@@ -120,15 +119,6 @@ export default (
 
       this.calendar['week'] = [...second, ...first];
     }
-
-    dayjs.updateLocale('en', {
-      weekdays: this.calendar['week'],
-      weekdaysShort: this.calendar['week'].map((day) => day.slice(0, 3)),
-      weekdaysMin: this.calendar['week'].map((day) => day.slice(0, 2)),
-      months: this.calendar['months'],
-      monthsShort: this.calendar['months'].map((month) => month.slice(0, 3)),
-      weekStart: this.start,
-    });
   },
   /**
    * Hydrate the need stuff in the bootstrap.
@@ -144,8 +134,8 @@ export default (
       let two = this.model[1];
       two = two === 'null' ? null : two;
 
-      const start = one ? dayjs(one).$d : null;
-      const end = two ? dayjs(two).$d : null;
+      const start = one ? datetime(one).toDate() : null;
+      const end = two ? datetime(two).toDate() : null;
 
       this.date.start = start;
       this.date.end = end;
@@ -169,7 +159,7 @@ export default (
       return this.refresh();
     }
 
-    this.date.start = this.model ? dayjs(this.model).$d : null;
+    this.date.start = this.model ? datetime(this.model).toDate() : null;
 
     this.sync();
     this.refresh();
@@ -292,11 +282,11 @@ export default (
 
     this.blanks = Array.from({ length: count }, (key, value) => value + 1);
 
-    const todayStr = dayjs().format('YYYY-MM-DD');
+    const todayStr = datetime().format('YYYY-MM-DD');
     const startTime = this.date.start ? new Date(this.date.start).getTime() : null;
     const endTime = this.date.end ? new Date(this.date.end).getTime() : null;
-    const rangeStart = range && this.date.start ? dayjs(this.date.start) : null;
-    const rangeEnd = range && this.date.end ? dayjs(this.date.end) : null;
+    const rangeStart = range && this.date.start ? datetime(this.date.start) : null;
+    const rangeEnd = range && this.date.end ? datetime(this.date.end) : null;
     const selectedSet = multiple && this.model ? new Set(this.model) : null;
 
     this.days = Array.from({ length: month }, (key, value) => {
@@ -332,7 +322,7 @@ export default (
   helper(event, type) {
     event.preventDefault();
 
-    let date = dayjs();
+    let date = datetime();
 
     if (type === 'yesterday' || type === 'tomorrow') {
       date = date.add(type === 'yesterday' ? -1 : 1, 'day');
@@ -382,8 +372,8 @@ export default (
 
     const startTime = this.date.start ? new Date(this.date.start).getTime() : null;
     const endTime = this.date.end ? new Date(this.date.end).getTime() : null;
-    const rangeStart = range && this.date.start ? dayjs(this.date.start) : null;
-    const rangeEnd = range && this.date.end ? dayjs(this.date.end) : null;
+    const rangeStart = range && this.date.start ? datetime(this.date.start) : null;
+    const rangeEnd = range && this.date.end ? datetime(this.date.end) : null;
     const selectedSet = multiple && this.model ? new Set(this.model) : null;
 
     for (let i = 0; i < this.days.length; i++) {
@@ -418,16 +408,16 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
-    const d = dayjs.isDayjs(date) ? date : dayjs(date);
-    const day = d.day();
+    const parsed = isDatetime(date) ? date : datetime(date);
+    const day = parsed.day();
 
     return (
-      (this.date.min && d.isBefore(this.date.min)) ||
-      (this.date.max && d.isAfter(this.date.max)) ||
+      (this.date.min && parsed.isBefore(this.date.min)) ||
+      (this.date.max && parsed.isAfter(this.date.max)) ||
       (this.weekdays && (day === 0 || day === 6)) ||
       (this.weekends && day !== 0 && day !== 6) ||
       (this.only && day !== parseInt(this.only)) ||
-      this.disable.includes(d.format('YYYY-MM-DD'))
+      this.disable.includes(parsed.format('YYYY-MM-DD'))
     );
   },
   /**
@@ -525,7 +515,7 @@ export default (
     this.year = year;
 
     if (this.monthYearOnly) {
-      this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
+      this.date.start = datetime(`${this.year}-${this.month + 1}`).toDate();
       this.model = this.date.start;
 
       return this.sync();
@@ -581,7 +571,7 @@ export default (
   reset() {
     const current = Array.isArray(this.model) ? this.model[0] : this.model;
 
-    const date = current ? dayjs(current) : dayjs();
+    const date = current ? datetime(current) : datetime();
 
     this.day = date.date();
     this.month = date.month();
@@ -608,16 +598,16 @@ export default (
    * @return {String}
    */
   formatted(date, format = null) {
-    return dayjs(date).format(format ?? this.format);
+    return datetime(date).format(format ?? this.format);
   },
   /**
-   * Create a new instance of the Dayjs library optionally passing the day.
+   * Create a new date instance optionally passing the day.
    *
    * @param {String|Null} day
-   * @return {dayjs.Dayjs}
+   * @return {DateTime}
    */
   instance(day = null) {
-    return dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
+    return datetime(`${this.year}-${this.month + 1}-${day ?? this.day}`);
   },
   /**
    * Set the value of the input.

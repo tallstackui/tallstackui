@@ -72,13 +72,13 @@ TallStackUi::customize()
 | submenu.left        | Left chevron indicator size                                                                  |
 | submenu.right       | Right chevron indicator size                                                                 |
 | floating.default    | Floating panel base styles (background, border, shadow)                                      |
-| floating.widths.xxs | Floating panel minimum width when the parent dropdown is `width="xxs"` (`min-w-32`)                      |
-| floating.widths.xs  | Floating panel minimum width when the parent dropdown is `width="xs"` (`min-w-40`)                       |
-| floating.widths.sm  | Floating panel minimum width when the parent dropdown is `width="sm"` (`min-w-48`)                       |
-| floating.widths.md  | Floating panel minimum width when the parent dropdown is `width="md"` (`min-w-56`, default)              |
-| floating.widths.lg  | Floating panel minimum width when the parent dropdown is `width="lg"` (`min-w-64`)                       |
-| floating.widths.xl  | Floating panel minimum width when the parent dropdown is `width="xl"` (`min-w-72`)                       |
-| floating.widths.2xl | Floating panel minimum width when the parent dropdown is `width="2xl"` (`min-w-80`)                      |
+| floating.widths.xxs | Floating panel minimum width when the parent dropdown is `width="xxs"` (`min-w-32`)          |
+| floating.widths.xs  | Floating panel minimum width when the parent dropdown is `width="xs"` (`min-w-40`)           |
+| floating.widths.sm  | Floating panel minimum width when the parent dropdown is `width="sm"` (`min-w-48`)           |
+| floating.widths.md  | Floating panel minimum width when the parent dropdown is `width="md"` (`min-w-56`, default)  |
+| floating.widths.lg  | Floating panel minimum width when the parent dropdown is `width="lg"` (`min-w-64`)           |
+| floating.widths.xl  | Floating panel minimum width when the parent dropdown is `width="xl"` (`min-w-72`)           |
+| floating.widths.2xl | Floating panel minimum width when the parent dropdown is `width="2xl"` (`min-w-80`)          |
 | slot                | Submenu items container with overflow and rounding                                           |
 
 Size and width are inherited from the parent `<x-dropdown>` automatically (see `.ai/components/dropdown/main.md`). The submenu has no per-instance size or width props — its trigger button reads the parent's `data-tsui-dropdown-size` via Tailwind arbitrary variants, and its teleported floating panel reads `data-tsui-dropdown-size` / `data-tsui-dropdown-width` set on Alpine `init` from the closest ancestor.

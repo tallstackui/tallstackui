@@ -217,11 +217,11 @@ Top-level keys in `config/tallstackui.php`, applying across components rather
 than to a single one. Per-component options live under `components.<name>` and
 are documented on each component's page.
 
-| Key                    | Type   | Default | Description                                                  |
-|------------------------|--------|---------|--------------------------------------------------------------|
-| `prefix`               | string | null    | Prefixes every component, so `ts-` gives `<x-ts-alert />`    |
+| Key                    | Type   | Default | Description                                                                            |
+|------------------------|--------|---------|----------------------------------------------------------------------------------------|
+| `prefix`               | string | null    | Prefixes every component, so `ts-` gives `<x-ts-alert />`                              |
 | `invalidate_global`    | bool   | false   | Suppresses validation errors on every form component (`TALLSTACKUI_INVALIDATE_GLOBAL`) |
-| `floating_scroll_lock` | bool   | false   | Locks the page scroll while any floating-based popup is open |
+| `floating_scroll_lock` | bool   | false   | Locks the page scroll while any floating-based popup is open                           |
 
 `debug.environments` is a comma-separated list via `TALLSTACKUI_DEBUG_ENVIRONMENTS`
 (default `local,sandbox,staging`).

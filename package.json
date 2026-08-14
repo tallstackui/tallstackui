@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.15.12",
-    "@tailwindcss/vite": "^4.3.1",
-    "dayjs": "^1.11.21"
+    "@tailwindcss/vite": "^4.3.1"
   }
 }

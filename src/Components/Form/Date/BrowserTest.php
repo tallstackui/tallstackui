@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Form\Date;
 
 use Facebook\WebDriver\WebDriverBy;
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -564,6 +565,72 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_start_the_week_on_a_custom_day(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" start="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->tap(function (Browser $browser): void {
+                $header = $browser->driver->findElement(
+                    WebDriverBy::xpath('(//div[@data-floating])[1]/div[2]/div[1]')
+                );
+
+                $this->assertSame('Mon', trim($header->getText()));
+            })
+            // January 2020 opens on a Wednesday, which leaves two blanks ahead of
+            // the 1st once the week starts on Monday instead of three.
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[12]/button')
+            ->waitForTextIn('@date', '2020-01-10')
+            ->assertSeeIn('@date', '2020-01-10');
+    }
+
+    #[Test]
+    public function can_use_custom_formats(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-15';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-date label="Default" wire:model.live="date" dusk="date_default" />
+                    <x-date label="Slashed" wire:model.live="date" dusk="date_slashed" format="DD/MM/YYYY" />
+                    <x-date label="Long" wire:model.live="date" dusk="date_long" format="YYYY, MMMM, DD" />
+                    <x-date label="Escaped" wire:model.live="date" dusk="date_escaped" format="DD [of] MMMM [of] YYYY" />
+                    <x-date label="Weekday" wire:model.live="date" dusk="date_weekday" format="dddd, MMM D" start="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Weekday')
+            ->assertInputValue('@date_default', '2020-01-15')
+            ->assertInputValue('@date_slashed', '15/01/2020')
+            ->assertInputValue('@date_long', '2020, January, 15')
+            ->assertInputValue('@date_escaped', '15 of January of 2020')
+            // The weekday name is read from the date itself, so the rotation
+            // `start` applies to the header must never reach it.
+            ->assertInputValue('@date_weekday', 'Wednesday, Jan 15');
+    }
+
+    #[Test]
     public function can_use_max_date(): void
     {
         Livewire::visit(new class extends Component
@@ -813,6 +880,44 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_date_open_close')
             ->waitUntilMissingText('January')
             ->assertDontSee('January');
+    }
+
+    #[Test]
+    public function cannot_select_disabled_dates(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" :disable="['2020-01-10']" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01-01')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            // January 2020 opens on a Wednesday, so three blanks precede the 1st.
+            ->tap(function (Browser $browser): void {
+                $day = $browser->driver->findElement(
+                    WebDriverBy::xpath('(//div[@data-floating])[1]/div[3]/div[13]/button')
+                );
+
+                $this->assertSame('10', trim($day->getText()));
+                $this->assertFalse($day->isEnabled());
+            })
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[13]/button')
+            ->assertSeeIn('@date', '2020-01-01')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[14]/button')
+            ->waitForTextIn('@date', '2020-01-11')
+            ->assertSeeIn('@date', '2020-01-11');
     }
 
     #[Test]

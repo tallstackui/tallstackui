@@ -73,6 +73,8 @@
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
                 {{ $attributes->class([
                      $customization['input.base'],
+                     $customization['input.addon.paddings.left'] => $prefixed,
+                     $customization['input.addon.paddings.right'] => $suffixed,
                      $customization['input.paddings.prefix'] => $prefix && !$prefixed,
                      $customization['input.paddings.suffix'] => $suffix && !$suffixed,
                      $customization['input.paddings.left'] => $icon && ($position === null || $position === 'left'),

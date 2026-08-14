@@ -37,26 +37,26 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 
 ## Attributes
 
-| Attribute       | Type                        | Default      | Description                                                       |
-|-----------------|-----------------------------|--------------|-------------------------------------------------------------------|
-| label           | string\|ComponentSlot\|null | null         | Label text displayed above the input                              |
-| hint            | string\|ComponentSlot\|null | null         | Hint text displayed below the input                               |
-| invalidate      | bool\|null                  | null         | Prevents displaying validation error messages                     |
-| range           | bool\|null                  | false        | Enables date range selection (start and end dates)                |
-| multiple        | bool\|null                  | false        | Enables multiple individual date selection                        |
-| format          | string\|null                | 'YYYY-MM-DD' | Display format for the selected date (Day.js format tokens)       |
-| min-date        | string\|Carbon\|null        | null         | Minimum selectable date                                           |
-| max-date        | string\|Carbon\|null        | null         | Maximum selectable date                                           |
-| min-year        | int\|null                   | null         | Minimum selectable year in the year picker                        |
-| max-year        | int\|null                   | null         | Maximum selectable year in the year picker                        |
-| helpers         | bool\|null                  | null         | Shows yesterday, today, and tomorrow quick-select buttons         |
-| month-year-only | bool\|null                  | false        | Restricts the picker to month and year selection only             |
-| disable         | array\|Collection           | []           | Array of date strings or Carbon instances to disable              |
-| start           | int\|string                 | 0            | First day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday) |
-| only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)           |
-| weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)              |
-| weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)            |
-| disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted. |
+| Attribute       | Type                        | Default      | Description                                                                       |
+|-----------------|-----------------------------|--------------|-----------------------------------------------------------------------------------|
+| label           | string\|ComponentSlot\|null | null         | Label text displayed above the input                                              |
+| hint            | string\|ComponentSlot\|null | null         | Hint text displayed below the input                                               |
+| invalidate      | bool\|null                  | null         | Prevents displaying validation error messages                                     |
+| range           | bool\|null                  | false        | Enables date range selection (start and end dates)                                |
+| multiple        | bool\|null                  | false        | Enables multiple individual date selection                                        |
+| format          | string\|null                | 'YYYY-MM-DD' | Display format for the selected date (see Format Tokens)                          |
+| min-date        | string\|Carbon\|null        | null         | Minimum selectable date                                                           |
+| max-date        | string\|Carbon\|null        | null         | Maximum selectable date                                                           |
+| min-year        | int\|null                   | null         | Minimum selectable year in the year picker                                        |
+| max-year        | int\|null                   | null         | Maximum selectable year in the year picker                                        |
+| helpers         | bool\|null                  | null         | Shows yesterday, today, and tomorrow quick-select buttons                         |
+| month-year-only | bool\|null                  | false        | Restricts the picker to month and year selection only                             |
+| disable         | array\|Collection           | []           | Array of date strings or Carbon instances to disable                              |
+| start           | int\|string                 | 0            | First day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)                 |
+| only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)                           |
+| weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)                              |
+| weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)                            |
+| disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted.   |
 | readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted. |
 
 ## Alpine.js Events
@@ -91,6 +91,47 @@ $date = '20/02/2024';
 $date = now()->createFromFormat('d/m/Y', $date)->format('Y-m-d');
 // Result: '2024-02-20'
 ```
+
+## Format Tokens
+
+The `format` attribute is visual only and accepts the tokens below. They are the Day.js core tokens, but the formatter is the package's own (`js/helpers/date.js`), so tokens that Day.js only exposes through plugins — `Do`, `Q`, `X`, `x`, `k`, `w`, `gggg` — are not available and never were.
+
+| Token    | Output                                                   |
+|----------|----------------------------------------------------------|
+| `YY`     | `26`                                                     |
+| `YYYY`   | `2026`                                                   |
+| `M`      | `1`-`12`                                                 |
+| `MM`     | `01`-`12`                                                |
+| `MMM`    | `Jan` (first three characters of the translated month)   |
+| `MMMM`   | `January` (translated)                                   |
+| `D`      | `1`-`31`                                                 |
+| `DD`     | `01`-`31`                                                |
+| `d`      | `0`-`6`                                                  |
+| `dd`     | `Su` (first two characters of the translated weekday)    |
+| `ddd`    | `Sun` (first three characters of the translated weekday) |
+| `dddd`   | `Sunday` (translated)                                    |
+| `H`      | `0`-`23`                                                 |
+| `HH`     | `00`-`23`                                                |
+| `h`      | `1`-`12`                                                 |
+| `hh`     | `01`-`12`                                                |
+| `m`      | `0`-`59`                                                 |
+| `mm`     | `00`-`59`                                                |
+| `s`      | `0`-`59`                                                 |
+| `ss`     | `00`-`59`                                                |
+| `SSS`    | `000`-`999`                                              |
+| `a`      | `am` / `pm`                                              |
+| `A`      | `AM` / `PM`                                              |
+| `Z`      | `+03:00`                                                 |
+| `ZZ`     | `+0300`                                                  |
+| `[text]` | `text`, escaped from parsing                             |
+
+```blade
+<x-date format="DD/MM/YYYY" />
+<x-date format="MMMM, DD, YYYY" />
+<x-date format="DD [of] MMMM [of] YYYY" />
+```
+
+Month and weekday names come from the `calendar` translations in `lang/{locale}/messages.php`, so `MMMM` and `dddd` follow the application locale. The picker only ever holds a date, so the time tokens always render zeros.
 
 ## Soft Customization
 

@@ -53,17 +53,17 @@ With a header slot:
 
 ## Attributes
 
-| Attribute | Type         | Default      | Description                                                                                                                                                                                                                                                                                   |
-|-----------|--------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| text      | string\|null | null         | Text label displayed as the dropdown trigger                                                                                                                                                                                                                                                  |
-| icon      | string\|null | null         | Icon name displayed as the dropdown trigger (used when text is not set)                                                                                                                                                                                                                       |
-| position  | string\|null | 'bottom-end' | Floating panel position relative to the trigger                                                                                                                                                                                                                                               |
-| static    | bool\|null   | false        | When true, disables the click-outside auto-close animation                                                                                                                                                                                                                                    |
-| hover     | bool\|null   | false        | Opens on `pointerenter` and closes on `pointerleave` with a 300ms grace period. Restricted to `pointerType === 'mouse'`, so touch keeps the click behavior; the click toggle keeps working alongside. `<x-reaction hover>` uses the same idea. See [Reaction](../reaction.md#hover).          |
-| xs        | bool\|null   | null         | Compact size: smaller paddings, font and icons on every item                                                                                                                                                                                                                                  |
-| sm        | bool\|null   | null         | Small size: items shrink one step from the default                                                                                                                                                                                                                                            |
-| md        | bool\|null   | null         | Medium size (the default content density)                                                                                                                                                                                                                                                     |
-| lg        | bool\|null   | null         | Large size: roomier paddings, font and icons on every item                                                                                                                                                                                                                                    |
+| Attribute | Type         | Default      | Description                                                                                                                                                                                                                                                                                               |
+|-----------|--------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null | null         | Text label displayed as the dropdown trigger                                                                                                                                                                                                                                                              |
+| icon      | string\|null | null         | Icon name displayed as the dropdown trigger (used when text is not set)                                                                                                                                                                                                                                   |
+| position  | string\|null | 'bottom-end' | Floating panel position relative to the trigger                                                                                                                                                                                                                                                           |
+| static    | bool\|null   | false        | When true, disables the click-outside auto-close animation                                                                                                                                                                                                                                                |
+| hover     | bool\|null   | false        | Opens on `pointerenter` and closes on `pointerleave` with a 300ms grace period. Restricted to `pointerType === 'mouse'`, so touch keeps the click behavior; the click toggle keeps working alongside. `<x-reaction hover>` uses the same idea. See [Reaction](../reaction.md#hover).                      |
+| xs        | bool\|null   | null         | Compact size: smaller paddings, font and icons on every item                                                                                                                                                                                                                                              |
+| sm        | bool\|null   | null         | Small size: items shrink one step from the default                                                                                                                                                                                                                                                        |
+| md        | bool\|null   | null         | Medium size (the default content density)                                                                                                                                                                                                                                                                 |
+| lg        | bool\|null   | null         | Large size: roomier paddings, font and icons on every item                                                                                                                                                                                                                                                |
 | width     | string\|null | null         | Floating panel minimum width. Accepts `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`. When omitted, falls back to whichever size flag is active (`xs`, `sm`, `md`, or `lg`); when none of those is set, defaults to `md` (`min-w-56`). Pass `width` explicitly to decouple panel footprint from item density. |
 
 ## Slots
@@ -118,13 +118,13 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name          | Purpose                                                  |
-|---------------------|----------------------------------------------------------|
-| wrapper.first       | Outer flex container                                     |
-| wrapper.second      | Relative inline-block positioning container              |
-| header.wrapper      | Header content container with margin                     |
-| slot.wrapper        | Menu items container with overflow and rounding          |
-| floating.default    | Floating panel base styles (background, border, shadow)  |
+| Block Name          | Purpose                                                              |
+|---------------------|----------------------------------------------------------------------|
+| wrapper.first       | Outer flex container                                                 |
+| wrapper.second      | Relative inline-block positioning container                          |
+| header.wrapper      | Header content container with margin                                 |
+| slot.wrapper        | Menu items container with overflow and rounding                      |
+| floating.default    | Floating panel base styles (background, border, shadow)              |
 | floating.widths.xxs | Floating panel minimum width when `width="xxs"` (`min-w-32`)         |
 | floating.widths.xs  | Floating panel minimum width when `width="xs"` (`min-w-40`)          |
 | floating.widths.sm  | Floating panel minimum width when `width="sm"` (`min-w-48`)          |
@@ -132,6 +132,6 @@ TallStackUi::customize()
 | floating.widths.lg  | Floating panel minimum width when `width="lg"` (`min-w-64`)          |
 | floating.widths.xl  | Floating panel minimum width when `width="xl"` (`min-w-72`)          |
 | floating.widths.2xl | Floating panel minimum width when `width="2xl"` (`min-w-80`)         |
-| action.wrapper      | Trigger button itself, wrapping the text and the chevron |
-| action.text         | Trigger text styles                                      |
-| action.icon         | Trigger icon and chevron styles                          |
+| action.wrapper      | Trigger button itself, wrapping the text and the chevron             |
+| action.text         | Trigger text styles                                                  |
+| action.icon         | Trigger icon and chevron styles                                      |

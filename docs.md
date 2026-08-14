@@ -12,6 +12,140 @@ such change is listed under **Migration**.
 
 ---
 
+## Dependencies
+
+### Changed — day.js is gone, and Alpine is the only dependency left
+
+Date, Time and Calendar were the last three files importing something. day.js
+gave them a parser, a formatter, arithmetic on days and a handful of
+comparisons — a fraction of what the package ships, paid for on every page that
+renders a date field. `js/helpers/date.js` holds that fraction now:
+
+```js
+datetime(value)   // → an immutable local date
+localize(names)   // → the month and weekday names the format tokens read
+isDatetime(value)
+```
+
+The instance answers `add`, `startOf`, `endOf`, `format`, `date`, `day`,
+`month`, `year`, `hour`, `minute`, `toDate`, `valueOf`, `isValid`, and the four
+comparisons the calendars run against a range: `isBefore`, `isAfter`, `isSame`
+and `isBetween`.
+
+**The format tokens did not change**, because the whole token table came along:
+`YY YYYY M MM MMM MMMM D DD d dd ddd dddd H HH h hh m mm s ss SSS a A Z ZZ`
+and `[escaped]` text. So does the parsing, down to the shapes that are not
+strictly a date — `2026`, `2026-8`, `2026-8-4` — and down to the two rules the
+components lean on: a date reads as **local**, never as UTC, and a `null` is an
+invalid date while an omitted value is now. A string carrying a zone still goes
+to the native parser, the only one that can apply an offset.
+
+Everything above was checked against day.js itself before the dependency came
+out, across the operations the three components perform, over a decade of dates
+in every month, and in six timezones — including the half-hour and 45-minute
+ones, where a naive implementation drifts.
+
+`tallstackui-date.js` went from 28.6 KB to 21.6 KB, 7.7 KB to 5.2 KB gzipped.
+
+### Fixed — the weekday names were rotated before being handed over
+
+The three components reorder the week to honour `start`, and the reordered
+array was what went into day.js as the locale. Weekday names are indexed by
+what the date reports, which always counts from Sunday, so `<x-date start="1"
+format="dddd" />` named the wrong day — off by exactly the rotation. The names
+are registered before the rotation now. The header row was never affected: it
+renders `calendar.week` directly, which is what the rotation is for.
+
+### Migration
+
+**`dayjs` left `package.json`.** An application importing it directly has to
+install it on its own.
+
+**`dayjs.updateLocale('en', ...)` is no longer called.** The three components
+used to overwrite day.js's global English locale with the translations coming
+from `lang/`, which leaked into every other day.js consumer on the page.
+Anything that was reading its month or weekday names from that side effect has
+to register them itself.
+
+---
+
+## Form / Input
+
+### Fixed — the text sat too far from an addon button
+
+An addon prefix left a gap between the button and the first character that was
+four times the inset the button itself has, and the field read as two pieces
+that happen to touch rather than one control:
+
+```blade
+<x-input label="URL" wire:model="url">
+    <x-slot:prefix button><x-button>https</x-button></x-slot:prefix>
+</x-input>
+```
+
+The input carried no horizontal padding of its own in that layout, so the gap
+was the addon container's `p-1` plus whatever `@tailwindcss/forms` gave the
+element — 12px under the base strategy, nothing under the class one. Which is
+the real defect: the spacing of a component was decided by a plugin setting in
+the application. The addon layout now states its own padding, `pl-2` against a
+prefix and `pr-2` against a suffix, both `!` so the plugin cannot move them.
+The gap is 12px either way, and the button reads as sitting inside the field.
+
+Soft customization gained `input.addon.paddings.left` and
+`input.addon.paddings.right`.
+
+---
+
+## Form / Select / Native
+
+### Fixed — a locked select kept the open background
+
+`readonly` and `disabled` painted the select on the page background instead of
+the locked grey. Inside `<x-input.select>` the two halves sat side by side, so
+the seam was impossible to miss: a white select glued to a grey field.
+
+```blade
+<x-input.select label="Phone" wire:model="phone" readonly>
+    <x-slot:left>
+        <x-select.native :options="$codes" />
+    </x-slot>
+</x-input.select>
+```
+
+Nothing was wrong with the conditions — the locked classes were on the element.
+The `<select>` is the only component where `input.base` and the colors land on
+the *same* element, everywhere else the base is a transparent field inside a
+painted wrapper, and `bg-transparent` and `bg-gray-100` carry the same
+specificity. Tailwind emits the grey first, so the transparent one won every
+time. The unlocked state survived by accident: `bg-white` is emitted after
+`bg-transparent`.
+
+`Select/Native` drops `bg-transparent` from its own `input.base`, which is the
+one component where it never made sense.
+
+**Migration** — `input.base` for `select.native` no longer contains
+`bg-transparent`. A customization removing or replacing it is now a no-op.
+
+---
+
+## Calendar
+
+### Known — `format` does nothing
+
+The prop is accepted, reaches the Alpine factory and is stored, and no code ever
+reads it. It only exists as the fallback of `formatted(date, format = null)`, and
+every one of the three call sites passes the format explicitly. Which is the
+right behaviour and not an oversight to route around: the calendar is inline and
+has no input to render a formatted value, so the only string it produces is the
+model, and the model belongs to the backend. It is always written as
+`YYYY-MM-DD`, or `YYYY-MM` under `month-year-only`.
+
+The prop came along when the calendar was carved out of `<x-date>`, where the
+format does drive the visible input. It is documented as inert rather than
+removed, since dropping it would break every application that passes it.
+
+---
+
 ## Form / Readonly & Disabled
 
 ### Fixed — `readonly` did nothing on half of the form components
