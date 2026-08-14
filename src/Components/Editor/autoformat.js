@@ -107,6 +107,12 @@ export default (editor, character) => {
     return true;
   }
 
+  // The inline pairs are Markdown syntax, and their triggers are characters
+  // ordinary prose is written with. Only the block markers cross into HTML.
+  if (!editor.config.markdown) {
+    return false;
+  }
+
   for (const rule of INLINE) {
     if (rule.trigger !== character) {
       continue;

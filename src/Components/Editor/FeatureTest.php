@@ -392,3 +392,40 @@ it('cannot leak an uncompiled blade directive into the markup', function () {
         ->not->toContain('@class(')
         ->not->toContain('{{ $');
 });
+
+it('can render without the output classes by default', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('classes: {}');
+});
+
+it('can render the output classes', function () {
+    expect('<x-editor name="content" output-classes />')
+        ->render()
+        ->toContain('tsui-editor-numeric-list')
+        ->toContain('tsui-editor-paragraph');
+});
+
+it('can render the output classes with an overridden name', function () {
+    // An array overrides the tags it lists and leaves the rest as they were.
+    expect('<x-editor name="content" :output-classes="[\'ol\' => \'tsui-editor-my-list\']" />')
+        ->render()
+        ->toContain('tsui-editor-my-list')
+        ->toContain('tsui-editor-paragraph')
+        ->not->toContain('tsui-editor-numeric-list');
+});
+
+it('cannot render an output class without the prefix', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessageMatches('/must start with/');
+
+    expect('<x-editor name="content" :output-classes="[\'ol\' => \'my-list\']" />')->render();
+});
+
+it('cannot render the output classes while storing markdown', function () {
+    // Markdown carries no classes, so the stamp would weigh down a DOM the
+    // serializer throws away.
+    expect('<x-editor name="content" markdown output-classes />')
+        ->render()
+        ->toContain('classes: {}');
+});

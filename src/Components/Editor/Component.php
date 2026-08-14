@@ -15,11 +15,42 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(EditorRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    /**
+     * The class stamped on each element the editor writes, so the stored HTML
+     * can be styled from outside the editor. Overriding a name keeps the
+     * prefix: it is what the sanitizer recognizes on the way back in.
+     */
+    public const OUTPUT_CLASSES = [
+        'p' => 'tsui-editor-paragraph',
+        'div' => 'tsui-editor-block',
+        'h1' => 'tsui-editor-heading-1',
+        'h2' => 'tsui-editor-heading-2',
+        'h3' => 'tsui-editor-heading-3',
+        'h4' => 'tsui-editor-heading-4',
+        'h5' => 'tsui-editor-heading-5',
+        'ul' => 'tsui-editor-bullet-list',
+        'ol' => 'tsui-editor-numeric-list',
+        'li' => 'tsui-editor-list-item',
+        'blockquote' => 'tsui-editor-quote',
+        'pre' => 'tsui-editor-code-block',
+        'code' => 'tsui-editor-code',
+        'hr' => 'tsui-editor-rule',
+        'a' => 'tsui-editor-link',
+        'img' => 'tsui-editor-image',
+        'strong' => 'tsui-editor-bold',
+        'em' => 'tsui-editor-italic',
+        'u' => 'tsui-editor-underline',
+        's' => 'tsui-editor-strike',
+    ];
+
+    public const OUTPUT_CLASSES_PREFIX = 'tsui-editor-';
+
     public function __construct(
         public ComponentSlot|string|null $label = null,
         public ComponentSlot|string|null $hint = null,
         public ?string $placeholder = null,
         public ?bool $markdown = null,
+        public bool|array|null $outputClasses = null,
         public ?array $toolbar = null,
         public ?string $uploadProperty = null,
         public ?string $uploadMethod = null,
@@ -80,7 +111,7 @@ class Component extends TallStackUiComponent implements Customization
                     'code' => 'dark:[&_code]:bg-dark-700 [&_code]:rounded [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-sm dark:[&_pre]:bg-black [&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-gray-900 [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:text-white [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-white',
                     'link' => 'dark:[&_a]:text-primary-400 [&_a]:text-primary-600 [&_a]:underline',
                     'image' => '[&_img]:my-2 [&_img]:inline-block [&_img]:max-w-full [&_img]:rounded',
-                    'paragraph' => '[&_p]:my-1',
+                    'paragraph' => '[&_p]:my-1 [&_div]:my-1',
                     'quote' => 'dark:[&_blockquote]:border-dark-700 dark:[&_blockquote]:text-dark-400 [&_blockquote]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-gray-200 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic',
                     'rule' => 'dark:[&_hr]:border-dark-700 [&_hr]:my-4 [&_hr]:border-t [&_hr]:border-gray-200',
                 ],

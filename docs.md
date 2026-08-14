@@ -5115,8 +5115,7 @@ it.
 the right shape there. Anywhere else it is a `margin-left` on the block, in steps
 of `2rem` up to eight levels — the native command reaches for a `<blockquote>`
 there, which is a quote rather than an indent and would be stripped by the
-sanitizer on the way back in. That margin is the one action that stays outside the
-undo stack: re-serializing the block to get it in there would drop the caret.
+sanitizer on the way back in.
 
 **Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor.modal.link`
 and `editor.modal.image`. The modal already owns the scroll lock, the overlay registry,
@@ -5330,6 +5329,97 @@ up, drifted back down as that scroll unwound alongside the animation, then
 settled: a three-beat stutter on every open, and on iOS a residual offset that
 left the sheet floating mid-screen. The focus now passes `preventScroll`, which
 is enough — the panel ends its transition fully visible, field and all.
+
+### Added — `output-classes`, styling hooks on the stored HTML
+
+The editor stores structure and nothing else: an `<ol>` is an `<ol>`, and the
+classes making it look like a numbered list live on the editor's own wrapper.
+Rendered anywhere else, Tailwind's Preflight strips the markers and the heading
+sizes and the content reads as plain lines — the list looked right while it was
+being written and lost its numbers the moment it was published.
+
+```blade
+<x-editor wire:model="content" output-classes />
+```
+
+Every element the editor writes now carries a class of its own, so the same
+content can be styled wherever it lands:
+
+```html
+<ol class="tsui-editor-numeric-list"><li class="tsui-editor-list-item">…</li></ol>
+```
+
+```css
+.tsui-editor-numeric-list { @apply my-2 list-decimal pl-6; }
+```
+
+The package defines none of them. They are hooks, empty until the application
+fills them, which is what keeps the look a decision of the application rather
+than a stylesheet the package imposes and then has to maintain.
+
+Twenty tags are covered. An array renames the ones it lists and leaves the rest
+alone; a name has to keep the `tsui-editor-` prefix, which is what the sanitizer
+recognizes on the way back in, and anything else throws.
+
+```blade
+<x-editor wire:model="content" :output-classes="['ol' => 'tsui-editor-steps']" />
+```
+
+**The stamp is authoritative rather than incremental.** On the way in and after
+every command the classes are wiped and written again from the tag, so a renamed
+class, a duplicate, and a class the browser carried onto the wrong element —
+`insertUnorderedList` turning a `<p>` into an `<li>` keeps the attributes — all
+settle on the next pass.
+
+**Turning it off stops the stamping, it does not rewrite what is stored.** The
+classes pass the sanitizer whether the option is on or off, so editing a post
+with the flag flipped leaves its markup as it was. The whitelist drives every
+other attribute; this is the one exception, and it is bounded by the prefix.
+
+Off by default, in `config/tallstackui.php` under `output_classes`, and ignored
+while `markdown` is on, since Markdown carries no classes.
+
+### Changed — the block autoformat runs in HTML mode too
+
+Typing `- ` or `1. ` produced a list only while `markdown` was on. The markers
+are not really Markdown syntax at that point, they are how anyone writes a list
+in an editor, and the same transform was already written and already routed
+through the toolbar's own commands.
+
+`# `, `## `, `### `, `- `, `* `, `1. `, `> `, `---` and a triple backtick now
+apply in both modes.
+
+The inline pairs — `**bold**`, `*italic*`, `` `code` ``, `~~strike~~`— stay
+Markdown-only. Their triggers are characters ordinary prose is written with, and
+an isolated `*` turning into emphasis is a worse default than not having the
+shortcut.
+
+There is no flag to opt out because there is already a way out: every transform
+goes through `execCommand`, so `Ctrl+Z` right after one reverts the formatting
+and leaves the characters that were typed.
+
+### Changed — a new line is a `<p>`, not a `<div>`
+
+`defaultParagraphSeparator` was never set, so the engines used their default and
+every Enter produced a `<div>`. The stored HTML came back as a stack of divs
+carrying no meaning, and `editable.typography.paragraph` — `[&_p]:my-1` — matched
+nothing at all.
+
+The separator is pinned to `p` on boot. Content stored before that keeps its
+divs, so the paragraph block styles both and old and new documents space alike.
+
+### Fixed — indentation outside a list was invisible to undo
+
+Inside a list the indent goes through the native command and `Ctrl+Z` reverts it.
+Outside one the margin was written straight onto the block with
+`block.style.marginLeft`, and a DOM change made by hand is not something the
+browser records: undo walked straight past it, and the only way back was pressing
+outdent.
+
+The block is now rebuilt through `insertHTML`, the same route every other
+structural change already takes. The caret is measured as an offset in characters
+before the swap and walked back to the same spot after it, which is what had made
+this the one action left out.
 
 ---
 

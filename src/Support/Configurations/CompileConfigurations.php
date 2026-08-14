@@ -174,6 +174,7 @@ class CompileConfigurations
         $configuration = __ts_get_component_configuration(Editor::class);
 
         $component->markdown ??= $configuration['markdown'];
+        $component->outputClasses ??= $configuration['output_classes'];
         $component->toolbar ??= $configuration['toolbar'];
         $component->counters ??= $configuration['counters'];
         $component->minHeight ??= $configuration['min_height'];
@@ -184,6 +185,9 @@ class CompileConfigurations
 
         return [
             'markdown' => $component->markdown,
+            // Markdown carries no classes, so stamping them would only weigh
+            // down a DOM the serializer throws away.
+            'output_classes' => $component->markdown ? [] : self::outputClasses($component),
             'toolbar' => $component->toolbar,
             'counters' => $component->counters,
             'placeholder' => $component->placeholder,
@@ -372,6 +376,36 @@ class CompileConfigurations
             'delay' => $component->delay,
             'chevron' => $component->chevron,
         ];
+    }
+
+    /**
+     * Resolve the class stamped on each element the Editor writes.
+     *
+     * @throws Exception
+     */
+    private static function outputClasses(Editor $component): array
+    {
+        if ($component->outputClasses === false) {
+            return [];
+        }
+
+        $classes = $component->outputClasses === true
+            ? Editor::OUTPUT_CLASSES
+            : array_merge(Editor::OUTPUT_CLASSES, $component->outputClasses);
+
+        // The prefix is what the sanitizer recognizes, so a name without it
+        // would be stripped the next time the content reaches the editor.
+        $invalid = array_filter($classes, fn (mixed $class): bool => ! is_string($class) || ! str_starts_with($class, Editor::OUTPUT_CLASSES_PREFIX));
+
+        if ($invalid !== []) {
+            __ts_validation_exception($component, sprintf(
+                'The output class of [%s] must start with [%s].',
+                implode(', ', array_keys($invalid)),
+                Editor::OUTPUT_CLASSES_PREFIX,
+            ));
+        }
+
+        return $classes;
     }
 
     /**
