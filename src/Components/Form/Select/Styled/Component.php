@@ -149,7 +149,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
                 'single' => 'dark:text-dark-300 truncate leading-6 text-gray-600',
                 'multiple' => [
-                    'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
+                    'item' => 'dark:text-dark-100 dark:bg-dark-800 dark:ring-dark-700 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
                     'label' => 'text-left',
                     'label.wrapper' => 'flex items-center',
                     'icon' => 'h-4 w-4 text-red-500',
