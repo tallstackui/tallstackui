@@ -128,6 +128,24 @@ one component where it never made sense.
 
 ---
 
+## Calendar
+
+### Known — `format` does nothing
+
+The prop is accepted, reaches the Alpine factory and is stored, and no code ever
+reads it. It only exists as the fallback of `formatted(date, format = null)`, and
+every one of the three call sites passes the format explicitly. Which is the
+right behaviour and not an oversight to route around: the calendar is inline and
+has no input to render a formatted value, so the only string it produces is the
+model, and the model belongs to the backend. It is always written as
+`YYYY-MM-DD`, or `YYYY-MM` under `month-year-only`.
+
+The prop came along when the calendar was carved out of `<x-date>`, where the
+format does drive the visible input. It is documented as inert rather than
+removed, since dropping it would break every application that passes it.
+
+---
+
 ## Form / Readonly & Disabled
 
 ### Fixed — `readonly` did nothing on half of the form components

@@ -905,6 +905,14 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
             // January 2020 opens on a Wednesday, so three blanks precede the 1st.
+            ->tap(function (Browser $browser): void {
+                $day = $browser->driver->findElement(
+                    WebDriverBy::xpath('(//div[@data-floating])[1]/div[3]/div[13]/button')
+                );
+
+                $this->assertSame('10', trim($day->getText()));
+                $this->assertFalse($day->isEnabled());
+            })
             ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[13]/button')
             ->assertSeeIn('@date', '2020-01-01')
             ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[14]/button')

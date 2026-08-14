@@ -2,6 +2,8 @@
 
 namespace TallStackUi\Components\Calendar;
 
+use Facebook\WebDriver\WebDriverBy;
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -155,6 +157,42 @@ class BrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[15]')
             ->pause(500)
             ->assertPresent('[class*="bg-primary-500"]');
+    }
+
+    #[Test]
+    public function cannot_select_disabled_dates(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-calendar wire:model.live="date" :disable="['2020-01-10']" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('January')
+            // January 2020 opens on a Wednesday, so three blanks precede the 1st.
+            ->tap(function (Browser $browser): void {
+                $day = $browser->driver->findElement(
+                    WebDriverBy::xpath("(//div[@class='grid grid-cols-7'])[1]/div[13]/button")
+                );
+
+                $this->assertSame('10', trim($day->getText()));
+                $this->assertFalse($day->isEnabled());
+            })
+            ->clickAtVisibleXPath("(//div[@class='grid grid-cols-7'])[1]/div[13]/button")
+            ->assertSeeIn('@date', '2020-01-01')
+            ->clickAtVisibleXPath("(//div[@class='grid grid-cols-7'])[1]/div[14]/button")
+            ->waitForTextIn('@date', '2020-01-11')
+            ->assertSeeIn('@date', '2020-01-11');
     }
 
     #[Test]
@@ -321,5 +359,66 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('April')
             ->assertSee('April')
             ->assertSee('2026');
+    }
+
+    #[Test]
+    public function starts_the_week_on_a_custom_day(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-calendar wire:model.live="date" start="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('January')
+            ->tap(function (Browser $browser): void {
+                $header = $browser->driver->findElement(
+                    WebDriverBy::xpath("(//div[@class='grid grid-cols-7 mb-3'])[1]/div[1]")
+                );
+
+                $this->assertSame('Mon', trim($header->getText()));
+            })
+            // January 2020 opens on a Wednesday, which leaves two blanks ahead of
+            // the 1st once the week starts on Monday instead of three.
+            ->clickAtVisibleXPath("(//div[@class='grid grid-cols-7'])[1]/div[12]/button")
+            ->waitForTextIn('@date', '2020-01-10')
+            ->assertSeeIn('@date', '2020-01-10');
+    }
+
+    #[Test]
+    public function writes_the_model_in_the_backend_format(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-calendar wire:model.live="date" format="DD/MM/YYYY" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('January')
+            // The calendar has no input to render a formatted value, so the model
+            // is always written as the backend format, whatever `format` says.
+            ->clickAtVisibleXPath("(//div[@class='grid grid-cols-7'])[1]/div[13]/button")
+            ->waitForTextIn('@date', '2020-01-10')
+            ->assertSeeIn('@date', '2020-01-10');
     }
 }
