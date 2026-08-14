@@ -55,7 +55,7 @@ TallStackUi::customize()
 
 | Scope               | Target           | Line(s) |
 |---------------------|------------------|---------|
-| `dropdown.floating` | `<x-floating />` | 49      |
+| `dropdown.floating` | `<x-floating />` | 47      |
 
 ### `dropdown/submenu`
 
@@ -76,7 +76,7 @@ TallStackUi::customize()
 | Scope                        | Target           | Line(s) |
 |------------------------------|------------------|---------|
 | `form.autocomplete.input`    | `<x-input />`    | 22      |
-| `form.autocomplete.floating` | `<x-floating />` | 69      |
+| `form.autocomplete.floating` | `<x-floating />` | 70      |
 
 ### `form/checkbox/group`
 
@@ -89,8 +89,8 @@ TallStackUi::customize()
 
 | Scope                 | Target           | Line(s) |
 |-----------------------|------------------|---------|
-| `form.color.input`    | `<x-input />`    | 21      |
-| `form.color.floating` | `<x-floating />` | 64      |
+| `form.color.input`    | `<x-input />`    | 23      |
+| `form.color.floating` | `<x-floating />` | 67      |
 
 ### `form/currency`
 
@@ -102,7 +102,7 @@ TallStackUi::customize()
 
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
-| `form.date.input`    | `<x-input />`    | 29      |
+| `form.date.input`    | `<x-input />`    | 30      |
 | `form.date.floating` | `<x-floating />` | 62      |
 
 ### `form/password`
@@ -117,8 +117,8 @@ TallStackUi::customize()
 | Scope            | Target        | Line(s) |
 |------------------|---------------|---------|
 | `form.pin.label` | `<x-label />` | 14      |
-| `form.pin.hint`  | `<x-hint />`  | 86      |
-| `form.pin.error` | `<x-error />` | 89      |
+| `form.pin.hint`  | `<x-hint />`  | 91      |
+| `form.pin.error` | `<x-error />` | 94      |
 
 ### `form/radio/group`
 
@@ -132,8 +132,8 @@ TallStackUi::customize()
 | Scope                      | Target        | Line(s) |
 |----------------------------|---------------|---------|
 | `form.select-native.label` | `<x-label />` | 7       |
-| `form.select-native.hint`  | `<x-hint />`  | 42      |
-| `form.select-native.error` | `<x-error />` | 45      |
+| `form.select-native.hint`  | `<x-hint />`  | 49      |
+| `form.select-native.error` | `<x-error />` | 52      |
 
 ### `form/select/styled`
 
@@ -149,13 +149,13 @@ TallStackUi::customize()
 
 | Scope               | Target           | Line(s) |
 |---------------------|------------------|---------|
-| `form.tag.floating` | `<x-floating />` | 70      |
+| `form.tag.floating` | `<x-floating />` | 71      |
 
 ### `form/time`
 
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
-| `form.time.input`    | `<x-input />`    | 21      |
+| `form.time.input`    | `<x-input />`    | 22      |
 | `form.time.floating` | `<x-floating />` | 55      |
 | `form.time.button`   | `<x-button />`   | 133     |
 
@@ -163,19 +163,19 @@ TallStackUi::customize()
 
 | Scope                  | Target           | Line(s) |
 |------------------------|------------------|---------|
-| `form.upload.input`    | `<x-input />`    | 25      |
-| `form.upload.label`    | `<x-label />`    | 47      |
-| `form.upload.floating` | `<x-floating />` | 89      |
-| `form.upload.error`    | `<x-error />`    | 152     |
+| `form.upload.input`    | `<x-input />`    | 27      |
+| `form.upload.label`    | `<x-label />`    | 51      |
+| `form.upload.floating` | `<x-floating />` | 93      |
+| `form.upload.error`    | `<x-error />`    | 157     |
 
 ### `form/upload/async`
 
 | Scope                     | Target         | Line(s) |
 |---------------------------|----------------|---------|
-| `form.upload.async.label` | `<x-label />`  | 30      |
-| `form.upload.async.hint`  | `<x-hint />`   | 171     |
-| `form.upload.async.clear` | `<x-button />` | 180     |
-| `form.upload.async.send`  | `<x-button />` | 188     |
+| `form.upload.async.label` | `<x-label />`  | 31      |
+| `form.upload.async.hint`  | `<x-hint />`   | 172     |
+| `form.upload.async.clear` | `<x-button />` | 181     |
+| `form.upload.async.send`  | `<x-button />` | 189     |
 
 ### `layout/sidebar/item`
 

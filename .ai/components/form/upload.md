@@ -31,22 +31,22 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 
 ## Attributes
 
-| Attribute          | Type                        | Default        | Description                                                                  |
-|--------------------|-----------------------------|----------------|------------------------------------------------------------------------------|
-| label              | string\|ComponentSlot\|null | null           | Label text displayed above the upload input                                  |
-| hint               | string\|ComponentSlot\|null | null           | Hint text displayed below the upload input                                   |
-| tip                | string\|ComponentSlot\|null | null           | Tip text displayed inside the drag-and-drop area                             |
-| multiple           | bool                        | false          | Allows multiple file selection                                               |
-| preview            | bool                        | true           | Enables image preview on click (fullscreen lightbox)                         |
-| delete             | bool                        | false          | Shows a delete button next to each uploaded file                             |
-| static             | bool                        | false          | Static mode for displaying previously uploaded files (no drag-and-drop area) |
-| placeholder        | string\|null                | null           | Custom placeholder text for the input (defaults to translation)              |
-| delete-method      | string                      | 'deleteUpload' | Name of the Livewire method called when deleting a file                      |
-| error              | string\|bool\|null          | null           | Custom error message for upload failures (defaults to translation)           |
-| footer             | ComponentSlot\|null         | null           | Footer slot content displayed at the bottom of the floating panel            |
-| overflow           | bool\|null                  | null           | Controls body overflow when the upload panel is open                         |
-| close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded             |
-| disabled           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is not submitted. |
+| Attribute          | Type                        | Default        | Description                                                                         |
+|--------------------|-----------------------------|----------------|-------------------------------------------------------------------------------------|
+| label              | string\|ComponentSlot\|null | null           | Label text displayed above the upload input                                         |
+| hint               | string\|ComponentSlot\|null | null           | Hint text displayed below the upload input                                          |
+| tip                | string\|ComponentSlot\|null | null           | Tip text displayed inside the drag-and-drop area                                    |
+| multiple           | bool                        | false          | Allows multiple file selection                                                      |
+| preview            | bool                        | true           | Enables image preview on click (fullscreen lightbox)                                |
+| delete             | bool                        | false          | Shows a delete button next to each uploaded file                                    |
+| static             | bool                        | false          | Static mode for displaying previously uploaded files (no drag-and-drop area)        |
+| placeholder        | string\|null                | null           | Custom placeholder text for the input (defaults to translation)                     |
+| delete-method      | string                      | 'deleteUpload' | Name of the Livewire method called when deleting a file                             |
+| error              | string\|bool\|null          | null           | Custom error message for upload failures (defaults to translation)                  |
+| footer             | ComponentSlot\|null         | null           | Footer slot content displayed at the bottom of the floating panel                   |
+| overflow           | bool\|null                  | null           | Controls body overflow when the upload panel is open                                |
+| close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded                    |
+| disabled           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is not submitted.   |
 | readonly           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is still submitted. |
 
 ## Slots
