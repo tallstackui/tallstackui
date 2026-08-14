@@ -80,7 +80,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => 'overflow-hidden dark:ring-dark-700 rounded-lg ring-1 ring-gray-200',
             'table' => [
-                'wrapper' => 'relative soft-scrollbar overflow-auto',
+                'wrapper' => 'relative soft-scrollbar overflow-auto bg-white dark:bg-dark-800',
                 'base' => 'dark:divide-dark-600/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',

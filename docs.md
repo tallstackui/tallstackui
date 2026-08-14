@@ -571,6 +571,18 @@ The inline prop always wins, so `:compact="false"` gives a single table the
 roomy padding back. The skeleton reads the same flag, so a table configured as
 compact stays compact while it loads.
 
+### Fixed — the scrollbar sat on the page instead of the row
+
+The scroll lives on `table.wrapper`, and the row color lives on `tbody`. The
+soft scrollbar's track is transparent on purpose — Color, Tab and the Editor
+all paint the same element that scrolls, so the track shows their fill. The
+table did not: the wrapper was a bare `overflow-auto`, and a tall table then
+drew a black strip down the right edge, one shade off every row, because the
+page sat behind the track.
+
+The wrapper now carries the same fill the body does, `bg-white dark:bg-dark-800`,
+so the gutter lands on the row.
+
 ## Avatar
 
 ### Added — the size scale goes all the way up to `7xl`
