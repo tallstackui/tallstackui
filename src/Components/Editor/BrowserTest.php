@@ -193,6 +193,80 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_autoformat_a_heading_in_html_mode(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '## Title')
+            ->pause(900)
+            ->assertSeeIn('@output', '<h2>Title</h2>');
+    }
+
+    #[Test]
+    public function can_autoformat_a_list_in_html_mode(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '- one')
+            ->pause(900)
+            ->assertSeeIn('@output', '<ul>')
+            ->assertSeeIn('@output', '<li>one</li>');
+    }
+
+    #[Test]
+    public function can_autoformat_a_numbered_list_in_html_mode(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '1. one')
+            ->pause(900)
+            ->assertSeeIn('@output', '<ol>')
+            ->assertSeeIn('@output', '<li>one</li>');
+    }
+
+    #[Test]
     public function can_autoformat_bold(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -655,6 +729,58 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_the_output_classes_while_they_are_off(): void
+    {
+        // Turning the option off stops the stamping, it does not rewrite what
+        // is already stored.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p class="tsui-editor-paragraph">foo</p>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_bold')
+            ->pause(700)
+            ->assertSeeIn('@output', 'tsui-editor-paragraph')
+            ->assertSeeIn('@output', '<strong>foo</strong>');
+    }
+
+    #[Test]
+    public function can_normalize_an_output_class_landed_on_the_wrong_tag(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p class="tsui-editor-heading-1">foo</p>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" output-classes />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_bold')
+            ->pause(700)
+            ->assertSeeIn('@output', 'tsui-editor-paragraph')
+            ->assertDontSeeIn('@output', 'tsui-editor-heading-1');
+    }
+
+    #[Test]
     public function can_open_a_dialog_without_a_scroll_jump_on_a_short_viewport(): void
     {
         // The dialogs focus no field on open. This guards the enter
@@ -1017,6 +1143,31 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_stamp_the_output_classes(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p>one</p>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" output-classes />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_ordered_list')
+            ->pause(700)
+            ->assertSeeIn('@output', 'tsui-editor-numeric-list')
+            ->assertSeeIn('@output', 'tsui-editor-list-item');
+    }
+
+    #[Test]
     public function can_store_a_list_as_markdown(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -1156,6 +1307,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_undo_an_indent(): void
+    {
+        // The margin is written by rebuilding the block through insertHTML,
+        // precisely so that the browser records it.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p>foo</p>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_indent')
+            ->pause(600)
+            ->assertSeeIn('@output', 'margin-left: 2rem')
+            ->click('@tallstackui_editor_undo')
+            ->pause(600)
+            ->assertDontSeeIn('@output', 'margin-left')
+            ->assertSeeIn('@output', 'foo');
+    }
+
+    #[Test]
     public function can_undo_and_redo_typing(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -1216,6 +1397,58 @@ class BrowserTest extends BrowserTestCase
             JS))
             ->pause(500)
             ->assertScript("document.activeElement.getAttribute('dusk')", 'tallstackui_editor_blockquote');
+    }
+
+    #[Test]
+    public function can_write_paragraphs_instead_of_divs(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', 'one', '{enter}', 'two')
+            ->pause(900)
+            ->assertSeeIn('@output', '<p>two</p>')
+            ->assertDontSeeIn('@output', '<div>');
+    }
+
+    #[Test]
+    public function cannot_autoformat_inline_marks_in_html_mode(): void
+    {
+        // The inline pairs stay Markdown-only: * and ` are characters ordinary
+        // prose is written with.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '**loud**')
+            ->pause(900)
+            ->assertSeeIn('@output', '**loud**')
+            ->assertDontSeeIn('@output', '<strong>');
     }
 
     #[Test]

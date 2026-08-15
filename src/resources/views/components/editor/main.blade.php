@@ -8,6 +8,7 @@
             value: @js($wireable ? '' : $value),
             entangle: {!! $entangle !!},
             markdown: @js($configurations['markdown']),
+            classes: @js((object) $configurations['output_classes']),
             toolbar: @js($configurations['toolbar']),
             upload: @js($upload),
             sanitization: @js($configurations['sanitization']),

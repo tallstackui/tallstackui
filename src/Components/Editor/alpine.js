@@ -3,12 +3,11 @@ import autoformat from './autoformat';
 import parse from './parse';
 import serialize from './serialize';
 
-// Fixed on purpose: the value is written into the HTML that gets saved.
 const INDENT_STEP = 2;
 const INDENT_LIMIT = 8;
 
-// Chrome emits <b>/<i> and Safari sprinkles <font>: folded back into one shape
-// so the stored HTML does not depend on who typed it.
+const CLASS_PREFIX = 'tsui-editor-';
+
 const normalize = (root) => {
   for (const node of root.querySelectorAll('b, i, font')) {
     const tag = node.tagName.toLowerCase();
@@ -26,10 +25,6 @@ const normalize = (root) => {
   }
 };
 
-// innerText is no measure for the counters: it writes two breaks between
-// paragraphs plus one for the filler <br> engines keep inside an empty block,
-// and while the component is still hidden behind x-cloak it degrades to
-// textContent, which holds no breaks at all.
 const BLOCKS = [
   'P',
   'DIV',
@@ -175,8 +170,11 @@ export default (options) => ({
   config: options,
 
   init() {
+    document.execCommand('defaultParagraphSeparator', false, 'p');
+
     this.$refs.editable.innerHTML = seeded(this.sanitize(this.incoming(this.content ?? '')));
 
+    this.decorate();
     this.refreshEmpty();
     this.recount();
     this.rove();
@@ -187,11 +185,7 @@ export default (options) => ({
     document.addEventListener('selectionchange', this.selectionListener);
     window.addEventListener('keydown', this.escapeListener);
 
-    // The property can also be written from the outside, either by the parent
-    // Livewire component or by another editor bound to the same property.
     this.$watch('content', (value) => {
-      // While the caret is here the DOM is the source of truth: a live echo
-      // arrives a round trip late and would scramble what came after it.
       if (this.focused()) {
         return;
       }
@@ -202,6 +196,7 @@ export default (options) => ({
 
       this.$refs.editable.innerHTML = seeded(this.sanitize(this.incoming(value ?? '')));
 
+      this.decorate();
       this.refreshEmpty();
       this.recount();
     });
@@ -220,6 +215,35 @@ export default (options) => ({
     }
 
     return this.config.markdown ? serialize(this.$refs.editable) : this.$refs.editable.innerHTML;
+  },
+
+  // The stamp is authoritative rather than incremental: what arrived is wiped
+  // and written again from the tag. A renamed class, a duplicate, and a class
+  // the browser carried onto the wrong element all settle on the next pass.
+  decorate() {
+    const map = this.config.classes ?? {};
+
+    if (Object.keys(map).length === 0) {
+      return;
+    }
+
+    for (const element of this.$refs.editable.querySelectorAll('*')) {
+      const stamp = map[element.tagName.toLowerCase()];
+
+      for (const name of [...element.classList]) {
+        if (name.startsWith(CLASS_PREFIX) && name !== stamp) {
+          element.classList.remove(name);
+        }
+      }
+
+      if (stamp) {
+        element.classList.add(stamp);
+      }
+
+      if (element.classList.length === 0) {
+        element.removeAttribute('class');
+      }
+    }
   },
 
   destroy() {
@@ -252,6 +276,7 @@ export default (options) => ({
 
   syncFromDom() {
     normalize(this.$refs.editable);
+    this.decorate();
 
     const html = this.$refs.editable.innerHTML;
     const output = this.outgoing();
@@ -432,9 +457,7 @@ export default (options) => ({
 
   // Inside a list the browser nests. Anywhere else the indent is a margin on
   // the block: the native command reaches for a <blockquote>, which is a quote
-  // and gets stripped on the way back in. The margin is written straight into
-  // the DOM, so it stays outside the undo stack — re-serialising the block to
-  // get it in there would drop the caret.
+  // and gets stripped on the way back in.
   shiftIndent(direction) {
     if (this.listed) {
       this.exec(direction > 0 ? 'indent' : 'outdent');
@@ -442,7 +465,6 @@ export default (options) => ({
       return;
     }
 
-    // Markdown carries no block indent, so it would be dropped on the next sync.
     if (this.config.markdown) {
       return;
     }
@@ -451,7 +473,6 @@ export default (options) => ({
 
     let block = this.block();
 
-    // A bare text node has no block to carry the margin.
     if (!block) {
       document.execCommand('styleWithCSS', false, false);
       document.execCommand('formatBlock', false, '<p>');
@@ -471,18 +492,95 @@ export default (options) => ({
       return;
     }
 
-    if (next === 0) {
-      block.style.removeProperty('margin-left');
+    this.rewriteBlock(block, (clone) => {
+      if (next > 0) {
+        clone.style.marginLeft = `${next}rem`;
 
-      if (!block.getAttribute('style')) {
-        block.removeAttribute('style');
+        return;
       }
-    } else {
-      block.style.marginLeft = `${next}rem`;
+
+      clone.style.removeProperty('margin-left');
+
+      if (!clone.getAttribute('style')) {
+        clone.removeAttribute('style');
+      }
+    });
+  },
+
+  // Writing an attribute straight into the DOM leaves the change out of the
+  // browser's undo stack. Rebuilding the block through insertHTML puts it in,
+  // at the price of having to carry the caret across by hand.
+  rewriteBlock(block, mutate) {
+    const clone = block.cloneNode(true);
+
+    mutate(clone);
+
+    const index = [...this.$refs.editable.children].indexOf(block);
+    const offset = this.caretOffset(block);
+    const selection = window.getSelection();
+    const range = document.createRange();
+
+    range.selectNode(block);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    this.replaceSelection(clone.outerHTML);
+
+    const replaced = this.$refs.editable.children[index];
+
+    if (replaced) {
+      this.restoreCaret(replaced, offset);
+    }
+  },
+
+  // Characters between the start of the block and the caret.
+  caretOffset(block) {
+    const selection = window.getSelection();
+
+    if (!selection?.rangeCount) {
+      return 0;
     }
 
-    this.scheduleSync();
-    this.scheduleFormats();
+    const current = selection.getRangeAt(0);
+    const range = document.createRange();
+
+    range.selectNodeContents(block);
+    range.setEnd(current.endContainer, current.endOffset);
+
+    return range.toString().length;
+  },
+
+  restoreCaret(block, offset) {
+    const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+    const range = document.createRange();
+
+    let remaining = offset;
+    let node = walker.nextNode();
+    let placed = false;
+
+    while (node) {
+      if (remaining <= node.textContent.length) {
+        range.setStart(node, remaining);
+        range.collapse(true);
+
+        placed = true;
+
+        break;
+      }
+
+      remaining -= node.textContent.length;
+      node = walker.nextNode();
+    }
+
+    if (!placed) {
+      range.selectNodeContents(block);
+      range.collapse(false);
+    }
+
+    const selection = window.getSelection();
+
+    selection.removeAllRanges();
+    selection.addRange(range);
   },
 
   toggleBlock(tag) {
@@ -660,7 +758,7 @@ export default (options) => ({
   },
 
   handleInput(event) {
-    if (this.config.markdown && event.inputType === 'insertText' && event.data) {
+    if (event.inputType === 'insertText' && event.data) {
       autoformat(this, event.data);
     }
 
@@ -742,9 +840,20 @@ export default (options) => ({
       const allowed = attributes[tag] ?? [];
 
       for (const attribute of [...node.attributes]) {
-        if (!allowed.includes(attribute.name)) {
+        if (attribute.name !== 'class' && !allowed.includes(attribute.name)) {
           node.removeAttribute(attribute.name);
         }
+      }
+
+      // The stamped classes are the one attribute the whitelist does not
+      // drive: they are ours, they are prefixed, and they have to survive the
+      // round trip whether the option is on or off. Everything else goes.
+      const stamped = [...node.classList].filter((name) => name.startsWith(CLASS_PREFIX));
+
+      if (stamped.length === 0) {
+        node.removeAttribute('class');
+      } else {
+        node.setAttribute('class', stamped.join(' '));
       }
 
       for (const attribute of ['href', 'src']) {
@@ -996,7 +1105,7 @@ export default (options) => ({
       return;
     }
 
-    if (event.key === 'Enter' && this.config.markdown && autoformat(this, 'Enter')) {
+    if (event.key === 'Enter' && autoformat(this, 'Enter')) {
       event.preventDefault();
 
       return;

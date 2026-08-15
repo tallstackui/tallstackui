@@ -174,6 +174,7 @@ class CompileConfigurations
         $configuration = __ts_get_component_configuration(Editor::class);
 
         $component->markdown ??= $configuration['markdown'];
+        $component->outputClasses ??= $configuration['output_classes'];
         $component->toolbar ??= $configuration['toolbar'];
         $component->counters ??= $configuration['counters'];
         $component->minHeight ??= $configuration['min_height'];
@@ -184,6 +185,7 @@ class CompileConfigurations
 
         return [
             'markdown' => $component->markdown,
+            'output_classes' => $component->markdown ? [] : self::outputClasses($component),
             'toolbar' => $component->toolbar,
             'counters' => $component->counters,
             'placeholder' => $component->placeholder,
@@ -372,6 +374,31 @@ class CompileConfigurations
             'delay' => $component->delay,
             'chevron' => $component->chevron,
         ];
+    }
+
+    private static function outputClasses(Editor $component): array
+    {
+        if ($component->outputClasses === false) {
+            return [];
+        }
+
+        $classes = $component->outputClasses === true
+            ? Editor::OUTPUT_CLASSES
+            : array_merge(Editor::OUTPUT_CLASSES, $component->outputClasses);
+
+        // The sanitizer recognizes the prefix, so a name without it is stripped
+        // on the way back in.
+        $invalid = array_filter($classes, fn (mixed $class): bool => ! is_string($class) || ! str_starts_with($class, Editor::OUTPUT_CLASSES_PREFIX));
+
+        if ($invalid !== []) {
+            __ts_validation_exception($component, sprintf(
+                'The output class of [%s] must start with [%s].',
+                implode(', ', array_keys($invalid)),
+                Editor::OUTPUT_CLASSES_PREFIX,
+            ));
+        }
+
+        return $classes;
     }
 
     /**
