@@ -185,8 +185,6 @@ class CompileConfigurations
 
         return [
             'markdown' => $component->markdown,
-            // Markdown carries no classes, so stamping them would only weigh
-            // down a DOM the serializer throws away.
             'output_classes' => $component->markdown ? [] : self::outputClasses($component),
             'toolbar' => $component->toolbar,
             'counters' => $component->counters,
@@ -378,11 +376,6 @@ class CompileConfigurations
         ];
     }
 
-    /**
-     * Resolve the class stamped on each element the Editor writes.
-     *
-     * @throws Exception
-     */
     private static function outputClasses(Editor $component): array
     {
         if ($component->outputClasses === false) {
@@ -393,8 +386,8 @@ class CompileConfigurations
             ? Editor::OUTPUT_CLASSES
             : array_merge(Editor::OUTPUT_CLASSES, $component->outputClasses);
 
-        // The prefix is what the sanitizer recognizes, so a name without it
-        // would be stripped the next time the content reaches the editor.
+        // The sanitizer recognizes the prefix, so a name without it is stripped
+        // on the way back in.
         $invalid = array_filter($classes, fn (mixed $class): bool => ! is_string($class) || ! str_starts_with($class, Editor::OUTPUT_CLASSES_PREFIX));
 
         if ($invalid !== []) {

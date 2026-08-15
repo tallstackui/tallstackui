@@ -3,16 +3,11 @@ import autoformat from './autoformat';
 import parse from './parse';
 import serialize from './serialize';
 
-// Fixed on purpose: the value is written into the HTML that gets saved.
 const INDENT_STEP = 2;
 const INDENT_LIMIT = 8;
 
-// Mirrors Component::OUTPUT_CLASSES_PREFIX. It is what tells our stamp apart
-// from a class the content picked up somewhere else.
 const CLASS_PREFIX = 'tsui-editor-';
 
-// Chrome emits <b>/<i> and Safari sprinkles <font>: folded back into one shape
-// so the stored HTML does not depend on who typed it.
 const normalize = (root) => {
   for (const node of root.querySelectorAll('b, i, font')) {
     const tag = node.tagName.toLowerCase();
@@ -30,10 +25,6 @@ const normalize = (root) => {
   }
 };
 
-// innerText is no measure for the counters: it writes two breaks between
-// paragraphs plus one for the filler <br> engines keep inside an empty block,
-// and while the component is still hidden behind x-cloak it degrades to
-// textContent, which holds no breaks at all.
 const BLOCKS = [
   'P',
   'DIV',
@@ -179,8 +170,6 @@ export default (options) => ({
   config: options,
 
   init() {
-    // Engines wrap a new line in a <div> by default, which says nothing about
-    // the content and leaves the stored HTML without a paragraph to style.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
     this.$refs.editable.innerHTML = seeded(this.sanitize(this.incoming(this.content ?? '')));
@@ -196,11 +185,7 @@ export default (options) => ({
     document.addEventListener('selectionchange', this.selectionListener);
     window.addEventListener('keydown', this.escapeListener);
 
-    // The property can also be written from the outside, either by the parent
-    // Livewire component or by another editor bound to the same property.
     this.$watch('content', (value) => {
-      // While the caret is here the DOM is the source of truth: a live echo
-      // arrives a round trip late and would scramble what came after it.
       if (this.focused()) {
         return;
       }
@@ -480,7 +465,6 @@ export default (options) => ({
       return;
     }
 
-    // Markdown carries no block indent, so it would be dropped on the next sync.
     if (this.config.markdown) {
       return;
     }
@@ -489,7 +473,6 @@ export default (options) => ({
 
     let block = this.block();
 
-    // A bare text node has no block to carry the margin.
     if (!block) {
       document.execCommand('styleWithCSS', false, false);
       document.execCommand('formatBlock', false, '<p>');
@@ -589,7 +572,6 @@ export default (options) => ({
       node = walker.nextNode();
     }
 
-    // An empty block, or a rule: there is no text node to land on.
     if (!placed) {
       range.selectNodeContents(block);
       range.collapse(false);

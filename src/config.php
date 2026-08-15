@@ -395,11 +395,9 @@ return [
             | Editor Settings
             |----------------------------------------------------------------------
             | markdown: stores the content as Markdown instead of HTML.
-            | output_classes: stamps a class on every element the editor writes,
-            | so the stored HTML can be styled outside the editor. False writes
-            | nothing, true uses the default names, and an array overrides the
-            | names of the tags it lists (a name must keep the tsui-editor-
-            | prefix). Ignored while markdown is on.
+            | output_classes: stamps a class on every element the editor writes.
+            | True uses the default names and an array renames the tags it lists,
+            | keeping the tsui-editor- prefix.
             | toolbar: the canonical buttons and the order they are rendered in.
             | counters: displays the word and line counters in the footer.
             | min_height, max_height: the editable boundaries, in any CSS unit.
