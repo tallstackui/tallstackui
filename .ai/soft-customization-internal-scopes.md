@@ -67,9 +67,9 @@ TallStackUi::customize()
 
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
-| `editor.toolbar`     | `<x-dropdown />` | 42, 221 |
-| `editor.modal.link`  | `<x-modal />`    | 454     |
-| `editor.modal.image` | `<x-modal />`    | 494     |
+| `editor.toolbar`     | `<x-dropdown />` | 44, 223 |
+| `editor.modal.link`  | `<x-modal />`    | 456     |
+| `editor.modal.image` | `<x-modal />`    | 496     |
 
 ### `form/autocomplete`
 
