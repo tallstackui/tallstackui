@@ -483,3 +483,29 @@ it('cannot render a malformed output classes prefix', function (string $prefix) 
 
     expect('<x-editor name="content" output-classes />')->render();
 })->with(['', 'blog', 'Blog-', 'blog_', '-blog-', 'blog--', 'bl og-']);
+
+it('can render the output classes with an inline prefix', function () {
+    expect('<x-editor name="content" output-classes="blog-" />')
+        ->render()
+        ->toContain('blog-numeric-list')
+        ->toContain("prefix: 'blog-'")
+        ->not->toContain('tsui-editor-numeric-list');
+});
+
+it('can render an inline prefix over the configured one', function () {
+    config()->set('ts-ui.components.editor.1.output_classes_prefix', 'app-');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-editor name="content" output-classes="blog-" />')
+        ->render()
+        ->toContain('blog-numeric-list')
+        ->not->toContain('app-numeric-list');
+});
+
+it('cannot render a malformed inline prefix', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessageMatches('/must be lowercase, dash separated and end with a dash/');
+
+    expect('<x-editor name="content" output-classes="Blog" />')->render();
+});

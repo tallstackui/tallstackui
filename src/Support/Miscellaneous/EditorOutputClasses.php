@@ -23,9 +23,9 @@ class EditorOutputClasses
 
         $defaults = array_map(fn (string $name): string => $prefix.$name, Editor::OUTPUT_CLASSES);
 
-        $classes = $component->outputClasses === true
-            ? $defaults
-            : array_merge($defaults, $component->outputClasses);
+        $classes = is_array($component->outputClasses)
+            ? array_merge($defaults, $component->outputClasses)
+            : $defaults;
 
         $invalid = array_filter($classes, fn (mixed $class): bool => ! is_string($class) || ! str_starts_with($class, $prefix));
 
