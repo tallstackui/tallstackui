@@ -62,6 +62,17 @@ that exact radius. `square` drops the radius altogether and wins over `round`:
 | `round="xl"`   | `rounded-xl`   |
 | `round="full"` | `rounded-full` |
 
+Omitted, `round` falls back to `config('tallstackui.components.button.round')`
+(`false` by default), so an application that leads with pills sets it once. The
+inline prop always wins, including `:round="false"`, and `square` still wins over
+both:
+
+```blade
+{{-- with 'round' => true in the config --}}
+<x-button text="Pill" />                  {{-- rounded-full --}}
+<x-button text="Default" :round="false" />{{-- rounded-md --}}
+```
+
 Choosing the loading indicator. `spinner` renders one of the nine visual
 [Spinner](../spinner.md) variants as the `wire:loading` indicator — `ring`,
 `throbber`, `gradient`, `ping`, `dots`, `pulse`, `typing`, `bars` or `wave`.
@@ -77,30 +88,30 @@ animate their own text and throw inside a button:
 
 ## Attributes
 
-| Attribute | Type               | Default   | Description                                                                                                                            |
-|-----------|--------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
-| text      | string\|null       | null      | Button label text                                                                                                                      |
-| icon      | string\|null       | null      | Heroicon name displayed alongside the text                                                                                             |
-| position  | string\|null       | 'left'    | Icon position relative to text: 'left' or 'right'                                                                                      |
-| xs        | bool               | null      | Extra-small size                                                                                                                       |
-| sm        | bool               | null      | Small size                                                                                                                             |
-| md        | bool               | null      | Medium size (default)                                                                                                                  |
-| lg        | bool               | null      | Large size                                                                                                                             |
-| color     | string\|null       | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                        |
-| square    | string\|null       | null      | Removes border radius for square corners. Wins over `round`                                                                            |
-| round     | bool\|string\|null | false     | `true` gives a pill (`rounded-full`). A size (xs, sm, md, lg, xl, full) gives that exact radius. Defaults to `rounded-md` when omitted |
-| block     | bool               | false     | Expands button to full width (`w-full`)                                                                                                |
-| href      | string\|null       | null      | When set, renders as an anchor tag instead of a button                                                                                 |
-| loading   | string\|null       | null      | Livewire action name to show a loading spinner during execution                                                                        |
-| delay     | string\|null       | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                             |
-| spinner   | string\|null       | null      | Loading spinner variant: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave. Falls back to the `button.spinner` config    |
-| solid     | bool               | true      | Uses the solid color style variant (default)                                                                                           |
-| outline   | bool               | false     | Uses the outline color style variant                                                                                                   |
-| light     | bool               | false     | Uses the light color style variant                                                                                                     |
-| flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                          |
-| submit    | bool               | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                       |
-| unfocus   | bool               | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                           |
-| tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                            |
+| Attribute | Type               | Default   | Description                                                                                                                                                    |
+|-----------|--------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null       | null      | Button label text                                                                                                                                              |
+| icon      | string\|null       | null      | Heroicon name displayed alongside the text                                                                                                                     |
+| position  | string\|null       | 'left'    | Icon position relative to text: 'left' or 'right'                                                                                                              |
+| xs        | bool               | null      | Extra-small size                                                                                                                                               |
+| sm        | bool               | null      | Small size                                                                                                                                                     |
+| md        | bool               | null      | Medium size (default)                                                                                                                                          |
+| lg        | bool               | null      | Large size                                                                                                                                                     |
+| color     | string\|null       | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                                |
+| square    | string\|null       | null      | Removes border radius for square corners. Wins over `round`                                                                                                    |
+| round     | bool\|string\|null | null      | `true` gives a pill (`rounded-full`). A size (xs, sm, md, lg, xl, full) gives that exact radius. Falls back to the `button.round` config, then to `rounded-md` |
+| block     | bool               | false     | Expands button to full width (`w-full`)                                                                                                                        |
+| href      | string\|null       | null      | When set, renders as an anchor tag instead of a button                                                                                                         |
+| loading   | string\|null       | null      | Livewire action name to show a loading spinner during execution                                                                                                |
+| delay     | string\|null       | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                                                     |
+| spinner   | string\|null       | null      | Loading spinner variant: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave. Falls back to the `button.spinner` config                            |
+| solid     | bool               | true      | Uses the solid color style variant (default)                                                                                                                   |
+| outline   | bool               | false     | Uses the outline color style variant                                                                                                                           |
+| light     | bool               | false     | Uses the light color style variant                                                                                                                             |
+| flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                                                  |
+| submit    | bool               | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                                               |
+| unfocus   | bool               | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                                                   |
+| tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                                                    |
 
 The balloon accepts the same attributes as anywhere else — `data-position`,
 `data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See

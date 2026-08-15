@@ -31,7 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $lg = null,
         public ?string $color = 'primary',
         public ?string $square = null,
-        public bool|string|null $round = false,
+        public bool|string|null $round = null,
         public ?bool $block = false,
         public ?string $href = null,
         public ?string $loading = null,
@@ -55,6 +55,7 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $right = null,
     ) {
+        $this->round ??= __ts_get_component_configuration(self::class, 'round') ?? false;
         $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
     }
 
