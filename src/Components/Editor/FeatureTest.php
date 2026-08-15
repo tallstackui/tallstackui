@@ -457,7 +457,7 @@ it('can render the default prefix when none is configured', function () {
 
     expect('<x-editor name="content" />')
         ->render()
-        ->toContain("classesPrefix: 'tsui-editor-'");
+        ->toContain("prefix: 'tsui-editor-'");
 });
 
 it('cannot render a renamed output class under the wrong prefix', function () {

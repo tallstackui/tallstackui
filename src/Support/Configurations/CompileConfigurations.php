@@ -22,6 +22,7 @@ use TallStackUi\Components\QrCode\Component as QrCode;
 use TallStackUi\Components\Reaction\Component as Reaction;
 use TallStackUi\Components\Slide\Component as Slide;
 use TallStackUi\Components\Toast\Component as Toast;
+use TallStackUi\Support\Miscellaneous\EditorOutputClasses;
 
 /**
  * @internal
@@ -183,12 +184,12 @@ class CompileConfigurations
         $component->uploadMaxSize ??= $configuration['upload']['max_size'];
         $component->placeholder ??= trans('ts-ui::messages.editor.placeholder');
 
-        $prefix = self::outputClassesPrefix($component, $configuration['output_classes_prefix'] ?? null);
+        $prefix = $configuration['output_classes_prefix'] ?? Editor::OUTPUT_CLASSES_PREFIX;
 
         return [
             'markdown' => $component->markdown,
             'output_classes_prefix' => $prefix,
-            'output_classes' => $component->markdown ? [] : self::outputClasses($component, $prefix),
+            'output_classes' => EditorOutputClasses::of($component, $prefix),
             'toolbar' => $component->toolbar,
             'counters' => $component->counters,
             'placeholder' => $component->placeholder,
@@ -377,55 +378,6 @@ class CompileConfigurations
             'delay' => $component->delay,
             'chevron' => $component->chevron,
         ];
-    }
-
-    private static function outputClasses(Editor $component, string $prefix): array
-    {
-        if ($component->outputClasses === false) {
-            return [];
-        }
-
-        $defaults = array_map(fn (string $name): string => $prefix.$name, Editor::OUTPUT_CLASSES);
-
-        $classes = $component->outputClasses === true
-            ? $defaults
-            : array_merge($defaults, $component->outputClasses);
-
-        // The sanitizer recognizes the prefix, so a name without it is stripped
-        // on the way back in.
-        $invalid = array_filter($classes, fn (mixed $class): bool => ! is_string($class) || ! str_starts_with($class, $prefix));
-
-        if ($invalid !== []) {
-            __ts_validation_exception($component, sprintf(
-                'The output class of [%s] must start with [%s].',
-                implode(', ', array_keys($invalid)),
-                $prefix,
-            ));
-        }
-
-        return $classes;
-    }
-
-    /**
-     * The prefix is the whole of what the sanitizer lets through, so an empty
-     * or loose one would turn the class attribute into an open door.
-     *
-     * @throws Exception
-     */
-    private static function outputClassesPrefix(Editor $component, ?string $prefix): string
-    {
-        if ($prefix === null) {
-            return Editor::OUTPUT_CLASSES_PREFIX;
-        }
-
-        if (preg_match(Editor::OUTPUT_CLASSES_PREFIX_FORMAT, $prefix) !== 1) {
-            __ts_validation_exception($component, sprintf(
-                'The output classes prefix [%s] must be lowercase, dash separated and end with a dash.',
-                $prefix,
-            ));
-        }
-
-        return $prefix;
     }
 
     /**

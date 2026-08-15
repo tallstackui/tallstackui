@@ -220,7 +220,7 @@ export default (options) => ({
       const stamp = map[element.tagName.toLowerCase()];
 
       for (const name of [...element.classList]) {
-        if (name.startsWith(this.config.classesPrefix) && name !== stamp) {
+        if (name.startsWith(this.config.prefix) && name !== stamp) {
           element.classList.remove(name);
         }
       }
@@ -836,9 +836,7 @@ export default (options) => ({
       // The stamped classes are the one attribute the whitelist does not
       // drive: they are ours, they are prefixed, and they have to survive the
       // round trip whether the option is on or off. Everything else goes.
-      const stamped = [...node.classList].filter((name) =>
-        name.startsWith(this.config.classesPrefix)
-      );
+      const stamped = [...node.classList].filter((name) => name.startsWith(this.config.prefix));
 
       if (stamped.length === 0) {
         node.removeAttribute('class');
