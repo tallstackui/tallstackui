@@ -57,6 +57,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
+                'chain' => '-mt-[5px]',
                 'widths' => [
                     'xxs' => "data-[tsui-dropdown-width='xxs']:min-w-32",
                     'xs' => "data-[tsui-dropdown-width='xs']:min-w-40",
@@ -68,6 +69,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'slot' => 'overflow-hidden rounded-md',
+            'edges' => '[&>:first-child:is(a,button),&>:first-child>button]:border-t-4 [&>:first-child:is(a,button),&>:first-child>button]:border-t-transparent [&>:last-child:is(a,button),&>:last-child>button]:border-b-4 [&>:last-child:is(a,button),&>:last-child>button]:border-b-transparent',
         ]);
     }
 }
