@@ -429,3 +429,57 @@ it('cannot render the output classes while storing markdown', function () {
         ->render()
         ->toContain('classes: {}');
 });
+
+it('can render the output classes with a custom prefix', function () {
+    config()->set('ts-ui.components.editor.1.output_classes_prefix', 'blog-');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-editor name="content" output-classes />')
+        ->render()
+        ->toContain('blog-numeric-list')
+        ->not->toContain('tsui-editor-numeric-list');
+});
+
+it('can render a renamed output class under a custom prefix', function () {
+    config()->set('ts-ui.components.editor.1.output_classes_prefix', 'blog-');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-editor name="content" :output-classes="[\'ol\' => \'blog-steps\']" />')
+        ->render()
+        ->toContain('blog-steps')
+        ->toContain('blog-paragraph');
+});
+
+it('can render the default prefix when none is configured', function () {
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain("prefix: 'tsui-editor-'");
+});
+
+it('cannot render a renamed output class under the wrong prefix', function () {
+    config()->set('ts-ui.components.editor.1.output_classes_prefix', 'blog-');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessageMatches('/must start with \[blog-\]/');
+
+    expect('<x-editor name="content" :output-classes="[\'ol\' => \'tsui-editor-steps\']" />')->render();
+});
+
+it('cannot render a malformed output classes prefix', function (string $prefix) {
+    // The prefix is the whole of what the sanitizer lets through, so an empty
+    // or loose one would turn the class attribute into an open door.
+    config()->set('ts-ui.components.editor.1.output_classes_prefix', $prefix);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessageMatches('/must be lowercase, dash separated and end with a dash/');
+
+    expect('<x-editor name="content" output-classes />')->render();
+})->with(['', 'blog', 'Blog-', 'blog_', '-blog-', 'blog--', 'bl og-']);

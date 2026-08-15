@@ -179,11 +179,27 @@ The package defines none of them: they are hooks, empty until the application st
 | strong     | tsui-editor-bold         | u            | tsui-editor-underline   |
 | em         | tsui-editor-italic       | s            | tsui-editor-strike      |
 
-An array renames the tags it lists and leaves the rest alone. A name has to keep the `tsui-editor-` prefix, which is what the sanitizer recognizes on the way back in; anything else throws.
+An array renames the tags it lists and leaves the rest alone. A name has to keep the prefix, which is what the sanitizer recognizes on the way back in; anything else throws.
 
 ```blade
 <x-editor wire:model="content" :output-classes="['ol' => 'tsui-editor-steps']" />
 ```
+
+### The Prefix
+
+`tsui-editor-` by default, and `output_classes_prefix` in the config replaces it across every name, so the stored HTML carries the application's namespace rather than the package's.
+
+```php
+'output_classes_prefix' => 'blog-',
+```
+
+```html
+<ol class="blog-numeric-list"><li class="blog-list-item">…</li></ol>
+```
+
+It has to be lowercase, dash separated and end with a dash — `blog-`, `my-app-`. The prefix is the whole of what the sanitizer lets through on a `class`, so an empty or loose one would turn the attribute into an open door; anything outside that shape throws.
+
+**Choose it before there is content.** The prefix is written into the stored HTML, and the sanitizer only recognizes the one in force: changing it later means the classes already stored are stripped the next time that content is opened in the editor.
 
 The stamp is authoritative rather than incremental. On the way in and after every command the classes are wiped and written again from the tag, so a renamed class, a duplicate, and a class the browser carried onto the wrong element all settle on the next pass.
 
@@ -307,6 +323,7 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
 'editor' => [
     'markdown' => false,
     'output_classes' => false,
+    'output_classes_prefix' => null,
     'toolbar' => ['style', 'blockquote', 'bold', ..., 'redo', 'fullscreen'],
     'counters' => true,
     'min_height' => '12rem',
