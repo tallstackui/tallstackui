@@ -63,10 +63,13 @@ class BrowserTest extends BrowserTestCase
                     };
                 JS)[0];
 
-                Assert::assertSame(24.0, round($geometry['overlap'], 2), 'the submenu panel must sit slightly over the parent panel');
-                Assert::assertSame(5.0, round($geometry['lift'], 2), 'the submenu panel must open slightly above the item that opens it');
-                Assert::assertSame(0.0, round($geometry['alignment'], 2), 'the first submenu item must sit on the same line as the item that opens it');
-                Assert::assertSame(0.0, round($geometry['bleed'], 2), 'the first submenu item must reach the panel edge, so its hover fill leaves no strip behind');
+                // Floating UI writes a fractional top, so the reads carry a subpixel of
+                // their own. The tolerance is 1px: every regression these guard against
+                // is 4px or wider.
+                Assert::assertEqualsWithDelta(24, $geometry['overlap'], 1, 'the submenu panel must sit slightly over the parent panel');
+                Assert::assertEqualsWithDelta(5, $geometry['lift'], 1, 'the submenu panel must open slightly above the item that opens it');
+                Assert::assertEqualsWithDelta(0, $geometry['alignment'], 1, 'the first submenu item must sit on the same line as the item that opens it');
+                Assert::assertEqualsWithDelta(0, $geometry['bleed'], 1, 'the first submenu item must reach the panel edge, so its hover fill leaves no strip behind');
             });
     }
 
