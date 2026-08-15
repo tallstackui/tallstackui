@@ -5377,6 +5377,13 @@ rather than this package's:
 <ol class="blog-numeric-list"><li class="blog-list-item">…</li></ol>
 ```
 
+A string on the attribute is the same thing per instance, and wins over the
+config:
+
+```blade
+<x-editor wire:model="content" output-classes="blog-" />
+```
+
 It has to be lowercase, dash separated and end with a dash. The prefix is the
 whole of what the sanitizer lets through on a `class`, so an empty or loose one
 would turn the attribute into an open door — anything outside that shape throws

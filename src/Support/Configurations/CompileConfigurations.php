@@ -184,7 +184,9 @@ class CompileConfigurations
         $component->uploadMaxSize ??= $configuration['upload']['max_size'];
         $component->placeholder ??= trans('ts-ui::messages.editor.placeholder');
 
-        $prefix = $configuration['output_classes_prefix'] ?? Editor::OUTPUT_CLASSES_PREFIX;
+        $prefix = is_string($component->outputClasses)
+            ? $component->outputClasses
+            : $configuration['output_classes_prefix'] ?? Editor::OUTPUT_CLASSES_PREFIX;
 
         return [
             'markdown' => $component->markdown,

@@ -40,7 +40,7 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 | hint            | string, slot | —                | Hint rendered below the editor                                 |
 | placeholder     | string       | from translation | Painted over the editable while it is empty                    |
 | markdown        | bool         | from config      | Stores Markdown instead of HTML                                |
-| output-classes  | bool, array  | from config      | Stamps a class on every element the editor writes              |
+| output-classes  | bool, string, array | from config | Stamps a class on every element the editor writes; a string is the prefix |
 | toolbar         | array        | from config      | Whitelist and order of the buttons                             |
 | upload-property | string       | —                | `WithFileUploads` property the image dialog uploads to         |
 | upload-method   | string       | —                | Component method returning the final URL of the uploaded image |
@@ -197,7 +197,15 @@ An array renames the tags it lists and leaves the rest alone. A name has to keep
 <ol class="blog-numeric-list"><li class="blog-list-item">…</li></ol>
 ```
 
+Inline, a string on the attribute is the prefix, and it wins over the config:
+
+```blade
+<x-editor wire:model="content" output-classes="blog-" />
+```
+
 It has to be lowercase, dash separated and end with a dash — `blog-`, `my-app-`. The prefix is the whole of what the sanitizer lets through on a `class`, so an empty or loose one would turn the attribute into an open door; anything outside that shape throws.
+
+Two editors writing under different prefixes write content only they recognize: opening one editor's content in the other strips the classes, exactly as changing the prefix does.
 
 **Choose it before there is content.** The prefix is written into the stored HTML, and the sanitizer only recognizes the one in force: changing it later means the classes already stored are stripped the next time that content is opened in the editor.
 

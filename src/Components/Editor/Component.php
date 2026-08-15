@@ -48,7 +48,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $hint = null,
         public ?string $placeholder = null,
         public ?bool $markdown = null,
-        public bool|array|null $outputClasses = null,
+        public bool|string|array|null $outputClasses = null,
         public ?array $toolbar = null,
         public ?string $uploadProperty = null,
         public ?string $uploadMethod = null,
