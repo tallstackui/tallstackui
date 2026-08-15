@@ -5358,12 +5358,34 @@ fills them, which is what keeps the look a decision of the application rather
 than a stylesheet the package imposes and then has to maintain.
 
 Twenty tags are covered. An array renames the ones it lists and leaves the rest
-alone; a name has to keep the `tsui-editor-` prefix, which is what the sanitizer
-recognizes on the way back in, and anything else throws.
+alone; a name has to keep the prefix, which is what the sanitizer recognizes on
+the way back in, and anything else throws.
 
 ```blade
 <x-editor wire:model="content" :output-classes="['ol' => 'tsui-editor-steps']" />
 ```
+
+**The prefix itself is configurable**, through `output_classes_prefix`, so the
+content stored in an application's database carries that application's namespace
+rather than this package's:
+
+```php
+'output_classes_prefix' => 'blog-',
+```
+
+```html
+<ol class="blog-numeric-list"><li class="blog-list-item">…</li></ol>
+```
+
+It has to be lowercase, dash separated and end with a dash. The prefix is the
+whole of what the sanitizer lets through on a `class`, so an empty or loose one
+would turn the attribute into an open door — anything outside that shape throws
+at render time.
+
+It is also a one-way door, and the documentation says so: the prefix is written
+into the stored HTML and the sanitizer only recognizes the one in force, so
+changing it after there is content strips the classes already stored the next
+time that content is opened in the editor.
 
 **The stamp is authoritative rather than incremental.** On the way in and after
 every command the classes are wiped and written again from the tag, so a renamed

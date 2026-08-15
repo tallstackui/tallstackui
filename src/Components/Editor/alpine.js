@@ -6,8 +6,6 @@ import serialize from './serialize';
 const INDENT_STEP = 2;
 const INDENT_LIMIT = 8;
 
-const CLASS_PREFIX = 'tsui-editor-';
-
 const normalize = (root) => {
   for (const node of root.querySelectorAll('b, i, font')) {
     const tag = node.tagName.toLowerCase();
@@ -109,16 +107,10 @@ const textual = (element) => {
   return output;
 };
 
-// A contenteditable is never truly empty: engines keep a filler node to hold
-// the caret, and without one the caret collapses to a minimum height beside
-// the placeholder.
 const FILLERS = ['', '<br>', '<p><br></p>', '<div><br></div>'];
 
 const seeded = (html) => (html === '' ? '<br>' : html);
 
-// Attribute filtering keeps href and src, and the scheme is what carries the
-// script. Whitespace survives entity decoding and hides the scheme from a
-// plain prefix check while the browser ignores it, so it is stripped first.
 const compacted = (value) => String(value).replace(/\s/g, '').toLowerCase();
 
 const dangerous = (value) => /^(javascript|vbscript|data):/.test(compacted(value));
@@ -202,14 +194,11 @@ export default (options) => ({
     });
   },
 
-  // The two ends of the stored format. Both are the identity in HTML mode.
   incoming(value) {
     return this.config.markdown ? parse(value) : value;
   },
 
   outgoing() {
-    // The seeded filler is presentation, not content: it never reaches the
-    // bound property.
     if (FILLERS.includes(this.$refs.editable.innerHTML.trim())) {
       return '';
     }
@@ -231,7 +220,7 @@ export default (options) => ({
       const stamp = map[element.tagName.toLowerCase()];
 
       for (const name of [...element.classList]) {
-        if (name.startsWith(CLASS_PREFIX) && name !== stamp) {
+        if (name.startsWith(this.config.classesPrefix) && name !== stamp) {
           element.classList.remove(name);
         }
       }
@@ -265,8 +254,7 @@ export default (options) => ({
   },
 
   scheduleSync() {
-    // Answered outside the debounce, or the placeholder sits over the first
-    // keystrokes.
+    // Answered outside the debounce, or the placeholder sits over the first keystrokes.
     this.refreshEmpty();
 
     clearTimeout(this.syncTimeout);
@@ -848,7 +836,9 @@ export default (options) => ({
       // The stamped classes are the one attribute the whitelist does not
       // drive: they are ours, they are prefixed, and they have to survive the
       // round trip whether the option is on or off. Everything else goes.
-      const stamped = [...node.classList].filter((name) => name.startsWith(CLASS_PREFIX));
+      const stamped = [...node.classList].filter((name) =>
+        name.startsWith(this.config.classesPrefix)
+      );
 
       if (stamped.length === 0) {
         node.removeAttribute('class');

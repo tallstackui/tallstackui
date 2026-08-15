@@ -15,35 +15,33 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(EditorRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
-    /**
-     * The class stamped on each element the editor writes, so the stored HTML
-     * can be styled from outside the editor. Overriding a name keeps the
-     * prefix: it is what the sanitizer recognizes on the way back in.
-     */
     public const OUTPUT_CLASSES = [
-        'p' => 'tsui-editor-paragraph',
-        'div' => 'tsui-editor-block',
-        'h1' => 'tsui-editor-heading-1',
-        'h2' => 'tsui-editor-heading-2',
-        'h3' => 'tsui-editor-heading-3',
-        'h4' => 'tsui-editor-heading-4',
-        'h5' => 'tsui-editor-heading-5',
-        'ul' => 'tsui-editor-bullet-list',
-        'ol' => 'tsui-editor-numeric-list',
-        'li' => 'tsui-editor-list-item',
-        'blockquote' => 'tsui-editor-quote',
-        'pre' => 'tsui-editor-code-block',
-        'code' => 'tsui-editor-code',
-        'hr' => 'tsui-editor-rule',
-        'a' => 'tsui-editor-link',
-        'img' => 'tsui-editor-image',
-        'strong' => 'tsui-editor-bold',
-        'em' => 'tsui-editor-italic',
-        'u' => 'tsui-editor-underline',
-        's' => 'tsui-editor-strike',
+        'p' => 'paragraph',
+        'div' => 'block',
+        'h1' => 'heading-1',
+        'h2' => 'heading-2',
+        'h3' => 'heading-3',
+        'h4' => 'heading-4',
+        'h5' => 'heading-5',
+        'ul' => 'bullet-list',
+        'ol' => 'numeric-list',
+        'li' => 'list-item',
+        'blockquote' => 'quote',
+        'pre' => 'code-block',
+        'code' => 'code',
+        'hr' => 'rule',
+        'a' => 'link',
+        'img' => 'image',
+        'strong' => 'bold',
+        'em' => 'italic',
+        'u' => 'underline',
+        's' => 'strike',
     ];
 
     public const OUTPUT_CLASSES_PREFIX = 'tsui-editor-';
+
+    /** A prefix has to read as a namespace, and end where the name begins. */
+    public const OUTPUT_CLASSES_PREFIX_FORMAT = '/^[a-z][a-z0-9]*(-[a-z0-9]+)*-$/';
 
     public function __construct(
         public ComponentSlot|string|null $label = null,

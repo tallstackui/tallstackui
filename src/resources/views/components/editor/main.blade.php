@@ -9,6 +9,7 @@
             entangle: {!! $entangle !!},
             markdown: @js($configurations['markdown']),
             classes: @js((object) $configurations['output_classes']),
+            classesPrefix: @js($configurations['output_classes_prefix']),
             toolbar: @js($configurations['toolbar']),
             upload: @js($upload),
             sanitization: @js($configurations['sanitization']),

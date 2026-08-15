@@ -396,6 +396,7 @@ return [
             |----------------------------------------------------------------------
             | markdown: stores the content as Markdown instead of HTML.
             | output_classes: stamps a class on every element the editor writes.
+            | output_classes_prefix: the namespace of those names, ending with a dash. Null keeps "tsui-editor-".
             | toolbar: the canonical buttons and the order they are rendered in.
             | counters: displays the word and line counters in the footer.
             | min_height, max_height: the editable boundaries, in any CSS unit.
@@ -405,6 +406,7 @@ return [
             [
                 'markdown' => false,
                 'output_classes' => false,
+                'output_classes_prefix' => null,
                 'toolbar' => [
                     'style', 'blockquote',
                     'bold', 'italic', 'underline', 'strikethrough',
