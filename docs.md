@@ -12,6 +12,92 @@ such change is listed under **Migration**.
 
 ---
 
+## Dropdown
+
+### Changed — a submenu opens chained over the panel that holds it
+
+The submenu was a detached card: 8px to the right of the parent panel, its top
+edge on the row that opened it. Two floating boxes that happen to sit near each
+other, rather than one cascading menu — and the gap between them is also the
+strip a pointer travelling diagonally crosses on the way in.
+
+It now reads as one chain. The panel slides 24px back over the parent, stopping
+where the row's chevron ends, so the two surfaces overlap instead of facing each
+other across a gap:
+
+```blade
+<x-dropdown text="Options">
+    <x-dropdown.items text="Sort by" />
+    <x-dropdown.submenu text="Filter">
+        <x-dropdown.items text="Draft" />
+    </x-dropdown.submenu>
+</x-dropdown>
+```
+
+The overlap travels on the main axis, so it survives a flip: a submenu that
+opens leftwards — by `position="left"` or because Floating UI ran out of room on
+the right — overlaps its parent from the other side by the same amount, with no
+second rule.
+
+Vertically the panel is pulled up by 5px, and the first and last rows each grow
+by 4px into that space. The first row's text therefore lands on exactly the line
+of the row that opened it, while the panel's top edge sits above that line —
+which is what marks the submenu as a layer over the parent rather than a
+continuation of it.
+
+**The 4px is a transparent border rather than padding**, and that is the whole
+point of it. Padding would have had to know the row's own padding to add to it —
+`py-1` through `py-2.5` across the four dropdown sizes — since a `pt-*` utility
+replaces that value instead of extending it. A border composes with whatever
+padding is already there, so one declaration covers every size.
+
+It also has to be the row that grows, not the panel. Insetting the panel leaves
+the space outside the row's box, and a hover fill then stops 4px short of the
+panel edge, leaving a strip of the panel's own background above the first row and
+below the last one — visible in both themes, and most of all in dark mode. The
+background paints under a transparent border, so growing the row carries the fill
+all the way to the edge while the text stays where it was.
+
+**Migration** — two new blocks on `dropdown.submenu`: `floating.chain` carries
+the `-mt-[5px]` lift, and `edges` carries the transparent borders of the first and
+last row. Dropping `edges` alone leaves the rows 4px above the line they should
+sit on. The `edges` selectors reach the row through both shapes it takes — the
+`<a>` or `<button>` of an item, and the `<button>` of a nested submenu.
+
+---
+
+## Button
+
+### Added — `round` answers to the configuration
+
+The corner shape was a per-button decision, so an application that leads with
+pills had to repeat the flag at every call site. It joins the other button
+defaults in the configuration, following the Badge:
+
+```php
+'button' => [
+    Components\Button\Normal\Component::class,
+    [
+        'spinner' => null,
+        'round' => false,
+    ],
+],
+```
+
+`false` keeps `rounded-md`, `true` is the pill, and a size name (`xs`, `sm`,
+`md`, `lg`, `xl`, `full`) picks that radius. The inline prop always wins,
+including `:round="false"`, and `square` still beats both — which is what keeps
+`TallStackUi::globals()->square()` working over a configured radius.
+
+The prop defaults to `null` rather than `false` to tell "not informed" apart
+from "informed with the default value". A bad value in the configuration raises
+the same validation exception an inline one does.
+
+**Migration** — none. The shipped value is `false`, which is what the prop
+defaulted to.
+
+---
+
 ## Dependencies
 
 ### Changed — day.js is gone, and Alpine is the only dependency left
