@@ -59,7 +59,7 @@ class Component extends TallStackUiComponent implements Customization
                 'dot' => 'absolute top-1.5 left-1/2 translate-x-1.5',
                 'flyout' => [
                     'wrapper' => Arr::toCssClasses([collect(app(Floating::class)->customization())->get('wrapper'), 'w-60', 'overflow-hidden']),
-                    'scroll' => 'max-h-[min(24rem,calc(100dvh-2rem))] overflow-y-auto px-2 pb-2',
+                    'scroll' => 'max-h-[calc(100dvh-2rem)] overflow-y-auto px-2 pb-2',
                     'scrollbar.thin' => 'soft-scrollbar',
                     'scrollbar.thick' => 'custom-scrollbar',
                     'header' => 'dark:bg-dark-800 text-gray-500 dark:text-dark-300 sticky top-0 -mx-2 bg-white px-2 pt-2 pb-1 text-xs font-semibold tracking-wide uppercase',

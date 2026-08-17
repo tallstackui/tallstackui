@@ -2115,13 +2115,21 @@ on Escape, and when the sidebar is expanded again. Single items keep their toolt
 groups no longer show one, since the panel names itself.
 
 The panel is an `<x-floating>`, so it is teleported out of the sidebar and is not clipped
-by the scroll container, and it is capped at `min(24rem, 100dvh - 2rem)` with its own
-scroll: a group of thirty items neither runs off the screen nor stretches the page. The
-frame and the scroll are separate elements on purpose — a scrollbar is painted in the
-border box, so a radius only shapes it when an ancestor clips along with it.
+by the scroll container. Its height is the space from the group button to the bottom of
+the viewport, minus a `2rem` gutter, with `max-h-[calc(100dvh-2rem)]` as a CSS fallback:
+a group of thirty items neither runs off the screen nor stretches the page. The frame
+and the scroll are separate elements on purpose — a scrollbar is painted in the border
+box, so a radius only shapes it when an ancestor clips along with it.
 
 Four new blocks: `group.flyout.wrapper` (frame), `group.flyout.scroll` (the height cap
 and the scroll), `group.flyout.header` (the sticky group name) and `group.flyout.items`.
+
+### Changed — the collapsed group flyout uses the space below the trigger
+
+The panel used to cap at `24rem`, so a tall tree sat in a short box with empty viewport
+underneath. It now sizes to the remaining space from the group button to the bottom of
+the viewport, minus a `2rem` gutter. `group.flyout.scroll` keeps
+`max-h-[calc(100dvh-2rem)]` as a CSS fallback.
 
 ### Added — a badge becomes a dot on the collapsed rail
 

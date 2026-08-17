@@ -181,7 +181,7 @@ TallStackUi::customize()
 
 | Scope                 | Target           | Line(s)          |
 |-----------------------|------------------|------------------|
-| `sidebar.item.badge`  | `<x-badge />`    | 62, 70, 165, 173 |
+| `sidebar.item.badge`  | `<x-badge />`    | 62, 70, 167, 175 |
 | `sidebar.item.flyout` | `<x-floating />` | 90               |
 
 ### `list/items`

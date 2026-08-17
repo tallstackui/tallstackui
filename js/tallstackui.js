@@ -9,6 +9,7 @@ import carousel from '../src/Components/Carousel/alpine';
 import card from '../src/Components/Card/alpine';
 import color from '../src/Components/Form/Color/alpine';
 import collapse from '../src/Components/Layout/SideBar/Main/collapse';
+import sidebarFlyout from '../src/Components/Layout/SideBar/Item/fit';
 import currency from '../src/Components/Form/Currency/alpine';
 import darkTheme from './helpers/dark-theme';
 import dial from '../src/Components/Dial/Main/alpine';
@@ -53,6 +54,7 @@ document.addEventListener('livewire:navigating', flush_ui_elements);
 unfocus();
 
 window.tallstackui_floating = floating;
+window.tallstackui_sidebarFlyout = sidebarFlyout;
 window.tallstackui_escapeClaim = escape_claim;
 window.tallstackui_escapeClaimed = escape_claimed;
 window.tallstackui_lockKeydown = lock_keydown;

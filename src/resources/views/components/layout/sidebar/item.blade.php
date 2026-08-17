@@ -93,10 +93,12 @@
                                      offset="21"
                                      x-show="flyout"
                                      x-anchor="$refs.button"
+                                     x-effect="if (flyout) { $nextTick(() => window.tallstackui_sidebarFlyout($el, $refs.button)) }"
                                      x-on:mouseenter="clearTimeout(timer)"
                                      x-on:mouseleave="timer = setTimeout(() => flyout = false, 150)"
                                      role="menu">
                     <div x-data="{ railed : false }"
+                         data-flyout-scroll
                          @class([
                              $customization['group.flyout.scroll'],
                              $customization['group.flyout.scrollbar.thin'] => $thinScroll,
