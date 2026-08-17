@@ -3,10 +3,10 @@ $group = 'inline-flex items-center gap-1.5';
 // Plain spans would create line boxes, and the items nested two levels deep
 // (current page, chevrons) would sit on a different baseline than the others.
 $wrapper = 'inline-flex items-center';
-$rail = 'inline-flex items-center gap-0.5 rounded-full bg-gray-100 p-1 dark:bg-dark-800';
+$rail = 'inline-flex items-center gap-0.5 rounded-full p-1 dark:bg-dark-800';
 
 $slot = 'relative inline-flex min-w-8 items-center justify-center rounded-full px-2.5 py-1.5 text-sm leading-5 outline-hidden transition duration-200 focus-visible:ring-2 focus-visible:ring-primary-500';
-$idle = 'cursor-pointer font-medium text-gray-500 hover:bg-white hover:text-gray-900 hover:shadow-xs dark:text-dark-300 dark:hover:bg-dark-700 dark:hover:text-dark-100';
+$idle = 'cursor-pointer font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 hover:shadow-xs dark:text-dark-300 dark:hover:bg-dark-700 dark:hover:text-dark-100';
 $current = 'cursor-default select-none bg-primary-600 font-semibold text-white shadow-sm';
 $separator = 'cursor-default select-none font-medium text-gray-400 dark:text-dark-500';
 
