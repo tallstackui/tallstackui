@@ -12,6 +12,55 @@ such change is listed under **Migration**.
 
 ---
 
+## Side Bar
+
+### Added — the behaviour flags answer to the configuration
+
+A sidebar is declared once per layout, but the flags that shape it were a
+per-call-site decision: an application that wants a collapsible rail with
+`wire:navigate` on every item had to repeat that on the tag, and repeat it again
+on the guest layout, the admin layout and anywhere else a sidebar is rendered.
+All six behaviour flags now have a configured default:
+
+```php
+'side-bar' => [
+    Components\Layout\SideBar\Main\Component::class,
+    [
+        'smart' => false,
+        'collapsible' => false,
+        'thin-scroll' => false,
+        'thick-scroll' => false,
+        'navigate' => false,
+        'navigate-hover' => false,
+    ],
+],
+```
+
+The inline prop always wins, including `:collapsible="false"`, which is what the
+`null` default of every prop buys: it tells "not informed" apart from "informed
+with the shipped value".
+
+`navigate`/`navigate-hover` and `thin-scroll`/`thick-scroll` are pairs that
+cannot both be on, so each pair resolves together. Declaring either side inline
+suppresses the configured default of both — a configured `navigate` does not
+survive next to an inline `navigate-hover`, and would otherwise stamp both
+directives on the same link. This follows the Link component, which resolves its
+own `navigate` pair the same way.
+
+Resolution happens in `setup()` rather than through `CompileConfigurations`, and
+it has to. The child items read `smart`, `navigate`, `navigate-hover`,
+`collapsible`, `thin-scroll` and `thick-scroll` off the parent through `@aware`,
+which reads the component data Blade captured when the sidebar opened — before
+the render closure, and therefore before `CompileConfigurations` would run. A
+default resolved there would reach the sidebar's own markup and no item inside
+it. `setup()` runs ahead of that capture, so the parent and every item see the
+same value.
+
+**Migration** — none. Every shipped value is `false`, which is what the props
+resolved to when left alone.
+
+---
+
 ## Dropdown
 
 ### Changed — a submenu opens chained over the panel that holds it

@@ -82,4 +82,20 @@ class Component extends TallStackUiComponent implements Customization
             ],
         ]);
     }
+
+    protected function setup(): void
+    {
+        $this->smart ??= __ts_get_component_configuration(self::class, 'smart') ?? false;
+        $this->collapsible ??= __ts_get_component_configuration(self::class, 'collapsible') ?? false;
+
+        if ($this->navigate === null && $this->navigateHover === null) {
+            $this->navigate = __ts_get_component_configuration(self::class, 'navigate') ?? false;
+            $this->navigateHover = __ts_get_component_configuration(self::class, 'navigate-hover') ?? false;
+        }
+
+        if ($this->thinScroll === null && $this->thickScroll === null) {
+            $this->thinScroll = __ts_get_component_configuration(self::class, 'thin-scroll') ?? false;
+            $this->thickScroll = __ts_get_component_configuration(self::class, 'thick-scroll') ?? false;
+        }
+    }
 }

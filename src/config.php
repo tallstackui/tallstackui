@@ -795,7 +795,28 @@ return [
         ],
         'range' => Components\Form\Range\Component::class,
         'rating' => Components\Rating\Component::class,
-        'side-bar' => Components\Layout\SideBar\Main\Component::class,
+        'side-bar' => [
+            Components\Layout\SideBar\Main\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Side Bar Global Settings
+            |----------------------------------------------------------------------
+            | smart: marks the item matching the current route as active by default.
+            | collapsible: renders the side bar as a collapsible rail by default.
+            | thin-scroll: applies the soft scrollbar to the items list by default.
+            | thick-scroll: applies the custom scrollbar to the items list by default.
+            | navigate: adds wire:navigate to every item by default.
+            | navigate-hover: adds wire:navigate.hover to every item by default.
+            */
+            [
+                'smart' => false,
+                'collapsible' => false,
+                'thin-scroll' => false,
+                'thick-scroll' => false,
+                'navigate' => false,
+                'navigate-hover' => false,
+            ],
+        ],
         'side-bar.item' => Components\Layout\SideBar\Item\Component::class,
         'side-bar.separator' => Components\Layout\SideBar\Separator\Component::class,
         'select.native' => [
