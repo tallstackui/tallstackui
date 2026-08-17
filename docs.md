@@ -12,6 +12,69 @@ such change is listed under **Migration**.
 
 ---
 
+## Layout Header
+
+### Added — the header height is a prop
+
+The header shipped at `h-16` with no way to change it short of rewriting the
+class list from a provider:
+
+```php
+TallStackUi::customize()
+    ->layout('header')
+    ->block('wrapper')
+    ->replace('h-16', 'h-20');
+```
+
+That is string surgery on a block: it keeps working only for as long as nobody
+touches the classes it matches against, and the day `h-16` moves the `replace()`
+stops matching and reports nothing. It is also a provider-wide edit for what is a
+per-layout decision.
+
+The height is now a prop, in the two shapes the library already uses for a sized
+component — a named size, or the name on its own as a shortcut:
+
+```blade
+<x-layout.header lg />
+<x-layout.header size="lg" />
+```
+
+`sm` is `h-14`, `md` is `h-16` and remains the default, `lg` is `h-20`, `xl` is
+`h-24`. There is a configured default too:
+
+```php
+'layout.header' => [
+    Components\Layout\Header\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+A shortcut flag wins over `size`, and `size` wins over the configuration. An
+unknown size raises a validation exception wherever it came from, so a typo in a
+provider fails at render instead of producing a header with no height.
+
+The sizes are names rather than a class passed straight through, and that is the
+reason the prop is not `height="h-20"`. The shipped `dist/tallstackui.css` is
+compiled with `@source '../src/'`, so it only contains classes written inside the
+package. A height handed in from an application would resolve for anyone
+compiling their own Tailwind and silently collapse the header for anyone relying
+on the packaged stylesheet. Keeping the four heights in `customization()` puts
+them in that file.
+
+The layout is not coupled to the value. The header is `sticky` and in flow, and
+`layout/main.blade.php` never offsets the content by a header height, so a taller
+header pushes the page down on its own.
+
+**Migration** — the `wrapper` block of `layout.header` splits into `wrapper.base`
+and `wrapper.sizes.{sm,md,lg,xl}`, following the `desktop.wrapper.first.base` /
+`.size` split the sidebar already uses. A customization targeting `wrapper` has
+to move to `wrapper.base`. A `replace('h-16', …)` on that block should be dropped
+rather than moved: the height no longer lives there.
+
+---
+
 ## Side Bar
 
 ### Added — the behaviour flags answer to the configuration

@@ -38,6 +38,38 @@ A sticky top header component for the application layout. Provides left, middle,
 | middle                | slot\|string\|null | null    | Content rendered in the center of the header     |
 | right                 | slot\|string\|null | null    | Content rendered on the right side of the header |
 | without-mobile-button | bool\|null         | null    | Hides the mobile hamburger menu toggle button    |
+| size                  | string\|null       | md      | Header height (`sm`, `md`, `lg`, `xl`)           |
+| sm                    | bool\|null         | null    | Shortcut for `size="sm"` (`h-14`)                |
+| md                    | bool\|null         | null    | Shortcut for `size="md"` (`h-16`)                |
+| lg                    | bool\|null         | null    | Shortcut for `size="lg"` (`h-20`)                |
+| xl                    | bool\|null         | null    | Shortcut for `size="xl"` (`h-24`)                |
+
+The `size` default comes from the global configuration, so it describes the shipped
+configuration rather than a value hardcoded in the component.
+
+```blade
+<x-layout.header lg />
+<x-layout.header size="lg" />
+```
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'layout.header' => [
+    \TallStackUi\Components\Layout\Header\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+A shortcut flag wins over `size`, `size` wins over the configuration. An unknown
+size raises a validation exception, wherever it came from.
+
+## Validation Constraints
+
+- The resolved `size` must be one of: `sm`, `md`, `lg`, `xl`.
 
 ## Slots
 
@@ -57,20 +89,24 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ```php
 TallStackUi::customize()
     ->layout('header')
-    ->block('wrapper', 'your-tailwind-classes');
+    ->block('wrapper.base', 'your-tailwind-classes');
 ```
 
 ### Available Blocks
 
-| Block Name         | Purpose                                                                                                                                                                         |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| wrapper            | Outer sticky header container with flex layout and shadow. Carries `tsui-scrollbar-bleed`, which lets the header reach the viewport edge while an overlay holds the scroll lock |
-| button.class       | Mobile hamburger menu button visibility and cursor                                                                                                                              |
-| button.icon.size   | Mobile hamburger icon dimensions and color                                                                                                                                      |
-| collapse.class     | Desktop sidebar collapse toggle button visibility                                                                                                                               |
-| collapse.icon      | Icon name used for the collapse toggle (default: bars-4)                                                                                                                        |
-| collapse.icon.size | Collapse toggle icon dimensions and color                                                                                                                                       |
-| slots.wrapper      | Flex container wrapping all three slot areas                                                                                                                                    |
-| slots.left         | Flex container for the left slot                                                                                                                                                |
-| slots.middle       | Flex container for the middle slot                                                                                                                                              |
-| slots.right        | Flex container for the right slot                                                                                                                                               |
+| Block Name         | Purpose                                                                                                                                                                                           |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| wrapper.base       | Outer sticky header container with flex layout and shadow, minus its height. Carries `tsui-scrollbar-bleed`, which lets the header reach the viewport edge while an overlay holds the scroll lock |
+| wrapper.sizes.sm   | Height applied by `sm`                                                                                                                                                                            |
+| wrapper.sizes.md   | Height applied by `md`                                                                                                                                                                            |
+| wrapper.sizes.lg   | Height applied by `lg`                                                                                                                                                                            |
+| wrapper.sizes.xl   | Height applied by `xl`                                                                                                                                                                            |
+| button.class       | Mobile hamburger menu button visibility and cursor                                                                                                                                                |
+| button.icon.size   | Mobile hamburger icon dimensions and color                                                                                                                                                        |
+| collapse.class     | Desktop sidebar collapse toggle button visibility                                                                                                                                                 |
+| collapse.icon      | Icon name used for the collapse toggle (default: bars-4)                                                                                                                                          |
+| collapse.icon.size | Collapse toggle icon dimensions and color                                                                                                                                                         |
+| slots.wrapper      | Flex container wrapping all three slot areas                                                                                                                                                      |
+| slots.left         | Flex container for the left slot                                                                                                                                                                  |
+| slots.middle       | Flex container for the middle slot                                                                                                                                                                |
+| slots.right        | Flex container for the right slot                                                                                                                                                                 |

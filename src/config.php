@@ -632,7 +632,20 @@ return [
                 'ignore' => env('TALLSTACKUI_IGNORE_LAYOUT_REGISTRATION', false),
             ],
         ],
-        'layout.header' => Components\Layout\Header\Component::class,
+        'layout.header' => [
+            Components\Layout\Header\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Layout Header Global Settings
+            |----------------------------------------------------------------------
+            |
+            | size: controls the header height (Allowed: sm, md, lg, xl).
+            |
+            */
+            [
+                'size' => 'md',
+            ],
+        ],
         'link' => [
             Components\Link\Component::class,
             /*

@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-<div {{ $attributes->class([$customization['wrapper']]) }}>
+<div {{ $attributes->class([$customization['wrapper.base'], $customization['wrapper.sizes.'.$size]]) }}>
     <button x-show="$store['tsui.side-bar'].collapsible"
             x-on:click="$store['tsui.side-bar'].toggle()"
             x-bind:aria-expanded="!$store['tsui.side-bar'].collapsed"
