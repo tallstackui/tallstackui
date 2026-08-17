@@ -6,9 +6,10 @@ The supported versions with security updates are:
 
 | Version | Supported |
 |---------|-----------|
-| 1.x     | ❌         |
-| 2.x     | ✅         |
-| 3.x     | ✅         |
+| 1.x     | ❌        |
+| 2.x     | ❌        |
+| 3.x     | ❌        |
+| 4.x     | ✅        |
 
 ## Reporting a Vulnerability
 

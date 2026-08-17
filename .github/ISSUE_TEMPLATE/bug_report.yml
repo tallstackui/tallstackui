@@ -35,10 +35,13 @@ body:
         - Breadcrumbs
         - Button
         - Button Circle
+        - Button Group
         - Calendar
         - Card
         - Carousel
+        - Chart
         - Checkbox
+        - Checkbox Group
         - Clipboard
         - Color
         - Command Palette
@@ -47,9 +50,11 @@ body:
         - Dial
         - Dialog
         - Dropdown
+        - Editor
         - Environment
         - Errors
         - Floating
+        - Gallery
         - Hint
         - Icon
         - Input
@@ -59,6 +64,7 @@ body:
         - Label
         - Layout
         - Link
+        - List
         - Loading
         - Modal
         - Number
@@ -66,16 +72,21 @@ body:
         - Pin
         - Progress
         - Progress Circle
+        - QR Code
         - Radio
+        - Radio Group
         - Range
         - Rating
         - Reaction
         - Select Native
         - Select Styled
+        - Side Bar
         - Signature
         - Slide
+        - Spinner
         - Stats
         - Step
+        - Swap
         - Tab
         - Table
         - Tag
@@ -87,6 +98,7 @@ body:
         - Toggle
         - Tooltip
         - Upload
+        - Upload Async
         - None (N/A)
     validations:
       required: true
