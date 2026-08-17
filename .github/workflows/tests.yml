@@ -70,6 +70,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           tools: composer:v2
           coverage: none
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Composer dependencies
         uses: actions/cache@v6
@@ -188,6 +189,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           tools: composer:v2
           coverage: none
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Composer dependencies
         uses: actions/cache@v6
