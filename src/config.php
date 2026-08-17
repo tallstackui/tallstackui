@@ -1061,7 +1061,7 @@ return [
                 | Async Upload Global Settings
                 |----------------------------------------------------------------------
                 |
-                | chunk_size: controls the bytes sent on each chunk (must stay below the PHP upload_max_filesize).
+                | chunk_size: controls the bytes sent on each chunk. (default 2 MB)
                 | concurrency: controls how many chunks are uploaded in parallel, per component.
                 | retries: controls the attempts per chunk on transient failures (5xx, 408, 429 and network).
                 | retry_delay: controls the milliseconds between retries, with exponential backoff.
