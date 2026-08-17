@@ -55,6 +55,7 @@
                          scope="dropdown.submenu.floating"
                          :floating="$customization['floating.default']"
                          @class([
+                             $customization['floating.chain'],
                              $customization['floating.widths.xxs'],
                              $customization['floating.widths.xs'],
                              $customization['floating.widths.sm'],
@@ -64,7 +65,7 @@
                              $customization['floating.widths.2xl'],
                          ])
                          :$position
-                         offset="8"
+                         offset="-24"
                          x-show="show"
                          x-anchor="$refs.button"
                          x-bind:data-tsui-dropdown-size="size"
@@ -73,7 +74,7 @@
         <x-slot:transition>
             {!! $transitions() !!}
         </x-slot:transition>
-        <div @class($customization['slot'])>
+        <div @class([$customization['slot'], $customization['edges']])>
             {!! $slot !!}
         </div>
     </x-dynamic-component>

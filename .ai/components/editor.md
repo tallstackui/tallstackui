@@ -34,26 +34,26 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 
 ## Attributes
 
-| Attribute       | Type         | Default          | Description                                                    |
-|-----------------|--------------|------------------|----------------------------------------------------------------|
-| label           | string, slot | —                | Label rendered above the editor                                |
-| hint            | string, slot | —                | Hint rendered below the editor                                 |
-| placeholder     | string       | from translation | Painted over the editable while it is empty                    |
-| markdown        | bool         | from config      | Stores Markdown instead of HTML                                |
-| output-classes  | bool, string, array | from config | Stamps a class on every element the editor writes; a string is the prefix |
-| toolbar         | array        | from config      | Whitelist and order of the buttons                             |
-| upload-property | string       | —                | `WithFileUploads` property the image dialog uploads to         |
-| upload-method   | string       | —                | Component method returning the final URL of the uploaded image |
-| upload-mimes    | array        | from config      | Mime types the image dialog accepts                            |
-| upload-max-size | int          | from config      | Ceiling for an uploaded image, in KB                           |
-| counters        | bool         | true             | Word and line counters in the footer                           |
-| min-height      | string       | 12rem            | Minimum height of the editable, in any CSS unit                |
-| max-height      | string       | 40rem            | Maximum height of the editable, in any CSS unit                |
-| readonly        | bool         | false            | Hides the toolbar and stops editing                            |
-| disabled        | bool         | false            | As readonly, plus the disabled styling                         |
-| required        | bool         | false            | Marks the editable as required for assistive technology        |
-| spellcheck      | bool         | true             | Native spellcheck on the editable                              |
-| invalidate      | bool         | from config      | Suppresses validation feedback                                 |
+| Attribute       | Type                | Default          | Description                                                               |
+|-----------------|---------------------|------------------|---------------------------------------------------------------------------|
+| label           | string, slot        | —                | Label rendered above the editor                                           |
+| hint            | string, slot        | —                | Hint rendered below the editor                                            |
+| placeholder     | string              | from translation | Painted over the editable while it is empty                               |
+| markdown        | bool                | from config      | Stores Markdown instead of HTML                                           |
+| output-classes  | bool, string, array | from config      | Stamps a class on every element the editor writes; a string is the prefix |
+| toolbar         | array               | from config      | Whitelist and order of the buttons                                        |
+| upload-property | string              | —                | `WithFileUploads` property the image dialog uploads to                    |
+| upload-method   | string              | —                | Component method returning the final URL of the uploaded image            |
+| upload-mimes    | array               | from config      | Mime types the image dialog accepts                                       |
+| upload-max-size | int                 | from config      | Ceiling for an uploaded image, in KB                                      |
+| counters        | bool                | true             | Word and line counters in the footer                                      |
+| min-height      | string              | 12rem            | Minimum height of the editable, in any CSS unit                           |
+| max-height      | string              | 40rem            | Maximum height of the editable, in any CSS unit                           |
+| readonly        | bool                | false            | Hides the toolbar and stops editing                                       |
+| disabled        | bool                | false            | As readonly, plus the disabled styling                                    |
+| required        | bool                | false            | Marks the editable as required for assistive technology                   |
+| spellcheck      | bool                | true             | Native spellcheck on the editable                                         |
+| invalidate      | bool                | from config      | Suppresses validation feedback                                            |
 
 ## Toolbar
 
@@ -168,16 +168,16 @@ With the option on, every element the editor writes carries a class of its own, 
 
 The package defines none of them: they are hooks, empty until the application styles them.
 
-| Tag        | Class                    | Tag          | Class                   |
-|------------|--------------------------|--------------|-------------------------|
-| p          | tsui-editor-paragraph    | blockquote   | tsui-editor-quote       |
-| div        | tsui-editor-block        | pre          | tsui-editor-code-block  |
-| h1 to h5   | tsui-editor-heading-1..5 | code         | tsui-editor-code        |
-| ul         | tsui-editor-bullet-list  | hr           | tsui-editor-rule        |
-| ol         | tsui-editor-numeric-list | a            | tsui-editor-link        |
-| li         | tsui-editor-list-item    | img          | tsui-editor-image       |
-| strong     | tsui-editor-bold         | u            | tsui-editor-underline   |
-| em         | tsui-editor-italic       | s            | tsui-editor-strike      |
+| Tag      | Class                    | Tag        | Class                  |
+|----------|--------------------------|------------|------------------------|
+| p        | tsui-editor-paragraph    | blockquote | tsui-editor-quote      |
+| div      | tsui-editor-block        | pre        | tsui-editor-code-block |
+| h1 to h5 | tsui-editor-heading-1..5 | code       | tsui-editor-code       |
+| ul       | tsui-editor-bullet-list  | hr         | tsui-editor-rule       |
+| ol       | tsui-editor-numeric-list | a          | tsui-editor-link       |
+| li       | tsui-editor-list-item    | img        | tsui-editor-image      |
+| strong   | tsui-editor-bold         | u          | tsui-editor-underline  |
+| em       | tsui-editor-italic       | s          | tsui-editor-strike     |
 
 An array renames the tags it lists and leaves the rest alone. A name has to keep the prefix, which is what the sanitizer recognizes on the way back in; anything else throws.
 

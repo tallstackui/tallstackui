@@ -43,12 +43,38 @@ A responsive sidebar navigation component with mobile slide-out drawer and deskt
 | brand           | slot\|string\|null | null    | Branding content displayed at the top of the sidebar               |
 | brand-collapsed | slot\|string\|null | null    | Alternate branding shown when the collapsible sidebar is collapsed |
 | footer          | slot\|string\|null | null    | Content rendered at the bottom of the sidebar                      |
-| smart           | bool\|null         | null    | Enables smart route matching for all child items                   |
-| navigate        | bool\|null         | null    | Adds `wire:navigate` to all child item links                       |
-| navigate-hover  | bool\|null         | null    | Adds `wire:navigate.hover` to all child item links                 |
-| thin-scroll     | bool\|null         | null    | Applies thin soft scrollbar styling to the sidebar items area      |
-| thick-scroll    | bool\|null         | null    | Applies thick custom scrollbar styling to the sidebar items area   |
-| collapsible     | bool\|null         | null    | Enables sidebar collapse/expand toggling from the header           |
+| smart           | bool\|null         | false   | Enables smart route matching for all child items                   |
+| navigate        | bool\|null         | false   | Adds `wire:navigate` to all child item links                       |
+| navigate-hover  | bool\|null         | false   | Adds `wire:navigate.hover` to all child item links                 |
+| thin-scroll     | bool\|null         | false   | Applies thin soft scrollbar styling to the sidebar items area      |
+| thick-scroll    | bool\|null         | false   | Applies thick custom scrollbar styling to the sidebar items area   |
+| collapsible     | bool\|null         | false   | Enables sidebar collapse/expand toggling from the header           |
+
+Every default above except the slots comes from the global configuration, so the
+`Default` column describes the shipped configuration rather than a value hardcoded
+in the component.
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'side-bar' => [
+    \TallStackUi\Components\Layout\SideBar\Main\Component::class,
+    [
+        'smart' => false,
+        'collapsible' => false,
+        'thin-scroll' => false,
+        'thick-scroll' => false,
+        'navigate' => false,
+        'navigate-hover' => false,
+    ],
+],
+```
+
+The inline prop always wins, including the negative form: with `'collapsible' => true`
+configured, `:collapsible="false"` pins a single sidebar open. `navigate`/`navigate-hover`
+and `thin-scroll`/`thick-scroll` are mutually exclusive pairs, so declaring either side
+of a pair inline suppresses the configured default of both sides of that pair.
 
 ## Slots
 

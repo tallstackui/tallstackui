@@ -72,6 +72,7 @@ TallStackUi::customize()
 | submenu.left        | Left chevron indicator size                                                                  |
 | submenu.right       | Right chevron indicator size                                                                 |
 | floating.default    | Floating panel base styles (background, border, shadow)                                      |
+| floating.chain      | Upward lift of the floating panel, so the first row lands on the line of the trigger         |
 | floating.widths.xxs | Floating panel minimum width when the parent dropdown is `width="xxs"` (`min-w-32`)          |
 | floating.widths.xs  | Floating panel minimum width when the parent dropdown is `width="xs"` (`min-w-40`)           |
 | floating.widths.sm  | Floating panel minimum width when the parent dropdown is `width="sm"` (`min-w-48`)           |
@@ -80,5 +81,8 @@ TallStackUi::customize()
 | floating.widths.xl  | Floating panel minimum width when the parent dropdown is `width="xl"` (`min-w-72`)           |
 | floating.widths.2xl | Floating panel minimum width when the parent dropdown is `width="2xl"` (`min-w-80`)          |
 | slot                | Submenu items container with overflow and rounding                                           |
+| edges               | Transparent borders growing the first and last row into the panel edge                       |
+
+The floating panel opens chained to the parent: it overlaps the parent panel by 24px on the main axis, so the overlap follows a flip to the opposite side. `floating.chain` lifts it 5px, and `edges` grows the first and last row by 4px through a transparent border — which keeps their hover fill reaching the panel edge while the text stays on the line of the trigger. A `pt-*`/`pb-*` utility would replace the row's own padding instead of extending it, and would have to be declared per dropdown size.
 
 Size and width are inherited from the parent `<x-dropdown>` automatically (see `.ai/components/dropdown/main.md`). The submenu has no per-instance size or width props — its trigger button reads the parent's `data-tsui-dropdown-size` via Tailwind arbitrary variants, and its teleported floating panel reads `data-tsui-dropdown-size` / `data-tsui-dropdown-width` set on Alpine `init` from the closest ancestor.

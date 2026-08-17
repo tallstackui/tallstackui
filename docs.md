@@ -12,6 +12,204 @@ such change is listed under **Migration**.
 
 ---
 
+## Layout Header
+
+### Added — the header height is a prop
+
+The header shipped at `h-16` with no way to change it short of rewriting the
+class list from a provider:
+
+```php
+TallStackUi::customize()
+    ->layout('header')
+    ->block('wrapper')
+    ->replace('h-16', 'h-20');
+```
+
+That is string surgery on a block: it keeps working only for as long as nobody
+touches the classes it matches against, and the day `h-16` moves the `replace()`
+stops matching and reports nothing. It is also a provider-wide edit for what is a
+per-layout decision.
+
+The height is now a prop, in the two shapes the library already uses for a sized
+component — a named size, or the name on its own as a shortcut:
+
+```blade
+<x-layout.header lg />
+<x-layout.header size="lg" />
+```
+
+`sm` is `h-14`, `md` is `h-16` and remains the default, `lg` is `h-20`, `xl` is
+`h-24`. There is a configured default too:
+
+```php
+'layout.header' => [
+    Components\Layout\Header\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+A shortcut flag wins over `size`, and `size` wins over the configuration. An
+unknown size raises a validation exception wherever it came from, so a typo in a
+provider fails at render instead of producing a header with no height.
+
+The sizes are names rather than a class passed straight through, and that is the
+reason the prop is not `height="h-20"`. The shipped `dist/tallstackui.css` is
+compiled with `@source '../src/'`, so it only contains classes written inside the
+package. A height handed in from an application would resolve for anyone
+compiling their own Tailwind and silently collapse the header for anyone relying
+on the packaged stylesheet. Keeping the four heights in `customization()` puts
+them in that file.
+
+The layout is not coupled to the value. The header is `sticky` and in flow, and
+`layout/main.blade.php` never offsets the content by a header height, so a taller
+header pushes the page down on its own.
+
+**Migration** — the `wrapper` block of `layout.header` splits into `wrapper.base`
+and `wrapper.sizes.{sm,md,lg,xl}`, following the `desktop.wrapper.first.base` /
+`.size` split the sidebar already uses. A customization targeting `wrapper` has
+to move to `wrapper.base`. A `replace('h-16', …)` on that block should be dropped
+rather than moved: the height no longer lives there.
+
+---
+
+## Side Bar
+
+### Added — the behaviour flags answer to the configuration
+
+A sidebar is declared once per layout, but the flags that shape it were a
+per-call-site decision: an application that wants a collapsible rail with
+`wire:navigate` on every item had to repeat that on the tag, and repeat it again
+on the guest layout, the admin layout and anywhere else a sidebar is rendered.
+All six behaviour flags now have a configured default:
+
+```php
+'side-bar' => [
+    Components\Layout\SideBar\Main\Component::class,
+    [
+        'smart' => false,
+        'collapsible' => false,
+        'thin-scroll' => false,
+        'thick-scroll' => false,
+        'navigate' => false,
+        'navigate-hover' => false,
+    ],
+],
+```
+
+The inline prop always wins, including `:collapsible="false"`, which is what the
+`null` default of every prop buys: it tells "not informed" apart from "informed
+with the shipped value".
+
+`navigate`/`navigate-hover` and `thin-scroll`/`thick-scroll` are pairs that
+cannot both be on, so each pair resolves together. Declaring either side inline
+suppresses the configured default of both — a configured `navigate` does not
+survive next to an inline `navigate-hover`, and would otherwise stamp both
+directives on the same link. This follows the Link component, which resolves its
+own `navigate` pair the same way.
+
+Resolution happens in `setup()` rather than through `CompileConfigurations`, and
+it has to. The child items read `smart`, `navigate`, `navigate-hover`,
+`collapsible`, `thin-scroll` and `thick-scroll` off the parent through `@aware`,
+which reads the component data Blade captured when the sidebar opened — before
+the render closure, and therefore before `CompileConfigurations` would run. A
+default resolved there would reach the sidebar's own markup and no item inside
+it. `setup()` runs ahead of that capture, so the parent and every item see the
+same value.
+
+**Migration** — none. Every shipped value is `false`, which is what the props
+resolved to when left alone.
+
+---
+
+## Dropdown
+
+### Changed — a submenu opens chained over the panel that holds it
+
+The submenu was a detached card: 8px to the right of the parent panel, its top
+edge on the row that opened it. Two floating boxes that happen to sit near each
+other, rather than one cascading menu — and the gap between them is also the
+strip a pointer travelling diagonally crosses on the way in.
+
+It now reads as one chain. The panel slides 24px back over the parent, stopping
+where the row's chevron ends, so the two surfaces overlap instead of facing each
+other across a gap:
+
+```blade
+<x-dropdown text="Options">
+    <x-dropdown.items text="Sort by" />
+    <x-dropdown.submenu text="Filter">
+        <x-dropdown.items text="Draft" />
+    </x-dropdown.submenu>
+</x-dropdown>
+```
+
+The overlap travels on the main axis, so it survives a flip: a submenu that
+opens leftwards — by `position="left"` or because Floating UI ran out of room on
+the right — overlaps its parent from the other side by the same amount, with no
+second rule.
+
+Vertically the panel is pulled up by 5px, and the first and last rows each grow
+by 4px into that space. The first row's text therefore lands on exactly the line
+of the row that opened it, while the panel's top edge sits above that line —
+which is what marks the submenu as a layer over the parent rather than a
+continuation of it.
+
+**The 4px is a transparent border rather than padding**, and that is the whole
+point of it. Padding would have had to know the row's own padding to add to it —
+`py-1` through `py-2.5` across the four dropdown sizes — since a `pt-*` utility
+replaces that value instead of extending it. A border composes with whatever
+padding is already there, so one declaration covers every size.
+
+It also has to be the row that grows, not the panel. Insetting the panel leaves
+the space outside the row's box, and a hover fill then stops 4px short of the
+panel edge, leaving a strip of the panel's own background above the first row and
+below the last one — visible in both themes, and most of all in dark mode. The
+background paints under a transparent border, so growing the row carries the fill
+all the way to the edge while the text stays where it was.
+
+**Migration** — two new blocks on `dropdown.submenu`: `floating.chain` carries
+the `-mt-[5px]` lift, and `edges` carries the transparent borders of the first and
+last row. Dropping `edges` alone leaves the rows 4px above the line they should
+sit on. The `edges` selectors reach the row through both shapes it takes — the
+`<a>` or `<button>` of an item, and the `<button>` of a nested submenu.
+
+---
+
+## Button
+
+### Added — `round` answers to the configuration
+
+The corner shape was a per-button decision, so an application that leads with
+pills had to repeat the flag at every call site. It joins the other button
+defaults in the configuration, following the Badge:
+
+```php
+'button' => [
+    Components\Button\Normal\Component::class,
+    [
+        'spinner' => null,
+        'round' => false,
+    ],
+],
+```
+
+`false` keeps `rounded-md`, `true` is the pill, and a size name (`xs`, `sm`,
+`md`, `lg`, `xl`, `full`) picks that radius. The inline prop always wins,
+including `:round="false"`, and `square` still beats both — which is what keeps
+`TallStackUi::globals()->square()` working over a configured radius.
+
+The prop defaults to `null` rather than `false` to tell "not informed" apart
+from "informed with the default value". A bad value in the configuration raises
+the same validation exception an inline one does.
+
+**Migration** — none. The shipped value is `false`, which is what the prop
+defaulted to.
+
+---
+
 ## Dependencies
 
 ### Changed — day.js is gone, and Alpine is the only dependency left
@@ -1917,13 +2115,21 @@ on Escape, and when the sidebar is expanded again. Single items keep their toolt
 groups no longer show one, since the panel names itself.
 
 The panel is an `<x-floating>`, so it is teleported out of the sidebar and is not clipped
-by the scroll container, and it is capped at `min(24rem, 100dvh - 2rem)` with its own
-scroll: a group of thirty items neither runs off the screen nor stretches the page. The
-frame and the scroll are separate elements on purpose — a scrollbar is painted in the
-border box, so a radius only shapes it when an ancestor clips along with it.
+by the scroll container. Its height is the space from the group button to the bottom of
+the viewport, minus a `2rem` gutter, with `max-h-[calc(100dvh-2rem)]` as a CSS fallback:
+a group of thirty items neither runs off the screen nor stretches the page. The frame
+and the scroll are separate elements on purpose — a scrollbar is painted in the border
+box, so a radius only shapes it when an ancestor clips along with it.
 
 Four new blocks: `group.flyout.wrapper` (frame), `group.flyout.scroll` (the height cap
 and the scroll), `group.flyout.header` (the sticky group name) and `group.flyout.items`.
+
+### Changed — the collapsed group flyout uses the space below the trigger
+
+The panel used to cap at `24rem`, so a tall tree sat in a short box with empty viewport
+underneath. It now sizes to the remaining space from the group button to the bottom of
+the viewport, minus a `2rem` gutter. `group.flyout.scroll` keeps
+`max-h-[calc(100dvh-2rem)]` as a CSS fallback.
 
 ### Added — a badge becomes a dot on the collapsed rail
 

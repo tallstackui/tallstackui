@@ -8,6 +8,7 @@ uses(TestCase::class)->group('Feature');
 
 afterEach(function () {
     config()->set('ts-ui.components.button.1.spinner', null);
+    config()->set('ts-ui.components.button.1.round', false);
 
     __ts_get_component_configuration(Component::class, flush: true);
 });
@@ -77,6 +78,45 @@ it('cannot render round when square is on')
     ->expect('<x-button text="Foo bar" square round="lg" />')
     ->render()
     ->not->toContain('rounded');
+
+it('can render round through the global configuration', function () {
+    config()->set('ts-ui.components.button.1.round', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-button text="Foo bar" />')->render()
+        ->toContain('rounded-full')
+        ->not->toContain('rounded-md');
+});
+
+it('can render a named round through the global configuration', function () {
+    config()->set('ts-ui.components.button.1.round', 'lg');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-button text="Foo bar" />')->render()->toContain('rounded-lg');
+});
+
+it('can suppress the global round through the inline prop', function () {
+    config()->set('ts-ui.components.button.1.round', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-button text="Foo bar" :round="false" />')->render()
+        ->not->toContain('rounded-full')
+        ->toContain('rounded-md');
+});
+
+it('can thrown exception when the global round is unnaceptable', function () {
+    config()->set('ts-ui.components.button.1.round', '2xl');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Button\Normal: The [round] must be true or one of: [xs, sm, md, lg, xl, full].');
+
+    expect('<x-button text="Foo bar" />')->render();
+});
 
 it('can thrown exception when round is unnaceptable', function (string $round) {
     $this->expectException(ViewException::class);

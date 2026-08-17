@@ -3,13 +3,76 @@
 namespace TallStackUi\Components\Dropdown;
 
 use Facebook\WebDriver\WebDriverBy;
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function can_chain_the_submenu_panel_over_the_parent(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div class="p-10">
+                    <x-dropdown text="FooBar">
+                        <x-dropdown.items text="Lorem" />
+                        <x-dropdown.submenu text="Submenu">
+                            <x-dropdown.items text="Item 1" />
+                        </x-dropdown.submenu>
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 900)
+            ->click('@tallstackui_open_dropdown')
+            ->waitForText('Lorem')
+            ->clickAtVisibleXPath('//button[contains(., "Submenu")]')
+            ->waitForText('Item 1')
+            ->tap(function (Browser $browser): void {
+                $geometry = $browser->script(<<<'JS'
+                    const trigger = Array.from(document.querySelectorAll('button')).find((element) => element.textContent.includes('Submenu'));
+                    const panel = Array.from(document.querySelectorAll('[data-floating]')).find((element) => element.textContent.includes('Item 1'));
+                    const first = Array.from(panel.querySelectorAll('a, button')).find((element) => element.textContent.includes('Item 1'));
+
+                    const button = trigger.getBoundingClientRect();
+                    const submenu = panel.getBoundingClientRect();
+                    const item = first.getBoundingClientRect();
+
+                    // The text, not the box: the first item grows upwards through a
+                    // transparent border so its fill reaches the panel edge, which puts
+                    // its box above the row while the content stays on the same line.
+                    const inset = (element, box) => {
+                        const style = getComputedStyle(element);
+
+                        return box.top + parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop);
+                    };
+
+                    return {
+                        overlap: button.right - submenu.left,
+                        lift: button.top - submenu.top,
+                        alignment: inset(first, item) - inset(trigger, button),
+                        bleed: item.top - (submenu.top + parseFloat(getComputedStyle(panel).borderTopWidth)),
+                    };
+                JS)[0];
+
+                // Floating UI writes a fractional top, so the reads carry a subpixel of
+                // their own. The tolerance is 1px: every regression these guard against
+                // is 4px or wider.
+                Assert::assertEqualsWithDelta(24, $geometry['overlap'], 1, 'the submenu panel must sit slightly over the parent panel');
+                Assert::assertEqualsWithDelta(5, $geometry['lift'], 1, 'the submenu panel must open slightly above the item that opens it');
+                Assert::assertEqualsWithDelta(0, $geometry['alignment'], 1, 'the first submenu item must sit on the same line as the item that opens it');
+                Assert::assertEqualsWithDelta(0, $geometry['bleed'], 1, 'the first submenu item must reach the panel edge, so its hover fill leaves no strip behind');
+            });
+    }
+
     #[Test]
     public function can_open_and_close_via_hover(): void
     {

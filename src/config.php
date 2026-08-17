@@ -13,6 +13,7 @@ return [
     | with other components registered by other libraries or created by yourself.
     |
     | For example, prefixing as 'ts-', the `alert` usage will be: '<x-ts-alert />'
+    |
     */
     'prefix' => env('TALLSTACKUI_PREFIX'),
 
@@ -22,6 +23,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The namespace related to classes used for component color personalization.
+    |
     */
     'color_classes_namespace' => env('TALLSTACKUI_COLOR_CLASSES_NAMESPACE', 'App\\View\\Components\\TallStackUi\\Colors'),
 
@@ -34,6 +36,7 @@ return [
     | is the way to prevent showing validation errors in the components. When you
     | set this value as "true," you will use "invalidate" of all form components
     | globally, without the need to specific it individually per component.
+    |
     */
     'invalidate_global' => env('TALLSTACKUI_INVALIDATE_GLOBAL', false),
 
@@ -50,6 +53,7 @@ return [
     |
     | Nested and stacked floatings are reference counted, so the lock is taken
     | by the first one to open and released only by the last one to close.
+    |
     */
     'floating_scroll_lock' => env('TALLSTACKUI_FLOATING_SCROLL_LOCK', false),
 
@@ -59,6 +63,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Control the debug mode for TallStackUI components.
+    |
     */
     'debug' => [
         'status' => env('TALLSTACKUI_DEBUG_MODE', false),
@@ -67,6 +72,7 @@ return [
         |----------------------------------------------------------------------
         | Controls the environments where the debug mode can be enabled.
         |----------------------------------------------------------------------
+        |
         */
         'environments' => array_map('trim', explode(',', env('TALLSTACKUI_DEBUG_ENVIRONMENTS', 'local,sandbox,staging'))),
 
@@ -74,6 +80,7 @@ return [
         |----------------------------------------------------------------------
         | Ignore debug mode for specific components.
         |----------------------------------------------------------------------
+        |
         */
         'ignore' => [
             // Components\Alert\Component::class,
@@ -87,6 +94,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | List of all TallStackUI components and their possible settings.
+    |
     */
     'components' => [
         'accordion' => [
@@ -97,6 +105,7 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -113,6 +122,7 @@ return [
             | shadowless: removes the shadow by default.
             | bordered: adds the side border by default, following the same
             | "side" or "side:color" syntax of the inline prop (Allowed sides: left, right).
+            |
             */
             [
                 'shadowless' => false,
@@ -131,6 +141,7 @@ return [
                 | updated when a row is picked from the dropdown, and the input reverts
                 | to the last selected value on blur with an unmatched query.
                 | select: the default field mapping of the items (e.g., 'value:name|description:email|image:avatar').
+                |
                 */
                 'strict' => false,
                 'select' => null,
@@ -148,6 +159,7 @@ return [
             | icon: controls the icon rendered inside the button.
             | position: controls the corner the button sits on (Allowed: bottom-left, bottom-right).
             | size: controls the button size (Allowed: xs, sm, md, lg).
+            |
             */
             [
                 'immediate' => false,
@@ -166,10 +178,9 @@ return [
             |----------------------------------------------------------------------
             | size: controls the avatar size (Allowed: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
             | borderless: removes the border by default.
-            | gravatar.default: the image Gravatar serves when the email has no account and
-            | no name is available to fall back to the letters (Allowed: 404, mp, identicon,
-            | monsterid, wavatar, retro, robohash, blank).
+            | gravatar.default: the image Gravatar serves when the email has no account. (Allowed: 404, mp, identicon, monsterid, wavatar, retro, robohash, blank).
             | gravatar.rating: the highest rating Gravatar is allowed to serve (Allowed: g, pg, r, x).
+            |
             */
             [
                 'size' => 'md',
@@ -189,6 +200,7 @@ return [
             |----------------------------------------------------------------------
             |
             | round: the default corner shape. False keeps rounded-md.
+            |
             */
             [
                 'round' => false,
@@ -203,6 +215,7 @@ return [
             |----------------------------------------------------------------------
             |
             | files: array of files (relative to base_path()) that register breadcrumb definitions.
+            |
             */
             [
                 'files' => [
@@ -219,11 +232,11 @@ return [
                 | Button Global Settings
                 |----------------------------------------------------------------------
                 |
-                | spinner: controls the default wire:loading spinner variant, shared
-                | with button.circle. When null, the default spinner effect is kept.
-                | (Allowed: ring, throbber, gradient, ping, dots, pulse, typing,
-                | bars, wave).
+                | round: the default corner shape. False keeps rounded-md, true is the pill. (Allowed: xs, sm, md, lg, xl, full).
+                | spinner: controls the default wire:loading spinner variant. (Allowed: null, ring, throbber, gradient, ping, dots, pulse, typing, bars, wave).
+                |
                 */
+                'round' => false,
                 'spinner' => null,
             ],
         ],
@@ -237,6 +250,7 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -252,6 +266,7 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -269,6 +284,7 @@ return [
             | legend: default series names with a clickable color swatch.
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
+            |
             */
             [
                 'height' => 240,
@@ -287,6 +303,7 @@ return [
                 | Checkbox Group Global Settings
                 |----------------------------------------------------------------------
                 | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email').
+                |
                 */
                 'select' => null,
             ],
@@ -301,6 +318,7 @@ return [
             | picker: enables the full Tailwind CSS palette picker by default.
             | selectable: blocks typing so colors can only be picked by default.
             | clearable: displays the clear button by default.
+            |
             */
             [
                 'colors' => [],
@@ -329,6 +347,7 @@ return [
             | scrollbar: when true, applies a custom minimal scrollbar to the results list.
             | centered: when true, centers the palette vertically on mobile with fully rounded corners.
             | overlay: when false, hides the dimmed background overlay rendered behind the palette.
+            |
             */
             [
                 'actionable' => null,
@@ -358,6 +377,7 @@ return [
             | parsed decimal string (e.g. "2000.00") to the Livewire property.
             | The two are mutually exclusive — setting both raises a validation
             | exception at render time.
+            |
             */
             [
                 'mutate' => false,
@@ -375,6 +395,7 @@ return [
             | overflow: avoids hiding the overflow, allowing the scroll of the page.
             | blur: enables the background blur effect by default.
             | persistent: enables the dialog to not be closed by clicking outside by default.
+            |
             */
             [
                 'z-index' => 'z-50',
@@ -402,6 +423,7 @@ return [
             | min_height, max_height: the editable boundaries, in any CSS unit.
             | upload: the constraints checked in the browser before uploading.
             | sanitization: the whitelist applied to any pasted content.
+            |
             */
             [
                 'markdown' => false,
@@ -461,6 +483,7 @@ return [
             | bordered: adds the border by default.
             | paddingless: removes the horizontal padding of the wrapper by default.
             | numeric: renders the error list as an ordered list by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -479,6 +502,7 @@ return [
             | columns: default column count (2-6) for the grid and masonry layouts.
             | ratio: default tile shape: square, video or portrait.
             | limit: default number of tiles rendered by the feature layout.
+            |
             */
             [
                 'columns' => 3,
@@ -495,6 +519,7 @@ return [
                 | Default and in-use icon type.
                 |----------------------------------
                 | Allowed: heroicons, BladeUI or anonymous Blade components as svg (check the docs).
+                |
                 */
                 'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
 
@@ -503,6 +528,7 @@ return [
                 | Default and in-use icon style.
                 |----------------------------------
                 | Allowed: solid, outline (Heroicons only).
+                |
                 */
                 'style' => env('TALLSTACKUI_ICON_STYLE', 'solid'),
 
@@ -512,6 +538,7 @@ return [
                 |----------------------------------
                 | Allowed: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl.
                 | Ignored when the icon declares its own [class].
+                |
                 */
                 'size' => 'md',
 
@@ -519,6 +546,7 @@ return [
                 |----------------------------------
                 | Custom icon configuration.
                 |----------------------------------
+                |
                 */
                 'custom' => [
                     /*
@@ -531,6 +559,7 @@ return [
                     | to custom icons, causing this to reflect new icon looks for the internal
                     | components. For local SVGs, map keys to your SVG filenames. If null,
                     | uses the key as filename (e.g., 'check-circle' → check-circle.blade.php).
+                    |
                     */
                     'guide' => [
                         'arrow-path' => null,
@@ -597,12 +626,26 @@ return [
             | ignore: Controls the registration of the layout component and all its children,
             | useful for situations where you want to ignore these components in favor
             | of avoiding conflict with your layout component.
+            |
             */
             [
                 'ignore' => env('TALLSTACKUI_IGNORE_LAYOUT_REGISTRATION', false),
             ],
         ],
-        'layout.header' => Components\Layout\Header\Component::class,
+        'layout.header' => [
+            Components\Layout\Header\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Layout Header Global Settings
+            |----------------------------------------------------------------------
+            |
+            | size: controls the header height (Allowed: sm, md, lg, xl).
+            |
+            */
+            [
+                'size' => 'md',
+            ],
+        ],
         'link' => [
             Components\Link\Component::class,
             /*
@@ -614,6 +657,7 @@ return [
             |
             | The two are mutually exclusive, so declaring either one of them
             | inline suppresses the global default of both.
+            |
             */
             [
                 'navigate' => false,
@@ -637,6 +681,7 @@ return [
                 | indicator: the default overlay indicator. Null keeps the original.
                 | Use "spinner" or "spinner.{type}" to render a Spinner instead
                 | (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
+                |
                 */
                 'z-index' => 'z-50',
                 'overflow' => false,
@@ -653,6 +698,7 @@ return [
             |----------------------------------------------------------------------
             | borderless: removes the border by default.
             | shadowless: removes the shadow by default.
+            |
             */
             [
                 'borderless' => false,
@@ -678,6 +724,7 @@ return [
                 | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
                 | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
                 | handle: displays a grabber on mobile allowing the modal to be dragged down to close.
+                |
                 */
                 'z-index' => 'z-50',
                 'overflow' => false,
@@ -700,6 +747,7 @@ return [
             | selectable: blocks typing so the value only changes through the buttons.
             | delay: controls the press-and-hold repeat interval (delay * 100ms).
             | chevron: replaces the plus/minus icons with chevrons by default.
+            |
             */
             [
                 'centralized' => false,
@@ -715,6 +763,7 @@ return [
             | Password Global Settings
             |----------------------------------------------------------------------
             | rules: array of default rules for the password generator.
+            |
             */
             [
                 'rules' => [
@@ -736,6 +785,7 @@ return [
             |----------------------------------------------------------------------
             | size: default rendered size (Allowed: xs, sm, md, lg, xl, 2xl).
             | pixels: width, in pixels, of the image produced by copy and download.
+            |
             */
             [
                 'size' => 'md',
@@ -751,13 +801,35 @@ return [
                 | Radio Group Global Settings
                 |----------------------------------------------------------------------
                 | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email').
+                |
                 */
                 'select' => null,
             ],
         ],
         'range' => Components\Form\Range\Component::class,
         'rating' => Components\Rating\Component::class,
-        'side-bar' => Components\Layout\SideBar\Main\Component::class,
+        'side-bar' => [
+            Components\Layout\SideBar\Main\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Side Bar Global Settings
+            |----------------------------------------------------------------------
+            | smart: marks the item matching the current route as active by default.
+            | collapsible: renders the side bar as a collapsible rail by default.
+            | thin-scroll: applies the soft scrollbar to the items list by default.
+            | thick-scroll: applies the custom scrollbar to the items list by default.
+            | navigate: adds wire:navigate to every item by default.
+            | navigate-hover: adds wire:navigate.hover to every item by default.
+            */
+            [
+                'smart' => false,
+                'collapsible' => false,
+                'thin-scroll' => false,
+                'thick-scroll' => false,
+                'navigate' => false,
+                'navigate-hover' => false,
+            ],
+        ],
         'side-bar.item' => Components\Layout\SideBar\Item\Component::class,
         'side-bar.separator' => Components\Layout\SideBar\Separator\Component::class,
         'select.native' => [
@@ -768,6 +840,7 @@ return [
                 | Select Native Global Settings
                 |----------------------------------------------------------------------
                 | select: the default field mapping of the options (e.g., 'label:name|value:id').
+                |
                 */
                 'select' => null,
             ],
@@ -782,6 +855,7 @@ return [
                 | unfiltered: allow all select API-styled components to be unfiltered by default.
                 | recycle: when true, preserves previous results when reopening the select.
                 | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email|image:avatar').
+                |
                 */
                 'unfiltered' => false,
                 'recycle' => false,
@@ -803,6 +877,7 @@ return [
                 | persistent: enables the slide to not be closed by clicking outside by default.
                 | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
                 | position: controls the default slide position (Allowed: right, left, top, bottom).
+                |
                 */
                 'z-index' => 'z-50',
                 'overflow' => false,
@@ -823,6 +898,7 @@ return [
                 | type: controls the default variant (Allowed: ring, throbber, gradient,
                 | ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 | size: controls the default size (Allowed: xs, sm, md, lg).
+                |
                 */
                 'type' => 'ring',
                 'size' => 'md',
@@ -836,6 +912,7 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -850,6 +927,7 @@ return [
             |----------------------------------------------------------------------
             |
             | helpers: controls the navigation buttons look (Allowed: default, minimal, compact, or a view path).
+            |
             */
             [
                 'helpers' => 'default',
@@ -868,6 +946,7 @@ return [
                 | vertical: swaps the options from top to bottom instead of sideways.
                 | loop: allows navigating past the edges, cycling the options infinitely.
                 | select: the default field mapping of the options (e.g., 'label:name|value:id').
+                |
                 */
                 'preview' => false,
                 'vertical' => false,
@@ -883,6 +962,7 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            |
             */
             [
                 'shadowless' => false,
@@ -904,8 +984,8 @@ return [
             | quantity: controls the options of the per-page select.
             | compact: tightens the padding of the cells, including the skeleton.
             | indicator: the default loading overlay. Null keeps the original icon.
-            | Use "spinner" or "spinner.{type}" to render a Spinner instead
-            | (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
+            | Use "spinner" or "spinner.{type}" to render a Spinner instead (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
+            |
             */
             [
                 'paginator' => 'simple',
@@ -940,6 +1020,7 @@ return [
                 | expanding the pile back into a list while the pointer is over it.
                 | top-on-mobile: pins the toasts to the top of the screen below the md
                 | breakpoint, whatever the position says. Off, they sit at the bottom.
+                |
                 */
                 'z-index' => 'z-50',
                 'progress' => true,
@@ -962,6 +1043,7 @@ return [
             | color: controls the balloon color (Allowed: any palette key, or black).
             | size: controls the balloon size (Allowed: sm, md, lg).
             | invert: controls the dark mode inversion of the default balloon.
+            |
             */
             [
                 'delay' => null,
@@ -979,7 +1061,7 @@ return [
                 | Async Upload Global Settings
                 |----------------------------------------------------------------------
                 |
-                | chunk_size: controls the bytes sent on each chunk (must stay below the PHP upload_max_filesize).
+                | chunk_size: controls the bytes sent on each chunk. (default 2 MB)
                 | concurrency: controls how many chunks are uploaded in parallel, per component.
                 | retries: controls the attempts per chunk on transient failures (5xx, 408, 429 and network).
                 | retry_delay: controls the milliseconds between retries, with exponential backoff.
@@ -989,6 +1071,7 @@ return [
                 | tmp_directory: controls the directory, inside tmp_disk, used to stage the chunks.
                 | disk: controls the destination disk of the finalized files (allowed: any driver).
                 | keep: controls the seconds an unfinished upload is kept (discarded by tallstackui:async-upload:clear).
+                |
                 */
                 'chunk_size' => 2 * 1024 * 1024,
                 'concurrency' => 3,
@@ -1012,6 +1095,7 @@ return [
             | delay: controls the panel open/close animation (Allowed: slow, fast, faster, flash).
             | balloon: controls the panel color (Allowed: any palette key, or black).
             | hover: opens the panel when the pointer rests on the trigger.
+            |
             */
             [
                 'delay' => null,

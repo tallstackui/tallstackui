@@ -29,6 +29,22 @@ it('does not match when there is no current route', function () {
     expect($component)->render()->toContain('Reports');
 });
 
+it('sizes the collapsed group flyout from the trigger to the viewport', function () {
+    $component = <<<'HTML'
+    <x-side-bar collapsible>
+        <x-side-bar.item text="Settings">
+            <x-side-bar.item text="General" href="#" />
+        </x-side-bar.item>
+    </x-side-bar>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('tallstackui_sidebarFlyout')
+        ->toContain('data-flyout-scroll')
+        ->toContain('max-h-[calc(100dvh-2rem)]')
+        ->not->toContain('min(24rem');
+});
+
 it('does not match when the current route has no name', function () {
     // A route declared without ->name() has no name to feed back into route().
     Route::get('/reports', fn (): string => Blade::render(<<<'HTML'
