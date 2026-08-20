@@ -266,11 +266,13 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            | round: the default corner shape. False keeps rounded-lg (Allowed: xs, sm, md, lg, xl, 2xl).
             |
             */
             [
                 'shadowless' => false,
                 'bordered' => false,
+                'round' => false,
             ],
         ],
         'chart' => [
@@ -284,8 +286,7 @@ return [
             | legend: default series names with a clickable color swatch.
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
-            | fit: how the horizontal axis labels avoid overlapping
-            |      on narrow plots: thin, rotate or stagger.
+            | fit: how the horizontal axis labels avoid overlapping on narrow plots: thin, rotate or stagger.
             |
             */
             [

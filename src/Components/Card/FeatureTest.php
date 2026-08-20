@@ -181,6 +181,59 @@ it('can render the flat look through the global configuration', function () {
     }
 });
 
+it('can render round through the global configuration', function () {
+    config()->set('ts-ui.components.card.1.round', '2xl');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-card>Foo bar</x-card>')->render()
+            ->toContain('rounded-2xl')
+            ->not->toContain('rounded-lg');
+
+        expect('<x-card skeleton />')->render()
+            ->toContain('rounded-2xl')
+            ->not->toContain('rounded-lg');
+    } finally {
+        config()->set('ts-ui.components.card.1.round', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('can let the round prop win over the global configuration', function () {
+    config()->set('ts-ui.components.card.1.round', '2xl');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-card round="sm">Foo bar</x-card>')->render()
+            ->toContain('rounded-sm')
+            ->not->toContain('rounded-2xl');
+    } finally {
+        config()->set('ts-ui.components.card.1.round', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('cannot accept invalid round value through the global configuration', function () {
+    config()->set('ts-ui.components.card.1.round', 'huge');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        $this->expectException(ViewException::class);
+        $this->expectExceptionMessage('[TallStackUI] Card: The [round] must be true or one of: [xs, sm, md, lg, xl, 2xl].');
+
+        expect('<x-card>Foo bar</x-card>')->render();
+    } finally {
+        config()->set('ts-ui.components.card.1.round', false);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
 it('can let the flat look props win over the global configuration', function () {
     config()->set('ts-ui.components.card.1.shadowless', true);
     config()->set('ts-ui.components.card.1.bordered', true);

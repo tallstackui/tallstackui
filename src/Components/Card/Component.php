@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $delay = null,
         public ?string $image = null,
         public ?string $position = 'top',
-        public bool|string|null $round = false,
+        public bool|string|null $round = null,
         public ?bool $paddingless = null,
         public bool|int|null $skeleton = null,
         #[SkipDebug]
@@ -54,6 +54,7 @@ class Component extends TallStackUiComponent implements Customization
 
         $this->shadowless ??= $configuration['shadowless'] ?? false;
         $this->bordered ??= $configuration['bordered'] ?? false;
+        $this->round ??= $configuration['round'] ?? false;
 
         $this->style = $this->light ? 'light' : 'solid';
         $this->variation = $this->accent ? 'border' : 'background';
