@@ -74,6 +74,7 @@ class ChartRuntime extends AbstractRuntime
                 'tooltip' => (bool) $component->tooltip,
                 'markers' => (bool) $component->markers,
             ],
+            'fitting' => $component->fit ?? 'thin',
             'interaction' => $this->interaction($series, $type, $palette, $plots, $slices),
         ];
     }

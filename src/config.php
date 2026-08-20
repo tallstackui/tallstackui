@@ -284,6 +284,8 @@ return [
             | legend: default series names with a clickable color swatch.
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
+            | fit: how the horizontal axis labels avoid overlapping
+            |      on narrow plots: thin, rotate or stagger.
             |
             */
             [
@@ -292,6 +294,7 @@ return [
                 'legend' => false,
                 'tooltip' => false,
                 'markers' => false,
+                'fit' => 'thin',
             ],
         ],
         'checkbox' => Components\Form\Checkbox\Component::class,

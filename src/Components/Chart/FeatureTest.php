@@ -398,6 +398,48 @@ it('can render the axis labels from the labels attribute')
     ->toContain('Mar')
     ->toContain('left: 100%');
 
+it('thins the axis labels from the browser', function () {
+    // The server cannot know how wide the plot will be.
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+        ->render()
+        ->toContain('x-data="tallstackui_chartAxis({ fit: \'thin\' })"')
+        ->toContain('shown(0)')
+        ->toContain('shown(2)');
+});
+
+it('does not attach the axis thinning without labels')
+    ->expect('<x-chart :series="[10, 40, 25]" />')
+    ->render()
+    ->not->toContain('tallstackui_chartAxis');
+
+it('thins the axis labels by default')
+    ->expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+    ->render()
+    ->toContain("tallstackui_chartAxis({ fit: 'thin' })");
+
+it('can pick how the axis labels fit', function (string $fit) {
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" fit="'.$fit.'" />')
+        ->render()
+        ->toContain("tallstackui_chartAxis({ fit: '".$fit."' })");
+})->with(['thin', 'rotate', 'stagger']);
+
+it('can set the axis fit globally', function () {
+    config()->set('ts-ui.components.chart.1', ['fit' => 'rotate']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+        ->render()
+        ->toContain("tallstackui_chartAxis({ fit: 'rotate' })");
+});
+
+it('cannot use an unknown fit', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [fit] must be one of: thin, rotate, stagger.');
+
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\']" fit="wrap" />')->render();
+});
+
 it('can render a grid with rounded tick values', function () {
     // Ticks exist so the axis reads as 0, 20, 40 rather than 10, 27.5, 45.
     expect('<x-chart :series="[10, 40, 25, 63]" grid />')

@@ -25,6 +25,8 @@ class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
 
+    public const FITS = ['thin', 'rotate', 'stagger'];
+
     public const TYPES = ['area', 'line', 'bar', 'pie', 'donut'];
 
     public function __construct(
@@ -44,6 +46,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $legend = null,
         public ?bool $tooltip = null,
         public ?bool $markers = null,
+        public ?string $fit = null,
         public string|array|null $prefix = null,
         public string|array|null $suffix = null,
         public int|array|null $decimals = null,
@@ -92,6 +95,7 @@ class Component extends TallStackUiComponent implements Customization
                 'x' => [
                     'wrapper' => 'relative h-4 w-full empty:h-0',
                     'label' => 'dark:text-dark-400 absolute -translate-x-1/2 whitespace-nowrap text-[0.65rem] leading-none text-gray-500',
+                    'off' => 'invisible',
                 ],
             ],
             'legend' => [
@@ -157,6 +161,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->height !== null && $this->height < 1) {
             __ts_validation_exception($this, 'The [height] must be greater than 0.');
+        }
+
+        if ($this->fit !== null && ! in_array($this->fit, self::FITS, true)) {
+            __ts_validation_exception($this, 'The [fit] must be one of: '.implode(', ', self::FITS).'.');
         }
 
         foreach (['prefix' => $this->prefix, 'suffix' => $this->suffix, 'decimals' => $this->decimals] as $name => $value) {
