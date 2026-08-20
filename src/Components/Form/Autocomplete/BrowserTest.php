@@ -62,6 +62,56 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_filter_ignoring_accents_in_the_items(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="[
+                        ['value' => 'São Paulo'],
+                        ['value' => 'Santos'],
+                    ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Santos')
+            ->type('@tallstackui_autocomplete_input', 'Sao')
+            ->pause(300)
+            ->assertSee('São Paulo')
+            ->assertDontSee('Santos');
+    }
+
+    #[Test]
+    public function can_filter_ignoring_accents_in_the_search(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="[
+                        ['value' => 'Sao Paulo', 'description' => 'Brasil'],
+                        ['value' => 'Santos', 'description' => 'Brasil'],
+                    ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Santos')
+            ->type('@tallstackui_autocomplete_input', 'São')
+            ->pause(300)
+            ->assertSee('Sao Paulo')
+            ->assertDontSee('Santos');
+    }
+
+    #[Test]
     public function can_navigate_with_arrow_keys_and_pick_with_enter(): void
     {
         Livewire::visit(new class extends Component
