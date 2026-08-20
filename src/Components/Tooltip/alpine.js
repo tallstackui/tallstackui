@@ -125,6 +125,35 @@ const resize = (el) => {
   balloon.setAttribute('data-size', size);
 };
 
+// Once the text wraps, `max-content` clamped by `max-width` leaves the box at
+// the clamp while the balanced lines end well before it, so the balloon is
+// shrunk to its widest line. The rects are scaled while the balloon is
+// closed, hence the layout/painted ratio.
+const fit = () => {
+  balloon.style.removeProperty('width');
+
+  const painted = balloon.getBoundingClientRect().width;
+
+  if (!painted) {
+    return;
+  }
+
+  const factor = balloon.offsetWidth / painted;
+  const widest = content.getBoundingClientRect().width * factor;
+
+  if (!widest) {
+    return;
+  }
+
+  const { paddingLeft, paddingRight } = getComputedStyle(balloon);
+  const chrome =
+    parseFloat(paddingLeft) +
+    parseFloat(paddingRight) +
+    (balloon.offsetWidth - balloon.clientWidth);
+
+  balloon.style.width = `${Math.ceil(widest + chrome)}px`;
+};
+
 const reposition = () => {
   if (!anchor?.isConnected || disabled(anchor)) {
     hide();
@@ -276,6 +305,7 @@ const show = (el, kind) => {
   // `visibility: hidden` keeps the balloon in layout, so it is measurable
   // before it is ever painted.
   balloon.removeAttribute('data-show');
+  fit();
   reposition();
 
   // `reposition` drops an anchor that can no longer hold a tooltip.
@@ -292,6 +322,26 @@ const show = (el, kind) => {
   listen();
 };
 
+// A focus listener on the anchor itself turns an SVG into a focusable
+// element, so a tap on the icon would focus it and draw the focus ring.
+const focused = (event) => {
+  const el = event.target;
+
+  if (!sentences.has(el) || anchor === el) {
+    return;
+  }
+
+  show(el, 'keyboard');
+};
+
+const blurred = (event) => {
+  if (anchor !== event.target) {
+    return;
+  }
+
+  hide();
+};
+
 export default function (Alpine) {
   document.addEventListener('livewire:navigating', () => {
     hide();
@@ -300,6 +350,9 @@ export default function (Alpine) {
     balloon = null;
     globals = null;
   });
+
+  document.addEventListener('focusin', focused);
+  document.addEventListener('focusout', blurred);
 
   /**
    * @param el {HTMLElement}
@@ -346,34 +399,16 @@ export default function (Alpine) {
       show(el, event.pointerType);
     };
 
-    const focus = () => {
-      if (anchor === el) {
-        return;
-      }
-
-      show(el, 'keyboard');
-    };
-
-    const blur = () => {
-      if (anchor !== el) {
-        return;
-      }
-
-      hide();
-    };
-
     el.addEventListener('pointerenter', enter);
     el.addEventListener('pointerleave', leave);
     el.addEventListener('pointerdown', tap);
-    el.addEventListener('focus', focus);
-    el.addEventListener('blur', blur);
 
     cleanup(() => {
       el.removeEventListener('pointerenter', enter);
       el.removeEventListener('pointerleave', leave);
       el.removeEventListener('pointerdown', tap);
-      el.removeEventListener('focus', focus);
-      el.removeEventListener('blur', blur);
+
+      sentences.delete(el);
 
       if (anchor === el) {
         hide();
