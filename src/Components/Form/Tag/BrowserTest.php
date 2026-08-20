@@ -592,4 +592,56 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('No results found')
             ->assertVisible('@create');
     }
+
+    #[Test]
+    public function takes_the_option_casing_ignoring_the_prefix(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <x-tag dusk="tags" wire:model.live="tags" label="Tags" prefix="#" :options="['#laravel']" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'LARAVEL')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '"#laravel"')
+            ->assertSeeIn('@tagged', '"#laravel"')
+            ->assertDontSeeIn('@tagged', 'LARAVEL');
+    }
+
+    #[Test]
+    public function takes_the_option_casing_when_the_typed_tag_matches_one(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <x-tag dusk="tags" wire:model.live="tags" label="Tags" :options="['alpine', 'livewire']" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'Alpine')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '"alpine"')
+            ->assertSeeIn('@tagged', '"alpine"')
+            ->assertDontSeeIn('@tagged', 'Alpine');
+    }
 }

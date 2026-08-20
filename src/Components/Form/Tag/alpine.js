@@ -131,6 +131,17 @@ export default (
   strip(tag) {
     return this.prefixes && tag[0] === this.prefixes ? tag.slice(1) : tag;
   },
+  /** The list matches case-insensitively, so the option's casing wins over the typed one. */
+  canonical(tag) {
+    const term = this.strip(tag).toLowerCase();
+    const option = this.options.find((option) => this.strip(option).toLowerCase() === term);
+
+    if (option === undefined) {
+      return tag;
+    }
+
+    return this.prefixes && option[0] !== this.prefixes ? this.prefixes + option : option;
+  },
   /**
    * Adds a tag.
    *
@@ -170,6 +181,7 @@ export default (
     }
 
     tag = this.prefixes && tag[0] !== this.prefixes ? this.prefixes + tag : tag;
+    tag = this.canonical(tag);
 
     if (this.model?.includes(tag)) {
       this.clean();
