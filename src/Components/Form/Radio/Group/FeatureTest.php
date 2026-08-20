@@ -29,8 +29,10 @@ it('can render')
 it('can render with the list variant by default')
     ->expect('<x-radio.group :options="$options" />')
     ->render(['options' => [['label' => 'Startup', 'value' => 'startup']]])
-    ->toContain('-space-y-px')
-    ->toContain('first:rounded-t-md');
+    ->toContain('first:rounded-t-md')
+    ->toContain('border-b-0')
+    ->toContain('last:border-b')
+    ->not->toContain('-space-y-px');
 
 it('can render with the card variant')
     ->expect('<x-radio.group card :options="$options" />')
@@ -48,7 +50,10 @@ it('can render with the panel variant hiding the control and showing the check')
 it('can render with the inline variant')
     ->expect('<x-radio.group inline :options="$options" />')
     ->render(['options' => [['label' => 'Monthly', 'value' => 'monthly', 'description' => 'Skipped']]])
-    ->toContain('inline-flex -space-x-px')
+    ->toContain('inline-flex rounded-md')
+    ->toContain('border-r-0')
+    ->toContain('last:border-r')
+    ->not->toContain('-space-x-px')
     ->toContain('sr-only')
     ->toContain('group-has-checked:text-white')
     ->not->toContain('Skipped');
@@ -275,3 +280,15 @@ it('cannot render with options that are not arrays', function () {
 
     expect('<x-radio.group :options="$options" />')->render(['options' => ['Startup']]);
 });
+
+it('hands the seam over to the checked option instead of overlapping borders')
+    ->expect('<x-radio.group :options="$options" />')
+    ->render(['options' => [['label' => 'Startup', 'value' => 'startup'], ['label' => 'Business', 'value' => 'business']]])
+    ->toContain('last:border-b has-checked:border-b')
+    ->toContain('[&:has(:checked)+*]:border-t-0');
+
+it('hands the seam over to the checked option on the inline variant')
+    ->expect('<x-radio.group inline :options="$options" />')
+    ->render(['options' => [['label' => 'Monthly', 'value' => 'monthly'], ['label' => 'Yearly', 'value' => 'yearly']]])
+    ->toContain('last:border-r has-checked:border-r')
+    ->toContain('[&:has(:checked)+*]:border-l-0');
