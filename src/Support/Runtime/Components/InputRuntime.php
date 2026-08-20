@@ -26,6 +26,7 @@ class InputRuntime extends AbstractRuntime
             'id' => $bind->get('id'),
             'validate' => $bind->get('validate'),
             'ref' => $property ?? uniqid(),
+            'type' => $this->data['attributes']->get('type', $this->data('email') ? 'email' : 'text'),
             'prefixed' => $prefixed,
             'suffixed' => $suffixed,
             'addon' => $prefixed || $suffixed,
