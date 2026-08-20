@@ -2,6 +2,7 @@
 
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Form\Select\Styled\Component;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -186,4 +187,70 @@ it('can render disabled', function () {
     expect('<x-select.styled :options="[1, 2]" disabled />')->render()
         ->toContain('disabled')
         ->toContain('dark:disabled:bg-dark-900');
+});
+
+it('can render the default loading icon', function () {
+    expect('<x-select.styled request="https://foo-bar.com" />')->render()
+        ->toContain('animate-spin')
+        ->not->toContain('dusk="spinner-');
+});
+
+it('can render a spinner loading indicator inline', function () {
+    expect('<x-select.styled request="https://foo-bar.com" indicator="spinner.bars" />')->render()
+        ->toContain('dusk="spinner-bars"');
+});
+
+it('can render a spinner loading indicator from the configuration', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.styled' => [Component::class, ['indicator' => 'spinner.dots']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-select.styled request="https://foo-bar.com" />')->render()
+        ->toContain('dusk="spinner-dots"');
+});
+
+it('can use the global spinner type when the indicator is spinner', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.styled' => [Component::class, ['indicator' => 'spinner']],
+    ]);
+    config()->set('ts-ui.components.spinner.1.type', 'wave');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+    __ts_get_component_configuration(Spinner::class, flush: true);
+
+    try {
+        expect('<x-select.styled request="https://foo-bar.com" />')->render()
+            ->toContain('dusk="spinner-wave"');
+    } finally {
+        __ts_get_component_configuration(Spinner::class, flush: true);
+    }
+});
+
+it('can override the configured spinner indicator inline', function () {
+    config()->set('ts-ui.components', [
+        ...config('ts-ui.components'),
+        'select.styled' => [Component::class, ['indicator' => 'spinner.dots']],
+    ]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-select.styled request="https://foo-bar.com" indicator="spinner.bars" />')->render()
+        ->toContain('dusk="spinner-bars"')
+        ->not->toContain('dusk="spinner-dots"');
+});
+
+it('does not render a loading indicator for local options', function () {
+    expect('<x-select.styled :options="[\'foo\']" indicator="spinner.bars" />')->render()
+        ->not->toContain('dusk="spinner-bars"');
+});
+
+it('cannot use an invalid indicator', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [indicator] must be [spinner] or [spinner.{type}]');
+
+    expect('<x-select.styled request="https://foo-bar.com" indicator="spinner.foo" />')->render();
 });

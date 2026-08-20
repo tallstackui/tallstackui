@@ -141,10 +141,13 @@ return [
                 | updated when a row is picked from the dropdown, and the input reverts
                 | to the last selected value on blur with an unmatched query.
                 | select: the default field mapping of the items (e.g., 'value:name|description:email|image:avatar').
+                | indicator: the default loading indicator of the remote results. Null keeps the original icon.
+                | Use "spinner" or "spinner.{type}" to render a Spinner instead (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 |
                 */
                 'strict' => false,
                 'select' => null,
+                'indicator' => null,
             ],
         ],
         'back-to-top' => [
@@ -859,11 +862,14 @@ return [
                 | unfiltered: allow all select API-styled components to be unfiltered by default.
                 | recycle: when true, preserves previous results when reopening the select.
                 | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email|image:avatar').
+                | indicator: the default loading indicator of the remote results. Null keeps the original icon.
+                | Use "spinner" or "spinner.{type}" to render a Spinner instead (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 |
                 */
                 'unfiltered' => false,
                 'recycle' => false,
                 'select' => null,
+                'indicator' => null,
             ],
         ],
         'signature' => Components\Signature\Component::class,
