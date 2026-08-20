@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\File;
 use Illuminate\View\ViewException;
-use SplFileInfo;
 use TallStackUi\Components\Spinner\Component;
 use TallStackUi\Facades\TallStackUi;
 use Tests\TestCase;

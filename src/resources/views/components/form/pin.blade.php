@@ -37,13 +37,15 @@
                        @class([
                             $customization['input.size.prefix'],
                             $customization['input.base'],
+                            $customization['input.spacing'],
+                            $customization['input.rounding'],
                             $customization['input.color.background'],
                             $customization['input.color.base'],
                             $customization['input.locked'] => $locked,
                        ]) readonly tabindex="-1" aria-hidden="true" />
             @endif
             @foreach (range(1, $length) as $index)
-                <input type="text"
+                <input type="{{ $type }}"
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($livewire)
@@ -56,6 +58,12 @@
                        @class([
                             $customization['input.size.base'],
                             $customization['input.base'],
+                            $customization['input.spacing'] => !$group || in_array($index, $lasts),
+                            $customization['input.rounding'] => !$group,
+                            $customization['input.group.base'] => $group,
+                            $customization['input.group.first'] => $group && in_array($index, $firsts),
+                            $customization['input.group.last'] => $group && in_array($index, $lasts),
+                            $customization['input.group.joined'] => $group && !in_array($index, $firsts),
                             $customization['input.color.background'],
                             $customization['input.locked'] => $locked,
                        ]) x-bind:class="{
@@ -75,6 +83,11 @@
                        x-on:keydown.down.prevent="right(@js($index))"
                        x-on:keydown.delete="backspace($event, @js($index))"
                        x-on:keydown.backspace="backspace($event, @js($index))" />
+                @if (in_array($index, $separators))
+                    <span @class([$customization['separator'], $customization['input.locked'] => $locked])
+                          dusk="pin-separator-{{ $index }}"
+                          aria-hidden="true">{{ $symbol }}</span>
+                @endif
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" @disabled($locked) dusk="form_pin_clear">
