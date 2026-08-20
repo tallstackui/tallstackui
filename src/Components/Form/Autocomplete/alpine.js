@@ -95,11 +95,11 @@ export default (
     });
 
     this.$watch('highlighted', (index) => {
-      if (index < 0 || !this.$refs.floating) {
+      if (index < 0 || !this.$refs.list) {
         return;
       }
 
-      const row = this.$refs.floating.querySelector(`[data-index="${index}"]`);
+      const row = this.$refs.list.querySelector(`[data-index="${index}"]`);
 
       row?.scrollIntoView({ block: 'nearest' });
     });

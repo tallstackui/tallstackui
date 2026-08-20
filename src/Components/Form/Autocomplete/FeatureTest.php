@@ -136,6 +136,17 @@ HTML;
         ->toContain('autocomplete');
 });
 
+it('does not render a loading indicator inside the input', function () {
+    $component = <<<'HTML'
+    <x-autocomplete request="https://api.example.com/cities" clearable />
+HTML;
+
+    expect($component)->render()
+        ->not->toContain('x-if="loading"')
+        ->not->toContain('animate-spin text-primary-500')
+        ->toContain('dusk="tallstackui_autocomplete_clear"');
+});
+
 it('throws when items and request are both defined', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] Form\Autocomplete: The [items] and [request] cannot be defined at the same time.');
