@@ -476,7 +476,7 @@ describe('compact', function () {
 
         expect('<x-table :$headers :$rows compact />')
             ->render(['headers' => $headers, 'rows' => $rows])
-            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2 text-sm')
             ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5')
             ->not->toContain('px-3 py-4');
@@ -518,7 +518,7 @@ describe('compact', function () {
     it('tightens the skeleton too', function (array $headers) {
         expect('<x-table skeleton :$headers compact />')
             ->render(['headers' => $headers])
-            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2 text-sm')
             ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5');
     })->with('table.headers');
@@ -530,13 +530,13 @@ describe('compact', function () {
 
         expect('<x-table :$headers :$rows />')
             ->render(['headers' => $headers, 'rows' => $rows])
-            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2 text-sm')
             ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5');
 
         expect('<x-table skeleton :$headers />')
             ->render(['headers' => $headers])
-            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2 text-sm')
             ->not->toContain('py-3.5');
 
         tableConfig(['compact' => false]);
@@ -554,4 +554,56 @@ describe('compact', function () {
 
         tableConfig(['compact' => false]);
     })->with('table.headers');
+});
+
+describe('align', function () {
+    it('aligns the header and the cells of the column', function () {
+        $headers = [['index' => 'name', 'label' => 'Name'], ['index' => 'total', 'label' => 'Total', 'align' => 'center']];
+        $rows = [['name' => 'Foo', 'total' => 10]];
+
+        $html = expect('<x-table :$headers :$rows />')
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->value;
+
+        preg_match_all('/<th\s[^>]*class="([^"]*)"/', $html, $ths);
+        preg_match_all('/<td\s[^>]*class="([^"]*)"/', $html, $tds);
+
+        expect($ths[1][0])->toContain('text-left')->not->toContain('text-center')
+            ->and($ths[1][1])->toContain('text-center')->not->toContain('text-left')
+            ->and($tds[1][0])->toContain('text-left')->not->toContain('text-center')
+            ->and($tds[1][1])->toContain('text-center')->not->toContain('text-left');
+    });
+
+    it('aligns the interacted cell too', function () {
+        $headers = [['index' => 'total', 'label' => 'Total', 'align' => 'right']];
+        $rows = [['total' => 10]];
+
+        $component = <<<'BLADE'
+        <x-table :$headers :$rows>
+            @interact('column_total', $row)
+                <b>{{ $row['total'] }}</b>
+            @endinteract
+        </x-table>
+        BLADE;
+
+        expect($component)
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->toContain('text-right')
+            ->not->toContain('text-left');
+    });
+
+    it('aligns the skeleton header', function () {
+        $headers = [['index' => 'total', 'label' => 'Total', 'align' => 'center']];
+
+        expect('<x-table :$headers skeleton />')
+            ->render(['headers' => $headers])
+            ->toContain('text-center');
+    });
+
+    it('cannot take an unknown alignment', function () {
+        $this->expectException(ViewException::class);
+        $this->expectExceptionMessage('The header [align] must be one of [left, center, right].');
+
+        expect('<x-table :headers="[[\'index\' => \'name\', \'align\' => \'middle\']]" />')->render();
+    });
 });
