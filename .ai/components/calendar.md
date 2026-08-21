@@ -120,7 +120,9 @@ Lock the month/year header (only allow picking days within the displayed month):
 
 The inline prop always wins over the global default, so `:shadowless="false"` restores
 the shadow on a single calendar while the configuration keeps it off everywhere else, and
-`start="0"` keeps Sunday on one calendar while `'start' => 1` moves the others to Monday.
+`start="0"` keeps Sunday on one calendar while `'start' => 1` moves the others to Monday. The
+configured value goes through the same validation as the attribute: anything outside `0`–`6`
+raises the exception listed under Validation.
 
 ## Slots
 
@@ -151,7 +153,7 @@ At render time, Calendar raises `InvalidArgumentException` (wrapped as `ViewExce
 - `min-date` or `max-date` cannot be parsed as a valid date.
 - `min-date > max-date`.
 - `max-year < min-year`.
-- `start > 6` or `only > 6`.
+- `start` is outside `0`–`6`, inline or configured, or `only > 6`.
 - `double` is set but `range` is not — `double` requires `range`.
 - `range` and `multiple` are both set — they are mutually exclusive.
 - `lock-month-year` and `month-year-only` are both set — `month-year-only` makes the picker the only interaction surface, so locking it would freeze the component.

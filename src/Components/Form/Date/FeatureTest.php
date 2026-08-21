@@ -42,6 +42,13 @@ it('lets the start attribute win over the global configuration', function () {
     }
 });
 
+it('cannot start the week on a negative day', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Form\Date: The [start] attribute must be between 0 and 6.');
+
+    expect('<x-date start="-1" />')->render();
+});
+
 it('cannot start the week out of range through the global configuration', function () {
     config()->set('ts-ui.components.date.1.start', 7);
 

@@ -166,7 +166,7 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The year [min-year] must be less than or equal to [max-year].');
         }
 
-        if ($this->start > 6) {
+        if ($this->start < 0 || $this->start > 6) {
             __ts_validation_exception($this, 'The [start] attribute must be between 0 and 6.');
         }
 

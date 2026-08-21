@@ -144,3 +144,27 @@ it('lets the start attribute win over the global configuration', function () {
         __ts_get_component_configuration(Component::class, flush: true);
     }
 });
+
+it('cannot start the week on a negative day', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Calendar: The [start] attribute must be between 0 and 6.');
+
+    expect('<x-calendar start="-1" />')->render();
+});
+
+it('cannot start the week out of range through the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.start', 7);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        $this->expectException(ViewException::class);
+        $this->expectExceptionMessage('[TallStackUI] Calendar: The [start] attribute must be between 0 and 6.');
+
+        expect('<x-calendar />')->render();
+    } finally {
+        config()->set('ts-ui.components.calendar.1.start', 0);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});

@@ -37,27 +37,27 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 
 ## Attributes
 
-| Attribute       | Type                        | Default      | Description                                                                       |
-|-----------------|-----------------------------|--------------|-----------------------------------------------------------------------------------|
-| label           | string\|ComponentSlot\|null | null         | Label text displayed above the input                                              |
-| hint            | string\|ComponentSlot\|null | null         | Hint text displayed below the input                                               |
-| invalidate      | bool\|null                  | null         | Prevents displaying validation error messages                                     |
-| range           | bool\|null                  | false        | Enables date range selection (start and end dates)                                |
-| multiple        | bool\|null                  | false        | Enables multiple individual date selection                                        |
-| format          | string\|null                | 'YYYY-MM-DD' | Display format for the selected date (see Format Tokens)                          |
-| min-date        | string\|Carbon\|null        | null         | Minimum selectable date                                                           |
-| max-date        | string\|Carbon\|null        | null         | Maximum selectable date                                                           |
-| min-year        | int\|null                   | null         | Minimum selectable year in the year picker                                        |
-| max-year        | int\|null                   | null         | Maximum selectable year in the year picker                                        |
-| helpers         | bool\|null                  | null         | Shows yesterday, today, and tomorrow quick-select buttons                         |
-| month-year-only | bool\|null                  | false        | Restricts the picker to month and year selection only                             |
-| disable         | array\|Collection           | []           | Array of date strings or Carbon instances to disable                              |
+| Attribute       | Type                        | Default      | Description                                                                                                                       |
+|-----------------|-----------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| label           | string\|ComponentSlot\|null | null         | Label text displayed above the input                                                                                              |
+| hint            | string\|ComponentSlot\|null | null         | Hint text displayed below the input                                                                                               |
+| invalidate      | bool\|null                  | null         | Prevents displaying validation error messages                                                                                     |
+| range           | bool\|null                  | false        | Enables date range selection (start and end dates)                                                                                |
+| multiple        | bool\|null                  | false        | Enables multiple individual date selection                                                                                        |
+| format          | string\|null                | 'YYYY-MM-DD' | Display format for the selected date (see Format Tokens)                                                                          |
+| min-date        | string\|Carbon\|null        | null         | Minimum selectable date                                                                                                           |
+| max-date        | string\|Carbon\|null        | null         | Maximum selectable date                                                                                                           |
+| min-year        | int\|null                   | null         | Minimum selectable year in the year picker                                                                                        |
+| max-year        | int\|null                   | null         | Maximum selectable year in the year picker                                                                                        |
+| helpers         | bool\|null                  | null         | Shows yesterday, today, and tomorrow quick-select buttons                                                                         |
+| month-year-only | bool\|null                  | false        | Restricts the picker to month and year selection only                                                                             |
+| disable         | array\|Collection           | []           | Array of date strings or Carbon instances to disable                                                                              |
 | start           | int\|string\|null           | null         | First day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday). Falls back to the global `start` configuration, `0` by default |
-| only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)                           |
-| weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)                              |
-| weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)                            |
-| disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted.   |
-| readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted. |
+| only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)                                                                           |
+| weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)                                                                              |
+| weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)                                                                            |
+| disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted.                                                   |
+| readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted.                                                 |
 
 ## Global Configuration
 
@@ -75,7 +75,7 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 week starts on Monday sets `'start' => 1` once instead of repeating the attribute. The
 inline attribute always wins over the global default, so `start="0"` keeps Sunday on a
 single picker while the configuration moves the others. The configured value goes through
-the same validation as the attribute: anything above `6` raises the exception below.
+the same validation as the attribute: anything outside `0`–`6` raises the exception below.
 
 ## Alpine.js Events
 
@@ -90,7 +90,7 @@ the same validation as the attribute: anything above `6` raises the exception be
 - The `max-date` must be a valid date string or Carbon instance.
 - The `min-date` must be less than or equal to `max-date` when both are set.
 - The `min-year` must be less than or equal to `max-year` when both are set.
-- The `start` attribute must not be greater than 6.
+- The `start` attribute, inline or configured, must be between 0 and 6.
 - The `only` attribute must not be greater than 6.
 
 ## Event Payload Details
