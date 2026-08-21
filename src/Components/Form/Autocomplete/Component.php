@@ -11,6 +11,7 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\AutocompleteRuntime;
 use TallStackUi\TallStackUiComponent;
@@ -36,10 +37,13 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $lazy = null,
         public ?bool $disabled = null,
         public ?bool $readonly = null,
+        public ?string $indicator = null,
         #[SkipDebug]
         public ?array $placeholders = null,
         #[SkipDebug]
         public ComponentSlot|string|null $after = null,
+        #[SkipDebug]
+        public ?string $spinner = null,
     ) {
         $this->placeholders = array_merge(trans('ts-ui::messages.autocomplete'), $this->placeholders ?? []);
         $this->placeholder ??= data_get($this->placeholders, 'default');
@@ -70,7 +74,6 @@ class Component extends TallStackUiComponent implements Customization
             'icon' => [
                 'wrapper' => 'flex items-center gap-1.5',
                 'clear' => 'h-5 w-5 cursor-pointer text-gray-500 hover:text-red-500 dark:text-dark-400 dark:hover:text-red-500',
-                'loading' => 'h-5 w-5 animate-spin text-primary-500 dark:text-dark-400',
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
@@ -103,6 +106,15 @@ class Component extends TallStackUiComponent implements Customization
     protected function setup(): void
     {
         $this->select ??= __ts_get_component_configuration(self::class, 'select');
+        $this->indicator ??= __ts_get_component_configuration(self::class, 'indicator');
+
+        if (blank($this->indicator)) {
+            $this->indicator = null;
+        } elseif ($this->indicator === 'spinner') {
+            $this->spinner = __ts_get_component_configuration(Spinner::class, 'type') ?? 'ring';
+        } elseif (str_starts_with($this->indicator, 'spinner.')) {
+            $this->spinner = substr($this->indicator, 8);
+        }
 
         $select = array_reduce(
             explode('|', (string) $this->select),
@@ -128,6 +140,10 @@ class Component extends TallStackUiComponent implements Customization
     {
         if (filled($this->items) && filled($this->request)) {
             __ts_validation_exception($this, 'The [items] and [request] cannot be defined at the same time.');
+        }
+
+        if ($this->indicator !== null && ! in_array($this->spinner, Spinner::TYPES, true)) {
+            __ts_validation_exception($this, 'The [indicator] must be [spinner] or [spinner.{type}], where type is one of ['.implode(', ', Spinner::TYPES).']');
         }
 
         if (! is_array($this->request)) {

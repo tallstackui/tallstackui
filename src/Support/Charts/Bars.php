@@ -7,9 +7,11 @@ final class Bars
 {
     public const GUTTER = 0.3;
 
-    public const RADIUS = 0.6;
+    public const RADII = ['none' => 0.0, 'sm' => 0.6, 'md' => 1.2, 'lg' => 2.4];
 
-    public static function corners(array $series, int $length, array $groups = []): array
+    public const RADIUS = self::RADII['sm'];
+
+    public static function corners(array $series, int $length, array $groups = [], bool $ends = false): array
     {
         $first = [];
         $last = [];
@@ -29,10 +31,8 @@ final class Bars
                 $facing = ($groups[$position] ?? '').'|'.($negative ? '+' : '-').'|'.$index;
 
                 $outer = $position === $last[$key];
-                // The end that meets zero is only an end while the column stops
-                // there. Carrying on past the axis makes it a seam like any
-                // other, and rounding both of its sides opens the same gap.
-                $inner = $position === $first[$key] && ! isset($first[$facing]);
+                // Zero is an end only while the column stops there; crossed, it is a seam.
+                $inner = ! $ends && $position === $first[$key] && ! isset($first[$facing]);
 
                 $corners[$position][$index] = $negative
                     ? ['head' => $inner, 'foot' => $outer]
@@ -43,7 +43,7 @@ final class Bars
         return $corners;
     }
 
-    public static function of(array $series, array $scales, int $length): array
+    public static function of(array $series, array $scales, int $length, float $radius = self::RADIUS, bool $ends = false): array
     {
         if ($series === [] || $length === 0) {
             return [];
@@ -62,23 +62,23 @@ final class Bars
             $row = [];
 
             for ($index = 0; $index < $length; $index++) {
-                if (! array_key_exists($index, $entry['data'])) {
+                if (! isset($entry['data'][$index])) {
                     continue;
                 }
 
-                $y = $scale->y($entry['data'][$index]);
+                $value = $entry['data'][$index];
+                $y = $scale->y($value);
 
                 $bar = [
                     'x' => round($index * $slot + ($slot - $band) / 2 + $share * $width, 2),
                     'y' => round(min($y, $baseline), 2),
                     'width' => round($width, 2),
-                    // Zero-height rectangles are invisible in SVG; a hairline
-                    // keeps an empty category from disappearing entirely.
+                    // A hairline keeps a zero from vanishing.
                     'height' => round(max(abs($baseline - $y), 0.4), 2),
                     'index' => $index,
                 ];
 
-                $row[] = [...$bar, 'path' => self::path($bar)];
+                $row[] = [...$bar, 'path' => self::path($bar, ! $ends || $value >= 0, ! $ends || $value < 0, $radius)];
             }
 
             $bars[$position] = $row;
@@ -112,7 +112,7 @@ final class Bars
         return $offsets;
     }
 
-    public static function path(array $bar, bool $top = true, bool $bottom = true): string
+    public static function path(array $bar, bool $top = true, bool $bottom = true, float $radius = self::RADIUS): string
     {
         $left = $bar['x'];
         $upper = $bar['y'];
@@ -120,7 +120,7 @@ final class Bars
         $lower = round($upper + $bar['height'], 2);
 
         // Clamped, or the corners of a hairline bar fold through each other.
-        $radius = round(min(self::RADIUS, $bar['width'] / 2, $bar['height'] / 2), 2);
+        $radius = round(min($radius, $bar['width'] / 2, $bar['height'] / 2), 2);
 
         $head = $top ? $radius : 0.0;
         $foot = $bottom ? $radius : 0.0;
@@ -169,10 +169,8 @@ final class Bars
         $keys = [];
 
         for ($index = 0; $index < $length; $index++) {
-            // Zero renders as a hairline so the category does not vanish, but
-            // it is not what ends a column. Counted, it would take the rounding
-            // onto a sliver and leave the visible end of the stack square.
-            if (! array_key_exists($index, $entry['data']) || $entry['data'][$index] === 0.0) {
+            // A hairline never ends a column, or it would take the rounding.
+            if (! isset($entry['data'][$index]) || $entry['data'][$index] === 0.0) {
                 continue;
             }
 

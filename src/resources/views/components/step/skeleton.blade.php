@@ -31,8 +31,7 @@
                     </li>
                 @else
                     <li class="{{ $customization['simple.li'] }}">
-                        <div class="{{ $customization['simple.bar.wrapper'] }} space-y-2">
-                            <div @class([$customization['skeleton.bar'], $customization['skeleton.simple-bar']])></div>
+                        <div @class([$customization['simple.bar.wrapper'], $customization['simple.bar.inactive'], 'space-y-2'])>
                             <div @class([$customization['skeleton.bar'], $customization['skeleton.title']])></div>
                             <div @class([$customization['skeleton.bar'], $customization['skeleton.description']])></div>
                         </div>

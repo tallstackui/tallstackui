@@ -112,3 +112,59 @@ it('lets the flat look props win over the global configuration', function () {
         __ts_get_component_configuration(Component::class, flush: true);
     }
 });
+
+it('starts the week on Sunday by default', function () {
+    expect('<x-calendar />')->render()->toContain("0,\n     null,\n     false,\n     false)");
+});
+
+it('starts the week through the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.start', 1);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-calendar />')->render()->toContain("1,\n     null,\n     false,\n     false)");
+    } finally {
+        config()->set('ts-ui.components.calendar.1.start', 0);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('lets the start attribute win over the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.start', 1);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-calendar start="6" />')->render()->toContain("6,\n     null,\n     false,\n     false)");
+    } finally {
+        config()->set('ts-ui.components.calendar.1.start', 0);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('cannot start the week on a negative day', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Calendar: The [start] attribute must be between 0 and 6.');
+
+    expect('<x-calendar start="-1" />')->render();
+});
+
+it('cannot start the week out of range through the global configuration', function () {
+    config()->set('ts-ui.components.calendar.1.start', 7);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        $this->expectException(ViewException::class);
+        $this->expectExceptionMessage('[TallStackUI] Calendar: The [start] attribute must be between 0 and 6.');
+
+        expect('<x-calendar />')->render();
+    } finally {
+        config()->set('ts-ui.components.calendar.1.start', 0);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});

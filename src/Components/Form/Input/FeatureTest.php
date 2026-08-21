@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -39,6 +40,24 @@ it('can render with icon', function (string $position) {
         ->toContain('<svg')
         ->toContain($position);
 })->with(['left', 'right']);
+
+it('can render with email')
+    ->expect('<x-input email />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('type="email"');
+
+it('can render with type when email is absent')
+    ->expect('<x-input type="number" />')
+    ->render()
+    ->toContain('type="number"')
+    ->not->toContain('type="text"');
+
+it('cannot use email with type', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-input email type="number" />')->render();
+});
 
 it('can render with strip-zeros')
     ->expect('<x-input strip-zeros />')

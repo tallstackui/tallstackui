@@ -99,7 +99,7 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 
 | Attribute           | Type                                               | Default           | Description                                                                                                                                                                 |
 |---------------------|----------------------------------------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable` and `unescaped` keys                                                                             |
+| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable`, `unescaped` and `align` keys                                                                    |
 | rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                                                        |
 | headerless          | bool                                               | false             | Hides the table header row                                                                                                                                                  |
 | striped             | bool                                               | false             | Applies alternating row background colors                                                                                                                                   |
@@ -143,6 +143,27 @@ Each header in the `headers` array supports these keys:
 | label     | string | No       | Column header display text                                                       |
 | sortable  | bool   | No       | Whether the column is sortable (default: true, except `'action'` index)          |
 | unescaped | bool   | No       | When true, renders the label as raw HTML                                         |
+| align     | string | No       | Header and cell alignment: `left` (default), `center` or `right`                 |
+
+## Column Alignment
+
+`align` moves the header and every cell of the column together:
+
+```php
+public array $headers = [
+    ['index' => 'name', 'label' => 'Product'],
+    ['index' => 'quantity', 'label' => 'Quantity', 'align' => 'center'],
+    ['index' => 'price', 'label' => 'Price', 'align' => 'right'],
+    ['index' => 'action', 'align' => 'center'],
+];
+```
+
+```blade
+<x-table :$headers :$rows />
+```
+
+It reaches the cells rendered through `@interact('column_{index}', $row)` too, and the
+sort icon follows the label. Any other value throws.
 
 ## Validation Constraints
 
@@ -151,6 +172,7 @@ Each header in the `headers` array supports these keys:
 - When `selectable` is true, `selectable-property` must not be blank.
 - When `highlight` is true, `highlight-property` must not be blank.
 - When `persistent` is a string, it must not be empty.
+- A header `align` must be one of `left`, `center` or `right`.
 - `paginator` must be one of `simple`, `minimal`, `compact`, or contain a dot (a view path).
 
 ## Events
@@ -483,6 +505,9 @@ TallStackUi::customize()
 | table.td                   | Table data cell padding and text styling                              |
 | table.td-compact           | Data cell used instead of `table.td` under `compact`                  |
 | table.tr                   | Table row base classes                                                |
+| table.align.left           | Header and cells of a left-aligned column (the default)               |
+| table.align.center         | Header and cells of a column with `'align' => 'center'`               |
+| table.align.right          | Header and cells of a column with `'align' => 'right'`                |
 | table.thead.normal         | Default header row background                                         |
 | table.thead.striped        | Header background when striped is enabled                             |
 | loading.table              | Loading state overlay opacity and cursor                              |

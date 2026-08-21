@@ -107,7 +107,9 @@ The click toggles rather than only opening because the panel closes itself on an
 outside it, and the field is outside it — so a click that only opened would be undone by
 that handler on the way out.
 
-A `prefix` is ignored while matching, so typing `foo` still finds `#foo`.
+A `prefix` is ignored while matching, so typing `foo` still finds `#foo`. Matching is
+case-insensitive, and a typed value that matches an option is stored with the option's
+casing: typing `Alpine` and confirming adds `alpine` when that is the option.
 
 Reaching `limit` closes the list and keeps it from opening again.
 

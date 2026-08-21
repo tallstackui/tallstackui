@@ -17,10 +17,10 @@ trait SelectionCustomization
                 'asterisk' => 'font-bold text-red-500 not-italic',
             ],
             'container' => [
-                'list' => 'relative -space-y-px rounded-md',
+                'list' => 'relative rounded-md',
                 'card' => 'grid gap-3',
                 'panel' => 'grid gap-3',
-                'inline' => 'inline-flex -space-x-px rounded-md',
+                'inline' => 'inline-flex rounded-md',
             ],
             'columns' => [
                 1 => 'grid-cols-1',
@@ -30,11 +30,11 @@ trait SelectionCustomization
             ],
             'item' => [
                 'base' => 'dark:border-dark-700 group relative flex cursor-pointer border border-gray-200 has-focus-visible:z-10 has-focus-visible:ring-2 has-focus-visible:ring-primary-500 has-focus-visible:ring-offset-2 dark:has-focus-visible:ring-offset-dark-900',
-                'list' => 'items-start gap-3 p-4 first:rounded-t-md last:rounded-b-md has-checked:z-10 sm:items-center',
+                'list' => 'items-start gap-3 border-b-0 p-4 first:rounded-t-md last:rounded-b-md last:border-b has-checked:border-b sm:items-center [&:has(:checked)+*]:border-t-0',
                 'card' => 'flex-col gap-2 rounded-lg p-4',
                 'panel' => 'flex-col gap-2 rounded-lg p-4',
-                'inline' => 'items-center justify-center gap-2 px-4 py-2 first:rounded-l-md last:rounded-r-md has-checked:z-10',
-                'disabled' => 'cursor-not-allowed opacity-50',
+                'inline' => 'items-center justify-center gap-2 border-r-0 px-4 py-2 first:rounded-l-md last:rounded-r-md last:border-r has-checked:border-r [&:has(:checked)+*]:border-l-0',
+                'disabled' => 'cursor-not-allowed [&>*]:opacity-50',
                 'error' => 'border-red-300 dark:border-red-500',
             ],
             'control' => [
@@ -57,7 +57,6 @@ trait SelectionCustomization
                 'wrapper' => 'flex min-w-0 flex-1 flex-col',
                 'header' => 'flex items-center gap-2',
                 'label' => 'dark:text-dark-300 text-sm font-medium text-gray-900',
-                'inline' => 'group-has-checked:text-white',
                 'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-500',
                 'aside' => 'dark:text-dark-400 shrink-0 text-sm text-gray-500',
                 'icon' => 'dark:text-dark-400 h-5 w-5 shrink-0 text-gray-500',

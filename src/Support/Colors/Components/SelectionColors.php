@@ -13,14 +13,13 @@ class SelectionColors
     {
         $getter = $this->component->color; // @phpstan-ignore-line
 
-        [$background, $border, $control, $muted, $solid, $text] = $this->get('background', 'border', 'control', 'muted', 'solid', 'text');
+        [$background, $border, $control, $muted, $text] = $this->get('background', 'border', 'control', 'muted', 'text');
 
         return [
             'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
             'border' => data_get($border, $getter) ?? data_get($this->border(), $getter),
             'control' => data_get($control, $getter) ?? data_get($this->control(), $getter),
             'muted' => data_get($muted, $getter) ?? data_get($this->muted(), $getter),
-            'solid' => data_get($solid, $getter) ?? data_get($this->solid(), $getter),
             'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
         ];
     }
@@ -162,41 +161,6 @@ class SelectionColors
             'olive' => 'group-has-checked:text-olive-700 dark:group-has-checked:text-olive-300',
             'mist' => 'group-has-checked:text-mist-700 dark:group-has-checked:text-mist-300',
             'taupe' => 'group-has-checked:text-taupe-700 dark:group-has-checked:text-taupe-300',
-        ];
-    }
-
-    private function solid(): array
-    {
-        return [
-            'black' => 'has-checked:bg-black',
-            'primary' => 'has-checked:bg-primary-500',
-            'secondary' => 'has-checked:bg-secondary-500',
-            'slate' => 'has-checked:bg-slate-500',
-            'gray' => 'has-checked:bg-gray-500',
-            'zinc' => 'has-checked:bg-zinc-500',
-            'neutral' => 'has-checked:bg-neutral-500',
-            'stone' => 'has-checked:bg-stone-500',
-            'red' => 'has-checked:bg-red-500',
-            'orange' => 'has-checked:bg-orange-500',
-            'amber' => 'has-checked:bg-amber-500',
-            'yellow' => 'has-checked:bg-yellow-500',
-            'lime' => 'has-checked:bg-lime-500',
-            'green' => 'has-checked:bg-green-500',
-            'emerald' => 'has-checked:bg-emerald-500',
-            'teal' => 'has-checked:bg-teal-500',
-            'cyan' => 'has-checked:bg-cyan-500',
-            'sky' => 'has-checked:bg-sky-500',
-            'blue' => 'has-checked:bg-blue-500',
-            'indigo' => 'has-checked:bg-indigo-500',
-            'violet' => 'has-checked:bg-violet-500',
-            'purple' => 'has-checked:bg-purple-500',
-            'fuchsia' => 'has-checked:bg-fuchsia-500',
-            'pink' => 'has-checked:bg-pink-500',
-            'rose' => 'has-checked:bg-rose-500',
-            'mauve' => 'has-checked:bg-mauve-500',
-            'olive' => 'has-checked:bg-olive-500',
-            'mist' => 'has-checked:bg-mist-500',
-            'taupe' => 'has-checked:bg-taupe-500',
         ];
     }
 

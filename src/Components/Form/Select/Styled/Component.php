@@ -10,6 +10,7 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Components\Traits\SelectSetup;
 use TallStackUi\Customization\Contracts\Customization;
@@ -22,7 +23,9 @@ use Throwable;
 class Component extends TallStackUiComponent implements Customization
 {
     use FormDefaultInputClasses;
-    use SelectSetup;
+    use SelectSetup {
+        setup as selectSetup;
+    }
 
     /** @throws Throwable */
     public function __construct(
@@ -43,12 +46,15 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $grouped = null,
         public ?bool $recycle = null,
         public ?bool $unfiltered = null,
+        public ?string $indicator = null,
         #[SkipDebug]
         public Collection|array $options = [],
         #[SkipDebug]
         public ?string $after = null,
         #[SkipDebug]
         public ?bool $common = true,
+        #[SkipDebug]
+        public ?string $spinner = null,
     ) {
         $this->placeholders = array_merge(trans('ts-ui::messages.select'), $this->placeholders ?? []);
         $this->placeholder ??= data_get($this->placeholders, 'default');
@@ -160,11 +166,30 @@ class Component extends TallStackUiComponent implements Customization
         ]);
     }
 
+    protected function setup(): void
+    {
+        $this->selectSetup();
+
+        $this->indicator ??= __ts_get_component_configuration(self::class, 'indicator');
+
+        if (blank($this->indicator)) {
+            $this->indicator = null;
+        } elseif ($this->indicator === 'spinner') {
+            $this->spinner = __ts_get_component_configuration(Spinner::class, 'type') ?? 'ring';
+        } elseif (str_starts_with($this->indicator, 'spinner.')) {
+            $this->spinner = substr($this->indicator, 8);
+        }
+    }
+
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (filled($this->options) && filled($this->request)) {
             __ts_validation_exception($this, 'The [options] and [request] cannot be defined at the same time.');
+        }
+
+        if ($this->indicator !== null && ! in_array($this->spinner, Spinner::TYPES, true)) {
+            __ts_validation_exception($this, 'The [indicator] must be [spinner] or [spinner.{type}], where type is one of ['.implode(', ', Spinner::TYPES).']');
         }
 
         if ($this->common && ($this->lazy && $this->lazy < 10)) {

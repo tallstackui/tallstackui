@@ -29,8 +29,10 @@ it('can render')
 it('can render with the list variant by default')
     ->expect('<x-checkbox.group :options="$options" />')
     ->render(['options' => [['label' => 'Newsletter', 'value' => 'newsletter']]])
-    ->toContain('-space-y-px')
-    ->toContain('first:rounded-t-md');
+    ->toContain('first:rounded-t-md')
+    ->toContain('border-b-0')
+    ->toContain('last:border-b')
+    ->not->toContain('-space-y-px');
 
 it('can render with the card variant')
     ->expect('<x-checkbox.group card :options="$options" />')
@@ -48,9 +50,13 @@ it('can render with the panel variant hiding the control and showing the check')
 it('can render with the inline variant')
     ->expect('<x-checkbox.group inline :options="$options" />')
     ->render(['options' => [['label' => 'Bold', 'value' => 'bold', 'aside' => 'Skipped']]])
-    ->toContain('inline-flex -space-x-px')
+    ->toContain('inline-flex rounded-md')
+    ->toContain('border-r-0')
+    ->toContain('last:border-r')
+    ->not->toContain('-space-x-px')
     ->toContain('sr-only')
-    ->toContain('group-has-checked:text-white')
+    ->toContain('has-checked:bg-primary-50')
+    ->not->toContain('has-checked:bg-primary-500')
     ->not->toContain('Skipped');
 
 it('can render with columns')
@@ -235,3 +241,15 @@ it('cannot render with options that are not arrays', function () {
 
     expect('<x-checkbox.group :options="$options" />')->render(['options' => ['Newsletter']]);
 });
+
+it('hands the seam over to the checked option instead of overlapping borders')
+    ->expect('<x-checkbox.group :options="$options" />')
+    ->render(['options' => [['label' => 'Newsletter', 'value' => 'newsletter'], ['label' => 'Offers', 'value' => 'offers']]])
+    ->toContain('last:border-b has-checked:border-b')
+    ->toContain('[&:has(:checked)+*]:border-t-0');
+
+it('hands the seam over to the checked option on the inline variant')
+    ->expect('<x-checkbox.group inline :options="$options" />')
+    ->render(['options' => [['label' => 'Bold', 'value' => 'bold'], ['label' => 'Italic', 'value' => 'italic']]])
+    ->toContain('last:border-r has-checked:border-r')
+    ->toContain('[&:has(:checked)+*]:border-l-0');

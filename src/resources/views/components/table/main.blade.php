@@ -97,7 +97,7 @@
                             </th>
                         @endif
                         @foreach ($headers as $header)
-                            <th scope="col" @class([$customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact])>
+                            <th scope="col" @class([$customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact, $customization['table.align.'.$alignment($header)]])>
                                 <a @if ($sortable($header))
                                        class="{{ $customization['table.th-sort-wrapper'] }} cursor-pointer"
                                        @if ($livewire)
@@ -177,11 +177,11 @@
                                     $clickable = $link !== null;
                                 @endphp
                                 @isset(${"column_".$row})
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
                                         {{ ${"column_".$row}($value) }}
                                     </td>
                                 @else
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
                                         {{ data_get($value, $header['index']) }}
                                     </td>
                                 @endisset

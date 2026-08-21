@@ -2,6 +2,7 @@
 
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Form\Autocomplete\Component;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -136,6 +137,17 @@ HTML;
         ->toContain('autocomplete');
 });
 
+it('does not render a loading indicator inside the input', function () {
+    $component = <<<'HTML'
+    <x-autocomplete request="https://api.example.com/cities" clearable />
+HTML;
+
+    expect($component)->render()
+        ->not->toContain('x-if="loading"')
+        ->not->toContain('animate-spin text-primary-500')
+        ->toContain('dusk="tallstackui_autocomplete_clear"');
+});
+
 it('throws when items and request are both defined', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] Form\Autocomplete: The [items] and [request] cannot be defined at the same time.');
@@ -178,4 +190,56 @@ it('throws when request params is empty', function () {
 HTML;
 
     expect($component)->render();
+});
+
+it('can render the default loading icon', function () {
+    expect('<x-autocomplete request="https://api.example.com/cities" />')->render()
+        ->toContain('animate-spin')
+        ->not->toContain('dusk="spinner-');
+});
+
+it('can render a spinner loading indicator inline', function () {
+    expect('<x-autocomplete request="https://api.example.com/cities" indicator="spinner.bars" />')->render()
+        ->toContain('dusk="spinner-bars"');
+});
+
+it('can render a spinner loading indicator from the configuration', function () {
+    config()->set('ts-ui.components.autocomplete.1.indicator', 'spinner.dots');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-autocomplete request="https://api.example.com/cities" />')->render()
+        ->toContain('dusk="spinner-dots"');
+});
+
+it('can use the global spinner type when the indicator is spinner', function () {
+    config()->set('ts-ui.components.autocomplete.1.indicator', 'spinner');
+    config()->set('ts-ui.components.spinner.1.type', 'wave');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+    __ts_get_component_configuration(Spinner::class, flush: true);
+
+    try {
+        expect('<x-autocomplete request="https://api.example.com/cities" />')->render()
+            ->toContain('dusk="spinner-wave"');
+    } finally {
+        __ts_get_component_configuration(Spinner::class, flush: true);
+    }
+});
+
+it('can override the configured spinner indicator inline', function () {
+    config()->set('ts-ui.components.autocomplete.1.indicator', 'spinner.dots');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-autocomplete request="https://api.example.com/cities" indicator="spinner.bars" />')->render()
+        ->toContain('dusk="spinner-bars"')
+        ->not->toContain('dusk="spinner-dots"');
+});
+
+it('cannot use an invalid indicator', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [indicator] must be [spinner] or [spinner.{type}]');
+
+    expect('<x-autocomplete request="https://api.example.com/cities" indicator="spinner.foo" />')->render();
 });

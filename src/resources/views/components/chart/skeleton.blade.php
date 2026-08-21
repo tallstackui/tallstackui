@@ -3,6 +3,7 @@
 @endphp
 
 <div aria-busy="true" aria-live="polite"
+     wire:key="tallstackui-chart-skeleton-{{ uniqid() }}"
      {{ $attributes->class([$customization['wrapper'], $customization['skeleton.animation']]) }}>
     @if ($header)
         <div @class([$customization['skeleton.bar'], $customization['skeleton.header']])></div>

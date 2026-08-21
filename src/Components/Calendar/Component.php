@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $monthYearOnly = false,
         public ?bool $lockMonthYear = false,
         public array|Collection $disable = [],
-        public int|string $start = 0,
+        public int|string|null $start = null,
         public int|string|null $only = null,
         public ?bool $weekdays = false,
         public ?bool $weekends = false,
@@ -58,7 +58,7 @@ class Component extends TallStackUiComponent implements Customization
             })
             ->values();
 
-        $this->start = (int) $this->start;
+        $this->start = (int) ($this->start ?? $configuration['start'] ?? 0);
     }
 
     public function blade(): View
@@ -166,7 +166,7 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The year [min-year] must be less than or equal to [max-year].');
         }
 
-        if ($this->start > 6) {
+        if ($this->start < 0 || $this->start > 6) {
             __ts_validation_exception($this, 'The [start] attribute must be between 0 and 6.');
         }
 

@@ -51,9 +51,7 @@ final class Slices
 
     private static function path(float $from, float $to, float $inner): string
     {
-        // A single arc command cannot express a full turn, because its start
-        // and end points would coincide. Splitting it in half is the standard
-        // way out, and it costs nothing on the ordinary case.
+        // One arc command cannot express a full turn: its ends would coincide.
         if ($to - $from >= 2 * M_PI - 1e-9) {
             return self::ring($from, $inner);
         }

@@ -37,7 +37,7 @@
                             </th>
                         @endif
                         @forelse ($headers as $header)
-                            <th scope="col" @class([$customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact])>
+                            <th scope="col" @class([$customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact, $customization['table.align.'.$alignment($header)]])>
                                 @if ($header['unescaped'] ?? false)
                                     {!! $header['label'] ?? '' !!}
                                 @else

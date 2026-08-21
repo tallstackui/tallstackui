@@ -96,6 +96,10 @@ class CompileConfigurations
         $component->legend ??= $configuration['legend'] ?? false;
         $component->tooltip ??= $configuration['tooltip'] ?? false;
         $component->markers ??= $configuration['markers'] ?? false;
+        $component->fit ??= $configuration['fit'] ?? 'thin';
+        $component->curve ??= $configuration['curve'] ?? 'smooth';
+        $component->round ??= $configuration['round'] ?? 'sm';
+        $component->corners ??= $configuration['corners'] ?? 'all';
 
         // validate() has already run, so a global default would slip past the
         // rule that rejects a labelled axis on a type that has none.

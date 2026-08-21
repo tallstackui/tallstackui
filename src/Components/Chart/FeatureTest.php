@@ -48,7 +48,6 @@ it('can render multiple named series', function () {
         ->render()
         ->toContain('2026')
         ->toContain('2025')
-        // A shared scale is what makes the two comparable at a glance.
         ->toContain('text-primary-500')
         ->toContain('text-emerald-500');
 });
@@ -63,8 +62,6 @@ it('can render a secondary axis', function () {
              grid />
     HTML;
 
-    // A series two orders of magnitude smaller would be a flat line against a
-    // shared scale, so it gets a domain of its own.
     expect($component)
         ->render()
         ->toContain('>1,200<')
@@ -74,8 +71,6 @@ it('can render a secondary axis', function () {
 });
 
 it('can format each axis independently', function () {
-    // Money on one side does not mean money on the other, so a scalar applies
-    // to both while an array picks the side.
     $component = <<<'HTML'
     <x-chart :series="[
                  ['name' => 'Receita', 'data' => [1200, 1900, 1500]],
@@ -94,8 +89,6 @@ it('can format each axis independently', function () {
 });
 
 it('aligns both axes on the same rows', function () {
-    // Each axis is pinned to the same tick count, so one set of gridlines
-    // serves both and neither side can be misread.
     $html = expect(<<<'HTML'
     <x-chart :series="[
         ['name' => 'a', 'data' => [1200, 1900, 1500]],
@@ -144,7 +137,6 @@ it('can render each type through a flag', function (string $type, string $expect
 ]);
 
 it('can repeat a type as both a flag and an attribute', function () {
-    // They say the same thing, so there is nothing to disagree about.
     expect('<x-chart :series="[10, 40, 25, 60]" type="bar" bar />')
         ->render()
         ->toContain('A0.6,0.6');
@@ -157,14 +149,11 @@ it('keeps the aspect ratio only on radial types', function (string $type, string
 })->with([
     'area' => ['area', 'none'],
     'bar' => ['bar', 'none'],
-    // A pie drawn into a stretched viewBox would render as an ellipse.
     'pie' => ['pie', 'xMidYMid meet'],
     'donut' => ['donut', 'xMidYMid meet'],
 ]);
 
 it('can stack areas onto the curve below', function () {
-    // An unstacked area drops to the baseline; a stacked one closes on the
-    // curve under it, so only the first band ends up flat at the bottom.
     $html = expect(<<<'HTML'
     <x-chart stacked :series="[
         ['name' => 'a', 'data' => [10, 20, 15]],
@@ -191,15 +180,11 @@ it('can stack bars onto the running total', function () {
 
     expect($bars)->toHaveCount(4);
 
-    // Stacked bars share the slot instead of splitting it, so both series sit
-    // on the same x, and the second one starts higher up the plot.
     expect($bars[0][1])->toBe($bars[2][1])
         ->and((float) $bars[2][2])->toBeLessThan((float) $bars[0][2]);
 });
 
 it('hangs a negative segment below the axis', function () {
-    // Accumulated into one running total the negative segment would be painted
-    // over the positive ones, above the axis, reading as another positive.
     $html = expect(<<<'HTML'
     <x-chart type="bar" stacked :series="[
         ['name' => 'a', 'data' => [10]],
@@ -215,15 +200,11 @@ it('hangs a negative segment below the axis', function () {
         $spans
     );
 
-    // Every seam of the column meets exactly, the axis included.
     expect(min($negative))->toBe(max($first))
         ->and(max($last))->toBe(min($first));
 });
 
 it('does not let a zero value end a stacked column', function () {
-    // Zero renders as a hairline so the category does not vanish, but counting
-    // it as the end of the column spends the rounding on that sliver and
-    // leaves the segment above it square.
     $html = expect(<<<'HTML'
     <x-chart type="bar" stacked :series="[
         ['name' => 'a', 'data' => [0]],
@@ -240,9 +221,6 @@ it('does not let a zero value end a stacked column', function () {
 });
 
 it('treats the axis as a seam when the column crosses it', function () {
-    // The zero line only ends a column while the column stops there. Carried
-    // past it, rounding both of its sides opens the same gap any other seam
-    // would, so the two ends are the extremes of the whole thing.
     $html = expect(<<<'HTML'
     <x-chart type="bar" stacked :series="[
         ['name' => 'a', 'data' => [10]],
@@ -258,8 +236,6 @@ it('treats the axis as a seam when the column crosses it', function () {
 });
 
 it('rounds only the two ends of a stacked column', function () {
-    // An arc on both sides of a seam opens a gap the card shows through, so
-    // the segments in between have to meet flush.
     $html = expect(<<<'HTML'
     <x-chart type="bar" stacked :series="[
         ['name' => 'a', 'data' => [10]],
@@ -281,7 +257,6 @@ it('rounds only the two ends of a stacked column', function () {
 });
 
 it('scales a stacked chart against the column total', function () {
-    // Against the tallest single value the stack would run off the plot.
     expect('<x-chart type="bar" stacked grid :series="[[\'name\' => \'a\', \'data\' => [60]], [\'name\' => \'b\', \'data\' => [40]]]" />')
         ->render()
         ->toContain('>100<');
@@ -300,8 +275,6 @@ it('can combine bars and a curve in the same chart', function () {
 });
 
 it('aligns a combined curve with the middle of each bar slot', function () {
-    // Left on the edges the curve would read half a slot out of line with the
-    // bars it is drawn over.
     $html = expect(<<<'HTML'
     <x-chart type="bar" :series="[
         ['name' => 'a', 'data' => [10, 20]],
@@ -327,8 +300,6 @@ it('aligns a combined curve with the middle of each bar slot', function () {
 });
 
 it('keeps a combined curve out of the stack', function () {
-    // The running total the bars pile onto must not lift the curve off its
-    // own value.
     $html = expect(<<<'HTML'
     <x-chart type="bar" stacked :series="[
         ['name' => 'a', 'data' => [10, 20]],
@@ -343,7 +314,6 @@ it('keeps a combined curve out of the stack', function () {
 });
 
 it('reads the axis in slots whenever a bar is combined in', function () {
-    // A line chart, but one bar is enough to make every index own a slot.
     $html = expect(<<<'HTML'
     <x-chart type="line" tooltip :labels="['Jan', 'Fev']" :series="[
         ['name' => 'a', 'data' => [10, 20]],
@@ -374,8 +344,6 @@ it('can render a line type without filling the area')
     ->not->toContain('L100,96 L0,96 Z');
 
 it('can render bars anchored on zero', function () {
-    // Bars measured from their own minimum would misreport every proportion,
-    // and the smallest of them would collapse onto the baseline.
     $html = expect('<x-chart :series="[10, 40, 25, 60]" type="bar" />')->render()->value;
 
     preg_match_all('/M[\d.]+,([\d.]+)/', $html, $tops);
@@ -385,7 +353,6 @@ it('can render bars anchored on zero', function () {
 });
 
 it('can render a full turn as a closed ring', function () {
-    // A single arc command cannot express 360 degrees; it has to be split.
     expect('<x-chart :series="[10]" type="pie" />')
         ->render()
         ->toContain('A46,46 0 1,1');
@@ -397,6 +364,304 @@ it('can render the axis labels from the labels attribute')
     ->toContain('Jan')
     ->toContain('Mar')
     ->toContain('left: 100%');
+
+it('thins the axis labels from the browser', function () {
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+        ->render()
+        ->toContain('x-data="tallstackui_chartAxis({ fit: \'thin\' })"')
+        ->toContain('shown(0)')
+        ->toContain('shown(2)');
+});
+
+it('does not attach the axis thinning without labels')
+    ->expect('<x-chart :series="[10, 40, 25]" />')
+    ->render()
+    ->not->toContain('tallstackui_chartAxis');
+
+it('thins the axis labels by default')
+    ->expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+    ->render()
+    ->toContain("tallstackui_chartAxis({ fit: 'thin' })");
+
+it('can pick how the axis labels fit', function (string $fit) {
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" fit="'.$fit.'" />')
+        ->render()
+        ->toContain("tallstackui_chartAxis({ fit: '".$fit."' })");
+})->with(['thin', 'rotate', 'stagger']);
+
+it('can set the axis fit globally', function () {
+    config()->set('ts-ui.components.chart.1', ['fit' => 'rotate']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\', \'Fev\', \'Mar\']" />')
+        ->render()
+        ->toContain("tallstackui_chartAxis({ fit: 'rotate' })");
+});
+
+it('cannot use an unknown fit', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [fit] must be one of: thin, rotate, stagger.');
+
+    expect('<x-chart :series="[10, 40, 25]" :labels="[\'Jan\']" fit="wrap" />')->render();
+});
+
+it('joins the points with a monotone curve by default')
+    ->expect('<x-chart :series="[10, 40, 25]" />')
+    ->render()
+    ->toContain(' C')
+    ->not->toContain(' L50,')
+    ->not->toContain(' H');
+
+it('can join the points with straight lines', function () {
+    $html = expect('<x-chart :series="[10, 40, 25]" curve="straight" />')->render()->value;
+
+    expect($html)
+        ->toContain('d="M0,')
+        ->toContain(' L50,')
+        ->toContain(' L100,')
+        ->not->toContain(' C')
+        ->toContain(' L100,96 L0,96 Z');
+});
+
+it('can join the points with steps', function () {
+    $html = expect('<x-chart :series="[10, 40, 25]" curve="step" />')->render()->value;
+
+    expect($html)
+        ->toContain(' H50 V')
+        ->toContain(' H100 V')
+        ->not->toContain(' C');
+});
+
+it('can pick the curve per series', function () {
+    $component = <<<'HTML'
+    <x-chart line :series="[
+        ['name' => 'Smooth', 'data' => [10, 40, 25]],
+        ['name' => 'Straight', 'data' => [8, 30, 33], 'curve' => 'straight'],
+    ]" />
+    HTML;
+
+    preg_match_all('/ d="([^"]+)"/', expect($component)->render()->value, $matches);
+
+    expect($matches[1][0])->toContain(' C')
+        ->and($matches[1][1])->toContain(' L')->not->toContain(' C');
+});
+
+it('walks a stacked step band back the way it came', function () {
+    $component = <<<'HTML'
+    <x-chart stacked curve="step" :series="[
+        ['name' => 'Below', 'data' => [10, 40, 25]],
+        ['name' => 'Above', 'data' => [8, 30, 33]],
+    ]" />
+    HTML;
+
+    preg_match_all('/fill="url\(#[^"]+\)"\s+d="([^"]+)"/', expect($component)->render()->value, $matches);
+
+    // The lower edge drops before it runs back, tracing the upper edge of
+    // the band below rather than cutting across its corners.
+    expect($matches[1][1])->toMatch('/ L100,[\d.]+ V[\d.]+ H50 V[\d.]+ H0 Z$/');
+});
+
+it('can set the curve globally', function () {
+    $original = config('ts-ui.components.chart.1');
+
+    config()->set('ts-ui.components.chart.1', ['curve' => 'straight']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-chart :series="[10, 40, 25]" />')
+            ->render()
+            ->toContain(' L50,')
+            ->not->toContain(' C');
+    } finally {
+        config()->set('ts-ui.components.chart.1', $original);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('cannot use an unknown curve', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [curve] must be one of: smooth, straight, step.');
+
+    expect('<x-chart :series="[10, 40, 25]" curve="wavy" />')->render();
+});
+
+it('cannot use an unknown curve on a series', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [curve] of every series must be one of: smooth, straight, step.');
+
+    expect('<x-chart :series="[[\'data\' => [10, 40], \'curve\' => \'wavy\']]" />')->render();
+});
+
+it('cannot shape what a radial type does not draw', function (string $attribute) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The ['.$attribute.'] cannot be used with the [pie] type.');
+
+    expect('<x-chart :series="[10, 40, 25]" pie '.$attribute.'="'.['curve' => 'straight', 'round' => 'lg', 'corners' => 'end'][$attribute].'" />')->render();
+})->with(['curve', 'round', 'corners']);
+
+it('lets a global curve reach a radial type without complaint', function () {
+    $original = config('ts-ui.components.chart.1');
+
+    config()->set('ts-ui.components.chart.1', ['curve' => 'straight', 'round' => 'lg', 'corners' => 'end']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        expect('<x-chart :series="[10, 40, 25]" pie />')->render()->toContain('<svg');
+    } finally {
+        config()->set('ts-ui.components.chart.1', $original);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('breaks the line at a gap', function () {
+    $html = expect('<x-chart :series="[10, 40, null, 25, 60]" line markers />')->render()->value;
+
+    preg_match('/stroke-linejoin="round"\s+d="([^"]+)"/', $html, $line);
+
+    // Two runs, each with its own move, and no segment across the hole.
+    expect(substr_count($line[1], 'M'))->toBe(2)
+        ->and($line[1])->not->toContain('50,')
+        ->and(substr_count($html, 'rounded-full bg-current'))->toBe(4);
+});
+
+it('closes the area on each side of a gap', function () {
+    $html = expect('<x-chart :series="[10, 40, null, 25, 60]" />')->render()->value;
+
+    preg_match('/fill="url\(#[^"]+\)"\s+d="([^"]+)"/', $html, $area);
+
+    expect(substr_count($area[1], ' Z'))->toBe(2);
+});
+
+it('keeps a lone point between gaps as a marker with no line', function () {
+    $html = expect('<x-chart :series="[null, 40, null]" markers />')->render()->value;
+
+    expect($html)->not->toContain('fill-none stroke-current')
+        ->and(substr_count($html, 'rounded-full bg-current'))->toBe(1);
+});
+
+it('leaves a gap out of the scale', function () {
+    expect('<x-chart :series="[10, null, 40]" grid />')
+        ->render()
+        ->toContain('>10</span>')
+        ->not->toContain('>0</span>');
+});
+
+it('draws no bar at a gap', function () {
+    $html = expect('<x-chart :series="[10, null, 25]" bar />')->render()->value;
+
+    expect(substr_count($html, 'class="fill-current"'))->toBe(2);
+});
+
+it('stacks over a gap as if it were nothing', function () {
+    $component = <<<'HTML'
+    <x-chart bar stacked :series="[
+        ['name' => 'Below', 'data' => [10, null, 25]],
+        ['name' => 'Above', 'data' => [8, 30, 33]],
+    ]" />
+    HTML;
+
+    preg_match_all('/<path class="fill-current" d="([^"]+)"/', expect($component)->render()->value, $bars);
+
+    // Five bars, and the one above the gap reaches the axis with both of its
+    // ends rounded, since nothing sits under it.
+    expect($bars[1])->toHaveCount(5)
+        ->and($bars[1][3])->toContain(' V95.4 ')
+        ->and(substr_count($bars[1][3], 'A'))->toBe(4);
+});
+
+it('sends a gap to the tooltip as nothing to show')
+    ->expect('<x-chart :series="[10, null, 25]" tooltip />')
+    ->render()
+    ->toContain('\u0022formatted\u0022:[\u002210\u0022,null,\u002225\u0022]');
+
+it('weighs a gap as nothing on a radial type', function () {
+    $html = expect('<x-chart :series="[30, null, 70]" pie />')->render()->value;
+
+    expect(substr_count($html, 'stroke-white'))->toBe(2);
+});
+
+it('rounds every corner of a bar by default', function () {
+    preg_match('/<path class="fill-current" d="([^"]+)"/', expect('<x-chart :series="[10, 40, 25]" bar />')->render()->value, $bar);
+
+    expect(substr_count($bar[1], 'A0.6,0.6'))->toBe(4);
+});
+
+it('can round only the end of a bar', function () {
+    $html = expect('<x-chart :series="[10, -40, 25]" bar corners="end" />')->render()->value;
+
+    preg_match_all('/<path class="fill-current" d="([^"]+)"/', $html, $bars);
+
+    // A positive bar rounds its head, a negative one its foot.
+    expect(substr_count($bars[1][0], 'A'))->toBe(2)
+        ->and($bars[1][0])->toMatch('/^M[\d.]+,[\d.]+ A/')
+        ->and($bars[1][1])->toMatch('/^M[\d.]+,[\d.]+ H/')
+        ->and(substr_count($bars[1][1], 'A'))->toBe(2);
+});
+
+it('rounds only the far end of a stacked column with end corners', function () {
+    $component = <<<'HTML'
+    <x-chart bar stacked corners="end" :series="[
+        ['name' => 'Below', 'data' => [10, 40]],
+        ['name' => 'Above', 'data' => [8, 30]],
+    ]" />
+    HTML;
+
+    preg_match_all('/<path class="fill-current" d="([^"]+)"/', expect($component)->render()->value, $bars);
+
+    expect(substr_count($bars[1][0], 'A'))->toBe(0)
+        ->and(substr_count($bars[1][2], 'A'))->toBe(2);
+});
+
+it('can pick the corner radius', function (string $round, string $arc) {
+    preg_match('/<path class="fill-current" d="([^"]+)"/', expect('<x-chart :series="[10, 40, 25]" bar round="'.$round.'" />')->render()->value, $bar);
+
+    expect($bar[1])->toContain($arc);
+})->with([
+    'md' => ['md', 'A1.2,1.2'],
+    'lg' => ['lg', 'A2.4,2.4'],
+]);
+
+it('can square the bars off')
+    ->expect('<x-chart :series="[10, 40, 25]" bar round="none" />')
+    ->render()
+    ->not->toContain(' A');
+
+it('can set the corners globally', function () {
+    $original = config('ts-ui.components.chart.1');
+
+    config()->set('ts-ui.components.chart.1', ['round' => 'md', 'corners' => 'end']);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    try {
+        preg_match('/<path class="fill-current" d="([^"]+)"/', expect('<x-chart :series="[10, 40, 25]" bar />')->render()->value, $bar);
+
+        expect(substr_count($bar[1], 'A1.2,1.2'))->toBe(2);
+    } finally {
+        config()->set('ts-ui.components.chart.1', $original);
+
+        __ts_get_component_configuration(Component::class, flush: true);
+    }
+});
+
+it('cannot use an unknown round', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [round] must be one of: none, sm, md, lg.');
+
+    expect('<x-chart :series="[10, 40, 25]" bar round="xl" />')->render();
+});
+
+it('cannot use unknown corners', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [corners] must be one of: all, end.');
+
+    expect('<x-chart :series="[10, 40, 25]" bar corners="top" />')->render();
+});
 
 it('can render a grid with rounded tick values', function () {
     // Ticks exist so the axis reads as 0, 20, 40 rather than 10, 27.5, 45.
@@ -410,8 +675,6 @@ it('can render a grid with rounded tick values', function () {
 });
 
 it('can format through a closure', function () {
-    // Every displayed number is formatted server-side, so a closure covers
-    // the axis and the tooltip alike without crossing over to JavaScript.
     $component = <<<'HTML'
     <x-chart :series="[12000, 25000, 18000]" grid tooltip
              :formatter="fn (float $value) => 'R$ '.number_format($value, 2, ',', '.')" />
@@ -465,8 +728,6 @@ it('attaches alpine only when something needs it', function (string $component, 
 ]);
 
 it('can render markers without alpine', function () {
-    // Markers are html, not svg circles: a circle drawn into a viewBox
-    // stretched by preserveAspectRatio="none" renders as an ellipse.
     $html = expect('<x-chart :series="[1, 8, 3]" markers />')->render()->value;
 
     expect(substr_count($html, 'rounded-full'))->toBe(3)
@@ -477,8 +738,6 @@ it('can render markers without alpine', function () {
 });
 
 it('generates a unique gradient per instance', function () {
-    // A shared id would make every chart paint with the first one's colour,
-    // because url(#id) resolves to the first match in the document.
     $html = expect('<x-chart :series="[1, 2, 3]" color="emerald" /><x-chart :series="[3, 2, 1]" color="rose" />')
         ->render()
         ->value;
@@ -506,8 +765,6 @@ it('can override the palette per series')
     ->toContain('text-amber-500');
 
 it('can default every chart through the config', function () {
-    // Presentation only: the type stays a per-chart decision, since a
-    // dashboard mixes bars, lines and pies rather than picking one.
     config()->set('ts-ui.components.chart.1', [
         'height' => 180,
         'grid' => true,
@@ -522,8 +779,6 @@ it('can default every chart through the config', function () {
         ->render()
         ->toContain('min-height: 180px')
         ->toContain('<line')
-        // These three reach the markup through the runtime: the view data is
-        // captured before the config defaults are written onto the props.
         ->toContain('rounded-full')
         ->toContain('tallstackui_chart_legend_0')
         ->toContain('tallstackui_chart_tooltip')
@@ -531,8 +786,6 @@ it('can default every chart through the config', function () {
 });
 
 it('cannot let a config default reach a type that rejects it', function () {
-    // validate() runs before configurations, so a global grid would otherwise
-    // slip past the rule that rejects it on a radial type.
     config()->set('ts-ui.components.chart.1', ['grid' => true]);
 
     __ts_get_component_configuration(Component::class, flush: true);
@@ -580,12 +833,11 @@ it('cannot render without series', function () {
 
 it('cannot render with non numeric series', function (string $component) {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [series] must contain only numeric values.');
+    $this->expectExceptionMessage('The [series] must contain only numeric values, or null for a gap.');
 
     expect($component)->render();
 })->with([
     'string' => ['<x-chart :series="[1, \'foo\']" />'],
-    'null' => ['<x-chart :series="[1, null]" />'],
     'nan' => ['<x-chart :series="[1, NAN]" />'],
     'inf' => ['<x-chart :series="[1, INF]" />'],
     'nested' => ['<x-chart :series="[[\'name\' => \'a\', \'data\' => [1, \'foo\']]]" />'],
@@ -648,7 +900,6 @@ it('cannot render with an unknown series type', function () {
 });
 
 it('cannot render a radial type from more than one series', function (string $type) {
-    // A circle divides one set of values; the extra ones used to be dropped.
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The ['.$type.'] type accepts only one series.');
 
@@ -680,7 +931,6 @@ it('cannot render with invalid decimals', function (string $component) {
 ]);
 
 it('cannot stack across two axes', function () {
-    // One running total cannot span unrelated magnitudes.
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [stacked] cannot be used together with a secondary axis.');
 
@@ -699,6 +949,11 @@ it('can render the skeleton without a series')
     ->render()
     ->toContain('animate-pulse')
     ->toContain('tallstackui_chart_skeleton');
+
+it('keys the skeleton so livewire swaps it rather than morphing it')
+    ->expect('<x-chart skeleton />')
+    ->render()
+    ->toContain('wire:key="tallstackui-chart-skeleton-');
 
 it('can render the skeleton as a curve')
     ->expect('<x-chart skeleton type="line" />')

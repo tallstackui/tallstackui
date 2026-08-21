@@ -76,7 +76,7 @@ TallStackUi::customize()
 | Scope                        | Target           | Line(s) |
 |------------------------------|------------------|---------|
 | `form.autocomplete.input`    | `<x-input />`    | 22      |
-| `form.autocomplete.floating` | `<x-floating />` | 70      |
+| `form.autocomplete.floating` | `<x-floating />` | 62      |
 
 ### `form/checkbox/group`
 
@@ -117,8 +117,8 @@ TallStackUi::customize()
 | Scope            | Target        | Line(s) |
 |------------------|---------------|---------|
 | `form.pin.label` | `<x-label />` | 14      |
-| `form.pin.hint`  | `<x-hint />`  | 91      |
-| `form.pin.error` | `<x-error />` | 94      |
+| `form.pin.hint`  | `<x-hint />`  | 104     |
+| `form.pin.error` | `<x-error />` | 107     |
 
 ### `form/radio/group`
 
@@ -142,8 +142,8 @@ TallStackUi::customize()
 | `form.select-styled.label`    | `<x-label />`    | 41      |
 | `form.select-styled.floating` | `<x-floating />` | 132     |
 | `form.select-styled.input`    | `<x-input />`    | 141     |
-| `form.select-styled.hint`     | `<x-hint />`     | 265     |
-| `form.select-styled.error`    | `<x-error />`    | 268     |
+| `form.select-styled.hint`     | `<x-hint />`     | 269     |
+| `form.select-styled.error`    | `<x-error />`    | 272     |
 
 ### `form/tag`
 

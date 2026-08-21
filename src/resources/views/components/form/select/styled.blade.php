@@ -159,7 +159,11 @@
                 x-ref="list">
                 @if ($request)
                     <div x-show="loading" class="{{ $customization['box.list.loading.wrapper'] }}">
-                        <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
+                        @if ($spinner)
+                            <x-dynamic-component :component="TallStackUi::prefix('spinner')" :type="$spinner" />
+                        @else
+                            <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
+                        @endif
                     </div>
                 @endif
                 @if ($grouped)

@@ -24,6 +24,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $hint = null,
         public ?string $icon = null,
         public ?bool $clearable = null,
+        public ?bool $email = null,
         public ?bool $invalidate = null,
         public ?bool $stripZeros = null,
         #[SkipDebug]
@@ -100,6 +101,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->clearable && $this->suffix !== null) {
             __ts_validation_exception($this, 'The [clearable] cannot be used with [suffix]');
+        }
+
+        if ($this->email && $this->attributes->has('type')) {
+            __ts_validation_exception($this, 'The [email] cannot be used with the [type] attribute because [email] already sets the type to email.');
         }
     }
 }

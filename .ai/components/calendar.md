@@ -97,7 +97,7 @@ Lock the month/year header (only allow picking days within the displayed month):
 | month-year-only | bool\|null                  | false                     | Locks the view to month + year selection (no day grid). Output format switches to `YYYY-MM`.                                                                                                                                                     |
 | lock-month-year | bool\|null                  | false                     | When true, the month and year header buttons no longer open the month/year pickers. Day selection and prev/next month navigation continue to work. Use it when the displayed month/year is fixed and you only want users picking days within it. |
 | disable         | array\|Collection           | `[]`                      | List of disabled date strings or Carbon instances.                                                                                                                                                                                               |
-| start           | int\|string                 | `0`                       | First day of the week (0 = Sunday, 6 = Saturday).                                                                                                                                                                                                |
+| start           | int\|string\|null           | null                      | First day of the week (0 = Sunday, 6 = Saturday). Falls back to the global `start` configuration, `0` by default.                                                                                                                                |
 | only            | int\|string\|null           | null                      | Restricts selection to a single weekday (0–6).                                                                                                                                                                                                   |
 | weekdays        | bool\|null                  | false                     | When true, weekends are disabled.                                                                                                                                                                                                                |
 | weekends        | bool\|null                  | false                     | When true, weekdays are disabled.                                                                                                                                                                                                                |
@@ -113,12 +113,16 @@ Lock the month/year header (only allow picking days within the displayed month):
     [
         'shadowless' => false,
         'bordered' => false,
+        'start' => 0,
     ],
 ],
 ```
 
 The inline prop always wins over the global default, so `:shadowless="false"` restores
-the shadow on a single calendar while the configuration keeps it off everywhere else.
+the shadow on a single calendar while the configuration keeps it off everywhere else, and
+`start="0"` keeps Sunday on one calendar while `'start' => 1` moves the others to Monday. The
+configured value goes through the same validation as the attribute: anything outside `0`–`6`
+raises the exception listed under Validation.
 
 ## Slots
 
@@ -149,7 +153,7 @@ At render time, Calendar raises `InvalidArgumentException` (wrapped as `ViewExce
 - `min-date` or `max-date` cannot be parsed as a valid date.
 - `min-date > max-date`.
 - `max-year < min-year`.
-- `start > 6` or `only > 6`.
+- `start` is outside `0`–`6`, inline or configured, or `only > 6`.
 - `double` is set but `range` is not — `double` requires `range`.
 - `range` and `multiple` are both set — they are mutually exclusive.
 - `lock-month-year` and `month-year-only` are both set — `month-year-only` makes the picker the only interaction surface, so locking it would freeze the component.

@@ -44,29 +44,33 @@ its code ships in its own bundle rather than in the main one.
 
 ## Attributes
 
-| Attribute | Type                    | Default   | Description                                                                                                                            |
-|-----------|-------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
-| series    | array\|Collection\|null | null      | Values to plot, flat or grouped. Required                                                                                              |
-| labels    | array\|Collection\|null | null      | Horizontal axis captions, or slice names on radial types                                                                               |
-| type      | string\|null            | 'area'    | One of: area, line, bar, pie, donut                                                                                                    |
-| area      | bool\|null              | null      | Shorthand for `type="area"`. See [Type flags](#type-flags)                                                                             |
-| line      | bool\|null              | null      | Shorthand for `type="line"`                                                                                                            |
-| bar       | bool\|null              | null      | Shorthand for `type="bar"`                                                                                                             |
-| pie       | bool\|null              | null      | Shorthand for `type="pie"`                                                                                                             |
-| donut     | bool\|null              | null      | Shorthand for `type="donut"`                                                                                                           |
-| stacked   | bool\|null              | null      | Stacks series instead of overlaying them. Area and bar only                                                                            |
-| color     | string\|null            | 'primary' | Base color, and the first of the cycled palette                                                                                        |
-| colors    | array\|Collection\|null | null      | Explicit color names, cycled across series or slices                                                                                   |
-| height    | int\|null               | null      | Minimum rendered height in pixels, falling back to the config                                                                          |
-| grid      | bool\|null              | null      | Horizontal gridlines plus a labelled vertical axis                                                                                     |
-| legend    | bool\|null              | null      | Series names with a color swatch. Clicking one toggles it                                                                              |
-| tooltip   | bool\|null              | null      | Crosshair and a tooltip following the pointer                                                                                          |
-| markers   | bool\|null              | null      | A dot on every plotted point                                                                                                           |
-| prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array                                                                                  |
-| suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array                                                                                   |
-| decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise                                                                           |
-| formatter | Closure\|null           | null      | Formats every value, winning over the three above                                                                                      |
-| skeleton  | bool\|int\|null         | null      | Renders a structural placeholder instead of the plot. A bare flag draws 6 points; an integer sets the count. See [Skeleton](#skeleton) |
+| Attribute | Type                    | Default   | Description                                                                                                                                                |
+|-----------|-------------------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| series    | array\|Collection\|null | null      | Values to plot, flat or grouped. Required                                                                                                                  |
+| labels    | array\|Collection\|null | null      | Horizontal axis captions, or slice names on radial types                                                                                                   |
+| type      | string\|null            | 'area'    | One of: area, line, bar, pie, donut                                                                                                                        |
+| area      | bool\|null              | null      | Shorthand for `type="area"`. See [Type flags](#type-flags)                                                                                                 |
+| line      | bool\|null              | null      | Shorthand for `type="line"`                                                                                                                                |
+| bar       | bool\|null              | null      | Shorthand for `type="bar"`                                                                                                                                 |
+| pie       | bool\|null              | null      | Shorthand for `type="pie"`                                                                                                                                 |
+| donut     | bool\|null              | null      | Shorthand for `type="donut"`                                                                                                                               |
+| stacked   | bool\|null              | null      | Stacks series instead of overlaying them. Area and bar only                                                                                                |
+| color     | string\|null            | 'primary' | Base color, and the first of the cycled palette                                                                                                            |
+| colors    | array\|Collection\|null | null      | Explicit color names, cycled across series or slices                                                                                                       |
+| height    | int\|null               | null      | Minimum rendered height in pixels, falling back to the config                                                                                              |
+| grid      | bool\|null              | null      | Horizontal gridlines plus a labelled vertical axis                                                                                                         |
+| legend    | bool\|null              | null      | Series names with a color swatch. Clicking one toggles it                                                                                                  |
+| tooltip   | bool\|null              | null      | Crosshair and a tooltip following the pointer                                                                                                              |
+| markers   | bool\|null              | null      | A dot on every plotted point                                                                                                                               |
+| fit       | string\|null            | 'thin'    | How the horizontal axis labels avoid overlapping on narrow plots: thin, rotate or stagger. See [Axis labels on narrow plots](#axis-labels-on-narrow-plots) |
+| curve     | string\|null            | 'smooth'  | How a line joins its points: smooth, straight or step. Also per series. See [Curve](#curve)                                                                |
+| round     | string\|null            | 'sm'      | Corner radius of the bars: none, sm, md or lg. See [Rounded corners](#rounded-corners)                                                                     |
+| corners   | string\|null            | 'all'     | Which corners of a bar round: all, or only the end away from the axis                                                                                      |
+| prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array                                                                                                      |
+| suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array                                                                                                       |
+| decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise                                                                                               |
+| formatter | Closure\|null           | null      | Formats every value, winning over the three above                                                                                                          |
+| skeleton  | bool\|int\|null         | null      | Renders a structural placeholder instead of the plot. A bare flag draws 6 points; an integer sets the count. See [Skeleton](#skeleton)                     |
 
 ### Type flags
 
@@ -189,12 +193,73 @@ on a running total of its own instead of pulling the positive stack down.
 Legend rescaling is disabled while a bar is on the plot, whose baseline is
 anchored.
 
+### Curve
+
+`curve` picks how a line walks from one point to the next:
+
+```blade
+<x-chart :series="$price" :labels="$days" curve="straight" />
+```
+
+| Curve      | Behaviour                                                                                       |
+|------------|-------------------------------------------------------------------------------------------------|
+| `smooth`   | A monotone cubic through every point, which never overshoots the data. Default                  |
+| `straight` | A line segment between consecutive points, the way a stock chart is usually drawn               |
+| `step`     | Holds each value until the next index, then jumps, for readings that change at discrete moments |
+
+A series can pick its own, so a stepped target can sit over a smooth actual:
+
+```blade
+<x-chart :series="[
+    ['name' => 'Actual', 'data' => $actual],
+    ['name' => 'Target', 'data' => $target, 'curve' => 'step'],
+]" line />
+```
+
+The area, the markers, the crosshair and the legend rescaling are untouched by
+the curve: all of them read the same points. A stacked band keeps its lower
+edge shaped the same way as the band below it, so steps stack without cutting
+across each other's corners. The default comes from `curve` in the
+configuration. A radial type has no line to shape and refuses the attribute.
+
+### Gaps
+
+A `null` in `data` is a gap, not a zero:
+
+```blade
+<x-chart :series="[44, 31, 38, null, 32, 55, 51, 67, 22, 34]" markers />
+```
+
+The line and the area break on either side of it and resume after, a lone
+value between two gaps keeps its marker and draws no line, the tooltip lists
+the other series at that index and skips this one, and the gap never reaches
+the scale. A bar at a gap is simply not drawn, unlike a zero, which keeps its
+hairline so the category does not vanish. Inside a stack the gap weighs
+nothing, so the segment above it starts from wherever the column was. A pie or
+donut cannot hold a gap and counts it as zero.
+
 ### Rounded corners
 
 Bars are drawn as paths rather than rectangles, because SVG rounds all four
 corners of a `rect` at once. Inside a stack only the two ends of the column
 round — an arc on both sides of a seam pulls the two segments apart and the
 card shows through the gap. Everything else keeps the corner it had.
+
+`round` sets the radius — `none`, `sm` (default), `md` or `lg` — and `corners`
+says which ends take it:
+
+```blade
+<x-chart :series="$usage" :labels="$years" bar round="md" corners="end" />
+```
+
+| Corners | Behaviour                                                                                                        |
+|---------|------------------------------------------------------------------------------------------------------------------|
+| `all`   | Every corner of a bar, and both ends of a stacked column. Default                                                |
+| `end`   | Only the end away from the axis: the top of a positive bar, the bottom of a negative one, the far end of a stack |
+
+Both come from the configuration when absent, so an application settles the
+look of its bars once. The radius lives in viewBox units, so `lg` on a dense
+chart ends up as a pill.
 
 The axis is an end only while the column stops there. A stack that carries on
 past zero meets it like any other seam, so its ends are the extremes of the
@@ -223,11 +288,15 @@ standalone chart inside `<x-card>` and as the background layer of `<x-stats>`.
     'chart' => [
         \TallStackUi\Components\Chart\Component::class,
         [
-            'height' => 64,
+            'height' => 240,
             'grid' => false,
             'legend' => false,
             'tooltip' => false,
             'markers' => false,
+            'fit' => 'thin',
+            'curve' => 'smooth',
+            'round' => 'sm',
+            'corners' => 'all',
         ],
     ],
 ],
@@ -238,9 +307,10 @@ is absent. `type` is deliberately absent: a dashboard mixes bars, lines and
 pies, so the type stays a per-chart decision rather than an application-wide
 one.
 
-`grid` is the one exception: a radial type has no axis to label, so a global
-`true` is dropped there rather than throwing. Passing `grid` explicitly on a
-`pie` or a `donut` still throws — the difference is between an application-wide
+`grid`, `curve`, `round` and `corners` share one exception: a radial type has
+no axis to label, no line to shape and no bar to round, so a global value is
+ignored there rather than throwing. Passing any of them explicitly on a `pie`
+or a `donut` still throws — the difference is between an application-wide
 preference and a call site asking for something impossible.
 
 ## Behaviour
@@ -271,6 +341,32 @@ Nothing textual or circular lives inside the SVG, because both would be
 distorted by that same stretch. Axis labels and point markers are HTML
 positioned over the plot, which also gives them Tailwind typography and dark
 mode for free.
+
+### Axis labels on narrow plots
+
+Thirty captions fit across a desktop plot and pile onto each other on a phone.
+The server cannot know how wide the plot will be, so whenever `labels` exist
+the horizontal axis carries a small Alpine piece of its own — independent from
+`tooltip` and `legend` — that measures the axis and its widest caption and
+keeps the shown labels from touching. It re-measures on resize, after a
+Livewire update and once web fonts have loaded. Hidden labels keep their box
+through `axis.x.off` (`invisible`) rather than leaving the flow, which is what
+keeps them measurable.
+
+`fit` picks how the labels make room:
+
+```blade
+<x-chart :series="$sent" :labels="$days" fit="rotate" />
+```
+
+| Fit       | Behaviour                                                                                                  |
+|-----------|------------------------------------------------------------------------------------------------------------|
+| `thin`    | Shows every *n*-th label from the first one. The axis keeps its height. Default                            |
+| `rotate`  | Slants every label by -45°, then thins only what still collides. The axis grows to hold the slanted labels |
+| `stagger` | Alternates the labels over two rows, thinning each row on its own. Text stays upright; the axis doubles    |
+
+The default comes from `fit` in the configuration, so a mobile-first
+application can switch every chart at once.
 
 ### Color
 
@@ -323,7 +419,11 @@ appears complete the moment the placeholder is replaced. Hit-testing measures
 the element on the pointer event and never on `init()`, which is the usual
 failure mode for charting libraries mounted before their container has a size.
 
-For the placeholder itself, see [Skeleton](#skeleton) below.
+For the placeholder itself, see [Skeleton](#skeleton) below. The placeholder
+carries a `wire:key` of its own, so Livewire swaps it for the chart instead of
+morphing one into the other. A chart morphed into its placeholder and back —
+a loading state shown again after the data existed — would otherwise keep a
+stale Alpine scope on the node, which makes Alpine skip the chart's `x-data`.
 
 ## Skeleton
 
@@ -339,8 +439,9 @@ where a chart is usually the slowest thing on the page.
 
 The placeholder runs the same geometry as a real chart — `Series`, `Scale`,
 `Bars`, `Spline`, `Slices` — over invented values, so it lands in the same
-`viewBox` with the same proportions, and honours the resolved `height`. Three
-shape families cover all five types:
+`viewBox` with the same proportions, and honours the resolved `height`, `curve`,
+`round` and `corners`, so the placeholder already has the shape of the chart it
+stands in for. Three shape families cover all five types:
 
 | Family | Types          | Produced by |
 |--------|----------------|-------------|
@@ -362,26 +463,31 @@ below `1` throws.
 
 ### Degenerate input
 
-| Input                                        | Result                                                                 |
-|----------------------------------------------|------------------------------------------------------------------------|
-| Absent `series`                              | Throws `The [series] attribute is required.`, unless `skeleton` is set |
-| Empty array                                  | The plot renders at full height with no path                           |
-| Single value                                 | Spans the plot as a constant series, like `[7, 7, 7]`                  |
-| All values identical                         | A flat line centred in the band, not on the baseline                   |
-| Negative values                              | Handled natively; bars anchor on zero, and stack below it              |
-| Negative values on a pie or donut            | Clamped to zero; a slice cannot sweep backwards                        |
-| More than one series on a pie or donut       | Throws; a circle divides one set of values                             |
-| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values.`                |
-| Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.`              |
-| Unknown `type`                               | Throws, naming the accepted values                                     |
-| Unknown `type` on a series                   | Throws; only `area`, `line` and `bar` exist                            |
-| `type` on a series of a pie or donut         | Throws                                                                 |
-| Unknown `axis`                               | Throws; only `left` and `right` exist                                  |
-| `stacked` on line or pie                     | Throws                                                                 |
-| `stacked` with a secondary axis              | Throws; one running total cannot span two domains                      |
-| `grid` on pie or donut                       | Throws                                                                 |
-| Negative or non-integer `decimals`           | Throws                                                                 |
-| Formatting array keyed other than left/right | Throws                                                                 |
+| Input                                         | Result                                                                                     |
+|-----------------------------------------------|--------------------------------------------------------------------------------------------|
+| Absent `series`                               | Throws `The [series] attribute is required.`, unless `skeleton` is set                     |
+| Empty array                                   | The plot renders at full height with no path                                               |
+| Single value                                  | Spans the plot as a constant series, like `[7, 7, 7]`                                      |
+| All values identical                          | A flat line centred in the band, not on the baseline                                       |
+| Negative values                               | Handled natively; bars anchor on zero, and stack below it                                  |
+| Negative values on a pie or donut             | Clamped to zero; a slice cannot sweep backwards                                            |
+| `null` inside `data`                          | A gap: the line breaks, no bar or marker is drawn, the scale ignores it. See [Gaps](#gaps) |
+| `null` on a pie or donut                      | Counts as zero; a circle has no room for a gap                                             |
+| More than one series on a pie or donut        | Throws; a circle divides one set of values                                                 |
+| Non-numeric, `NAN`, `INF`                     | Throws `The [series] must contain only numeric values, or null for a gap.`                 |
+| Entry without `data`                          | Throws `Every entry of [series] must carry a [data] key.`                                  |
+| Unknown `type`                                | Throws, naming the accepted values                                                         |
+| Unknown `type` on a series                    | Throws; only `area`, `line` and `bar` exist                                                |
+| `type` on a series of a pie or donut          | Throws                                                                                     |
+| Unknown `curve`, `round` or `corners`         | Throws, naming the accepted values                                                         |
+| Unknown `curve` on a series                   | Throws; only `smooth`, `straight` and `step` exist                                         |
+| `curve`, `round` or `corners` on pie or donut | Throws when passed explicitly; a configured default is ignored instead                     |
+| Unknown `axis`                                | Throws; only `left` and `right` exist                                                      |
+| `stacked` on line or pie                      | Throws                                                                                     |
+| `stacked` with a secondary axis               | Throws; one running total cannot span two domains                                          |
+| `grid` on pie or donut                        | Throws                                                                                     |
+| Negative or non-integer `decimals`            | Throws                                                                                     |
+| Formatting array keyed other than left/right  | Throws                                                                                     |
 
 ### Long series
 
@@ -412,8 +518,8 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 Soft customization reaches how the SVG is painted, not how it is drawn. Fill,
 stroke, width and opacity are Tailwind classes on the elements, so every
 `plot.*` block works like any other. The shapes themselves are computed
-server-side and exposed nowhere: curvature, corner radius, the donut hole and
-the tick count are fixed.
+server-side: the curve and the corners answer to `curve`, `round` and
+`corners`, while the donut hole and the tick count are fixed.
 
 ### Customization
 
@@ -432,46 +538,47 @@ pixels at any chart size rather than three viewBox units.
 
 ### Available Blocks
 
-| Block Name           | Purpose                                                   |
-|----------------------|-----------------------------------------------------------|
-| wrapper              | Outermost container holding the plot, legend and slots    |
-| plot.wrapper         | The grid aligning the axes with the plot                  |
-| plot.svg             | The SVG itself                                            |
-| plot.line            | The curve stroke                                          |
-| plot.area            | The filled area under a curve                             |
-| plot.bar             | Bar shapes                                                |
-| plot.slice           | Pie and donut arcs                                        |
-| plot.markers         | Container for the point markers                           |
-| plot.marker          | A single point marker                                     |
-| plot.grid            | Horizontal gridlines                                      |
-| plot.crosshair       | The vertical line following the pointer                   |
-| axis.y.wrapper       | Vertical axis column                                      |
-| axis.y.label         | A vertical axis label                                     |
-| axis.y.right.wrapper | Secondary axis column                                     |
-| axis.y.right.label   | A secondary axis label                                    |
-| axis.x.wrapper       | Horizontal axis row                                       |
-| axis.x.label         | A horizontal axis label                                   |
-| legend.wrapper       | Legend container                                          |
-| legend.item          | A legend entry                                            |
-| legend.off           | Applied to a legend entry whose series is hidden          |
-| legend.dot           | Legend color swatch                                       |
-| legend.text          | Legend label                                              |
-| tooltip.wrapper      | Tooltip container                                         |
-| tooltip.title        | Tooltip heading, the axis label or the slice percentage   |
-| tooltip.row          | One series row inside the tooltip                         |
-| tooltip.dot          | Tooltip color swatch                                      |
-| tooltip.name         | Series name inside the tooltip                            |
-| tooltip.value        | Formatted value inside the tooltip                        |
-| slots.header         | Header slot styles                                        |
-| slots.footer         | Footer slot styles                                        |
-| opacity.from         | Gradient stop opacity at the top of the area, as a number |
-| opacity.to           | Gradient stop opacity at the baseline, as a number        |
-| skeleton.animation   | Pulse animation applied to the whole placeholder          |
-| skeleton.bar         | Base look of the header and footer placeholder bars       |
-| skeleton.fill        | Neutral fill of placeholder areas, bars and slices        |
-| skeleton.stroke      | Neutral stroke of the placeholder curve                   |
-| skeleton.header      | Header bar dimensions                                     |
-| skeleton.footer      | Footer bar dimensions                                     |
+| Block Name           | Purpose                                                    |
+|----------------------|------------------------------------------------------------|
+| wrapper              | Outermost container holding the plot, legend and slots     |
+| plot.wrapper         | The grid aligning the axes with the plot                   |
+| plot.svg             | The SVG itself                                             |
+| plot.line            | The curve stroke                                           |
+| plot.area            | The filled area under a curve                              |
+| plot.bar             | Bar shapes                                                 |
+| plot.slice           | Pie and donut arcs                                         |
+| plot.markers         | Container for the point markers                            |
+| plot.marker          | A single point marker                                      |
+| plot.grid            | Horizontal gridlines                                       |
+| plot.crosshair       | The vertical line following the pointer                    |
+| axis.y.wrapper       | Vertical axis column                                       |
+| axis.y.label         | A vertical axis label                                      |
+| axis.y.right.wrapper | Secondary axis column                                      |
+| axis.y.right.label   | A secondary axis label                                     |
+| axis.x.wrapper       | Horizontal axis row                                        |
+| axis.x.label         | A horizontal axis label                                    |
+| axis.x.off           | Applied to a horizontal axis label hidden to avoid overlap |
+| legend.wrapper       | Legend container                                           |
+| legend.item          | A legend entry                                             |
+| legend.off           | Applied to a legend entry whose series is hidden           |
+| legend.dot           | Legend color swatch                                        |
+| legend.text          | Legend label                                               |
+| tooltip.wrapper      | Tooltip container                                          |
+| tooltip.title        | Tooltip heading, the axis label or the slice percentage    |
+| tooltip.row          | One series row inside the tooltip                          |
+| tooltip.dot          | Tooltip color swatch                                       |
+| tooltip.name         | Series name inside the tooltip                             |
+| tooltip.value        | Formatted value inside the tooltip                         |
+| slots.header         | Header slot styles                                         |
+| slots.footer         | Footer slot styles                                         |
+| opacity.from         | Gradient stop opacity at the top of the area, as a number  |
+| opacity.to           | Gradient stop opacity at the baseline, as a number         |
+| skeleton.animation   | Pulse animation applied to the whole placeholder           |
+| skeleton.bar         | Base look of the header and footer placeholder bars        |
+| skeleton.fill        | Neutral fill of placeholder areas, bars and slices         |
+| skeleton.stroke      | Neutral stroke of the placeholder curve                    |
+| skeleton.header      | Header bar dimensions                                      |
+| skeleton.footer      | Footer bar dimensions                                      |
 
 `opacity.from` and `opacity.to` hold plain numbers rather than classes because
 Tailwind has no `stop-opacity` utility.

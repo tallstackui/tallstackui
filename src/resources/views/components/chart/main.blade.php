@@ -153,8 +153,16 @@
 
         <div></div>
 
-        <div class="{{ $customization['axis.x.wrapper'] }}">@foreach ($captions as $caption)
-                <span class="{{ $customization['axis.x.label'] }}" style="left: {{ $caption['x'] }}%">{{ $caption['label'] }}</span>
+        <div class="{{ $customization['axis.x.wrapper'] }}"
+             @if ($captions)
+                 x-data="tallstackui_chartAxis({ fit: '{{ $fitting }}' })"
+                 x-bind:style="wrapper"
+             @endif>@foreach ($captions as $caption)
+                <span class="{{ $customization['axis.x.label'] }}"
+                      style="left: {{ $caption['x'] }}%"
+                      x-bind:style="style({{ $loop->index }})"
+                      x-bind:class="shown({{ $loop->index }}) ? '' : '{{ $customization['axis.x.off'] }}'"
+                      dusk="tallstackui_chart_caption_{{ $loop->index }}">{{ $caption['label'] }}</span>
             @endforeach</div>
 
         <div></div>

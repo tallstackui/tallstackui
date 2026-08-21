@@ -72,7 +72,7 @@ Every option below is available to the directive as a plain attribute, so it als
 
 The requested position is a preference, not a guarantee. When it does not fit, the balloon flips to the opposite side and slides along the cross axis to stay inside the viewport. The `auto` family picks the side with the most room to begin with.
 
-Long text wraps rather than pushing the balloon away from its trigger: the balloon is capped at `min(20rem, calc(100vw - 2rem))`.
+Long text wraps rather than pushing the balloon away from its trigger: the balloon is capped at `min(20rem, calc(100vw - 2rem))` and shrinks to its widest line once the text wraps.
 
 ## Delay
 

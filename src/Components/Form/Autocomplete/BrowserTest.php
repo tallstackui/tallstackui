@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Autocomplete;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -59,6 +60,94 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Baz')
             ->assertDontSee('Foo');
+    }
+
+    #[Test]
+    public function can_filter_ignoring_accents_in_the_items(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="[
+                        ['value' => 'São Paulo'],
+                        ['value' => 'Santos'],
+                    ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Santos')
+            ->type('@tallstackui_autocomplete_input', 'Sao')
+            ->pause(300)
+            ->assertSee('São Paulo')
+            ->assertDontSee('Santos');
+    }
+
+    #[Test]
+    public function can_filter_ignoring_accents_in_the_search(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="[
+                        ['value' => 'Sao Paulo', 'description' => 'Brasil'],
+                        ['value' => 'Santos', 'description' => 'Brasil'],
+                    ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Santos')
+            ->type('@tallstackui_autocomplete_input', 'São')
+            ->pause(300)
+            ->assertSee('Sao Paulo')
+            ->assertDontSee('Santos');
+    }
+
+    #[Test]
+    public function can_keep_the_highlighted_item_in_view_while_navigating_with_arrow_keys(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :items="collect(range(1, 40))->map(fn (int $index) => ['value' => 'Item '.$index])->all()" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Item 1')
+            ->keys('@tallstackui_autocomplete_input', ...array_fill(0, 20, '{ARROW_DOWN}'))
+            ->pause(300)
+            ->tap(function (Browser $browser): void {
+                $state = $browser->script(<<<'JS'
+                    const list = document.querySelector('[dusk="tallstackui_autocomplete_options"]');
+                    const row = list.querySelector('[data-index="19"]');
+                    const outer = list.getBoundingClientRect();
+                    const inner = row.getBoundingClientRect();
+
+                    return JSON.stringify({
+                        scrollTop: list.scrollTop,
+                        visible: inner.top >= outer.top && inner.bottom <= outer.bottom,
+                    });
+                JS)[0];
+
+                $payload = json_decode($state, true);
+
+                $this->assertGreaterThan(0, $payload['scrollTop'], 'The list must scroll to follow the highlighted item.');
+                $this->assertTrue($payload['visible'], 'The highlighted item must stay inside the visible area of the list.');
+            });
     }
 
     #[Test]

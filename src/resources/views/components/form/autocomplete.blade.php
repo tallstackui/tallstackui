@@ -43,25 +43,17 @@
             @if ($suffix)
                 <span class="{{ $customization['adornment.suffix'] }}">{{ $suffix }}</span>
             @endif
-            @if ($request || $clearable)
+            @if ($clearable && ! $locked)
                 <div class="{{ $customization['icon.wrapper'] }}">
-                    <template x-if="loading">
+                    <button type="button"
+                            x-show="search || selected"
+                            x-on:click="clear()"
+                            dusk="tallstackui_autocomplete_clear">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                             :icon="TallStackUi::icon('arrow-path')"
+                                             :icon="TallStackUi::icon('x-mark')"
                                              internal
-                                             class="{{ $customization['icon.loading'] }}" />
-                    </template>
-                    @if ($clearable && ! $locked)
-                        <button type="button"
-                                x-show="!loading && (search || selected)"
-                                x-on:click="clear()"
-                                dusk="tallstackui_autocomplete_clear">
-                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                 :icon="TallStackUi::icon('x-mark')"
-                                                 internal
-                                                 class="{{ $customization['icon.clear'] }}" />
-                        </button>
-                    @endif
+                                             class="{{ $customization['icon.clear'] }}" />
+                    </button>
                 </div>
             @endif
         </x-slot:suffix>
@@ -74,9 +66,14 @@
                          x-show="show">
         <ul class="{{ $customization['box.list.wrapper'] }}"
             role="listbox"
+            x-ref="list"
             dusk="tallstackui_autocomplete_options">
             <div x-show="loading" class="{{ $customization['box.list.loading.wrapper'] }}">
-                <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
+                @if ($spinner)
+                    <x-dynamic-component :component="TallStackUi::prefix('spinner')" :type="$spinner" />
+                @else
+                    <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
+                @endif
             </div>
             <template x-if="!loading">
                 <template x-for="(item, index) in available" :key="index">

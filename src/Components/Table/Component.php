@@ -26,6 +26,8 @@ class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
 
+    public const ALIGNMENTS = ['left', 'center', 'right'];
+
     public const PAGINATORS = ['simple', 'minimal', 'compact'];
 
     public function __construct(
@@ -70,6 +72,11 @@ class Component extends TallStackUiComponent implements Customization
         $this->placeholders = array_merge(trans('ts-ui::messages.table'), $this->placeholders ?? []);
     }
 
+    final public function alignment(Collection|array $header): string
+    {
+        return $header['align'] ?? 'left';
+    }
+
     public function blade(): View
     {
         return view($this->skeletonized() ? 'ts-ui::components.table.skeleton' : 'ts-ui::components.table.main');
@@ -83,8 +90,8 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'relative soft-scrollbar overflow-auto bg-white dark:bg-dark-800',
                 'base' => 'dark:divide-dark-600/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
-                'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
-                'th-compact' => 'dark:text-dark-200 px-3 py-2 text-left text-sm font-semibold text-gray-700',
+                'th' => 'dark:text-dark-200 px-3 py-3.5 text-sm font-semibold text-gray-700',
+                'th-compact' => 'dark:text-dark-200 px-3 py-2 text-sm font-semibold text-gray-700',
                 'th-uppercase' => 'uppercase',
                 'th-checkbox-width' => 'w-8',
                 'th-actions-width' => 'w-6',
@@ -93,6 +100,11 @@ class Component extends TallStackUiComponent implements Customization
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
                 'td-compact' => 'dark:text-dark-300 whitespace-nowrap px-3 py-2.5 text-sm text-gray-500',
                 'tr' => '',
+                'align' => [
+                    'left' => 'text-left',
+                    'center' => 'text-center',
+                    'right' => 'text-right',
+                ],
                 'thead' => [
                     'normal' => 'bg-gray-50 dark:bg-dark-900',
                     'striped' => 'bg-white dark:bg-dark-900',
@@ -319,6 +331,12 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->highlight && blank($this->highlightProperty)) {
             __ts_validation_exception($this, 'The [highlightProperty] property is required when [highlight] is set.');
+        }
+
+        foreach ($this->headers as $header) {
+            if (! in_array($this->alignment($header), self::ALIGNMENTS, true)) {
+                __ts_validation_exception($this, 'The header [align] must be one of ['.implode(', ', self::ALIGNMENTS).'].');
+            }
         }
 
         if (is_string($this->persistent) && blank($this->persistent)) {

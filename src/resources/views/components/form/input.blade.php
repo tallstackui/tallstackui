@@ -67,7 +67,7 @@
             @endif
         @endif
         <input @if ($id) id="{{ $id }}" @endif
-        type="{{ $attributes->get('type', 'text') }}"
+        type="{{ $type }}"
                x-ref="{{ $attributes->get('x-ref', $ref) }}"
                @if ($stripZeros) x-data="tallstackui_formInputStripZeros(@js($ref))" @endif
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif

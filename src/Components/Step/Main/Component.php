@@ -135,7 +135,6 @@ class Component extends TallStackUiComponent implements Customization
                 ...$this->blocks(),
                 'circle' => 'size-8 rounded-full',
                 'panel-circle' => 'size-10 rounded-full',
-                'simple-bar' => 'h-1 w-full rounded-none',
                 'title' => 'h-4 w-24',
                 'description' => 'h-3 w-32',
                 'content' => 'h-24 w-full',

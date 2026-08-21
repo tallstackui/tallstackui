@@ -2,8 +2,7 @@
     $customization['item.base'],
     $customization['item.' . $variant],
     $colors['border'],
-    $colors['solid'] => $variant === 'inline',
-    $colors['background'] => $variant !== 'inline',
+    $colors['background'],
     $customization['item.disabled'] => $item['disabled'] || $locked,
     $customization['item.error'] => $error,
 ])>
@@ -31,19 +30,11 @@
             <img src="{{ $item['image'] }}" alt="{{ $item['label'] }}" class="{{ $customization['content.image'] }}">
         @elseif ($shows['icon'] && $item['icon'])
             <x-dynamic-component :component="TallStackUi::prefix('icon')" :name="$item['icon']"
-                                 @class([
-                                     $customization['content.icon'],
-                                     $colors['text'] => $variant !== 'inline',
-                                     $customization['content.inline'] => $variant === 'inline',
-                                 ]) />
+                                 @class([$customization['content.icon'], $colors['text']]) />
         @endif
         <span class="{{ $customization['content.wrapper'] }}">
             <span class="{{ $customization['content.header'] }}">
-                <span @class([
-                    $customization['content.label'],
-                    $colors['text'] => $variant !== 'inline',
-                    $customization['content.inline'] => $variant === 'inline',
-                ])>{{ $item['label'] }}</span>
+                <span @class([$customization['content.label'], $colors['text']])>{{ $item['label'] }}</span>
                 @if ($shows['badge'] && $item['badge'])
                     <x-dynamic-component :component="TallStackUi::prefix('badge')" :text="$item['badge']" :color="$color" sm />
                 @endif

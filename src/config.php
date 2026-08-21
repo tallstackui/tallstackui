@@ -141,10 +141,13 @@ return [
                 | updated when a row is picked from the dropdown, and the input reverts
                 | to the last selected value on blur with an unmatched query.
                 | select: the default field mapping of the items (e.g., 'value:name|description:email|image:avatar').
+                | indicator: the default loading indicator of the remote results. Null keeps the original icon.
+                | Use "spinner" or "spinner.{type}" to render a Spinner instead (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 |
                 */
                 'strict' => false,
                 'select' => null,
+                'indicator' => null,
             ],
         ],
         'back-to-top' => [
@@ -250,11 +253,13 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            | start: the first day of the week (0 = Sunday ... 6 = Saturday).
             |
             */
             [
                 'shadowless' => false,
                 'bordered' => false,
+                'start' => 0,
             ],
         ],
         'carousel' => Components\Carousel\Component::class,
@@ -266,11 +271,13 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            | round: the default corner shape. False keeps rounded-lg (Allowed: xs, sm, md, lg, xl, 2xl).
             |
             */
             [
                 'shadowless' => false,
                 'bordered' => false,
+                'round' => false,
             ],
         ],
         'chart' => [
@@ -284,6 +291,10 @@ return [
             | legend: default series names with a clickable color swatch.
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
+            | fit: how the horizontal axis labels avoid overlapping on narrow plots: thin, rotate or stagger.
+            | curve: how a line joins its points: smooth, straight or step.
+            | round: corner radius of the bars: none, sm, md or lg.
+            | corners: which corners of a bar round: all, or only the end away from the axis.
             |
             */
             [
@@ -292,6 +303,10 @@ return [
                 'legend' => false,
                 'tooltip' => false,
                 'markers' => false,
+                'fit' => 'thin',
+                'curve' => 'smooth',
+                'round' => 'sm',
+                'corners' => 'all',
             ],
         ],
         'checkbox' => Components\Form\Checkbox\Component::class,
@@ -384,7 +399,19 @@ return [
                 'decimal' => false,
             ],
         ],
-        'date' => Components\Form\Date\Component::class,
+        'date' => [
+            Components\Form\Date\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Date Global Settings
+            |----------------------------------------------------------------------
+            | start: the first day of the week (0 = Sunday ... 6 = Saturday).
+            |
+            */
+            [
+                'start' => 0,
+            ],
+        ],
         'dialog' => [
             Components\Dialog\Component::class,
             /*
@@ -855,11 +882,14 @@ return [
                 | unfiltered: allow all select API-styled components to be unfiltered by default.
                 | recycle: when true, preserves previous results when reopening the select.
                 | select: the default field mapping of the options (e.g., 'label:name|value:id|description:email|image:avatar').
+                | indicator: the default loading indicator of the remote results. Null keeps the original icon.
+                | Use "spinner" or "spinner.{type}" to render a Spinner instead (Allowed types: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
                 |
                 */
                 'unfiltered' => false,
                 'recycle' => false,
                 'select' => null,
+                'indicator' => null,
             ],
         ],
         'signature' => Components\Signature\Component::class,

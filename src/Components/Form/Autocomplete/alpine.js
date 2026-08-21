@@ -1,7 +1,12 @@
 import { error, lockable, wireChange } from '../../../../js/helpers';
 import { headers } from '../Select/helpers';
 
-const normalize = (text) => String(text ?? '').toLowerCase();
+// Strips diacritics so "Sao" matches "São Paulo" and vice versa.
+const normalize = (text) =>
+  String(text ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
 
 export default (
   model = null,
@@ -90,11 +95,11 @@ export default (
     });
 
     this.$watch('highlighted', (index) => {
-      if (index < 0 || !this.$refs.floating) {
+      if (index < 0 || !this.$refs.list) {
         return;
       }
 
-      const row = this.$refs.floating.querySelector(`[data-index="${index}"]`);
+      const row = this.$refs.list.querySelector(`[data-index="${index}"]`);
 
       row?.scrollIntoView({ block: 'nearest' });
     });
@@ -518,7 +523,7 @@ export default (
             return;
           }
 
-          error(`Autocomplete request failed: ${reason?.statusText ?? reason}`); // AI: remove it
+          error(`Autocomplete request failed: ${reason?.statusText ?? reason}`);
           this.available = [];
         })
         .finally(() => {
