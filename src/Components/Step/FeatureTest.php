@@ -155,13 +155,15 @@ it('can render the skeleton instead of the content')
 it('can render the skeleton with the default step count', function () {
     $html = Blade::render('<x-step skeleton />');
 
-    expect(substr_count($html, 'bg-gray-200'))->toBe(10);
+    expect(substr_count($html, 'bg-gray-200'))->toBe(7)
+        ->and(substr_count($html, 'border-gray-200'))->toBe(3);
 });
 
 it('can render the skeleton with a custom step count', function () {
     $html = Blade::render('<x-step skeleton="5" />');
 
-    expect(substr_count($html, 'bg-gray-200'))->toBe(16);
+    expect(substr_count($html, 'bg-gray-200'))->toBe(11)
+        ->and(substr_count($html, 'border-gray-200'))->toBe(5);
 });
 
 it('can render the skeleton in the circles variation')
