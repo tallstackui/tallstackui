@@ -75,7 +75,7 @@ more than one is given the first of `card`, `panel`, `inline` wins.
 | `list`   | Stacked rows sharing borders, rounded at the ends of the stack | Visible   |
 | `card`   | Independent cards in a responsive grid                         | Visible   |
 | `panel`  | Cards with a check icon marking the selection                  | `sr-only` |
-| `inline` | Horizontal segmented control with a solid fill                 | `sr-only` |
+| `inline` | Horizontal segmented control                                   | `sr-only` |
 
 The `sr-only` control on `panel` and `inline` stays in the tab order and toggles
 with Space.
@@ -142,8 +142,8 @@ closure receives the option with its original keys still available:
 ## Colors
 
 This component supports the TallStackUI color system via the `color` attribute.
-The color drives the border, background and text of the selected option, the fill
-of the selected segment on the `inline` variant, and the control itself.
+The color drives the border, background and text of the selected option, and the
+control itself.
 
 ## Soft Customization
 
@@ -193,7 +193,6 @@ TallStackUi::customize()
 | content.wrapper       | The wrapper of the label and description                |
 | content.header        | The row holding the label and the badge                 |
 | content.label         | The option label                                        |
-| content.inline        | Label and icon colors on the inline variant             |
 | content.description   | The option description                                  |
 | content.aside         | The option aside text                                   |
 | content.icon          | The option icon                                         |

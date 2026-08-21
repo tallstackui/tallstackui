@@ -201,11 +201,11 @@ anchored.
 <x-chart :series="$price" :labels="$days" curve="straight" />
 ```
 
-| Curve      | Behaviour                                                                                              |
-|------------|--------------------------------------------------------------------------------------------------------|
-| `smooth`   | A monotone cubic through every point, which never overshoots the data. Default                        |
-| `straight` | A line segment between consecutive points, the way a stock chart is usually drawn                      |
-| `step`     | Holds each value until the next index, then jumps, for readings that change at discrete moments         |
+| Curve      | Behaviour                                                                                       |
+|------------|-------------------------------------------------------------------------------------------------|
+| `smooth`   | A monotone cubic through every point, which never overshoots the data. Default                  |
+| `straight` | A line segment between consecutive points, the way a stock chart is usually drawn               |
+| `step`     | Holds each value until the next index, then jumps, for readings that change at discrete moments |
 
 A series can pick its own, so a stepped target can sit over a smooth actual:
 
@@ -252,9 +252,9 @@ says which ends take it:
 <x-chart :series="$usage" :labels="$years" bar round="md" corners="end" />
 ```
 
-| Corners | Behaviour                                                                                                     |
-|---------|---------------------------------------------------------------------------------------------------------------|
-| `all`   | Every corner of a bar, and both ends of a stacked column. Default                                              |
+| Corners | Behaviour                                                                                                        |
+|---------|------------------------------------------------------------------------------------------------------------------|
+| `all`   | Every corner of a bar, and both ends of a stacked column. Default                                                |
 | `end`   | Only the end away from the axis: the top of a positive bar, the bottom of a negative one, the far end of a stack |
 
 Both come from the configuration when absent, so an application settles the
@@ -463,31 +463,31 @@ below `1` throws.
 
 ### Degenerate input
 
-| Input                                        | Result                                                                 |
-|----------------------------------------------|------------------------------------------------------------------------|
-| Absent `series`                              | Throws `The [series] attribute is required.`, unless `skeleton` is set |
-| Empty array                                  | The plot renders at full height with no path                           |
-| Single value                                 | Spans the plot as a constant series, like `[7, 7, 7]`                  |
-| All values identical                         | A flat line centred in the band, not on the baseline                   |
-| Negative values                              | Handled natively; bars anchor on zero, and stack below it              |
-| Negative values on a pie or donut            | Clamped to zero; a slice cannot sweep backwards                        |
-| `null` inside `data`                         | A gap: the line breaks, no bar or marker is drawn, the scale ignores it. See [Gaps](#gaps) |
-| `null` on a pie or donut                     | Counts as zero; a circle has no room for a gap                         |
-| More than one series on a pie or donut       | Throws; a circle divides one set of values                             |
-| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values, or null for a gap.` |
-| Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.`              |
-| Unknown `type`                               | Throws, naming the accepted values                                     |
-| Unknown `type` on a series                   | Throws; only `area`, `line` and `bar` exist                            |
-| `type` on a series of a pie or donut         | Throws                                                                 |
-| Unknown `curve`, `round` or `corners`        | Throws, naming the accepted values                                     |
-| Unknown `curve` on a series                  | Throws; only `smooth`, `straight` and `step` exist                     |
-| `curve`, `round` or `corners` on pie or donut | Throws when passed explicitly; a configured default is ignored instead |
-| Unknown `axis`                               | Throws; only `left` and `right` exist                                  |
-| `stacked` on line or pie                     | Throws                                                                 |
-| `stacked` with a secondary axis              | Throws; one running total cannot span two domains                      |
-| `grid` on pie or donut                       | Throws                                                                 |
-| Negative or non-integer `decimals`           | Throws                                                                 |
-| Formatting array keyed other than left/right | Throws                                                                 |
+| Input                                         | Result                                                                                     |
+|-----------------------------------------------|--------------------------------------------------------------------------------------------|
+| Absent `series`                               | Throws `The [series] attribute is required.`, unless `skeleton` is set                     |
+| Empty array                                   | The plot renders at full height with no path                                               |
+| Single value                                  | Spans the plot as a constant series, like `[7, 7, 7]`                                      |
+| All values identical                          | A flat line centred in the band, not on the baseline                                       |
+| Negative values                               | Handled natively; bars anchor on zero, and stack below it                                  |
+| Negative values on a pie or donut             | Clamped to zero; a slice cannot sweep backwards                                            |
+| `null` inside `data`                          | A gap: the line breaks, no bar or marker is drawn, the scale ignores it. See [Gaps](#gaps) |
+| `null` on a pie or donut                      | Counts as zero; a circle has no room for a gap                                             |
+| More than one series on a pie or donut        | Throws; a circle divides one set of values                                                 |
+| Non-numeric, `NAN`, `INF`                     | Throws `The [series] must contain only numeric values, or null for a gap.`                 |
+| Entry without `data`                          | Throws `Every entry of [series] must carry a [data] key.`                                  |
+| Unknown `type`                                | Throws, naming the accepted values                                                         |
+| Unknown `type` on a series                    | Throws; only `area`, `line` and `bar` exist                                                |
+| `type` on a series of a pie or donut          | Throws                                                                                     |
+| Unknown `curve`, `round` or `corners`         | Throws, naming the accepted values                                                         |
+| Unknown `curve` on a series                   | Throws; only `smooth`, `straight` and `step` exist                                         |
+| `curve`, `round` or `corners` on pie or donut | Throws when passed explicitly; a configured default is ignored instead                     |
+| Unknown `axis`                                | Throws; only `left` and `right` exist                                                      |
+| `stacked` on line or pie                      | Throws                                                                                     |
+| `stacked` with a secondary axis               | Throws; one running total cannot span two domains                                          |
+| `grid` on pie or donut                        | Throws                                                                                     |
+| Negative or non-integer `decimals`            | Throws                                                                                     |
+| Formatting array keyed other than left/right  | Throws                                                                                     |
 
 ### Long series
 

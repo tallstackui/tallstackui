@@ -55,7 +55,8 @@ it('can render with the inline variant')
     ->toContain('last:border-r')
     ->not->toContain('-space-x-px')
     ->toContain('sr-only')
-    ->toContain('group-has-checked:text-white')
+    ->toContain('has-checked:bg-primary-50')
+    ->not->toContain('has-checked:bg-primary-500')
     ->not->toContain('Skipped');
 
 it('can render with columns')

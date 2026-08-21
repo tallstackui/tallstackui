@@ -57,7 +57,6 @@ trait SelectionCustomization
                 'wrapper' => 'flex min-w-0 flex-1 flex-col',
                 'header' => 'flex items-center gap-2',
                 'label' => 'dark:text-dark-300 text-sm font-medium text-gray-900',
-                'inline' => 'group-has-checked:text-white',
                 'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-500',
                 'aside' => 'dark:text-dark-400 shrink-0 text-sm text-gray-500',
                 'icon' => 'dark:text-dark-400 h-5 w-5 shrink-0 text-gray-500',
