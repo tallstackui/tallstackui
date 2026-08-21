@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $monthYearOnly = false,
         public ?bool $lockMonthYear = false,
         public array|Collection $disable = [],
-        public int|string $start = 0,
+        public int|string|null $start = null,
         public int|string|null $only = null,
         public ?bool $weekdays = false,
         public ?bool $weekends = false,
@@ -58,7 +58,7 @@ class Component extends TallStackUiComponent implements Customization
             })
             ->values();
 
-        $this->start = (int) $this->start;
+        $this->start = (int) ($this->start ?? $configuration['start'] ?? 0);
     }
 
     public function blade(): View

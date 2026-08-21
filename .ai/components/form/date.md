@@ -52,12 +52,30 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 | helpers         | bool\|null                  | null         | Shows yesterday, today, and tomorrow quick-select buttons                         |
 | month-year-only | bool\|null                  | false        | Restricts the picker to month and year selection only                             |
 | disable         | array\|Collection           | []           | Array of date strings or Carbon instances to disable                              |
-| start           | int\|string                 | 0            | First day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)                 |
+| start           | int\|string\|null           | null         | First day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday). Falls back to the global `start` configuration, `0` by default |
 | only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)                           |
 | weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)                              |
 | weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)                            |
 | disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted.   |
 | readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted. |
+
+## Global Configuration
+
+```php
+// config/tallstackui.php
+'date' => [
+    \TallStackUi\Components\Form\Date\Component::class,
+    [
+        'start' => 0,
+    ],
+],
+```
+
+`start` sets the first day of the week for every date picker, so an application whose
+week starts on Monday sets `'start' => 1` once instead of repeating the attribute. The
+inline attribute always wins over the global default, so `start="0"` keeps Sunday on a
+single picker while the configuration moves the others. The configured value goes through
+the same validation as the attribute: anything above `6` raises the exception below.
 
 ## Alpine.js Events
 

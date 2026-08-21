@@ -253,11 +253,13 @@ return [
             |----------------------------------------------------------------------
             | shadowless: removes the shadow by default.
             | bordered: adds the border by default.
+            | start: the first day of the week (0 = Sunday ... 6 = Saturday).
             |
             */
             [
                 'shadowless' => false,
                 'bordered' => false,
+                'start' => 0,
             ],
         ],
         'carousel' => Components\Carousel\Component::class,
@@ -391,7 +393,19 @@ return [
                 'decimal' => false,
             ],
         ],
-        'date' => Components\Form\Date\Component::class,
+        'date' => [
+            Components\Form\Date\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Date Global Settings
+            |----------------------------------------------------------------------
+            | start: the first day of the week (0 = Sunday ... 6 = Saturday).
+            |
+            */
+            [
+                'start' => 0,
+            ],
+        ],
         'dialog' => [
             Components\Dialog\Component::class,
             /*

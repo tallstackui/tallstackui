@@ -34,11 +34,13 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $helpers = null,
         public ?bool $monthYearOnly = false,
         public array|Collection $disable = [],
-        public int|string $start = 0,
+        public int|string|null $start = null,
         public int|string|null $only = null,
         public ?bool $weekdays = false,
         public ?bool $weekends = false,
     ) {
+        $configuration = __ts_get_component_configuration(self::class);
+
         $this->disable = collect($this->disable)
             ->flatten()
             ->unique()
@@ -51,7 +53,7 @@ class Component extends TallStackUiComponent implements Customization
             })
             ->values();
 
-        $this->start = (int) $this->start;
+        $this->start = (int) ($this->start ?? $configuration['start'] ?? 0);
     }
 
     public function blade(): View
