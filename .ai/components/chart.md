@@ -63,6 +63,9 @@ its code ships in its own bundle rather than in the main one.
 | tooltip   | bool\|null              | null      | Crosshair and a tooltip following the pointer                                                                                                              |
 | markers   | bool\|null              | null      | A dot on every plotted point                                                                                                                               |
 | fit       | string\|null            | 'thin'    | How the horizontal axis labels avoid overlapping on narrow plots: thin, rotate or stagger. See [Axis labels on narrow plots](#axis-labels-on-narrow-plots) |
+| curve     | string\|null            | 'smooth'  | How a line joins its points: smooth, straight or step. Also per series. See [Curve](#curve)                                                                |
+| round     | string\|null            | 'sm'      | Corner radius of the bars: none, sm, md or lg. See [Rounded corners](#rounded-corners)                                                                     |
+| corners   | string\|null            | 'all'     | Which corners of a bar round: all, or only the end away from the axis                                                                                      |
 | prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array                                                                                                      |
 | suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array                                                                                                       |
 | decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise                                                                                               |
@@ -190,12 +193,73 @@ on a running total of its own instead of pulling the positive stack down.
 Legend rescaling is disabled while a bar is on the plot, whose baseline is
 anchored.
 
+### Curve
+
+`curve` picks how a line walks from one point to the next:
+
+```blade
+<x-chart :series="$price" :labels="$days" curve="straight" />
+```
+
+| Curve      | Behaviour                                                                                              |
+|------------|--------------------------------------------------------------------------------------------------------|
+| `smooth`   | A monotone cubic through every point, which never overshoots the data. Default                        |
+| `straight` | A line segment between consecutive points, the way a stock chart is usually drawn                      |
+| `step`     | Holds each value until the next index, then jumps, for readings that change at discrete moments         |
+
+A series can pick its own, so a stepped target can sit over a smooth actual:
+
+```blade
+<x-chart :series="[
+    ['name' => 'Actual', 'data' => $actual],
+    ['name' => 'Target', 'data' => $target, 'curve' => 'step'],
+]" line />
+```
+
+The area, the markers, the crosshair and the legend rescaling are untouched by
+the curve: all of them read the same points. A stacked band keeps its lower
+edge shaped the same way as the band below it, so steps stack without cutting
+across each other's corners. The default comes from `curve` in the
+configuration. A radial type has no line to shape and refuses the attribute.
+
+### Gaps
+
+A `null` in `data` is a gap, not a zero:
+
+```blade
+<x-chart :series="[44, 31, 38, null, 32, 55, 51, 67, 22, 34]" markers />
+```
+
+The line and the area break on either side of it and resume after, a lone
+value between two gaps keeps its marker and draws no line, the tooltip lists
+the other series at that index and skips this one, and the gap never reaches
+the scale. A bar at a gap is simply not drawn, unlike a zero, which keeps its
+hairline so the category does not vanish. Inside a stack the gap weighs
+nothing, so the segment above it starts from wherever the column was. A pie or
+donut cannot hold a gap and counts it as zero.
+
 ### Rounded corners
 
 Bars are drawn as paths rather than rectangles, because SVG rounds all four
 corners of a `rect` at once. Inside a stack only the two ends of the column
 round — an arc on both sides of a seam pulls the two segments apart and the
 card shows through the gap. Everything else keeps the corner it had.
+
+`round` sets the radius — `none`, `sm` (default), `md` or `lg` — and `corners`
+says which ends take it:
+
+```blade
+<x-chart :series="$usage" :labels="$years" bar round="md" corners="end" />
+```
+
+| Corners | Behaviour                                                                                                     |
+|---------|---------------------------------------------------------------------------------------------------------------|
+| `all`   | Every corner of a bar, and both ends of a stacked column. Default                                              |
+| `end`   | Only the end away from the axis: the top of a positive bar, the bottom of a negative one, the far end of a stack |
+
+Both come from the configuration when absent, so an application settles the
+look of its bars once. The radius lives in viewBox units, so `lg` on a dense
+chart ends up as a pill.
 
 The axis is an end only while the column stops there. A stack that carries on
 past zero meets it like any other seam, so its ends are the extremes of the
@@ -230,6 +294,9 @@ standalone chart inside `<x-card>` and as the background layer of `<x-stats>`.
             'tooltip' => false,
             'markers' => false,
             'fit' => 'thin',
+            'curve' => 'smooth',
+            'round' => 'sm',
+            'corners' => 'all',
         ],
     ],
 ],
@@ -240,9 +307,10 @@ is absent. `type` is deliberately absent: a dashboard mixes bars, lines and
 pies, so the type stays a per-chart decision rather than an application-wide
 one.
 
-`grid` is the one exception: a radial type has no axis to label, so a global
-`true` is dropped there rather than throwing. Passing `grid` explicitly on a
-`pie` or a `donut` still throws — the difference is between an application-wide
+`grid`, `curve`, `round` and `corners` share one exception: a radial type has
+no axis to label, no line to shape and no bar to round, so a global value is
+ignored there rather than throwing. Passing any of them explicitly on a `pie`
+or a `donut` still throws — the difference is between an application-wide
 preference and a call site asking for something impossible.
 
 ## Behaviour
@@ -351,7 +419,11 @@ appears complete the moment the placeholder is replaced. Hit-testing measures
 the element on the pointer event and never on `init()`, which is the usual
 failure mode for charting libraries mounted before their container has a size.
 
-For the placeholder itself, see [Skeleton](#skeleton) below.
+For the placeholder itself, see [Skeleton](#skeleton) below. The placeholder
+carries a `wire:key` of its own, so Livewire swaps it for the chart instead of
+morphing one into the other. A chart morphed into its placeholder and back —
+a loading state shown again after the data existed — would otherwise keep a
+stale Alpine scope on the node, which makes Alpine skip the chart's `x-data`.
 
 ## Skeleton
 
@@ -367,8 +439,9 @@ where a chart is usually the slowest thing on the page.
 
 The placeholder runs the same geometry as a real chart — `Series`, `Scale`,
 `Bars`, `Spline`, `Slices` — over invented values, so it lands in the same
-`viewBox` with the same proportions, and honours the resolved `height`. Three
-shape families cover all five types:
+`viewBox` with the same proportions, and honours the resolved `height`, `curve`,
+`round` and `corners`, so the placeholder already has the shape of the chart it
+stands in for. Three shape families cover all five types:
 
 | Family | Types          | Produced by |
 |--------|----------------|-------------|
@@ -398,12 +471,17 @@ below `1` throws.
 | All values identical                         | A flat line centred in the band, not on the baseline                   |
 | Negative values                              | Handled natively; bars anchor on zero, and stack below it              |
 | Negative values on a pie or donut            | Clamped to zero; a slice cannot sweep backwards                        |
+| `null` inside `data`                         | A gap: the line breaks, no bar or marker is drawn, the scale ignores it. See [Gaps](#gaps) |
+| `null` on a pie or donut                     | Counts as zero; a circle has no room for a gap                         |
 | More than one series on a pie or donut       | Throws; a circle divides one set of values                             |
-| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values.`                |
+| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values, or null for a gap.` |
 | Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.`              |
 | Unknown `type`                               | Throws, naming the accepted values                                     |
 | Unknown `type` on a series                   | Throws; only `area`, `line` and `bar` exist                            |
 | `type` on a series of a pie or donut         | Throws                                                                 |
+| Unknown `curve`, `round` or `corners`        | Throws, naming the accepted values                                     |
+| Unknown `curve` on a series                  | Throws; only `smooth`, `straight` and `step` exist                     |
+| `curve`, `round` or `corners` on pie or donut | Throws when passed explicitly; a configured default is ignored instead |
 | Unknown `axis`                               | Throws; only `left` and `right` exist                                  |
 | `stacked` on line or pie                     | Throws                                                                 |
 | `stacked` with a secondary axis              | Throws; one running total cannot span two domains                      |
@@ -440,8 +518,8 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 Soft customization reaches how the SVG is painted, not how it is drawn. Fill,
 stroke, width and opacity are Tailwind classes on the elements, so every
 `plot.*` block works like any other. The shapes themselves are computed
-server-side and exposed nowhere: curvature, corner radius, the donut hole and
-the tick count are fixed.
+server-side: the curve and the corners answer to `curve`, `round` and
+`corners`, while the donut hole and the tick count are fixed.
 
 ### Customization
 

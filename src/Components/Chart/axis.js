@@ -14,8 +14,7 @@ export default (options) => ({
     this.observer = new ResizeObserver(() => this.measure());
     this.observer.observe(this.$el);
 
-    // A Livewire morph replaces the labels but keeps the wrapper, so the
-    // count the step was computed from goes stale.
+    // A Livewire morph replaces the labels but keeps the wrapper.
     this.mutations = new MutationObserver(() => this.measure());
     this.mutations.observe(this.$el, { childList: true });
 
@@ -38,13 +37,10 @@ export default (options) => ({
       return;
     }
 
-    // Hidden labels keep their box (visibility, not display), so the widest
-    // one is measurable whether it is shown or not.
+    // Hidden labels keep their box (visibility, not display), so they stay measurable.
     const widest = Math.max(...labels.map((label) => label.offsetWidth));
     const line = Math.max(...labels.map((label) => label.offsetHeight));
 
-    // Labels centre on their own x, so neighbours only clear each other while
-    // the distance between the shown ones exceeds what each one takes up.
     const footprint = {
       // Slanted, a label takes up its line height along the axis, not its length.
       rotate: line / SLANT + 2,
@@ -57,7 +53,7 @@ export default (options) => ({
     this.step = Math.max(1, Math.ceil((footprint * Math.ceil(labels.length / rows)) / width));
 
     this.height = {
-      // The slanted label hangs below its anchor by its own projected length.
+      // The slanted label hangs below its anchor by its projected length.
       rotate: Math.ceil((widest + line) * SLANT) + 4,
       stagger: line * 2 + 6,
       thin: null,

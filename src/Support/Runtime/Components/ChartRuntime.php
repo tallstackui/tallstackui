@@ -16,10 +16,14 @@ use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class ChartRuntime extends AbstractRuntime
 {
-    /** Invented values, so the placeholder keeps the proportions of a real plot. */
     private const SHAPE = [4.0, 7.0, 5.0, 9.0, 6.0, 8.0, 5.5, 7.5];
 
-    /** Slots instead of edges. Held here because every piece of geometry has to agree on it. */
+    private string $curve = 'smooth';
+
+    private bool $ends = false;
+
+    private float $radius = Bars::RADIUS;
+
     private bool $slotted = false;
 
     public function runtime(): array
@@ -29,9 +33,14 @@ class ChartRuntime extends AbstractRuntime
 
         // Read off the component, not $this->data(): the snapshot predates
         // the config defaults CompileConfigurations writes onto the props.
+        // The same goes for the colors, merged into the view data later.
         $series = Series::normalize($component->series);
         $type = $component->type ?? 'area';
         $radial = in_array($type, ['pie', 'donut'], true);
+
+        $this->curve = $component->curve ?? 'smooth';
+        $this->radius = Bars::RADII[$component->round ?? 'sm'];
+        $this->ends = ($component->corners ?? 'all') === 'end';
 
         if ($this->skeletonized()) {
             return $this->placeholder($type, $radial);
@@ -47,8 +56,7 @@ class ChartRuntime extends AbstractRuntime
 
         return [
             'radial' => $radial,
-            // A pie drawn into a stretched viewBox would be an ellipse, so it
-            // is the one type that has to keep its aspect ratio.
+            // Stretched, a pie would be an ellipse.
             'aspect' => $radial ? 'xMidYMid meet' : 'none',
             'viewbox' => Plot::viewbox(),
             'bounds' => ['width' => Plot::WIDTH, 'height' => Plot::HEIGHT],
@@ -57,17 +65,12 @@ class ChartRuntime extends AbstractRuntime
             'ticks' => $ticks,
             'secondary' => $secondary,
             'captions' => $radial ? [] : $this->captions($series),
-            // Rendered invisibly in flow, which is what gives each axis
-            // column its width without measuring anything.
+            // Rendered invisibly in flow to give the axis column its width.
             'widest' => $this->widest($ticks),
             'widestSecondary' => $this->widest($secondary),
             'entries' => $radial
                 ? array_map(static fn (array $slice): array => ['name' => $slice['label'], 'color' => $slice['color']], $slices)
                 : array_map(static fn (array $plot): array => ['name' => $plot['name'], 'color' => $plot['color']], $plots),
-            // Read through the runtime, not straight off the props: the view
-            // data was captured before CompileConfigurations wrote the config
-            // defaults onto them, so a global flag would never reach the
-            // markup. The keys are renamed for the same reason.
             'interactive' => (bool) ($component->tooltip || $component->legend),
             'chrome' => [
                 'legend' => (bool) $component->legend,
@@ -79,7 +82,6 @@ class ChartRuntime extends AbstractRuntime
         ];
     }
 
-    /** A scalar applies to both axes; an array picks the side. */
     private function affix(string|int|array|null $value, string $axis): string|int|null
     {
         return is_array($value) ? ($value[$axis] ?? null) : $value;
@@ -95,9 +97,7 @@ class ChartRuntime extends AbstractRuntime
             return [];
         }
 
-        // A curve puts its first and last point on the edges, so labels sit on
-        // the same edges. A bar owns a slot, so its label belongs in the middle
-        // of that slot instead.
+        // A curve ends on the edges; a bar owns a slot and is labelled in its middle.
         $slot = Plot::WIDTH / $length;
         $step = $this->slotted ? $slot : ($length > 1 ? Plot::WIDTH / ($length - 1) : 0.0);
         $offset = $this->slotted ? $slot / 2 : 0.0;
@@ -112,38 +112,47 @@ class ChartRuntime extends AbstractRuntime
     }
 
     /**
-     * Close a curve into a fillable shape. An unstacked area drops to the
-     * baseline; a stacked one closes on the curve below it, so the bands read
-     * as separate layers instead of overlapping washes.
+     * One closed shape per run, so a gap stays open. An unstacked area drops
+     * to the baseline; a stacked one closes on the curve below it.
      */
-    private function close(string $line, array $points, Scale $scale, bool $bottom, array $offsets, array $indexes, int $length): string
+    private function close(array $points, Scale $scale, bool $bottom, array $offsets, array $indexes, int $length, string $curve): string
     {
-        if ($line === '' || $points === []) {
-            return '';
+        $below = $bottom
+            ? []
+            : Spline::points(array_fill(0, $length, 0.0), $scale, $indexes, $length, $offsets, $this->slotted);
+
+        $shapes = [];
+
+        foreach (Spline::runs($points) as $run) {
+            if (($line = Spline::segment($run, $curve)) === '') {
+                continue;
+            }
+
+            $first = $run[0][0];
+            $last = $run[count($run) - 1][0];
+
+            if ($bottom) {
+                $baseline = $scale->zero();
+
+                $shapes[] = $line.' L'.$last.','.$baseline.' L'.$first.','.$baseline.' Z';
+
+                continue;
+            }
+
+            // The lower edge is the curve beneath, walked back.
+            $edge = array_reverse(array_values(array_filter(
+                $below,
+                static fn (array $point): bool => $point[0] >= $first && $point[0] <= $last
+            )));
+
+            $tail = Spline::segment($edge, $curve, reversed: true);
+
+            $shapes[] = $tail === '' ? $line.' Z' : $line.' L'.substr($tail, 1).' Z';
         }
 
-        $last = $points[count($points) - 1][0];
-        $first = $points[0][0];
-
-        if ($bottom) {
-            $baseline = $scale->zero();
-
-            return $line.' L'.$last.','.$baseline.' L'.$first.','.$baseline.' Z';
-        }
-
-        $below = Spline::points(
-            array_fill(0, $length, 0.0),
-            $scale,
-            array_reverse($indexes),
-            $length,
-            $offsets,
-            $this->slotted
-        );
-
-        return $line.' L'.implode(' L', array_map(static fn (array $point): string => $point[0].','.$point[1], $below)).' Z';
+        return implode(' ', $shapes);
     }
 
-    /** Where each type starts and ends in the series list, which is what bounds a stack. */
     private function edges(array $variants): array
     {
         $edges = [];
@@ -172,10 +181,6 @@ class ChartRuntime extends AbstractRuntime
             .$this->affix($component->suffix, $axis);
     }
 
-    /**
-     * The curve never crosses over to Alpine: only the values and the scale
-     * that produced them do.
-     */
     private function interaction(array $series, string $type, array $palette, array $plots, array $slices): array
     {
         /** @var Chart $component */
@@ -185,8 +190,6 @@ class ChartRuntime extends AbstractRuntime
 
         return [
             'type' => $type,
-            // Sent apart from the type: a curve combined with bars is read from
-            // the slots too, and hit testing has to agree with the geometry.
             'slotted' => $this->slotted,
             'length' => Series::length($series),
             'labels' => array_map('strval', (array) ($component->labels ?? [])),
@@ -194,7 +197,7 @@ class ChartRuntime extends AbstractRuntime
                 'name' => $entry['name'] ?? 'Series '.($index + 1),
                 'color' => $palette[$index] ?? '',
                 'data' => $entry['data'],
-                'formatted' => array_map(fn (float $value): string => $this->format($value, $entry['axis']), $entry['data']),
+                'formatted' => array_map(fn (?float $value): ?string => $value === null ? null : $this->format($value, $entry['axis']), $entry['data']),
                 'points' => $plots[$index]['points'] ?? [],
             ], $series, array_keys($series)),
             'slices' => array_map(static fn (array $slice): array => [
@@ -204,22 +207,19 @@ class ChartRuntime extends AbstractRuntime
                 'percentage' => $slice['percentage'],
                 'raw' => $slice['value'],
             ], $slices),
-            // Hiding a slice redistributes the remaining angles, which is a
-            // genuine recomputation rather than the affine transform a curve
-            // gets away with. The geometry is cheap enough to mirror.
+            // Hiding a slice redistributes the angles, so Alpine mirrors the arc geometry.
             'arc' => [
                 'center' => Slices::CENTER,
                 'radius' => Slices::RADIUS,
                 'inner' => $type === 'donut' ? Slices::RADIUS * Slices::HOLE : 0.0,
             ],
-            // Rescaling a domain is an affine map in y, and Beziers are affine
-            // invariant, so toggling a series off is a transform on the group
-            // rather than a recomputed path.
+            // Beziers are affine invariant, so hiding a series rescales the
+            // rest through a transform on the group, not a recomputed path.
             'scale' => ['min' => $scale->min, 'max' => $scale->max, 'flat' => $scale->flat],
             'plot' => ['bottom' => Plot::bottom(), 'band' => Plot::band(), 'width' => Plot::WIDTH],
             'stacked' => (bool) $component->stacked,
-            // Two axes mean two domains, so a single affine pair could not
-            // rescale both, and the labelled rows would stop matching anyway.
+            // Skipped where it would mislead: a labelled axis, an anchored
+            // baseline, or two domains that one affine pair cannot carry.
             'rescale' => ! $scale->flat
                 && ! (bool) $component->stacked
                 && ! (bool) $component->grid
@@ -228,18 +228,12 @@ class ChartRuntime extends AbstractRuntime
         ];
     }
 
-    /**
-     * One Tailwind text-* class per series, so each group can paint its stroke
-     * and its gradient stops from a single currentColor.
-     */
+    /** One text-* class per series; stroke and gradient stops paint from currentColor. */
     private function palette(array $series, bool $radial): array
     {
         /** @var Chart $component */
         $component = $this->component;
 
-        // Resolved here rather than read from $this->data(): the compiled
-        // colors are merged into the view data after CompileRuntime already
-        // received its snapshot, so they are not visible from in here.
         $map = CompileColors::of($component)['palette'] ?? [];
         $count = $radial ? count($series[0]['data'] ?? []) : count($series);
 
@@ -266,8 +260,6 @@ class ChartRuntime extends AbstractRuntime
     {
         $values = $this->shape($this->skeleton(6));
 
-        // Named after what they paint rather than after the chart types, whose
-        // names now belong to the flags that pick one.
         $payload = [
             'radial' => $radial,
             'aspect' => $radial ? 'xMidYMid meet' : 'none',
@@ -287,11 +279,11 @@ class ChartRuntime extends AbstractRuntime
         $scale = Scale::of($values, zero: $type === 'bar');
 
         if ($type === 'bar') {
-            return [...$payload, 'bars' => Bars::of($series, [$scale], $length)[0] ?? []];
+            return [...$payload, 'bars' => Bars::of($series, [$scale], $length, $this->radius, $this->ends)[0] ?? []];
         }
 
         $points = Spline::points($values, $scale, Spline::indexes($series, $length), $length);
-        $line = Spline::path($points);
+        $line = Spline::path($points, $this->curve);
 
         return [
             ...$payload,
@@ -314,34 +306,33 @@ class ChartRuntime extends AbstractRuntime
 
         $stacked = (bool) $component->stacked;
         $offsets = $stacked ? Bars::offsets($series, $length, $variants) : [];
-        $corners = $stacked ? Bars::corners($series, $length, $variants) : [];
+        $corners = $stacked ? Bars::corners($series, $length, $variants, $this->ends) : [];
         $edges = $this->edges($variants);
 
         $bars = $stacked
             ? []
-            : Bars::of(array_filter($series, static fn (array $entry, int $position): bool => $variants[$position] === 'bar', ARRAY_FILTER_USE_BOTH), $scales, $length);
+            : Bars::of(array_filter($series, static fn (array $entry, int $position): bool => $variants[$position] === 'bar', ARRAY_FILTER_USE_BOTH), $scales, $length, $this->radius, $this->ends);
 
         $plots = [];
 
         foreach ($series as $position => $entry) {
             $scale = $scales[$position];
             $variant = $variants[$position];
+            $curve = $entry['curve'] ?? $this->curve;
 
             $points = $variant === 'bar'
                 ? []
                 : Spline::points($entry['data'], $scale, $indexes, $length, $offsets[$position] ?? [], $this->slotted);
 
-            $line = Spline::path($points);
-
             $plots[] = [
                 'name' => $entry['name'] ?? 'Series '.($position + 1),
                 'color' => $palette[$position] ?? '',
                 'gradient' => 'tsui-chart-'.uniqid(),
-                'line' => $line,
+                'line' => Spline::path($points, $curve),
                 'area' => $variant === 'area'
-                    ? $this->close($line, $points, $scale, ! $stacked || $position === $edges[$variant]['first'], $offsets[$position] ?? [], $indexes, $length)
+                    ? $this->close($points, $scale, ! $stacked || $position === $edges[$variant]['first'], $offsets[$position] ?? [], $indexes, $length, $curve)
                     : '',
-                'points' => $points,
+                'points' => array_values(array_filter($points, static fn (?array $point): bool => $point !== null)),
                 'bars' => match (true) {
                     $variant !== 'bar' => [],
                     $stacked => $this->stack($entry, $scale, $length, $offsets[$position] ?? [], $corners[$position] ?? []),
@@ -365,8 +356,7 @@ class ChartRuntime extends AbstractRuntime
             $values = [...$values, ...Bars::totals($bound, Series::length($bound), $this->variants($bound, $type))];
         }
 
-        // Bars have to start at zero or their length stops being proportional
-        // to their value, and a labelled axis needs round bounds to read well.
+        // Bars must start at zero to stay proportional; a labelled axis needs round bounds.
         return Scale::of($values, nice: (bool) $component->grid, zero: $this->slotted || (bool) $component->stacked);
     }
 
@@ -398,7 +388,7 @@ class ChartRuntime extends AbstractRuntime
         /** @var Chart $component */
         $component = $this->component;
 
-        $values = $series[0]['data'] ?? [];
+        $values = array_map(static fn (?float $value): float => $value ?? 0.0, $series[0]['data'] ?? []);
         $labels = (array) ($component->labels ?? []);
 
         return array_map(fn (array $slice): array => [
@@ -416,7 +406,7 @@ class ChartRuntime extends AbstractRuntime
         $bars = [];
 
         for ($index = 0; $index < $length; $index++) {
-            if (! array_key_exists($index, $entry['data'])) {
+            if (! isset($entry['data'][$index])) {
                 continue;
             }
 
@@ -431,16 +421,13 @@ class ChartRuntime extends AbstractRuntime
                 'index' => $index,
             ];
 
-            $bars[] = [...$bar, 'path' => Bars::path($bar, $corners[$index]['head'] ?? true, $corners[$index]['foot'] ?? true)];
+            $bars[] = [...$bar, 'path' => Bars::path($bar, $corners[$index]['head'] ?? true, $corners[$index]['foot'] ?? true, $this->radius)];
         }
 
         return $bars;
     }
 
-    /**
-     * Both axes are pinned to the same tick count, so one set of gridlines
-     * lines up with either side.
-     */
+    /** Both axes pin to the same tick count, so one set of gridlines serves both. */
     private function ticks(array $series, string $type, string $axis = 'left'): array
     {
         /** @var Chart $component */

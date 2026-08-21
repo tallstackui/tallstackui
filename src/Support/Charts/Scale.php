@@ -29,17 +29,13 @@ final class Scale
             $max = max($max, 0.0);
         }
 
-        // A relative epsilon instead of a zero check: values differing only by
-        // float noise describe a flat series, and normalizing against a range
-        // of 5.5e-17 would blow that noise up into a full-height zigzag.
+        // A relative epsilon: normalizing against float noise would blow it up into a zigzag.
         if ($max - $min <= max(abs($min), abs($max)) * 1e-12) {
             return new self($min, $max, true);
         }
 
         if ($nice) {
-            // Pinned to an exact tick count so a secondary axis lands on the
-            // same rows as the primary one, and a single set of gridlines
-            // serves both without either being misread.
+            // Pinned to an exact tick count so both axes share the same rows.
             $step = self::step($max - $min, $ticks);
             $bottom = floor($min / $step) * $step;
 
@@ -78,9 +74,7 @@ final class Scale
             return [$this->min];
         }
 
-        // Divided evenly rather than re-derived from a step: the domain was
-        // already pinned to this many rows, and recomputing could disagree
-        // by one and knock the two axes out of alignment.
+        // Divided, not re-derived: a recomputed step could disagree by one row.
         $step = ($this->max - $this->min) / ($count - 1);
 
         return array_map(

@@ -14,6 +14,7 @@ use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Charts\Series;
+use TallStackUi\Support\Charts\Spline;
 use TallStackUi\Support\Colors\Components\ChartColors;
 use TallStackUi\Support\Runtime\Components\ChartRuntime;
 use TallStackUi\TallStackUiComponent;
@@ -25,7 +26,13 @@ class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
 
+    public const CORNERS = ['all', 'end'];
+
+    public const CURVES = Spline::CURVES;
+
     public const FITS = ['thin', 'rotate', 'stagger'];
+
+    public const ROUNDS = ['none', 'sm', 'md', 'lg'];
 
     public const TYPES = ['area', 'line', 'bar', 'pie', 'donut'];
 
@@ -47,6 +54,9 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $tooltip = null,
         public ?bool $markers = null,
         public ?string $fit = null,
+        public ?string $curve = null,
+        public ?string $round = null,
+        public ?string $corners = null,
         public string|array|null $prefix = null,
         public string|array|null $suffix = null,
         public int|array|null $decimals = null,
@@ -133,8 +143,7 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function setup(): void
     {
-        // Filled only while [type] is absent, so validate() can still catch a
-        // flag contradicting an explicit type by seeing the two disagree.
+        // Only while [type] is absent, so validate() still sees a flag contradicting it.
         $this->type ??= $this->flags()[0] ?? null;
     }
 
@@ -142,7 +151,6 @@ class Component extends TallStackUiComponent implements Customization
     {
         $this->guard();
 
-        // The series is the content, which is what a placeholder stands in for.
         if (! $this->skeletonized() && ($violation = Series::violation($this->series))) {
             __ts_validation_exception($this, $violation);
         }
@@ -165,6 +173,18 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->fit !== null && ! in_array($this->fit, self::FITS, true)) {
             __ts_validation_exception($this, 'The [fit] must be one of: '.implode(', ', self::FITS).'.');
+        }
+
+        if ($this->curve !== null && ! in_array($this->curve, self::CURVES, true)) {
+            __ts_validation_exception($this, 'The [curve] must be one of: '.implode(', ', self::CURVES).'.');
+        }
+
+        if ($this->round !== null && ! in_array($this->round, self::ROUNDS, true)) {
+            __ts_validation_exception($this, 'The [round] must be one of: '.implode(', ', self::ROUNDS).'.');
+        }
+
+        if ($this->corners !== null && ! in_array($this->corners, self::CORNERS, true)) {
+            __ts_validation_exception($this, 'The [corners] must be one of: '.implode(', ', self::CORNERS).'.');
         }
 
         foreach (['prefix' => $this->prefix, 'suffix' => $this->suffix, 'decimals' => $this->decimals] as $name => $value) {
@@ -197,22 +217,22 @@ class Component extends TallStackUiComponent implements Customization
             return;
         }
 
+        // Explicit values only: the config defaults are written after this runs.
+        foreach (['curve' => $this->curve, 'round' => $this->round, 'corners' => $this->corners] as $name => $value) {
+            if ($value !== null) {
+                __ts_validation_exception($this, 'The ['.$name.'] cannot be used with the ['.$this->type.'] type.');
+            }
+        }
+
         if (Series::overrides($series) !== []) {
             __ts_validation_exception($this, 'The [type] of a series cannot be used with the ['.$this->type.'] type.');
         }
 
-        // A circle divides one set of values. Every extra series used to be
-        // dropped without a word, which reads as if it had worked.
         if (count($series) > 1) {
             __ts_validation_exception($this, 'The ['.$this->type.'] type accepts only one series.');
         }
     }
 
-    /**
-     * The types asked for as a flag rather than through [type].
-     *
-     * @return list<string>
-     */
     private function flags(): array
     {
         return array_values(array_filter(self::TYPES, fn (string $type): bool => $this->{$type} === true));

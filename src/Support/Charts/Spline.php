@@ -5,6 +5,8 @@ namespace TallStackUi\Support\Charts;
 /** @internal */
 final class Spline
 {
+    public const CURVES = ['smooth', 'straight', 'step'];
+
     public const MAX_POINTS = 120;
 
     public static function indexes(array $series, int $length): array
@@ -20,15 +22,16 @@ final class Spline
             $bucket = [];
 
             foreach ($series as $entry) {
-                $slice = array_slice($entry['data'], $start, $size, true);
+                $slice = array_filter(
+                    array_slice($entry['data'], $start, $size, true),
+                    static fn (?float $value): bool => $value !== null
+                );
 
                 if ($slice === []) {
                     continue;
                 }
 
-                // Averaging would smooth away the spikes a sparkline exists to
-                // show, and a plain stride can drop the extremes the scale is
-                // anchored to. Keeping both ends of every series preserves them.
+                // Min and max per bucket, so no spike or scale anchor is lost.
                 $bucket[] = (int) array_search(min($slice), $slice, true);
                 $bucket[] = (int) array_search(max($slice), $slice, true);
             }
@@ -43,41 +46,25 @@ final class Spline
         return $indexes;
     }
 
-    public static function path(array $points): string
+    public static function path(array $points, string $curve = 'smooth'): string
     {
-        if (($count = count($points)) < 2) {
-            return '';
-        }
-
-        $slopes = self::slopes($points);
-        $path = 'M'.self::coordinate($points[0]);
-
-        for ($index = 0; $index < $count - 1; $index++) {
-            $step = ($points[$index + 1][0] - $points[$index][0]) / 3;
-
-            $first = [$points[$index][0] + $step, $points[$index][1] + $slopes[$index] * $step];
-            $second = [$points[$index + 1][0] - $step, $points[$index + 1][1] - $slopes[$index + 1] * $step];
-
-            $path .= ' C'.self::coordinate($first).' '.self::coordinate($second).' '.self::coordinate($points[$index + 1]);
-        }
-
-        return $path;
+        return implode(' ', array_filter(array_map(
+            static fn (array $run): string => self::segment($run, $curve),
+            self::runs($points)
+        )));
     }
 
+    /** A null stays in the list as a gap; an index the bucketing left out is not one. */
     public static function points(array $values, Scale $scale, array $indexes, int $length, array $offsets = [], bool $slotted = false): array
     {
-        // A single value is a constant series, the same as [7, 7, 7], so it
-        // spans the plot instead of collapsing into nothing. Rendering an
-        // empty card for one data point reads as a bug, not as a decision.
-        if ($length === 1 && array_key_exists(0, $values)) {
+        // A single value spans the plot as a constant series.
+        if ($length === 1 && isset($values[0])) {
             $ordinate = $scale->y($values[0] + ($offsets[0] ?? 0.0));
 
             return [[0.0, $ordinate], [Plot::WIDTH, $ordinate]];
         }
 
-        // A curve owns the whole width, so its ends sit on the edges. Drawn
-        // over bars it has to follow their slots, or it reads half a slot out
-        // of line at either end.
+        // A curve ends on the edges; over bars it follows their slots.
         $step = match (true) {
             $slotted => $length > 0 ? Plot::WIDTH / $length : 0.0,
             $length > 1 => Plot::WIDTH / ($length - 1),
@@ -92,6 +79,12 @@ final class Spline
                 continue;
             }
 
+            if ($values[$index] === null) {
+                $points[] = null;
+
+                continue;
+            }
+
             $points[] = [
                 round($index * $step + $offset, 2),
                 $scale->y($values[$index] + ($offsets[$index] ?? 0.0)),
@@ -99,6 +92,74 @@ final class Spline
         }
 
         return $points;
+    }
+
+    public static function runs(array $points): array
+    {
+        $runs = [];
+        $run = [];
+
+        foreach ($points as $point) {
+            if ($point === null) {
+                if ($run !== []) {
+                    $runs[] = $run;
+                }
+
+                $run = [];
+
+                continue;
+            }
+
+            $run[] = $point;
+        }
+
+        if ($run !== []) {
+            $runs[] = $run;
+        }
+
+        return $runs;
+    }
+
+    public static function segment(array $points, string $curve = 'smooth', bool $reversed = false): string
+    {
+        if (($count = count($points)) < 2) {
+            return '';
+        }
+
+        $path = 'M'.self::coordinate($points[0]);
+
+        if ($curve === 'straight') {
+            for ($index = 1; $index < $count; $index++) {
+                $path .= ' L'.self::coordinate($points[$index]);
+            }
+
+            return $path;
+        }
+
+        if ($curve === 'step') {
+            for ($index = 1; $index < $count; $index++) {
+                $x = round($points[$index][0], 2);
+                $y = round($points[$index][1], 2);
+
+                // Walked backwards, a step drops first to trace the same corners.
+                $path .= $reversed ? ' V'.$y.' H'.$x : ' H'.$x.' V'.$y;
+            }
+
+            return $path;
+        }
+
+        $slopes = self::slopes($points);
+
+        for ($index = 0; $index < $count - 1; $index++) {
+            $step = ($points[$index + 1][0] - $points[$index][0]) / 3;
+
+            $first = [$points[$index][0] + $step, $points[$index][1] + $slopes[$index] * $step];
+            $second = [$points[$index + 1][0] - $step, $points[$index + 1][1] - $slopes[$index + 1] * $step];
+
+            $path .= ' C'.self::coordinate($first).' '.self::coordinate($second).' '.self::coordinate($points[$index + 1]);
+        }
+
+        return $path;
     }
 
     private static function coordinate(array $point): string

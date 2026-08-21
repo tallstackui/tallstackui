@@ -292,6 +292,9 @@ return [
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
             | fit: how the horizontal axis labels avoid overlapping on narrow plots: thin, rotate or stagger.
+            | curve: how a line joins its points: smooth, straight or step.
+            | round: corner radius of the bars: none, sm, md or lg.
+            | corners: which corners of a bar round: all, or only the end away from the axis.
             |
             */
             [
@@ -301,6 +304,9 @@ return [
                 'tooltip' => false,
                 'markers' => false,
                 'fit' => 'thin',
+                'curve' => 'smooth',
+                'round' => 'sm',
+                'corners' => 'all',
             ],
         ],
         'checkbox' => Components\Form\Checkbox\Component::class,

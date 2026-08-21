@@ -44,9 +44,6 @@ class BrowserTest extends BrowserTestCase
                 $browser->pause(300);
 
                 Assert::assertSame(3, $this->slices($browser), 'the toggled slice should be gone');
-                // Unlike a curve, a pie cannot be rescaled by a transform:
-                // removing a slice redistributes every remaining angle, so the
-                // path of a sibling has to have changed.
                 Assert::assertNotSame($before, $this->arc($browser, 1), 'the remaining slices should redistribute');
             })
             ->click('@tallstackui_chart_legend_0')
@@ -131,8 +128,6 @@ class BrowserTest extends BrowserTestCase
             ->tap(function (Browser $browser): void {
                 $shown = $this->captions($browser);
 
-                // Slanted, a label only takes its line height along the axis,
-                // so far more of them fit than upright ones would.
                 Assert::assertGreaterThan(10, count($shown), 'rotating should keep most labels');
                 Assert::assertStringContainsString('rotate(-45deg)', $this->attribute($browser, '[dusk=tallstackui_chart_caption_0]', 'style'));
                 Assert::assertGreaterThan(16, $this->axis($browser), 'the axis should grow to hold the slanted labels');
@@ -164,6 +159,43 @@ class BrowserTest extends BrowserTestCase
             ->tap(fn (Browser $browser) => $browser->script("document.querySelector('[dusk=tallstackui_chart]').dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse', bubbles: true }));"))
             ->pause(300)
             ->tap(fn (Browser $browser) => Assert::assertSame('', $this->tooltip($browser), 'leaving the plot should hide it again'));
+    }
+
+    #[Test]
+    public function can_skip_a_gap_in_the_tooltip(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+            public array $series = [
+                ['name' => 'Alpha', 'data' => [10, 40, null, 25, 60]],
+                ['name' => 'Beta', 'data' => [8, 30, 33, 41, 12]],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div class="p-10">
+                    <x-chart :$series :$labels height="200" line markers tooltip />
+                </div>
+                HTML;
+            }
+        })
+            ->waitFor('@tallstackui_chart')
+            ->tap(fn (Browser $browser) => $browser->script($this->hover(0.5)))
+            ->pause(300)
+            ->tap(function (Browser $browser): void {
+                $tooltip = $this->tooltip($browser);
+
+                // The gap sits under Wed, so only the series with a value there is listed.
+                Assert::assertStringContainsString('Wed', $tooltip);
+                Assert::assertStringContainsString('Beta', $tooltip);
+                Assert::assertStringNotContainsString('Alpha', $tooltip);
+            })
+            ->tap(fn (Browser $browser) => $browser->script($this->hover(0.25)))
+            ->pause(300)
+            ->tap(fn (Browser $browser) => Assert::assertStringContainsString('Alpha', $this->tooltip($browser), 'the series is back where it has a value'));
     }
 
     #[Test]
@@ -211,10 +243,45 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_swap_the_skeleton_for_the_chart_without_a_stale_scope(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $skeleton = false;
+
+            public array $labels = ['Jan', 'Fev', 'Mar', 'Abr'];
+
+            public array $series = [10, 40, 25, 60];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div class="p-10">
+                    <x-chart :$series :$labels :$skeleton height="200" tooltip />
+                    <button dusk="toggle" wire:click="$toggle('skeleton')">Toggle</button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitFor('@tallstackui_chart')
+            // Morphed into the placeholder, the node keeps a leftover scope once
+            // its x-data is gone, and morphed back it would be read as already
+            // initialised, so its x-data would be skipped.
+            ->click('@toggle')
+            ->waitFor('@tallstackui_chart_skeleton')
+            ->click('@toggle')
+            ->waitFor('@tallstackui_chart')
+            ->pause(300)
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame('0', $browser->script("return document.querySelectorAll('[data-has-alpine-state]').length.toString();")[0]);
+                Assert::assertSame('number', $browser->script("return typeof document.querySelector('[x-data^=\"tallstackui_chartAxis\"]')._x_dataStack[0].step;")[0]);
+                Assert::assertSame('object', $browser->script("return typeof document.querySelector('[dusk=tallstackui_chart]').closest('[x-data]')._x_dataStack[0].tip;")[0]);
+            });
+    }
+
+    #[Test]
     public function cannot_hide_every_series(): void
     {
-        // An empty plot has no domain to rescale against, so the last visible
-        // series has to stay on screen.
         Livewire::visit(new ChartComparison)
             ->waitFor('@tallstackui_chart')
             ->click('@tallstackui_chart_legend_0')
@@ -227,8 +294,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function hides_the_axis_labels_that_would_overlap(): void
     {
-        // Thirty captions on a phone used to pile onto each other into an
-        // unreadable strip, because every one of them was always painted.
         Livewire::visit(new class extends Component
         {
             public array $labels = [];
@@ -273,8 +338,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function keeps_the_tooltip_inside_the_plot_at_both_edges(): void
     {
-        // A percentage clamp cannot know how wide the tooltip is, so half of
-        // it used to hang outside the card on the first and last index.
         Livewire::visit(new ChartComparison)
             ->waitFor('@tallstackui_chart')
             ->tap(function (Browser $browser): void {
@@ -293,9 +356,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function keeps_the_tooltip_inside_the_plot_at_the_top(): void
     {
-        // The box hangs above its own anchor, so clamping the anchor at zero
-        // used to leave the whole tooltip above the plot, out of sight inside
-        // any card, which is overflow-hidden.
         Livewire::visit(new ChartComparison)
             ->waitFor('@tallstackui_chart')
             ->tap(function (Browser $browser): void {
@@ -317,10 +377,6 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_chart_legend_0')
             ->pause(200)
             ->tap(function (Browser $browser): void {
-                // Rescaling a domain is an affine map in y, and Beziers are
-                // affine invariant, so the remaining curve is transformed
-                // rather than recomputed. Anything else means the curve math
-                // leaked into JavaScript.
                 Assert::assertMatchesRegularExpression(
                     '/^translate\(0 -?[\d.]+\) scale\(1 [\d.]+\)$/',
                     $this->transform($browser, 1)
@@ -331,9 +387,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function works_inside_a_lazy_livewire_component(): void
     {
-        // The failure mode this guards is the one charting libraries hit: the
-        // element has no size until the placeholder is swapped out, so
-        // anything measuring on init reads zero and never recovers.
         Livewire::component('lazy-chart', ChartComparison::class);
 
         Livewire::visit(new class extends Component
@@ -351,8 +404,6 @@ class BrowserTest extends BrowserTestCase
             ->tap(fn (Browser $browser) => Assert::assertSame(2, $this->drawn($browser), 'the chart should render once the placeholder is replaced'))
             ->tap(fn (Browser $browser) => $browser->script($this->hover(0.66)))
             ->pause(300)
-            // Hit-testing measures the element on the event, never on init,
-            // which is what makes it survive being swapped in late.
             ->assertSee('Mar');
     }
 
@@ -410,8 +461,6 @@ class BrowserTest extends BrowserTestCase
 
     private function hover(float $ratio, float $level = 0.5): string
     {
-        // Pointer events rather than mouse ones, which is what also makes the
-        // chart reachable from touch.
         return <<<JS
         const plot = document.querySelector('[dusk=tallstackui_chart]');
         const rect = plot.getBoundingClientRect();

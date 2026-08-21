@@ -27,7 +27,7 @@ final class Series
         }
 
         if (! self::grouped($series)) {
-            return [['name' => null, 'data' => self::floats($series), 'axis' => 'left', 'type' => null]];
+            return [['name' => null, 'data' => self::floats($series), 'axis' => 'left', 'type' => null, 'curve' => null]];
         }
 
         $normalized = [];
@@ -40,8 +40,8 @@ final class Series
                 'name' => isset($entry['name']) ? (string) $entry['name'] : null,
                 'data' => self::floats($data instanceof Collection ? $data->all() : (array) $data),
                 'axis' => $entry['axis'] ?? 'left',
-                // Left null because the chart type is only known to the runtime.
                 'type' => $entry['type'] ?? null,
+                'curve' => $entry['curve'] ?? null,
             ];
         }
 
@@ -71,7 +71,14 @@ final class Series
 
     public static function values(array $series): array
     {
-        return $series === [] ? [] : array_merge(...array_column($series, 'data'));
+        if ($series === []) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            array_merge(...array_column($series, 'data')),
+            static fn (?float $value): bool => $value !== null
+        ));
     }
 
     public static function violation(Collection|array|null $series): ?string
@@ -106,6 +113,10 @@ final class Series
                     return 'The [type] of every series must be one of: '.implode(', ', self::TYPES).'.';
                 }
 
+                if (isset($entry['curve']) && ! in_array($entry['curve'], Spline::CURVES, true)) {
+                    return 'The [curve] of every series must be one of: '.implode(', ', Spline::CURVES).'.';
+                }
+
                 if ($violation = self::numeric($data)) {
                     return $violation;
                 }
@@ -119,7 +130,7 @@ final class Series
 
     private static function floats(array $values): array
     {
-        return array_values(array_map(static fn (mixed $value): float => (float) $value, $values));
+        return array_values(array_map(static fn (mixed $value): ?float => $value === null ? null : (float) $value, $values));
     }
 
     private static function grouped(array $series): bool
@@ -132,8 +143,12 @@ final class Series
     private static function numeric(array $values): ?string
     {
         foreach ($values as $value) {
+            if ($value === null) {
+                continue;
+            }
+
             if (! is_numeric($value) || ! is_finite((float) $value)) {
-                return 'The [series] must contain only numeric values.';
+                return 'The [series] must contain only numeric values, or null for a gap.';
             }
         }
 

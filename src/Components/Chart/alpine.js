@@ -31,9 +31,8 @@ export default (options) => ({
       ? this.pointer.x
       : (this.abscissa(this.active) / this.plot.width) * width;
     const left = Math.max(half, Math.min(width - half, anchor));
-    // The box hangs above its own anchor, so an anchor closer to the top than
-    // the box is tall leaves the whole tooltip outside the plot, where an
-    // ancestor with overflow-hidden clips it away.
+    // Clamped by the box height: anchored any higher, the whole tooltip
+    // would land above the plot and be clipped by an overflow-hidden card.
     const top = Math.max(this.tip.height, this.pointer.y - 12);
 
     return `left: ${left}px; top: ${top}px; transform: translate(-50%, -100%)`;
@@ -55,7 +54,7 @@ export default (options) => ({
     return this.series
       .map((entry, index) => ({ entry, index }))
       .filter(({ index }) => this.visible(index))
-      .filter(({ entry }) => entry.formatted[this.active] !== undefined)
+      .filter(({ entry }) => entry.formatted[this.active] !== undefined && entry.formatted[this.active] !== null)
       .map(({ entry }) => ({
         name: entry.name,
         value: entry.formatted[this.active],
@@ -67,17 +66,12 @@ export default (options) => ({
       return this.labels[this.active] ?? '';
     }
 
-    // Recomputed rather than read off the server value: hiding a slice
-    // redistributes the whole circle, so the stored percentage goes stale.
+    // Hiding a slice redistributes the circle, so the server percentage goes stale.
     const total = this.visibleValues().reduce((carry, value) => carry + value, 0);
     const slice = this.slices[this.active];
 
     return slice && total > 0 ? `${Math.round((slice.raw / total) * 1000) / 10}%` : '';
   },
-  /**
-   * Where an index sits horizontally. A curve puts its first and last point on
-   * the edges; a bar owns a slot and is read from the middle of it.
-   */
   abscissa(index) {
     if (index === null || this.length < 1) {
       return 0;
@@ -89,10 +83,8 @@ export default (options) => ({
 
     return this.length < 2 ? 0 : (index / (this.length - 1)) * this.plot.width;
   },
-  /**
-   * Unlike a curve, a pie cannot be rescaled by a transform: removing a slice
-   * redistributes every remaining angle, so the geometry is mirrored here.
-   */
+  // A pie cannot be rescaled by a transform: removing a slice redistributes
+  // every remaining angle, so the geometry is mirrored here.
   arc(index) {
     if (!this.visible(index)) {
       return '';
@@ -129,11 +121,8 @@ export default (options) => ({
   count() {
     return this.radial ? this.slices.length : this.series.length;
   },
-  /**
-   * Rescaling a domain is an affine map in y, and cubic Beziers are affine
-   * invariant, so hiding a series is a transform on the remaining groups
-   * rather than a curve recomputed in JavaScript.
-   */
+  // Beziers are affine invariant, so hiding a series is a transform on the
+  // remaining groups rather than a curve recomputed here.
   factors() {
     if (!this.rescale || !this.hidden.length) {
       return null;
@@ -141,7 +130,8 @@ export default (options) => ({
 
     const values = this.series
       .filter((entry, position) => this.visible(position))
-      .flatMap((entry) => entry.data);
+      .flatMap((entry) => entry.data)
+      .filter((value) => value !== null);
 
     if (!values.length) {
       return null;
@@ -174,17 +164,15 @@ export default (options) => ({
 
     this.pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
 
-    // Measured a tick later because the size only settles once x-text has
-    // filled the rows, and reading it in the same tick returns the size of
-    // an empty tooltip. Hidden through visibility so it is measurable at all.
+    // Measured a tick later: in the same tick x-text has not filled the rows
+    // yet, so the box still has the size of an empty tooltip.
     this.$nextTick(() => {
       const tip = this.$refs.tip;
 
       this.tip = { width: tip?.offsetWidth ?? 0, height: tip?.offsetHeight ?? 0 };
     });
   },
-  // Markers live in html, so they cannot ride the svg transform and have to
-  // be mapped through the same affine pair by hand.
+  // Markers are html, so they cannot ride the svg transform.
   marker(index, x, y) {
     const factors = this.visible(index) ? this.factors() : null;
 
@@ -195,11 +183,8 @@ export default (options) => ({
 
     this.locate(event);
   },
-  /**
-   * Only a mouse leaving means the pointer is gone. On touch, pointerleave
-   * fires right after the tap, and closing on it would blank the tooltip the
-   * instant it appeared. Touch closes by tapping outside instead.
-   */
+  // On touch, pointerleave fires right after the tap and would blank the
+  // tooltip the instant it appeared. Touch closes by tapping outside instead.
   release(event) {
     if (!event || event.pointerType === 'mouse') {
       this.clear();
@@ -210,8 +195,7 @@ export default (options) => ({
     const point = (angle, distance) =>
       `${this.round(center + Math.cos(angle) * distance)},${this.round(center + Math.sin(angle) * distance)}`;
 
-    // A single arc command cannot express a full turn, because its start and
-    // end points would coincide, so it is split in half.
+    // One arc command cannot express a full turn: its ends would coincide.
     if (to - from >= 2 * Math.PI - 1e-9) {
       const half = from + Math.PI;
       const arc = (distance, sweep, angle) =>
@@ -235,8 +219,7 @@ export default (options) => ({
     const position = this.hidden.indexOf(index);
 
     if (position === -1) {
-      // Never let the last visible entry be switched off: an empty plot has no
-      // scale to rescale to, and a pie would have no circle left to divide.
+      // The last visible entry stays: an empty plot has no scale left to rescale to.
       if (this.hidden.length >= this.count() - 1) {
         return;
       }
@@ -257,17 +240,14 @@ export default (options) => ({
 
     const rect = plot.getBoundingClientRect();
 
-    // Measuring here rather than in init() is what keeps this working inside
-    // a lazy Livewire component, where the element has no size until it is
-    // swapped in for its placeholder.
+    // Measured on the event, not in init(): inside a lazy Livewire component
+    // the element has no size until the placeholder is swapped out.
     if (!rect.width) {
       return;
     }
 
     const ratio = (event.clientX - rect.left) / rect.width;
 
-    // A bar owns a slot, so the pointer falls inside one. A curve has points
-    // on the edges, so the pointer snaps to the nearest of them.
     const index = this.slotted
       ? Math.floor(ratio * this.length)
       : Math.round(ratio * (this.length - 1));
