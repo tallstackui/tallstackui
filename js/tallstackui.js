@@ -34,6 +34,7 @@ import stats from '../src/Components/Stats/alpine';
 import swap from '../src/Components/Swap/alpine';
 import password from '../src/Components/Form/Password/alpine';
 import pin from '../src/Components/Form/Pin/alpine';
+import range from '../src/Components/Form/Range/alpine';
 import qrCode from '../src/Components/QrCode/alpine';
 import tab from '../src/Components/Tab/Main/alpine';
 import table from '../src/Components/Table/alpine';
@@ -76,6 +77,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formNumber', number);
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);
+  Alpine.data('tallstackui_formRange', range);
   Alpine.data('tallstackui_formTag', tag);
   Alpine.data('tallstackui_formTextArea', textArea);
   Alpine.data('tallstackui_darkTheme', darkTheme);
