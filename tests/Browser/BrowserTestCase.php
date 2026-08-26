@@ -289,6 +289,13 @@ class BrowserTestCase extends TestCase
      */
     protected function macros(): void
     {
+        // The image editor markup is always present, hidden inside its modal,
+        // so presence proves nothing: the canvas only gains a width once the
+        // picked image has been decoded and painted.
+        Browser::macro('waitForUploadEditorCanvas', function () {
+            return $this->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0");
+        });
+
         // Dusk clicks an element's centre point, so a control that wraps other
         // interactive content can have that centre land on a child instead. The
         // select toggle is filled with chips once options are selected, and a
