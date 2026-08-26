@@ -4,6 +4,7 @@ namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
 use TallStackUi\Components\Form\Upload\Async\Component;
+use TallStackUi\Support\Miscellaneous\UploadEditorOptions;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class UploadAsyncRuntime extends AbstractRuntime
@@ -38,7 +39,7 @@ class UploadAsyncRuntime extends AbstractRuntime
 
         return [
             ...$this->locks(),
-            'id' => $bind->get('id') ?? uniqid('tsui-upload-async-'),
+            'id' => $id = $bind->get('id') ?? uniqid('tsui-upload-async-'),
             'property' => $property,
             'name' => $name,
             'route' => $component->route,
@@ -64,6 +65,7 @@ class UploadAsyncRuntime extends AbstractRuntime
                 'accept' => $component->accept ?? $configuration['accept'],
             ],
             'i18n' => trans('ts-ui::messages.upload_async'),
+            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, $configuration, $id))(),
         ];
     }
 

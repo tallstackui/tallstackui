@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'Une erreur de validation s\'est produite.',
+        'editor' => [
+            'rotate_left' => 'Pivoter à gauche',
+            'rotate_right' => 'Pivoter à droite',
+            'reset' => 'Réinitialiser',
+            'cancel' => 'Annuler',
+            'apply' => 'Appliquer',
+        ],
     ],
 
     'upload_async' => [

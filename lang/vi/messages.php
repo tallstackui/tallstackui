@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'Đã xảy ra lỗi xác thực.',
+        'editor' => [
+            'rotate_left' => 'Xoay trái',
+            'rotate_right' => 'Xoay phải',
+            'reset' => 'Đặt lại',
+            'cancel' => 'Hủy',
+            'apply' => 'Áp dụng',
+        ],
     ],
 
     'upload_async' => [

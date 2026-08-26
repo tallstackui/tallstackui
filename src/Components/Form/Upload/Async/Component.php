@@ -41,6 +41,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $headers = null,
         public ComponentSlot|string|null $footer = null,
         public string|bool|null $error = null,
+        public bool|string|null $editor = null,
+        public ?string $aspect = null,
     ) {
         $this->method ??= 'POST';
         $this->title ??= trans('ts-ui::messages.upload_async.title');

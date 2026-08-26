@@ -19,6 +19,7 @@
         live: @js($live),
         i18n: @js($i18n),
         headers: @js($headers ?? []),
+        editor: @js($editing),
      })"
      x-cloak
      @if ($wire) wire:ignore @endif
@@ -229,6 +230,10 @@
                 </template>
             </span>
         </template>
+    @endif
+
+    @if ($editing)
+        <x-dynamic-component :component="TallStackUi::prefix('upload.editor')" :$editing />
     @endif
 
     @if ($preview)

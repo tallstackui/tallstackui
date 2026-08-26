@@ -3,6 +3,8 @@
 namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
+use TallStackUi\Components\Form\Upload\Component;
+use TallStackUi\Support\Miscellaneous\UploadEditorOptions;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class UploadRuntime extends AbstractRuntime
@@ -10,6 +12,9 @@ class UploadRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
+        /** @var Component $component */
+        $component = $this->component;
+
         $bind = $this->bind();
 
         $data = [
@@ -23,6 +28,7 @@ class UploadRuntime extends AbstractRuntime
                 'status' => $this->errors->has(is_array($value) ? $property.'.*' : $property),
                 'quantity' => count($this->errors->get(is_array($value) ? $property.'.*' : $property)),
             ],
+            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, __ts_get_component_configuration(Component::class) ?? [], (string) $bind->get('id')))(),
         ];
 
         if (is_null($property)) {
