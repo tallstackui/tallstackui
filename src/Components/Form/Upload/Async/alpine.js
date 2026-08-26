@@ -182,16 +182,22 @@ export default (options) => ({
   async intake(list) {
     const usable = this.multiple ? list : list.slice(0, 1);
 
-    // Single mode replaces whatever is there, aborting an upload in flight.
-    if (!this.multiple && usable.length && this.files.length) {
-      this.aborts.get(this.files[0].uuid)?.abort();
-      this.files = [];
-    }
-
     // Sequential on purpose: the editor handles one image at a time.
     for (const raw of usable) {
       await this.accept(raw);
     }
+  },
+
+  // Single mode replaces whatever is there, aborting an upload in flight.
+  // Called only once the newcomer is settled, so a cancelled edit leaves
+  // the previous file untouched.
+  replace() {
+    if (this.multiple || !this.files.length) {
+      return;
+    }
+
+    this.aborts.get(this.files[0].uuid)?.abort();
+    this.files = [];
   },
 
   describe(raw) {
@@ -245,6 +251,8 @@ export default (options) => ({
 
     const file = this.describe(edited);
 
+    this.replace();
+
     this.files.push(file);
 
     this.emit('added', { file });
@@ -257,6 +265,8 @@ export default (options) => ({
   reject(file, reason, message) {
     file.status = 'rejected';
     file.error = message;
+
+    this.replace();
 
     this.files.push(file);
 

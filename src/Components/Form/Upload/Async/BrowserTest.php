@@ -61,7 +61,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
-            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
+            ->waitForUploadEditorCanvas()
             ->assertNotPresent('@tallstackui_upload_editor_rotate_left')
             ->click('@tallstackui_upload_editor_cancel')
             ->waitUntilMissing('@tallstackui_upload_editor')
@@ -92,6 +92,38 @@ class BrowserTest extends BrowserTestCase
             ->assertSeeIn('@count', '0')
             ->click('@tallstackui_upload_async_send')
             ->waitForTextIn('@count', '1');
+    }
+
+    #[Test]
+    public function can_keep_the_previous_file_when_the_replacement_is_cancelled(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public mixed $file = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="file" :route="route('async.upload')" editor />
+                    <p dusk="name">{{ $file['real_name'] ?? '' }}</p>
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->click('@tallstackui_upload_editor_apply')
+            ->waitForTextIn('@name', 'test.jpg')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->click('@tallstackui_upload_editor_cancel')
+            ->waitUntilMissing('@tallstackui_upload_editor')
+            ->pause(500)
+            ->assertPresent('@tallstackui_upload_async_tile')
+            ->assertSeeIn('@name', 'test.jpg');
     }
 
     #[Test]
@@ -193,7 +225,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
-            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
+            ->waitForUploadEditorCanvas()
             ->assertSeeIn('@count', '0')
             ->click('@tallstackui_upload_editor_rotate_left')
             ->click('@tallstackui_upload_editor_apply')
