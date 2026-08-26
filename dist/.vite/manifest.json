@@ -6,6 +6,10 @@
       "_helpers-C7njj8qn.js"
     ]
   },
+  "_editor-_UGll8_B.js": {
+    "file": "editor-_UGll8_B.js",
+    "name": "editor"
+  },
   "_helpers-BiURPM7a.js": {
     "file": "helpers-BiURPM7a.js",
     "name": "helpers"
@@ -39,12 +43,13 @@
     ]
   },
   "js/tallstackui-editor.js": {
-    "file": "tallstackui-editor-C6p6X4we.js",
+    "file": "tallstackui-editor-BcEEf-7U.js",
     "name": "tallstackui-editor",
     "src": "js/tallstackui-editor.js",
     "isEntry": true,
     "imports": [
-      "_helpers-C7njj8qn.js"
+      "_helpers-C7njj8qn.js",
+      "_editor-_UGll8_B.js"
     ]
   },
   "js/tallstackui-select.js": {
@@ -58,12 +63,13 @@
     ]
   },
   "js/tallstackui-upload.js": {
-    "file": "tallstackui-upload-DeTeouNS.js",
+    "file": "tallstackui-upload-KnilQZ6P.js",
     "name": "tallstackui-upload",
     "src": "js/tallstackui-upload.js",
     "isEntry": true,
     "imports": [
-      "_helpers-C7njj8qn.js"
+      "_helpers-C7njj8qn.js",
+      "_editor-_UGll8_B.js"
     ]
   },
   "js/tallstackui.js": {
