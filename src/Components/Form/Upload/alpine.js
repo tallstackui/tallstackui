@@ -1,4 +1,5 @@
 import { lockable, overflow } from '../../../../js/helpers';
+import editor from './editor';
 
 export default (
   id,
@@ -11,9 +12,11 @@ export default (
   overflowing,
   closeAfterUpload,
   disabled = false,
-  readonly = false
+  readonly = false,
+  editing = null
 ) => ({
   ...lockable(disabled, readonly),
+  ...editor(editing),
   show: false,
   uploading: false,
   error: false,
@@ -38,10 +41,9 @@ export default (
    * Toggle the file upload modal.
    * @returns {void}
    */
-  upload() {
+  async upload() {
     if (this.locked() || !this.$refs.files.files.length) return;
 
-    this.uploading = true;
     this.error = false;
 
     let abort = true;
@@ -61,18 +63,61 @@ export default (
       new CustomEvent('upload', { detail: { files: this.$refs.files.files } })
     );
 
-    if (this.multiple) return this.multiples();
+    const files = await this.prepare([...this.$refs.files.files]);
 
-    this.single();
+    if (!files.length) {
+      return;
+    }
+
+    this.uploading = true;
+
+    if (this.multiple) {
+      this.multiples(files);
+
+      return;
+    }
+
+    this.single(files[0]);
+  },
+  /**
+   * Run the files through the editor one at a time; cancelled ones leave the batch.
+   * @param files {File[]}
+   * @returns {Promise<File[]>}
+   */
+  async prepare(files) {
+    if (!files.some((file) => this.editable(file))) {
+      return files;
+    }
+
+    // Hidden while editing, back afterwards so the progress bar has a home.
+    this.show = false;
+
+    const ready = [];
+
+    for (const file of files) {
+      const edited = await this.edit(file);
+
+      if (edited) {
+        ready.push(edited);
+      }
+    }
+
+    // Otherwise picking the same file again would not fire a change event.
+    this.$refs.files.value = '';
+
+    this.show = true;
+
+    return ready;
   },
   /**
    * Upload multiple files.
+   * @param files {File[]}
    * @returns {void}
    */
-  multiples() {
+  multiples(files) {
     this.component.$wire.uploadMultiple(
       this.property,
-      this.$refs.files.files,
+      files,
       () => {
         this.uploading = false;
         this.progress = 0;
@@ -89,12 +134,13 @@ export default (
   },
   /**
    * Upload single file.
+   * @param file {File}
    * @returns {void}
    */
-  single() {
+  single(file) {
     this.component.$wire.upload(
       this.property,
-      this.$refs.files.files[0],
+      file,
       () => {
         this.uploading = false;
         this.progress = 0;

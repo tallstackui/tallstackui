@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'Terdapat ralat pengesahan.',
+        'editor' => [
+            'rotate_left' => 'Putar ke kiri',
+            'rotate_right' => 'Putar ke kanan',
+            'reset' => 'Set semula',
+            'cancel' => 'Batal',
+            'apply' => 'Guna',
+        ],
     ],
 
     'upload_async' => [

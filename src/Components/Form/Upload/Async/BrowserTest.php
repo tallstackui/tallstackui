@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Upload\Async;
 
+use Illuminate\Support\Facades\Storage;
 use Laravel\Dusk\Browser;
 use Livewire\Component as LivewireComponent;
 use Livewire\Livewire;
@@ -42,6 +43,34 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_drop_a_cancelled_image_from_the_grid(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files" :route="route('async.upload')" multiple editor="crop" />
+                    <p dusk="count">{{ count($files) }}</p>
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->assertNotPresent('@tallstackui_upload_editor_rotate_left')
+            ->click('@tallstackui_upload_editor_cancel')
+            ->waitUntilMissing('@tallstackui_upload_editor')
+            ->pause(500)
+            ->assertNotPresent('@tallstackui_upload_async_tile')
+            ->assertSeeIn('@count', '0');
+    }
+
+    #[Test]
     public function can_hold_the_files_until_send_is_pressed(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -63,6 +92,38 @@ class BrowserTest extends BrowserTestCase
             ->assertSeeIn('@count', '0')
             ->click('@tallstackui_upload_async_send')
             ->waitForTextIn('@count', '1');
+    }
+
+    #[Test]
+    public function can_keep_the_previous_file_when_the_replacement_is_cancelled(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public mixed $file = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="file" :route="route('async.upload')" editor />
+                    <p dusk="name">{{ $file['real_name'] ?? '' }}</p>
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->click('@tallstackui_upload_editor_apply')
+            ->waitForTextIn('@name', 'test.jpg')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->click('@tallstackui_upload_editor_cancel')
+            ->waitUntilMissing('@tallstackui_upload_editor')
+            ->pause(500)
+            ->assertPresent('@tallstackui_upload_async_tile')
+            ->assertSeeIn('@name', 'test.jpg');
     }
 
     #[Test]
@@ -135,6 +196,42 @@ class BrowserTest extends BrowserTestCase
             ->script('document.querySelector("[dusk=tallstackui_upload_async_remove]").click()');
 
         $this->assertTrue(true);
+    }
+
+    #[Test]
+    public function can_rotate_an_image_before_uploading(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files" :route="route('async.upload')" multiple editor />
+                    <p dusk="count">{{ count($files) }}</p>
+                    <p dusk="dims">{{ $files ? $this->dimensions() : '' }}</p>
+                </div>
+                HTML;
+            }
+
+            public function dimensions(): string
+            {
+                [$width, $height] = getimagesize(Storage::disk('local')->path($this->files[0]['path']));
+
+                return "{$width}x{$height}";
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->assertSeeIn('@count', '0')
+            ->click('@tallstackui_upload_editor_rotate_left')
+            ->click('@tallstackui_upload_editor_apply')
+            ->waitForText('test.jpg')
+            ->waitForTextIn('@count', '1')
+            ->waitForTextIn('@dims', '407x611');
     }
 
     #[Test]

@@ -48,6 +48,8 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 | close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded                    |
 | disabled           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is not submitted.   |
 | readonly           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is still submitted. |
+| editor             | bool\|string\|null          | from config    | Opens the image editor before the upload: `true`, `crop` or `rotate`                |
+| aspect             | string\|null                | from config    | Locks the editor crop box to a `width:height` ratio, like `1:1`                     |
 
 ## Slots
 
@@ -199,6 +201,29 @@ public function deleteUpload(array $content): void
 <!-- Fires when a file is deleted -->
 <x-upload delete x-on:remove="console.log($event.detail.file)" />
 ```
+
+## Image Editor
+
+```blade
+<x-upload wire:model="photo" editor />
+
+<x-upload wire:model="avatar" editor aspect="1:1" />
+
+<x-upload wire:model="gallery" editor="crop" multiple />
+```
+
+Images open a crop and rotate dialog before reaching Livewire; what is uploaded is the edited file. With `multiple` the dialog opens once per image. Everything the dialog does, accepts and exposes is on the [Upload Editor](editor.md) page.
+
+## Configuration
+
+Global defaults live under `components.upload` in the published config.
+
+| Setting | Default | Description                                                            |
+|---------|---------|------------------------------------------------------------------------|
+| editor  | false   | Opens the image editor by default: `false`, `true`, `crop` or `rotate` |
+| aspect  | null    | Default crop ratio of the editor, in the `width:height` format         |
+| quality | 0.92    | Compression of the edited jpeg and webp images                         |
+| format  | null    | Forces the output type of the edited image: `png`, `jpeg` or `webp`    |
 
 ## Soft Customization
 

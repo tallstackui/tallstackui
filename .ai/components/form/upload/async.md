@@ -46,31 +46,33 @@ An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns
 
 ## Attributes
 
-| Attribute   | Type                        | Default     | Description                                                    |
-|-------------|-----------------------------|-------------|----------------------------------------------------------------|
-| route       | string **required**         | —           | Named route or URL the chunks are posted to                    |
-| method      | string                      | 'POST'      | HTTP method used for every chunk                               |
-| label       | string\|ComponentSlot\|null | null        | Label text displayed above the drop area                       |
-| hint        | string\|ComponentSlot\|null | null        | Hint text displayed below the drop area                        |
-| title       | string\|null                | translation | Placeholder title inside the drop area                         |
-| description | string\|null                | translation | Placeholder subtitle inside the drop area                      |
-| tip         | string\|ComponentSlot\|null | null        | Extra line under the description, hidden once a file is picked |
-| multiple    | bool                        | false       | Allows multiple file selection                                 |
-| preview     | bool                        | true        | Opens the image lightbox when a thumbnail is clicked           |
-| manual      | bool                        | false       | Stages the files and waits for the Send button                 |
-| disabled    | bool                        | false       | Blocks drop, click and keyboard                                |
-| limit       | int\|null                   | null        | Maximum number of files, only meaningful with `multiple`       |
-| max-size    | int\|null                   | config      | Maximum megabytes per file, also enforced by the handler       |
-| accept      | string\|null                | config      | Mime/extension filter (e.g. `image/*,.pdf`)                    |
-| files       | array\|Collection\|null     | null        | Pre-existing files, same shape as the bound value              |
-| height      | string\|null                | 'min-h-48'  | Tailwind min-height of the drop area                           |
-| columns     | int\|null                   | 6           | Maximum grid columns, clamped to 1..6                          |
-| chunk-size  | int\|null                   | config      | Bytes per chunk                                                |
-| concurrency | int\|null                   | config      | Chunks uploaded in parallel, per component                     |
-| retries     | int\|null                   | config      | Attempts per chunk on transient failures                       |
-| headers     | array\|null                 | null        | Extra HTTP headers. The CSRF token is injected automatically   |
-| footer      | ComponentSlot\|null         | null        | Replaces the built-in Send/Clear footer of manual mode         |
-| error       | string\|bool\|null          | translation | Component-level fallback error message                         |
+| Attribute   | Type                        | Default     | Description                                                          |
+|-------------|-----------------------------|-------------|----------------------------------------------------------------------|
+| route       | string **required**         | —           | Named route or URL the chunks are posted to                          |
+| method      | string                      | 'POST'      | HTTP method used for every chunk                                     |
+| label       | string\|ComponentSlot\|null | null        | Label text displayed above the drop area                             |
+| hint        | string\|ComponentSlot\|null | null        | Hint text displayed below the drop area                              |
+| title       | string\|null                | translation | Placeholder title inside the drop area                               |
+| description | string\|null                | translation | Placeholder subtitle inside the drop area                            |
+| tip         | string\|ComponentSlot\|null | null        | Extra line under the description, hidden once a file is picked       |
+| multiple    | bool                        | false       | Allows multiple file selection                                       |
+| preview     | bool                        | true        | Opens the image lightbox when a thumbnail is clicked                 |
+| manual      | bool                        | false       | Stages the files and waits for the Send button                       |
+| disabled    | bool                        | false       | Blocks drop, click and keyboard                                      |
+| limit       | int\|null                   | null        | Maximum number of files, only meaningful with `multiple`             |
+| max-size    | int\|null                   | config      | Maximum megabytes per file, also enforced by the handler             |
+| accept      | string\|null                | config      | Mime/extension filter (e.g. `image/*,.pdf`)                          |
+| files       | array\|Collection\|null     | null        | Pre-existing files, same shape as the bound value                    |
+| height      | string\|null                | 'min-h-48'  | Tailwind min-height of the drop area                                 |
+| columns     | int\|null                   | 6           | Maximum grid columns, clamped to 1..6                                |
+| chunk-size  | int\|null                   | config      | Bytes per chunk                                                      |
+| concurrency | int\|null                   | config      | Chunks uploaded in parallel, per component                           |
+| retries     | int\|null                   | config      | Attempts per chunk on transient failures                             |
+| headers     | array\|null                 | null        | Extra HTTP headers. The CSRF token is injected automatically         |
+| footer      | ComponentSlot\|null         | null        | Replaces the built-in Send/Clear footer of manual mode               |
+| error       | string\|bool\|null          | translation | Component-level fallback error message                               |
+| editor      | bool\|string\|null          | config      | Opens the image editor before the upload: `true`, `crop` or `rotate` |
+| aspect      | string\|null                | config      | Locks the editor crop box to a `width:height` ratio                  |
 
 ## Slots
 
@@ -98,6 +100,16 @@ Both `wire:model` and `name` receive the same shape, an array of finished upload
 `url` is `null` when the destination disk has no public URL. With `name`, the same data is rendered as hidden inputs so a plain form submit carries it.
 
 Following `wire:model` semantics, the array is synced on the next round trip. Use `wire:model.live` to push it immediately.
+
+## Image Editor
+
+```blade
+<x-upload.async route="uploads.store" editor multiple />
+
+<x-upload.async route="uploads.store" editor aspect="16:9" manual />
+```
+
+Images open a crop and rotate dialog before the first chunk is sent; the edited file is what gets chunked, validated and stored. In `manual` mode the edited file waits in the grid until Send. Everything the dialog does, accepts and exposes is on the [Upload Editor](editor.md) page.
 
 ## Backend
 
@@ -230,6 +242,10 @@ Global defaults live under `components.upload.async` in the published config.
 | tmp_directory | 'async-uploads' | Directory, inside `tmp_disk`, used to stage the chunks                 |
 | disk          | 'local'         | Destination disk of the finalized files                                |
 | keep          | 6 hours         | Seconds an unfinished upload is kept before the clear command drops it |
+| editor        | false           | Opens the image editor by default: `false`, `true`, `crop` or `rotate` |
+| aspect        | null            | Default crop ratio of the editor, in the `width:height` format         |
+| quality       | 0.92            | Compression of the edited jpeg and webp images                         |
+| format        | null            | Forces the output type of the edited image: `png`, `jpeg` or `webp`    |
 
 The `aria-label` of the remove button and of the lightbox close button are not
 translated: they carry a fixed English string.

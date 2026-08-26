@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'Bir doğrulama hatası oluştu.',
+        'editor' => [
+            'rotate_left' => 'Sola döndür',
+            'rotate_right' => 'Sağa döndür',
+            'reset' => 'Sıfırla',
+            'cancel' => 'İptal',
+            'apply' => 'Uygula',
+        ],
     ],
 
     'upload_async' => [

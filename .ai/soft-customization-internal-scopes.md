@@ -163,19 +163,27 @@ TallStackUi::customize()
 
 | Scope                  | Target           | Line(s) |
 |------------------------|------------------|---------|
-| `form.upload.input`    | `<x-input />`    | 27      |
-| `form.upload.label`    | `<x-label />`    | 51      |
-| `form.upload.floating` | `<x-floating />` | 93      |
-| `form.upload.error`    | `<x-error />`    | 157     |
+| `form.upload.input`    | `<x-input />`    | 28      |
+| `form.upload.label`    | `<x-label />`    | 52      |
+| `form.upload.floating` | `<x-floating />` | 97      |
+| `form.upload.error`    | `<x-error />`    | 161     |
 
 ### `form/upload/async`
 
 | Scope                     | Target         | Line(s) |
 |---------------------------|----------------|---------|
-| `form.upload.async.label` | `<x-label />`  | 31      |
-| `form.upload.async.hint`  | `<x-hint />`   | 172     |
-| `form.upload.async.clear` | `<x-button />` | 181     |
-| `form.upload.async.send`  | `<x-button />` | 189     |
+| `form.upload.async.label` | `<x-label />`  | 32      |
+| `form.upload.async.hint`  | `<x-hint />`   | 173     |
+| `form.upload.async.clear` | `<x-button />` | 182     |
+| `form.upload.async.send`  | `<x-button />` | 190     |
+
+### `form/upload/editor`
+
+| Scope                       | Target         | Line(s) |
+|-----------------------------|----------------|---------|
+| `form.upload.editor.modal`  | `<x-modal />`  | 7       |
+| `form.upload.editor.cancel` | `<x-button />` | 83      |
+| `form.upload.editor.apply`  | `<x-button />` | 91      |
 
 ### `layout/sidebar/item`
 
@@ -221,6 +229,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 65
-- Distinct scopes: 58
-- Files declaring scopes: 26
+- Total internal scope occurrences: 68
+- Distinct scopes: 61
+- Files declaring scopes: 27

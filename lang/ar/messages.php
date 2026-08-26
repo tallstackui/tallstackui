@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'حدث خطأ في التحقق من الصحة.',
+        'editor' => [
+            'rotate_left' => 'تدوير لليسار',
+            'rotate_right' => 'تدوير لليمين',
+            'reset' => 'إعادة تعيين',
+            'cancel' => 'إلغاء',
+            'apply' => 'تطبيق',
+        ],
     ],
 
     'upload_async' => [

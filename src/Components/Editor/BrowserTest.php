@@ -314,6 +314,45 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_cancel_the_image_editor_and_keep_the_dialog(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            use WithFileUploads;
+
+            public string $content = '';
+
+            public ?TemporaryUploadedFile $picture = null;
+
+            public function store(): string
+            {
+                return '/storage/uploaded.jpeg';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" upload-property="picture" upload-method="store" upload-editor="crop" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_image')
+            ->pause(600)
+            ->attach('input[type=file]', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->assertMissing('@tallstackui_upload_editor_rotate_right')
+            ->click('@tallstackui_upload_editor_cancel')
+            ->waitUntilMissing('@tallstackui_upload_editor')
+            ->pause(1000)
+            ->assertVisible('@tallstackui_editor_image_upload')
+            ->assertInputValue('#content-image-url', '');
+    }
+
+    #[Test]
     public function can_change_a_heading_inside_a_list_item(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -1018,6 +1057,46 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_editor_bold')
             ->pause(700)
             ->assertSeeIn('@output', '<strong>foo</strong>');
+    }
+
+    #[Test]
+    public function can_rotate_an_image_before_the_upload(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            use WithFileUploads;
+
+            public string $content = '';
+
+            public ?TemporaryUploadedFile $picture = null;
+
+            public function store(): string
+            {
+                [$width, $height] = getimagesize($this->picture->getRealPath());
+
+                return "/storage/{$width}x{$height}.jpg";
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" upload-property="picture" upload-method="store" upload-editor />
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->click('@tallstackui_editor_image')
+            ->pause(600)
+            ->attach('input[type=file]', __DIR__.'/test.jpeg')
+            ->waitFor('@tallstackui_upload_editor')
+            ->waitForUploadEditorCanvas()
+            ->click('@tallstackui_upload_editor_rotate_right')
+            ->click('@tallstackui_upload_editor_apply')
+            ->waitUntilMissing('@tallstackui_upload_editor')
+            ->pause(4000)
+            ->assertInputValue('#content-image-url', '/storage/407x611.jpg');
     }
 
     #[Test]

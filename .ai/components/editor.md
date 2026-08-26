@@ -46,6 +46,8 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 | upload-method   | string              | —                | Component method returning the final URL of the uploaded image            |
 | upload-mimes    | array               | from config      | Mime types the image dialog accepts                                       |
 | upload-max-size | int                 | from config      | Ceiling for an uploaded image, in KB                                      |
+| upload-editor   | bool, string        | from config      | Opens the image editor before the upload: `true`, `crop` or `rotate`      |
+| upload-aspect   | string              | from config      | Locks the editor crop box to a `width:height` ratio                       |
 | counters        | bool                | true             | Word and line counters in the footer                                      |
 | min-height      | string              | 12rem            | Minimum height of the editable, in any CSS unit                           |
 | max-height      | string              | 40rem            | Maximum height of the editable, in any CSS unit                           |
@@ -271,6 +273,12 @@ class PostForm extends Component
 
 Both attributes are required together and only work inside Livewire; either rule broken throws. Without them the image dialog is URL only. The file rides the Livewire upload pipeline, so it has to fit inside the PHP request limits.
 
+```blade
+<x-editor wire:model="content" upload-property="picture" upload-method="storeImage" upload-editor upload-aspect="16:9" />
+```
+
+With `upload-editor` the picked image opens a crop and rotate dialog on top of the image dialog before it is uploaded; cancelling it returns to the image dialog with no URL. Images pasted by URL never go through it. The dialog, its values and its customization are on the [Upload Editor](form/upload/editor.md) page.
+
 ## Livewire
 
 The component is rendered with `wire:ignore` inside Livewire. Its content travels through the entangle rather than through the HTML the server re-renders, which is what keeps the caret still while the editor is being typed into.
@@ -339,6 +347,10 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
     'upload' => [
         'mimes' => ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         'max_size' => 5120,
+        'editor' => false,
+        'aspect' => null,
+        'quality' => 0.92,
+        'format' => null,
     ],
     'sanitization' => [
         'allowed_tags' => ['p', 'br', 'strong', ..., 'blockquote', 'hr'],

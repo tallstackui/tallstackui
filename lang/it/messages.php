@@ -96,6 +96,13 @@ return [
             ],
         ],
         'invalid' => 'Si è verificato un errore di convalida.',
+        'editor' => [
+            'rotate_left' => 'Ruota a sinistra',
+            'rotate_right' => 'Ruota a destra',
+            'reset' => 'Ripristina',
+            'cancel' => 'Annulla',
+            'apply' => 'Applica',
+        ],
     ],
 
     'upload_async' => [
