@@ -33,199 +33,199 @@ TallStackUi::customize()
 
 ### `calendar`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `calendar.label` | `<x-label />` | 32 |
-| `calendar.hint` | `<x-hint />` | 255 |
+| Scope            | Target        | Line(s) |
+|------------------|---------------|---------|
+| `calendar.label` | `<x-label />` | 32      |
+| `calendar.hint`  | `<x-hint />`  | 255     |
 
 ### `clipboard`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `clipboard.label` | `<x-label />` | 7 |
-| `clipboard.hint` | `<x-hint />` | 72 |
+| Scope             | Target        | Line(s) |
+|-------------------|---------------|---------|
+| `clipboard.label` | `<x-label />` | 7       |
+| `clipboard.hint`  | `<x-hint />`  | 72      |
 
 ### `dialog`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `dialog.button` | `<x-button />` | 121 |
+| Scope           | Target         | Line(s) |
+|-----------------|----------------|---------|
+| `dialog.button` | `<x-button />` | 121     |
 
 ### `dropdown`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `dropdown.floating` | `<x-floating />` | 47 |
+| Scope               | Target           | Line(s) |
+|---------------------|------------------|---------|
+| `dropdown.floating` | `<x-floating />` | 47      |
 
 ### `dropdown/submenu`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `dropdown.submenu.floating` | `<x-floating />` | 55 |
+| Scope                       | Target           | Line(s) |
+|-----------------------------|------------------|---------|
+| `dropdown.submenu.floating` | `<x-floating />` | 55      |
 
 ### `editor`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `editor.toolbar` | `<x-dropdown />` | 44, 223 |
-| `editor.modal.link` | `<x-modal />` | 456 |
-| `editor.modal.image` | `<x-modal />` | 496 |
+| Scope                | Target           | Line(s) |
+|----------------------|------------------|---------|
+| `editor.toolbar`     | `<x-dropdown />` | 44, 223 |
+| `editor.modal.link`  | `<x-modal />`    | 456     |
+| `editor.modal.image` | `<x-modal />`    | 496     |
 
 ### `form/autocomplete`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.autocomplete.input` | `<x-input />` | 22 |
-| `form.autocomplete.floating` | `<x-floating />` | 62 |
+| Scope                        | Target           | Line(s) |
+|------------------------------|------------------|---------|
+| `form.autocomplete.input`    | `<x-input />`    | 22      |
+| `form.autocomplete.floating` | `<x-floating />` | 62      |
 
 ### `form/checkbox/group`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.checkbox.group.hint` | `<x-hint />` | 23 |
-| `form.checkbox.group.error` | `<x-error />` | 26 |
+| Scope                       | Target        | Line(s) |
+|-----------------------------|---------------|---------|
+| `form.checkbox.group.hint`  | `<x-hint />`  | 23      |
+| `form.checkbox.group.error` | `<x-error />` | 26      |
 
 ### `form/color`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.color.input` | `<x-input />` | 23 |
-| `form.color.floating` | `<x-floating />` | 67 |
+| Scope                 | Target           | Line(s) |
+|-----------------------|------------------|---------|
+| `form.color.input`    | `<x-input />`    | 23      |
+| `form.color.floating` | `<x-floating />` | 67      |
 
 ### `form/currency`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.currency.input` | `<x-input />` | 21 |
+| Scope                 | Target        | Line(s) |
+|-----------------------|---------------|---------|
+| `form.currency.input` | `<x-input />` | 21      |
 
 ### `form/date`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.date.input` | `<x-input />` | 30 |
-| `form.date.floating` | `<x-floating />` | 62 |
+| Scope                | Target           | Line(s) |
+|----------------------|------------------|---------|
+| `form.date.input`    | `<x-input />`    | 30      |
+| `form.date.floating` | `<x-floating />` | 62      |
 
 ### `form/password`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.password.input` | `<x-input />` | 8 |
-| `form.password.floating` | `<x-floating />` | 58 |
+| Scope                    | Target           | Line(s) |
+|--------------------------|------------------|---------|
+| `form.password.input`    | `<x-input />`    | 8       |
+| `form.password.floating` | `<x-floating />` | 58      |
 
 ### `form/pin`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.pin.label` | `<x-label />` | 14 |
-| `form.pin.hint` | `<x-hint />` | 104 |
-| `form.pin.error` | `<x-error />` | 107 |
+| Scope            | Target        | Line(s) |
+|------------------|---------------|---------|
+| `form.pin.label` | `<x-label />` | 14      |
+| `form.pin.hint`  | `<x-hint />`  | 104     |
+| `form.pin.error` | `<x-error />` | 107     |
 
 ### `form/radio/group`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.radio.group.hint` | `<x-hint />` | 23 |
-| `form.radio.group.error` | `<x-error />` | 26 |
+| Scope                    | Target        | Line(s) |
+|--------------------------|---------------|---------|
+| `form.radio.group.hint`  | `<x-hint />`  | 23      |
+| `form.radio.group.error` | `<x-error />` | 26      |
 
 ### `form/select/native`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.select-native.label` | `<x-label />` | 7 |
-| `form.select-native.hint` | `<x-hint />` | 49 |
-| `form.select-native.error` | `<x-error />` | 52 |
+| Scope                      | Target        | Line(s) |
+|----------------------------|---------------|---------|
+| `form.select-native.label` | `<x-label />` | 7       |
+| `form.select-native.hint`  | `<x-hint />`  | 49      |
+| `form.select-native.error` | `<x-error />` | 52      |
 
 ### `form/select/styled`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.select-styled.label` | `<x-label />` | 41 |
-| `form.select-styled.floating` | `<x-floating />` | 132 |
-| `form.select-styled.input` | `<x-input />` | 141 |
-| `form.select-styled.hint` | `<x-hint />` | 269 |
-| `form.select-styled.error` | `<x-error />` | 272 |
+| Scope                         | Target           | Line(s) |
+|-------------------------------|------------------|---------|
+| `form.select-styled.label`    | `<x-label />`    | 41      |
+| `form.select-styled.floating` | `<x-floating />` | 132     |
+| `form.select-styled.input`    | `<x-input />`    | 141     |
+| `form.select-styled.hint`     | `<x-hint />`     | 269     |
+| `form.select-styled.error`    | `<x-error />`    | 272     |
 
 ### `form/tag`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.tag.floating` | `<x-floating />` | 71 |
+| Scope               | Target           | Line(s) |
+|---------------------|------------------|---------|
+| `form.tag.floating` | `<x-floating />` | 71      |
 
 ### `form/time`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.time.input` | `<x-input />` | 22 |
-| `form.time.floating` | `<x-floating />` | 55 |
-| `form.time.button` | `<x-button />` | 133 |
+| Scope                | Target           | Line(s) |
+|----------------------|------------------|---------|
+| `form.time.input`    | `<x-input />`    | 22      |
+| `form.time.floating` | `<x-floating />` | 55      |
+| `form.time.button`   | `<x-button />`   | 133     |
 
 ### `form/upload`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.upload.input` | `<x-input />` | 28 |
-| `form.upload.label` | `<x-label />` | 52 |
-| `form.upload.floating` | `<x-floating />` | 97 |
-| `form.upload.error` | `<x-error />` | 161 |
+| Scope                  | Target           | Line(s) |
+|------------------------|------------------|---------|
+| `form.upload.input`    | `<x-input />`    | 28      |
+| `form.upload.label`    | `<x-label />`    | 52      |
+| `form.upload.floating` | `<x-floating />` | 97      |
+| `form.upload.error`    | `<x-error />`    | 161     |
 
 ### `form/upload/async`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.upload.async.label` | `<x-label />` | 32 |
-| `form.upload.async.hint` | `<x-hint />` | 173 |
-| `form.upload.async.clear` | `<x-button />` | 182 |
-| `form.upload.async.send` | `<x-button />` | 190 |
+| Scope                     | Target         | Line(s) |
+|---------------------------|----------------|---------|
+| `form.upload.async.label` | `<x-label />`  | 32      |
+| `form.upload.async.hint`  | `<x-hint />`   | 173     |
+| `form.upload.async.clear` | `<x-button />` | 182     |
+| `form.upload.async.send`  | `<x-button />` | 190     |
 
 ### `form/upload/editor`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `form.upload.editor.modal` | `<x-modal />` | 7 |
-| `form.upload.editor.cancel` | `<x-button />` | 83 |
-| `form.upload.editor.apply` | `<x-button />` | 91 |
+| Scope                       | Target         | Line(s) |
+|-----------------------------|----------------|---------|
+| `form.upload.editor.modal`  | `<x-modal />`  | 7       |
+| `form.upload.editor.cancel` | `<x-button />` | 83      |
+| `form.upload.editor.apply`  | `<x-button />` | 91      |
 
 ### `layout/sidebar/item`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `sidebar.item.badge` | `<x-badge />` | 62, 70, 167, 175 |
-| `sidebar.item.flyout` | `<x-floating />` | 90 |
+| Scope                 | Target           | Line(s)          |
+|-----------------------|------------------|------------------|
+| `sidebar.item.badge`  | `<x-badge />`    | 62, 70, 167, 175 |
+| `sidebar.item.flyout` | `<x-floating />` | 90               |
 
 ### `list/items`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `list.items.menu` | `<x-floating />` | 49 |
+| Scope             | Target           | Line(s) |
+|-------------------|------------------|---------|
+| `list.items.menu` | `<x-floating />` | 49      |
 
 ### `list`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `list.label` | `<x-label />` | 8 |
-| `list.hint` | `<x-hint />` | 85 |
+| Scope        | Target        | Line(s) |
+|--------------|---------------|---------|
+| `list.label` | `<x-label />` | 8       |
+| `list.hint`  | `<x-hint />`  | 85      |
 
 ### `table`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `table.select-styled` | `<x-select.styled />` | 26, 34 |
-| `table.input` | `<x-input />` | 48, 56 |
-| `table.checkbox` | `<x-checkbox />` | 92, 165 |
+| Scope                 | Target                | Line(s) |
+|-----------------------|-----------------------|---------|
+| `table.select-styled` | `<x-select.styled />` | 26, 34  |
+| `table.input`         | `<x-input />`         | 48, 56  |
+| `table.checkbox`      | `<x-checkbox />`      | 92, 165 |
 
 ### `wrapper/input`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `wrapper.input.label` | `<x-label />` | 9 |
-| `wrapper.input.hint` | `<x-hint />` | 15 |
-| `wrapper.input.error` | `<x-error />` | 18 |
+| Scope                 | Target        | Line(s) |
+|-----------------------|---------------|---------|
+| `wrapper.input.label` | `<x-label />` | 9       |
+| `wrapper.input.hint`  | `<x-hint />`  | 15      |
+| `wrapper.input.error` | `<x-error />` | 18      |
 
 ### `wrapper/radio`
 
-| Scope | Target | Line(s) |
-|-------|--------|---------|
-| `wrapper.radio.error` | `<x-error />` | 24 |
+| Scope                 | Target        | Line(s) |
+|-----------------------|---------------|---------|
+| `wrapper.radio.error` | `<x-error />` | 24      |
 
 ## Stats
 
