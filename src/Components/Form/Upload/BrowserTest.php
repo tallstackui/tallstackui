@@ -44,6 +44,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
             ->click('@tallstackui_upload_editor_cancel')
             ->waitUntilMissing('@tallstackui_upload_editor')
             ->pause(500)
@@ -90,7 +91,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
-            ->pause(250)
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
             // Dragging handles is not something the driver can promise, so
             // the box is placed straight on the state: the left half.
             ->tap(fn (Browser $browser) => $browser->script(
@@ -320,6 +321,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
             ->assertSee('test.jpeg')
             ->click('@tallstackui_upload_editor_rotate_right')
             ->click('@tallstackui_upload_editor_apply')
@@ -594,6 +596,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitFor('@tallstackui_upload_editor')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_editor_canvas]').width > 0")
             ->click('@tallstackui_upload_editor_apply')
             ->waitForTextIn('@dims', '611x407');
     }
