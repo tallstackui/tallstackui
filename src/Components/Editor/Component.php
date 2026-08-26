@@ -54,6 +54,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $uploadMethod = null,
         public ?array $uploadMimes = null,
         public ?int $uploadMaxSize = null,
+        public bool|string|null $uploadEditor = null,
+        public ?string $uploadAspect = null,
         public ?bool $counters = null,
         public ?string $minHeight = null,
         public ?string $maxHeight = null,

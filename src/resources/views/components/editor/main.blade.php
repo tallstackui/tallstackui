@@ -580,6 +580,10 @@
 
         @endunless
 
+        @if ($upload['editor'] && ! $readonly && ! $disabled)
+            <x-dynamic-component :component="TallStackUi::prefix('upload.editor')" :editing="$upload['editor']" />
+        @endif
+
         @if ($name)
             <input type="hidden" name="{{ $name }}" x-bind:value="content" />
         @endif
