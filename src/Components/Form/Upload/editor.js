@@ -337,9 +337,9 @@ export default (options) => {
 
       this.paint(context, 1);
 
-      const type = output(state.file, options.format);
-
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, type, options.quality));
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, output(state.file, options.format), options.quality)
+      );
 
       if (!blob) {
         this.close(state.file);
@@ -347,9 +347,11 @@ export default (options) => {
         return;
       }
 
+      // The browser falls back to png for any type it cannot encode
+      // (avif, bmp...), so the file is labelled by what actually came out.
       this.close(
-        new File([blob], rename(state.file.name, type), {
-          type,
+        new File([blob], rename(state.file.name, blob.type), {
+          type: blob.type,
           lastModified: Date.now(),
         })
       );
