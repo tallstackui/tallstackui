@@ -309,15 +309,20 @@ export default (options) => {
       };
     },
     async apply() {
-      const { scale, crop } = this.editor;
+      const { crop } = this.editor;
       const [width, height] = this.rotated();
+
+      // Mapped as a fraction of the stage rather than divided by the scale:
+      // the stage is rounded to whole pixels, so a full crop must still
+      // land exactly on the source size.
+      const ratio = { x: width / this.editor.width, y: height / this.editor.height };
 
       const region = options.crop
         ? {
-            x: crop.x / scale,
-            y: crop.y / scale,
-            width: crop.width / scale,
-            height: crop.height / scale,
+            x: crop.x * ratio.x,
+            y: crop.y * ratio.y,
+            width: crop.width * ratio.x,
+            height: crop.height * ratio.y,
           }
         : { x: 0, y: 0, width, height };
 
@@ -328,7 +333,7 @@ export default (options) => {
 
       const context = canvas.getContext('2d');
 
-      context.translate(-region.x, -region.y);
+      context.translate(-Math.round(region.x), -Math.round(region.y));
 
       this.paint(context, 1);
 
