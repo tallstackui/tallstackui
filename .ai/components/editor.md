@@ -86,7 +86,7 @@ Twenty buttons across eight groups. Dividers are inserted automatically wherever
 
 Passing a slug the list does not know throws. On a viewport too narrow to hold the toolbar it scrolls horizontally rather than collapsing, so a customized order stays as it was written.
 
-Every button names itself through a tooltip, declared as `flash` so it opens on the tick the pointer arrives rather than after the default pause.
+Every button names itself through a tooltip, declared as `flash` so it opens on the tick the pointer arrives rather than after the default pause. The `style` and `align` triggers drop theirs while their dropdown is open, so the balloon never sits over the options. Set `toolbar_tooltip` to `false` in the [configuration](#configuration) to render the toolbar without any tooltip.
 
 Indentation outside a list is a `margin-left` on the block, in steps of 2rem up to eight levels. The native browser command reaches for a `<blockquote>` there, which is a quote rather than an indent and would be stripped by the sanitizer on the way back in. The block is rebuilt through `insertHTML` rather than having the margin written into it, so the step lands in the browser's undo stack and the caret is carried across.
 
@@ -341,6 +341,7 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
     'output_classes' => false,
     'output_classes_prefix' => null,
     'toolbar' => ['style', 'blockquote', 'bold', ..., 'redo', 'fullscreen'],
+    'toolbar_tooltip' => true,
     'counters' => true,
     'min_height' => '12rem',
     'max_height' => '40rem',
