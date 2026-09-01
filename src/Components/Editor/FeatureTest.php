@@ -515,3 +515,25 @@ it('cannot render the image editor without the upload attributes', function () {
         ->render()
         ->not->toContain('tallstackui_upload_editor');
 });
+
+it('can render the toolbar tooltips by default', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('x-tooltip="Bold"')
+        ->toContain('x-bind:data-tooltip-disabled="show"');
+});
+
+it('can render without the toolbar tooltips', function () {
+    config()->set('ts-ui.components.editor.1.toolbar_tooltip', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $html = expect('<x-editor name="content" />')->render();
+
+    $html->not->toContain('x-tooltip="Bold"')
+        ->not->toContain('x-bind:data-tooltip-disabled="show"');
+
+    config()->set('ts-ui.components.editor.1.toolbar_tooltip', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
