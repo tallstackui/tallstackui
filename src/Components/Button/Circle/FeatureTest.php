@@ -176,3 +176,22 @@ it('can thrown exception when spinner is unnaceptable', function (string $spinne
     'thinking',
     'foo',
 ]);
+
+it('can render subtle')
+    ->expect('<x-button.circle icon="pencil" color="red" subtle />')
+    ->render()
+    ->toContain('border-gray-200', 'bg-white', 'hover:bg-gray-50', 'text-red-600', 'focus:ring-red-600')
+    ->not->toContain('bg-red-500', 'border-red-600');
+
+it('can render subtle tinted')
+    ->expect('<x-button.circle icon="pencil" color="red" subtle tinted />')
+    ->render()
+    ->toContain('border-gray-200', 'bg-white', 'hover:bg-red-50', 'hover:border-red-300', 'text-red-600')
+    ->not->toContain('hover:bg-gray-50');
+
+it('cannot use tinted without subtle', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [tinted] can only be used with [subtle].');
+
+    expect('<x-button.circle icon="pencil" tinted />')->render();
+});
