@@ -39,6 +39,16 @@ Mixed styles within the same group (form-footer pattern):
 </x-button.group>
 ```
 
+Subtle children without the wrapper shadow:
+
+```blade
+<x-button.group shadowless>
+    <x-button text="Years" subtle color="secondary" sm />
+    <x-button text="Months" subtle color="secondary" sm />
+    <x-button text="Days" subtle color="secondary" sm />
+</x-button.group>
+```
+
 Pagination-style icon-only pair with ARIA label:
 
 ```blade
@@ -50,10 +60,11 @@ Pagination-style icon-only pair with ARIA label:
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                                                             |
-|-----------|--------------|---------|-----------------------------------------------------------------------------------------|
-| vertical  | bool         | false   | When true, lays children top-to-bottom and rounds only top/bottom corners               |
-| label     | string\|null | null    | Sets `aria-label` on the wrapper. The wrapper always carries `role="group"` regardless. |
+| Attribute  | Type         | Default | Description                                                                                              |
+|------------|--------------|---------|----------------------------------------------------------------------------------------------------------|
+| vertical   | bool         | false   | When true, lays children top-to-bottom and rounds only top/bottom corners                                |
+| shadowless | bool         | false   | Removes the `shadow-xs` of the wrapper. Use it with `subtle` children, which have no shadow of their own |
+| label      | string\|null | null    | Sets `aria-label` on the wrapper. The wrapper always carries `role="group"` regardless.                  |
 
 ## Slots
 
@@ -80,8 +91,9 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                | Purpose                                                                                          |
-|---------------------------|--------------------------------------------------------------------------------------------------|
-| wrapper.base              | Base group styles (`isolate inline-flex shadow-xs`, focus z-index lift, child position relative) |
-| wrapper.layout.horizontal | Horizontal-only rounding/offset rules applied when `vertical` is false                           |
-| wrapper.layout.vertical   | Vertical-only rounding/offset rules applied when `vertical` is true                              |
+| Block Name                | Purpose                                                                                |
+|---------------------------|----------------------------------------------------------------------------------------|
+| wrapper.base              | Base group styles (`isolate inline-flex`, focus z-index lift, child position relative) |
+| wrapper.shadow            | The `shadow-xs` of the wrapper, dropped by `shadowless`                                |
+| wrapper.layout.horizontal | Horizontal-only rounding/offset rules applied when `vertical` is false                 |
+| wrapper.layout.vertical   | Vertical-only rounding/offset rules applied when `vertical` is true                    |
