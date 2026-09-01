@@ -203,10 +203,12 @@ return [
             |----------------------------------------------------------------------
             |
             | round: the default corner shape. False keeps rounded-md.
+            | size: controls the default size (Allowed: xs, sm, md, lg).
             |
             */
             [
                 'round' => false,
+                'size' => 'xs',
             ],
         ],
         'banner' => Components\Banner\Component::class,

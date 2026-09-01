@@ -41,7 +41,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
+        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : ($this->xs ? 'xs' : (__ts_get_component_configuration(self::class, 'size') ?? 'xs'))));
         $this->position = $this->position === 'right' ? 'right' : 'left';
         $this->round ??= __ts_get_component_configuration(self::class, 'round') ?? false;
         $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
@@ -83,6 +83,10 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function validate(): void
     {
+        if (! in_array($this->size, ['xs', 'sm', 'md', 'lg'], true)) {
+            __ts_validation_exception($this, 'The [size] configuration must be one of: [xs, sm, md, lg].');
+        }
+
         if (! is_string($this->round)) {
             return;
         }
