@@ -180,8 +180,8 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [only] attribute must be between 0 and 6.');
         }
 
-        if ($this->typeable && ($this->range || $this->multiple)) {
-            __ts_validation_exception($this, 'The [typeable] cannot be used with [range] or [multiple].');
+        if ($this->typeable && ($this->range || $this->multiple || $this->monthYearOnly)) {
+            __ts_validation_exception($this, 'The [typeable] cannot be used with [range], [multiple] or [month-year-only].');
         }
     }
 }

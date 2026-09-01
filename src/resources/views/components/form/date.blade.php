@@ -41,7 +41,7 @@
                          x-on:input="typeable && applyMask($event)"
                          x-on:blur="typeable && parseTyped()"
                          dusk="tallstackui_date_input"
-                         class="{{ !$typeable ? 'cursor-pointer ' . $customization['input.caret'] : '' }}">
+                         @class(['cursor-pointer' => ! $typeable, $customization['input.caret'] => ! $typeable])>
         <x-slot:suffix :class="$customization['slot.icon-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0"

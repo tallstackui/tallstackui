@@ -748,11 +748,14 @@ export default (
       else if (token === 'DD') day = val;
     });
 
-    if (!year || !month || !day) return null;
+    if (!year || !month || !day || month > 12 || day > 31) return null;
 
-    return datetime(
-      `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    );
+    const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const instance = datetime(iso);
+
+    // The native Date rolls impossible dates over (2020-02-31 becomes
+    // 2020-03-02), so the round-trip check rejects them as invalid.
+    return instance.format('YYYY-MM-DD') === iso ? instance : null;
   },
   /**
    * Set the value of the input.
