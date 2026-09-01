@@ -28,7 +28,7 @@ class UploadRuntime extends AbstractRuntime
                 'status' => $this->errors->has(is_array($value) ? $property.'.*' : $property),
                 'quantity' => count($this->errors->get(is_array($value) ? $property.'.*' : $property)),
             ],
-            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, __ts_get_component_configuration(Component::class) ?? [], (string) $bind->get('id')))(),
+            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, __ts_get_component_configuration(Component::class) ?? [], (string) $bind->get('id'), $this->livewire))(),
         ];
 
         if (is_null($property)) {

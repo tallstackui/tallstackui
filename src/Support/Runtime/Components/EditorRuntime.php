@@ -107,7 +107,7 @@ class EditorRuntime extends AbstractRuntime
 
         $configuration = __ts_get_component_configuration(Component::class)['upload'] ?? [];
 
-        return (new UploadEditorOptions($component, $component->uploadEditor, $component->uploadAspect, $configuration, $id))();
+        return (new UploadEditorOptions($component, $component->uploadEditor, $component->uploadAspect, $configuration, $id, $this->livewire))();
     }
 
     /** Flatten the toolbar into buttons and dividers the view can loop over. */
