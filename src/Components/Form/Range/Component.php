@@ -91,8 +91,7 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                 ],
                 'tooltip' => [
-                    'wrapper' => 'pointer-events-none absolute bottom-full -translate-x-1/2 pb-2',
-                    'base' => 'dark:bg-dark-700 rounded-sm bg-gray-700 px-1.5 py-0.5 text-xs font-medium whitespace-nowrap text-white',
+                    'anchor' => 'pointer-events-none absolute inset-y-0 w-0',
                 ],
             ],
         ]);

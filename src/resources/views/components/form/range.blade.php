@@ -5,7 +5,7 @@
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint
                      :$invalidate :wrapper="$customization['input.wrapper']">
     @if ($dual)
-        <div x-data="tallstackui_formRange({!! $entangle !!}, @js($initial), @js($min), @js($max), @js($step), @js($disabled), @js($readonly))"
+        <div x-data="tallstackui_formRange({!! $entangle !!}, @js($initial), @js($min), @js($max), @js($step), @js($disabled), @js($readonly), @js($tooltip))"
              {{ $attributes->except('name')->whereDoesntStartWith('wire:model')->class([
                     $customization['dual.wrapper.base'],
                     $customization['dual.wrapper.sizes.' . $size],
@@ -56,22 +56,16 @@
                    @class([$customization['dual.input.base'], $customization['dual.input.sizes.' . $size], $colors['thumb']])
                    dusk="tallstackui_form_range_end">
             @if ($tooltip)
-                <div x-show="dragging === 'start'"
-                     x-bind:style="{ left: percent(start) + '%' }"
-                     x-cloak
-                     @class([$customization['dual.tooltip.wrapper']])>
-                    <div x-text="start"
-                         dusk="tallstackui_form_range_tooltip_start"
-                         @class([$customization['dual.tooltip.base']])></div>
-                </div>
-                <div x-show="dragging === 'end'"
-                     x-bind:style="{ left: percent(end) + '%' }"
-                     x-cloak
-                     @class([$customization['dual.tooltip.wrapper']])>
-                    <div x-text="end"
-                         dusk="tallstackui_form_range_tooltip_end"
-                         @class([$customization['dual.tooltip.base']])></div>
-                </div>
+                <div x-ref="tooltipStart"
+                     x-bind:style="anchorStyle(start)"
+                     data-position="top"
+                     dusk="tallstackui_form_range_tooltip_start"
+                     @class([$customization['dual.tooltip.anchor']])></div>
+                <div x-ref="tooltipEnd"
+                     x-bind:style="anchorStyle(end)"
+                     data-position="top"
+                     dusk="tallstackui_form_range_tooltip_end"
+                     @class([$customization['dual.tooltip.anchor']])></div>
             @endif
         </div>
     @else

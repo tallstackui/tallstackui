@@ -322,6 +322,32 @@ const show = (el, kind) => {
   listen();
 };
 
+// Anchors without a pointer of their own, like a slider thumb, decide when
+// the balloon opens, refreshes and closes. A refresh skips the fade so the
+// text follows the drag without flickering.
+export const open = (el, text) => {
+  sentences.set(el, text);
+
+  if (anchor === el && balloon?.hasAttribute('data-show')) {
+    content.innerHTML = text;
+
+    fit();
+    reposition();
+
+    return;
+  }
+
+  show(el, 'mouse');
+};
+
+export const close = (el) => {
+  if (anchor !== el) {
+    return;
+  }
+
+  hide();
+};
+
 // A focus listener on the anchor itself turns an SVG into a focusable
 // element, so a tap on the icon would focus it and draw the focus ring.
 const focused = (event) => {
