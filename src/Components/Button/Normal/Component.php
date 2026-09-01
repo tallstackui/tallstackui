@@ -41,6 +41,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $outline = false,
         public ?bool $light = false,
         public ?bool $flat = false,
+        public ?bool $subtle = false,
+        public ?bool $tinted = false,
         public ?bool $submit = false,
         public ?bool $unfocus = null,
         public ?string $tooltip = null,

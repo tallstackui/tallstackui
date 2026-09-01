@@ -54,3 +54,13 @@ it('can merge user attributes on the wrapper')
     ->render()
     ->toContain('ml-4')
     ->toContain('id="foo"');
+
+it('can render the shadow by default')
+    ->expect('<x-button.group><x-button text="A" /></x-button.group>')
+    ->render()
+    ->toContain('shadow-xs');
+
+it('can render shadowless')
+    ->expect('<x-button.group shadowless><x-button text="A" subtle /></x-button.group>')
+    ->render()
+    ->not->toContain('shadow-xs');

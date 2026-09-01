@@ -102,8 +102,8 @@ TallStackUi::customize()
 
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
-| `form.date.input`    | `<x-input />`    | 30      |
-| `form.date.floating` | `<x-floating />` | 62      |
+| `form.date.input`    | `<x-input />`    | 31      |
+| `form.date.floating` | `<x-floating />` | 65      |
 
 ### `form/password`
 

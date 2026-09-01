@@ -16,6 +16,10 @@ trait ButtonSetup
         if (! in_array($this->spinner, $types, true)) {
             __ts_validation_exception($this, 'The [spinner] must be one of: ['.implode(', ', $types).'].');
         }
+
+        if ($this->tinted && ! $this->subtle) {
+            __ts_validation_exception($this, 'The [tinted] can only be used with [subtle].');
+        }
     }
 
     protected function manipulation(array $classes): array
@@ -42,7 +46,7 @@ trait ButtonSetup
         $this->spinner ??= __ts_get_component_configuration(Button::class, 'spinner') ?? 'gradient';
         $this->unfocus ??= __ts_get_component_configuration(Button::class, 'unfocus') ?? false;
 
-        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : ($this->flat ? 'flat' : 'solid'));
+        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : ($this->flat ? 'flat' : ($this->subtle ? 'subtle' : 'solid')));
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 
         if ($this instanceof Button) {

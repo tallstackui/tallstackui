@@ -261,3 +261,27 @@ it('does not emit data-tsui-unfocus by default')
     ->expect('<x-button text="Foo bar" color="primary" />')
     ->render()
     ->not->toContain('data-tsui-unfocus');
+
+it('can render subtle')
+    ->expect('<x-button text="Foo bar" color="red" subtle />')
+    ->render()
+    ->toContain('border-gray-200', 'bg-white', 'hover:bg-gray-50', 'text-red-600', 'focus:ring-red-600')
+    ->not->toContain('bg-red-500', 'border-red-600');
+
+it('can render subtle tinted')
+    ->expect('<x-button text="Foo bar" color="red" subtle tinted />')
+    ->render()
+    ->toContain('border-gray-200', 'bg-white', 'hover:bg-red-50', 'hover:border-red-300', 'text-red-600')
+    ->not->toContain('hover:bg-gray-50');
+
+it('can render subtle with icon')
+    ->expect('<x-button text="Foo bar" color="red" subtle icon="check" />')
+    ->render()
+    ->toContain('text-red-600 dark:text-red-400');
+
+it('cannot use tinted without subtle', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [tinted] can only be used with [subtle].');
+
+    expect('<x-button text="Foo bar" tinted />')->render();
+});

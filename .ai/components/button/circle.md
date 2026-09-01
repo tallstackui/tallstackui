@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A circular button component for icon-only or single-character actions. Supports solid, light, outline, and flat styles with optional loading states.
+A circular button component for icon-only or single-character actions. Supports solid, light, outline, flat, and subtle styles with optional loading states.
 
 ## Basic Usage
 
@@ -21,6 +21,10 @@ A circular button component for icon-only or single-character actions. Supports 
 
 ```blade
 <x-button.circle icon="arrow-right" href="/next" lg />
+```
+
+```blade
+<x-button.circle icon="pencil" color="black" subtle />
 ```
 
 Submitting a form. Like `<x-button>`, the circle renders `type="button"` by
@@ -50,27 +54,40 @@ to `config('tallstackui.components.button.unfocus')` (the key is shared with
 `<x-button>`, `false` by default), and the inline prop always wins, including
 `:unfocus="false"`.
 
+Keeping the body neutral. `subtle` borrows the border and background of the
+[Input](../form/input.md) and applies `color` only to the icon or text and the
+focus ring, with a gray hover. Add `tinted` to tint the hover with the color
+instead. `tinted` is a modifier of `subtle` and throws on its own, exactly like
+in `<x-button>`:
+
+```blade
+<x-button.circle icon="trash" color="red" subtle tinted />
+<x-button.circle icon="trash" color="red" tinted />   {{-- throws --}}
+```
+
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                                                                                         |
-|-----------|--------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------|
-| text      | string\|null | null      | Single character or short text displayed inside the circle                                                                          |
-| icon      | string\|null | null      | Heroicon name displayed inside the circle (takes precedence over text)                                                              |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                     |
-| href      | string\|null | null      | When set, renders as an anchor tag instead of a button                                                                              |
-| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution                                                                     |
-| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                          |
-| spinner   | string\|null | null      | Loading spinner variant: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave. Falls back to the `button.spinner` config |
-| xs        | string\|null | null      | Extra-small size                                                                                                                    |
-| sm        | string\|null | null      | Small size                                                                                                                          |
-| md        | string\|null | null      | Medium size (default)                                                                                                               |
-| lg        | string\|null | null      | Large size                                                                                                                          |
-| solid     | bool         | null      | Uses the solid color style variant (default when no style set)                                                                      |
-| outline   | bool         | null      | Uses the outline color style variant                                                                                                |
-| light     | bool         | false     | Uses the light color style variant                                                                                                  |
-| flat      | bool         | false     | Uses the flat color style variant (no border)                                                                                       |
-| submit    | bool         | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                    |
-| unfocus   | bool\|null   | null      | No focus on mouse click (no ring/color); keyboard focus kept. Falls back to the `button.unfocus` config                             |
+| Attribute | Type         | Default   | Description                                                                                                                                     |
+|-----------|--------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null | null      | Single character or short text displayed inside the circle                                                                                      |
+| icon      | string\|null | null      | Heroicon name displayed inside the circle (takes precedence over text)                                                                          |
+| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                 |
+| href      | string\|null | null      | When set, renders as an anchor tag instead of a button                                                                                          |
+| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution                                                                                 |
+| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                                      |
+| spinner   | string\|null | null      | Loading spinner variant: ring, throbber, gradient, ping, dots, pulse, typing, bars, wave. Falls back to the `button.spinner` config             |
+| xs        | string\|null | null      | Extra-small size                                                                                                                                |
+| sm        | string\|null | null      | Small size                                                                                                                                      |
+| md        | string\|null | null      | Medium size (default)                                                                                                                           |
+| lg        | string\|null | null      | Large size                                                                                                                                      |
+| solid     | bool         | null      | Uses the solid color style variant (default when no style set)                                                                                  |
+| outline   | bool         | null      | Uses the outline color style variant                                                                                                            |
+| light     | bool         | false     | Uses the light color style variant                                                                                                              |
+| flat      | bool         | false     | Uses the flat color style variant (no border)                                                                                                   |
+| subtle    | bool         | false     | Uses the subtle color style variant: neutral border and background borrowed from the Input, color applied to the icon, text and focus ring only |
+| tinted    | bool         | false     | Tints the hover of `subtle` with the color instead of gray. Only valid together with `subtle`, throws otherwise                                 |
+| submit    | bool         | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                                |
+| unfocus   | bool\|null   | null      | No focus on mouse click (no ring/color); keyboard focus kept. Falls back to the `button.unfocus` config                                         |
 
 ## Slots
 
