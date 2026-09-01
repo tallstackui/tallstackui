@@ -197,6 +197,7 @@ class CompileConfigurations
             'output_classes_prefix' => $prefix,
             'output_classes' => EditorOutputClasses::of($component, $prefix),
             'toolbar' => $component->toolbar,
+            'toolbar_tooltip' => $configuration['toolbar_tooltip'] ?? true,
             'counters' => $component->counters,
             'placeholder' => $component->placeholder,
             'heights' => [

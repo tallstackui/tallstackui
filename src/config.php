@@ -448,6 +448,7 @@ return [
             | output_classes: stamps a class on every element the editor writes.
             | output_classes_prefix: the namespace of those names, ending with a dash. Null keeps "tsui-editor-".
             | toolbar: the canonical buttons and the order they are rendered in.
+            | toolbar_tooltip: displays a tooltip while hovering the toolbar buttons.
             | counters: displays the word and line counters in the footer.
             | min_height, max_height: the editable boundaries, in any CSS unit.
             | upload: the constraints checked in the browser before uploading, and the
@@ -471,6 +472,7 @@ return [
                     'undo', 'redo',
                     'fullscreen',
                 ],
+                'toolbar_tooltip' => true,
                 'counters' => true,
                 'min_height' => '12rem',
                 'max_height' => '40rem',
