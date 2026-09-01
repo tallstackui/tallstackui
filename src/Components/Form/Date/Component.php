@@ -38,6 +38,7 @@ class Component extends TallStackUiComponent implements Customization
         public int|string|null $only = null,
         public ?bool $weekdays = false,
         public ?bool $weekends = false,
+        public ?bool $typeable = false,
     ) {
         $configuration = __ts_get_component_configuration(self::class);
 
@@ -177,6 +178,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->only && $this->only > 6) {
             __ts_validation_exception($this, 'The [only] attribute must be between 0 and 6.');
+        }
+
+        if ($this->typeable && ($this->range || $this->multiple)) {
+            __ts_validation_exception($this, 'The [typeable] cannot be used with [range] or [multiple].');
         }
     }
 }

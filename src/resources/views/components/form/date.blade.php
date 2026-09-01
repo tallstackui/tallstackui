@@ -24,7 +24,8 @@
      @js($start),
      @js($only),
      @js($weekdays),
-     @js($weekends))"
+     @js($weekends),
+     @js($typeable))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.date.input"
@@ -35,10 +36,12 @@
                          :alternative="$property"
                          floatable
                          x-ref="input"
-                         x-on:click="!locked() && (show = !show)"
-                         x-on:keydown="$event.preventDefault()"
+                         x-on:click="!locked() && !typeable && (show = !show)"
+                         x-on:keydown="!typeable && $event.preventDefault()"
+                         x-on:input="typeable && applyMask($event)"
+                         x-on:blur="typeable && parseTyped()"
                          dusk="tallstackui_date_input"
-                         class="cursor-pointer {{ $customization['input.caret'] }}">
+                         class="{{ !$typeable ? 'cursor-pointer ' . $customization['input.caret'] : '' }}">
         <x-slot:suffix :class="$customization['slot.icon-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0"

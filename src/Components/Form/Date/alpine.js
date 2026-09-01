@@ -19,7 +19,8 @@ export default (
   start = 5,
   only = null,
   weekdays = false,
-  weekends = false
+  weekends = false,
+  typeable = false
 ) => ({
   show: false,
   picker: {
@@ -61,6 +62,7 @@ export default (
   only: only,
   weekends: weekends,
   weekdays: weekdays,
+  typeable: typeable,
   init() {
     this.translations();
 
@@ -608,6 +610,149 @@ export default (
    */
   instance(day = null) {
     return datetime(`${this.year}-${this.month + 1}-${day ?? this.day}`);
+  },
+  /**
+   * Build the input mask array from the date format string.
+   * Each entry is either { type: 'digit' } or { type: 'literal', char }.
+   *
+   * @return {{ type: string, char?: string }[]}
+   */
+  buildMask() {
+    const mask = [];
+    let i = 0;
+
+    while (i < this.format.length) {
+      if (this.format.slice(i, i + 4) === 'YYYY') {
+        for (let j = 0; j < 4; j++) mask.push({ type: 'digit' });
+        i += 4;
+      } else if (
+        this.format.slice(i, i + 2) === 'MM' ||
+        this.format.slice(i, i + 2) === 'DD'
+      ) {
+        for (let j = 0; j < 2; j++) mask.push({ type: 'digit' });
+        i += 2;
+      } else {
+        mask.push({ type: 'literal', char: this.format[i] });
+        i++;
+      }
+    }
+
+    return mask;
+  },
+  /**
+   * Apply the format mask to the input as the user types.
+   *
+   * @param {InputEvent} event
+   * @return {void}
+   */
+  applyMask(event) {
+    const input = event.target;
+    const isDeleting =
+      event.inputType === 'deleteContentBackward' ||
+      event.inputType === 'deleteContentForward';
+    const digits = input.value.replace(/\D/g, '');
+    const mask = this.buildMask();
+
+    let result = '';
+    let di = 0;
+
+    for (let i = 0; i < mask.length && di < digits.length; i++) {
+      if (mask[i].type === 'literal') {
+        result += mask[i].char;
+      } else {
+        result += digits[di++];
+      }
+    }
+
+    if (!isDeleting && result.length < mask.length) {
+      const next = mask[result.length];
+      if (next && next.type === 'literal') {
+        result += next.char;
+      }
+    }
+
+    input.value = result;
+  },
+  /**
+   * Parse the typed value against the component format and update the model.
+   * Restores the previous valid date when the typed value is invalid.
+   *
+   * @return {void}
+   */
+  parseTyped() {
+    const value = this.$refs.input.value;
+
+    if (!value || !value.trim()) {
+      this.clear();
+      return;
+    }
+
+    const parsed = this.parseFromFormat(value);
+
+    if (!parsed || !parsed.isValid() || this.disabled(parsed)) {
+      this.input = this.date.start ? this.formatted(this.date.start) : '';
+      return;
+    }
+
+    this.date.start = parsed.toDate();
+    this.date.end = null;
+    this.model = parsed.format('YYYY-MM-DD');
+
+    this.reset();
+    this.map();
+    this.sync();
+    this.refresh();
+
+    wireChange(change, this.model);
+  },
+  /**
+   * Parse a display-formatted date string back to a DateTime instance
+   * using this.format as the template.
+   *
+   * @param {string} value
+   * @return {import('../../../../js/helpers/date').DateTime|null}
+   */
+  parseFromFormat(value) {
+    const tokenOrder = [];
+    let regexStr = '';
+    let i = 0;
+
+    while (i < this.format.length) {
+      if (this.format.slice(i, i + 4) === 'YYYY') {
+        tokenOrder.push('YYYY');
+        regexStr += '(\\d{4})';
+        i += 4;
+      } else if (this.format.slice(i, i + 2) === 'MM') {
+        tokenOrder.push('MM');
+        regexStr += '(\\d{1,2})';
+        i += 2;
+      } else if (this.format.slice(i, i + 2) === 'DD') {
+        tokenOrder.push('DD');
+        regexStr += '(\\d{1,2})';
+        i += 2;
+      } else {
+        regexStr += this.format[i].replace(/[.*+?^${}()|[\]\\]/, '\\$&');
+        i++;
+      }
+    }
+
+    const match = new RegExp(`^${regexStr}$`).exec(value);
+    if (!match) return null;
+
+    let year, month, day;
+
+    tokenOrder.forEach((token, idx) => {
+      const val = parseInt(match[idx + 1], 10);
+      if (token === 'YYYY') year = val;
+      else if (token === 'MM') month = val;
+      else if (token === 'DD') day = val;
+    });
+
+    if (!year || !month || !day) return null;
+
+    return datetime(
+      `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+    );
   },
   /**
    * Set the value of the input.
