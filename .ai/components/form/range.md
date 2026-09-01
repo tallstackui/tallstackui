@@ -41,6 +41,8 @@ The bound property is always an indexed pair, `[start, end]`.
 <x-range dual wire:model="price" :min="0" :max="1000" color="emerald" tooltip lg />
 ```
 
+`tooltip` shows the value of the thumb being dragged and hides it on release. The bubble is not a component of its own: it is the same balloon the [Tooltip](../tooltip.md) component and the `x-tooltip` directive render, anchored on an invisible marker kept over the thumb. It therefore follows the tooltip [global configuration](../tooltip.md#global-configuration) (`color`, `size`, `invert`, `flash`) and the `[data-tsui-tooltip]` styling, and has no color or size settings of its own.
+
 Outside Livewire, `value` sets the initial pair and `name` is forwarded to both inputs. Use the array form so the browser submits them both:
 
 ```blade
@@ -58,23 +60,23 @@ The pair reaches the server on `change` — when the thumb is released — rathe
 
 ## Attributes
 
-| Attribute  | Type                            | Default   | Description                                         |
-|------------|---------------------------------|-----------|-----------------------------------------------------|
-| label      | string\|ComponentSlot\|null     | null      | Label text displayed above the range input          |
-| hint       | string\|ComponentSlot\|null     | null      | Hint text displayed below the range input           |
-| dual       | bool\|null                      | null      | Renders two thumbs, binding to a pair               |
-| min        | int\|float\|null                | null      | Lower boundary. Defaults to 0 in dual mode.         |
-| max        | int\|float\|null                | null      | Upper boundary. Defaults to 100 in dual mode.       |
-| step       | int\|float\|null                | null      | Increment. Defaults to 1 in dual mode.              |
-| value      | array\|int\|float\|string\|null | null      | Initial value, or pair in dual mode                 |
-| tooltip    | bool\|null                      | null      | Shows the dragged value above the thumb. Dual only. |
-| sm         | bool\|null                      | null      | Sets small size for the range slider                |
-| md         | bool\|null                      | null      | Sets medium size for the range slider (default)     |
-| lg         | bool\|null                      | null      | Sets large size for the range slider                |
-| color      | string\|null                    | 'primary' | Colour of the thumb and of the filled track         |
-| invalidate | bool\|null                      | null      | Prevents displaying validation error messages       |
-| disabled   | bool                            | false     | Locks the slider. The value is not submitted.       |
-| readonly   | bool                            | false     | Locks the slider. The value is still submitted.     |
+| Attribute  | Type                            | Default   | Description                                                                          |
+|------------|---------------------------------|-----------|--------------------------------------------------------------------------------------|
+| label      | string\|ComponentSlot\|null     | null      | Label text displayed above the range input                                           |
+| hint       | string\|ComponentSlot\|null     | null      | Hint text displayed below the range input                                            |
+| dual       | bool\|null                      | null      | Renders two thumbs, binding to a pair                                                |
+| min        | int\|float\|null                | null      | Lower boundary. Defaults to 0 in dual mode.                                          |
+| max        | int\|float\|null                | null      | Upper boundary. Defaults to 100 in dual mode.                                        |
+| step       | int\|float\|null                | null      | Increment. Defaults to 1 in dual mode.                                               |
+| value      | array\|int\|float\|string\|null | null      | Initial value, or pair in dual mode                                                  |
+| tooltip    | bool\|null                      | null      | Shows the dragged value above the thumb through the page tooltip balloon. Dual only. |
+| sm         | bool\|null                      | null      | Sets small size for the range slider                                                 |
+| md         | bool\|null                      | null      | Sets medium size for the range slider (default)                                      |
+| lg         | bool\|null                      | null      | Sets large size for the range slider                                                 |
+| color      | string\|null                    | 'primary' | Colour of the thumb and of the filled track                                          |
+| invalidate | bool\|null                      | null      | Prevents displaying validation error messages                                        |
+| disabled   | bool                            | false     | Locks the slider. The value is not submitted.                                        |
+| readonly   | bool                            | false     | Locks the slider. The value is still submitted.                                      |
 
 `tooltip` and an array `value` both require `dual` and throw otherwise.
 
@@ -96,27 +98,26 @@ TallStackUi::customize()
 
 The `dual.*` blocks are namespaced because the same names mean opposite things across the modes: the input is the whole visible control when single, and a transparent layer over the track when dual.
 
-| Block Name            | Purpose                                                        |
-|-----------------------|----------------------------------------------------------------|
-| input.wrapper         | Outer wrapper around the range input                           |
-| input.base            | Core range input styles (track color, cursor, appearance)      |
-| input.sizes.sm        | Small size: track height and thumb dimensions                  |
-| input.sizes.md        | Medium size: track height and thumb dimensions                 |
-| input.sizes.lg        | Large size: track height and thumb dimensions                  |
-| input.locked          | Styles applied when the input is disabled or readonly          |
-| dual.wrapper.base     | Wrapper the track and both inputs are positioned against       |
-| dual.wrapper.sizes.sm | Small size: wrapper height                                     |
-| dual.wrapper.sizes.md | Medium size: wrapper height                                    |
-| dual.wrapper.sizes.lg | Large size: wrapper height                                     |
-| dual.wrapper.locked   | Styles applied when the slider is disabled or readonly         |
-| dual.track.base       | Unfilled track behind both thumbs                              |
-| dual.track.progress   | Filled segment between the thumbs                              |
-| dual.track.sizes.sm   | Small size: track height                                       |
-| dual.track.sizes.md   | Medium size: track height                                      |
-| dual.track.sizes.lg   | Large size: track height                                       |
-| dual.input.base       | Shared styles of both native inputs, whose own track is hidden |
-| dual.input.sizes.sm   | Small size: thumb dimensions                                   |
-| dual.input.sizes.md   | Medium size: thumb dimensions                                  |
-| dual.input.sizes.lg   | Large size: thumb dimensions                                   |
-| dual.tooltip.wrapper  | Tooltip container, positioned over the thumb being dragged     |
-| dual.tooltip.base     | Tooltip bubble                                                 |
+| Block Name            | Purpose                                                         |
+|-----------------------|-----------------------------------------------------------------|
+| input.wrapper         | Outer wrapper around the range input                            |
+| input.base            | Core range input styles (track color, cursor, appearance)       |
+| input.sizes.sm        | Small size: track height and thumb dimensions                   |
+| input.sizes.md        | Medium size: track height and thumb dimensions                  |
+| input.sizes.lg        | Large size: track height and thumb dimensions                   |
+| input.locked          | Styles applied when the input is disabled or readonly           |
+| dual.wrapper.base     | Wrapper the track and both inputs are positioned against        |
+| dual.wrapper.sizes.sm | Small size: wrapper height                                      |
+| dual.wrapper.sizes.md | Medium size: wrapper height                                     |
+| dual.wrapper.sizes.lg | Large size: wrapper height                                      |
+| dual.wrapper.locked   | Styles applied when the slider is disabled or readonly          |
+| dual.track.base       | Unfilled track behind both thumbs                               |
+| dual.track.progress   | Filled segment between the thumbs                               |
+| dual.track.sizes.sm   | Small size: track height                                        |
+| dual.track.sizes.md   | Medium size: track height                                       |
+| dual.track.sizes.lg   | Large size: track height                                        |
+| dual.input.base       | Shared styles of both native inputs, whose own track is hidden  |
+| dual.input.sizes.sm   | Small size: thumb dimensions                                    |
+| dual.input.sizes.md   | Medium size: thumb dimensions                                   |
+| dual.input.sizes.lg   | Large size: thumb dimensions                                    |
+| dual.tooltip.anchor   | Invisible marker kept over the thumb, the balloon anchors on it |
