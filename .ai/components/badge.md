@@ -26,7 +26,7 @@ An inline badge component for labels, tags, and status indicators. Supports soli
 | text      | string\|null       | null      | Text content of the badge                                                                                                                                                                                                                          |
 | icon      | string\|null       | null      | Heroicon name displayed alongside the text                                                                                                                                                                                                         |
 | position  | string\|null       | 'right'   | Icon position relative to text: 'left' or 'right'                                                                                                                                                                                                  |
-| xs        | bool               | null      | Extra-small size (default)                                                                                                                                                                                                                         |
+| xs        | bool               | null      | Extra-small size (the default, or the `size` config)                                                                                                                                                                                               |
 | sm        | bool               | null      | Small size                                                                                                                                                                                                                                         |
 | md        | bool               | null      | Medium size                                                                                                                                                                                                                                        |
 | lg        | bool               | null      | Large size                                                                                                                                                                                                                                         |
@@ -45,11 +45,12 @@ An inline badge component for labels, tags, and status indicators. Supports soli
     \TallStackUi\Components\Badge\Component::class,
     [
         'round' => false, // true, or xs | sm | md | lg | xl
+        'size' => 'xs', // xs | sm | md | lg
     ],
 ],
 ```
 
-The inline prop always wins, including `:round="false"`.
+The inline props always win: `:round="false"` suppresses the global round, and any of `xs`, `sm`, `md` or `lg` replaces the global size.
 
 ## Slots
 
