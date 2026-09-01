@@ -198,10 +198,12 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertMissing('@tallstackui_form_range_tooltip_start')
+            ->assertMissing('[data-tsui-tooltip][data-show]')
             ->tap(fn (Browser $browser) => $browser->script($this->move('start', 45, change: false)))
-            ->waitFor('@tallstackui_form_range_tooltip_start')
-            ->assertSeeIn('@tallstackui_form_range_tooltip_start', '45');
+            ->waitFor('[data-tsui-tooltip][data-show]')
+            ->assertSeeIn('[data-tsui-tooltip]', '45')
+            ->tap(fn (Browser $browser) => $browser->script($this->move('start', 45)))
+            ->waitUntilMissing('[data-tsui-tooltip][data-show]');
     }
 
     #[Test]
