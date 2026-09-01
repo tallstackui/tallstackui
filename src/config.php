@@ -680,10 +680,12 @@ return [
             |----------------------------------------------------------------------
             |
             | size: controls the header height (Allowed: sm, md, lg, xl).
+            | collapse-icon: the icon of the sidebar collapse toggle. Null keeps the original (bars-4).
             |
             */
             [
                 'size' => 'md',
+                'collapse-icon' => null,
             ],
         ],
         'link' => [
