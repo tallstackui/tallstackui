@@ -65,7 +65,7 @@ class UploadAsyncRuntime extends AbstractRuntime
                 'accept' => $component->accept ?? $configuration['accept'],
             ],
             'i18n' => trans('ts-ui::messages.upload_async'),
-            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, $configuration, $id))(),
+            'editing' => (new UploadEditorOptions($component, $component->editor, $component->aspect, $configuration, $id, $this->livewire))(),
         ];
     }
 
