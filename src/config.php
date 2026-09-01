@@ -237,10 +237,12 @@ return [
                 |
                 | round: the default corner shape. False keeps rounded-md, true is the pill. (Allowed: xs, sm, md, lg, xl, full).
                 | spinner: controls the default wire:loading spinner variant. (Allowed: null, ring, throbber, gradient, ping, dots, pulse, typing, bars, wave).
+                | unfocus: blocks the focus on mouse click by default, keeping the keyboard focus.
                 |
                 */
                 'round' => false,
                 'spinner' => null,
+                'unfocus' => false,
             ],
         ],
         'button.circle' => Components\Button\Circle\Component::class,

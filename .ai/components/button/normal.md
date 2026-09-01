@@ -86,6 +86,18 @@ animate their own text and throw inside a button:
 <x-button text="Save" loading="save" spinner="shimmer" />   {{-- throws --}}
 ```
 
+Blocking the mouse focus. `unfocus` stamps `data-tsui-unfocus` so a mouse click
+never focuses the button (no ring, no focus color), while the Tab key still
+does. Omitted, it falls back to `config('tallstackui.components.button.unfocus')`
+(shared with `<x-button.circle>`, `false` by default). The inline prop always
+wins, including `:unfocus="false"`:
+
+```blade
+{{-- with 'unfocus' => true in the config --}}
+<x-button text="Quiet" />                     {{-- data-tsui-unfocus --}}
+<x-button text="Normal" :unfocus="false" />   {{-- focusable by click --}}
+```
+
 ## Attributes
 
 | Attribute | Type               | Default   | Description                                                                                                                                                    |
@@ -110,7 +122,7 @@ animate their own text and throw inside a button:
 | light     | bool               | false     | Uses the light color style variant                                                                                                                             |
 | flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                                                  |
 | submit    | bool               | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                                               |
-| unfocus   | bool               | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                                                   |
+| unfocus   | bool\|null         | null      | No focus on mouse click (no ring/color); keyboard focus kept. Falls back to the `button.unfocus` config                                                        |
 | tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                                                    |
 
 The balloon accepts the same attributes as anywhere else — `data-position`,

@@ -38,8 +38,9 @@ trait ButtonSetup
 
     protected function setup(): void
     {
-        // Circle intentionally reads the button config key so one setting drives both.
+        // Circle intentionally reads the button config keys so one setting drives both.
         $this->spinner ??= __ts_get_component_configuration(Button::class, 'spinner') ?? 'gradient';
+        $this->unfocus ??= __ts_get_component_configuration(Button::class, 'unfocus') ?? false;
 
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : ($this->flat ? 'flat' : 'solid'));
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));

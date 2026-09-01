@@ -44,6 +44,12 @@ default effect. The textual variants (`shimmer`, `caret`, `terminal`,
 <x-button.circle icon="trash" spinner="shimmer" />   {{-- throws --}}
 ```
 
+Blocking the mouse focus. `unfocus` stamps `data-tsui-unfocus` so a mouse click
+never focuses the button, while the Tab key still does. Omitted, it falls back
+to `config('tallstackui.components.button.unfocus')` (the key is shared with
+`<x-button>`, `false` by default), and the inline prop always wins, including
+`:unfocus="false"`.
+
 ## Attributes
 
 | Attribute | Type         | Default   | Description                                                                                                                         |
@@ -64,7 +70,7 @@ default effect. The textual variants (`shimmer`, `caret`, `terminal`,
 | light     | bool         | false     | Uses the light color style variant                                                                                                  |
 | flat      | bool         | false     | Uses the flat color style variant (no border)                                                                                       |
 | submit    | bool         | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                    |
-| unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                        |
+| unfocus   | bool\|null   | null      | No focus on mouse click (no ring/color); keyboard focus kept. Falls back to the `button.unfocus` config                             |
 
 ## Slots
 
