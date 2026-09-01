@@ -11,7 +11,7 @@ use TallStackUi\TallStackUiComponent;
 #[SoftCustomization('button.group')]
 class Component extends TallStackUiComponent implements Customization
 {
-    public function __construct(public ?bool $vertical = false)
+    public function __construct(public ?bool $vertical = false, public ?bool $shadowless = false)
     {
         //
     }
@@ -25,7 +25,8 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'isolate inline-flex shadow-xs [&>*]:relative [&>*:focus]:z-10',
+                'base' => 'isolate inline-flex [&>*]:relative [&>*:focus]:z-10',
+                'shadow' => 'shadow-xs',
                 'layout' => [
                     'horizontal' => '[&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md [&>*:not(:first-child)]:-ml-px',
                     'vertical' => 'flex-col [&>*]:rounded-none [&>*:first-child]:rounded-t-md [&>*:last-child]:rounded-b-md [&>*:not(:first-child)]:-mt-px',

@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A versatile button component supporting solid, light, outline, and flat styles with optional icons, loading states, tooltips, and link behavior.
+A versatile button component supporting solid, light, outline, flat, and subtle styles with optional icons, loading states, tooltips, and link behavior.
 
 ## Basic Usage
 
@@ -21,6 +21,10 @@ A versatile button component supporting solid, light, outline, and flat styles w
 
 ```blade
 <x-button text="Visit Site" href="https://example.com" flat />
+```
+
+```blade
+<x-button text="Continue" color="black" subtle />
 ```
 
 Submitting a form. The button renders `type="button"` by default, so it does
@@ -98,6 +102,19 @@ wins, including `:unfocus="false"`:
 <x-button text="Normal" :unfocus="false" />   {{-- focusable by click --}}
 ```
 
+Keeping the body neutral. `subtle` borrows the border and background of the
+[Input](../form/input.md) (`border-gray-200 bg-white`, `dark:border-dark-600/50
+dark:bg-dark-800`) and applies `color` only to the text, the icon and the focus
+ring. The hover darkens the background in gray, whatever the color. Add `tinted`
+to tint the hover with the color instead (`hover:bg-red-50 hover:border-red-300`
+for `red`). `tinted` is a modifier of `subtle` and throws on its own:
+
+```blade
+<x-button text="Cancel" color="gray" subtle />
+<x-button text="Delete" color="red" subtle tinted icon="trash" />
+<x-button text="Delete" color="red" tinted />   {{-- throws --}}
+```
+
 ## Attributes
 
 | Attribute | Type               | Default   | Description                                                                                                                                                    |
@@ -121,6 +138,8 @@ wins, including `:unfocus="false"`:
 | outline   | bool               | false     | Uses the outline color style variant                                                                                                                           |
 | light     | bool               | false     | Uses the light color style variant                                                                                                                             |
 | flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                                                  |
+| subtle    | bool               | false     | Uses the subtle color style variant: neutral border and background borrowed from the Input, color applied to the text, icon and focus ring only                |
+| tinted    | bool               | false     | Tints the hover of `subtle` with the color instead of gray. Only valid together with `subtle`, throws otherwise                                                |
 | submit    | bool               | false     | Renders `type="submit"` so the button submits its form. Always prefer this over passing `type="submit"` yourself                                               |
 | unfocus   | bool\|null         | null      | No focus on mouse click (no ring/color); keyboard focus kept. Falls back to the `button.unfocus` config                                                        |
 | tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                                                    |
