@@ -63,7 +63,7 @@ Pagination-style icon-only pair with ARIA label:
 
 ## Caveats
 
-- `<x-button flat>` removes the border from the button. Inside a group, the `-ml-px` (or `-mt-px`) overlap collapses into nothing and the dividers between flat siblings disappear. Use `solid`, `outline`, or `light` for the intended visual.
+- `<x-button flat>` removes the border from the button. Inside a group, the `-ml-px` (or `-mt-px`) overlap collapses into nothing and the dividers between flat siblings disappear. Use `solid`, `outline`, `light`, or `subtle` for the intended visual.
 - `<x-button.circle>` is not visually compatible with the group layout and should not be used as a child.
 
 ## Soft Customization
