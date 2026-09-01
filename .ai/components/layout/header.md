@@ -32,17 +32,18 @@ A sticky top header component for the application layout. Provides left, middle,
 
 ## Attributes
 
-| Attribute             | Type               | Default | Description                                      |
-|-----------------------|--------------------|---------|--------------------------------------------------|
-| left                  | slot\|string\|null | null    | Content rendered on the left side of the header  |
-| middle                | slot\|string\|null | null    | Content rendered in the center of the header     |
-| right                 | slot\|string\|null | null    | Content rendered on the right side of the header |
-| without-mobile-button | bool\|null         | null    | Hides the mobile hamburger menu toggle button    |
-| size                  | string\|null       | md      | Header height (`sm`, `md`, `lg`, `xl`)           |
-| sm                    | bool\|null         | null    | Shortcut for `size="sm"` (`h-14`)                |
-| md                    | bool\|null         | null    | Shortcut for `size="md"` (`h-16`)                |
-| lg                    | bool\|null         | null    | Shortcut for `size="lg"` (`h-20`)                |
-| xl                    | bool\|null         | null    | Shortcut for `size="xl"` (`h-24`)                |
+| Attribute             | Type               | Default | Description                                                                                                                 |
+|-----------------------|--------------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| left                  | slot\|string\|null | null    | Content rendered on the left side of the header                                                                             |
+| middle                | slot\|string\|null | null    | Content rendered in the center of the header                                                                                |
+| right                 | slot\|string\|null | null    | Content rendered on the right side of the header                                                                            |
+| without-mobile-button | bool\|null         | null    | Hides the mobile hamburger menu toggle button                                                                               |
+| collapse-icon         | string\|null       | null    | Icon of the sidebar collapse toggle. Falls back to the `collapse-icon` config, then to the `collapse.icon` block (`bars-4`) |
+| size                  | string\|null       | md      | Header height (`sm`, `md`, `lg`, `xl`)                                                                                      |
+| sm                    | bool\|null         | null    | Shortcut for `size="sm"` (`h-14`)                                                                                           |
+| md                    | bool\|null         | null    | Shortcut for `size="md"` (`h-16`)                                                                                           |
+| lg                    | bool\|null         | null    | Shortcut for `size="lg"` (`h-20`)                                                                                           |
+| xl                    | bool\|null         | null    | Shortcut for `size="xl"` (`h-24`)                                                                                           |
 
 The `size` default comes from the global configuration, so it describes the shipped
 configuration rather than a value hardcoded in the component.
@@ -60,12 +61,15 @@ configuration rather than a value hardcoded in the component.
     \TallStackUi\Components\Layout\Header\Component::class,
     [
         'size' => 'md',
+        'collapse-icon' => null, // any icon name, e.g. chevron-double-left
     ],
 ],
 ```
 
 A shortcut flag wins over `size`, `size` wins over the configuration. An unknown
-size raises a validation exception, wherever it came from.
+size raises a validation exception, wherever it came from. The `collapse-icon`
+attribute wins over its configuration, and both win over the `collapse.icon`
+customization block, which stays the last fallback.
 
 ## Validation Constraints
 

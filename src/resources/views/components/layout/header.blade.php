@@ -11,7 +11,7 @@
             aria-label="Toggle sidebar"
             class="{{ $customization['collapse.class'] }}">
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                             :icon="TallStackUi::icon($customization['collapse.icon'])"
+                             :icon="TallStackUi::icon($collapseIcon ?? $customization['collapse.icon'])"
                              internal
                              class="{{ $customization['collapse.icon.size'] }}" />
     </button>

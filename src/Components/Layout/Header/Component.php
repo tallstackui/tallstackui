@@ -19,6 +19,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $middle = null,
         public ComponentSlot|string|null $right = null,
         public ?bool $withoutMobileButton = null,
+        public ?string $collapseIcon = null,
         public ?string $size = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -67,6 +68,8 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function setup(): void
     {
+        $this->collapseIcon ??= __ts_get_component_configuration(self::class, 'collapse-icon');
+
         $this->size = match (true) {
             $this->xl === true => 'xl',
             $this->lg === true => 'lg',
