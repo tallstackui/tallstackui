@@ -314,6 +314,40 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_the_editor_of_the_right_upload_when_the_property_repeats(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Crop" wire:model="photo" editor="crop" />
+                    <div dusk="second">
+                        <x-upload label="Rotate" wire:model="photo" editor="rotate" />
+                    </div>
+                </div>
+                HTML;
+            }
+        })
+            ->assertPresent('#upload-editor-photo')
+            ->assertPresent('#upload-editor-photo-2')
+            ->click('[dusk=second] [dusk=tallstackui_upload_input]')
+            ->waitForText('Click here to upload')
+            ->attach('[dusk=tallstackui_upload_floating]:not([style*="display: none"]) [dusk=tallstackui_file_select]', __DIR__.'/test.jpeg')
+            ->waitFor('#upload-editor-photo-2 [dusk=tallstackui_upload_editor]')
+            ->waitUntil("document.querySelector('#upload-editor-photo-2 [dusk=tallstackui_upload_editor_canvas]').width > 0")
+            ->assertVisible('#upload-editor-photo-2 [dusk=tallstackui_upload_editor_rotate_left]')
+            ->assertMissing('#upload-editor-photo [dusk=tallstackui_upload_editor]')
+            // An untouched canvas keeps the 300px default width: the first editor never painted.
+            ->assertScript("document.querySelector('#upload-editor-photo [dusk=tallstackui_upload_editor_canvas]').width", 300);
+    }
+
+    #[Test]
     public function can_rotate_an_image_before_uploading(): void
     {
         Livewire::visit($this->editable())
