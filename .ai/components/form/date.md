@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A date picker component with a floating calendar panel, month/year pickers, range selection, multiple date selection, configurable date format, min/max date and year constraints, disabled dates, day-of-week filtering, helper buttons (yesterday/today/tomorrow), and month-year-only mode.
+A date picker component with a floating calendar panel, month/year pickers, range selection, multiple date selection, configurable date format, min/max date and year constraints, disabled dates, day-of-week filtering, helper buttons (yesterday/today/tomorrow), month-year-only mode, and direct keyboard input through `typeable`.
 
 ## Basic Usage
 
@@ -35,6 +35,10 @@ A date picker component with a floating calendar panel, month/year pickers, rang
         :disable="['2025-12-25', '2025-01-01']" />
 ```
 
+```blade
+<x-date wire:model="date" label="Birth Date" format="DD/MM/YYYY" typeable />
+```
+
 ## Attributes
 
 | Attribute       | Type                        | Default      | Description                                                                                                                       |
@@ -56,6 +60,7 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 | only            | int\|string\|null           | null         | Restricts selection to a specific day of the week (0-6)                                                                           |
 | weekdays        | bool\|null                  | false        | Restricts selection to weekdays only (Monday-Friday)                                                                              |
 | weekends        | bool\|null                  | false        | Restricts selection to weekends only (Saturday-Sunday)                                                                            |
+| typeable        | bool\|null                  | false        | Allows typing the date directly into the input (see Typeable)                                                                     |
 | disabled        | bool                        | false        | Locks the input, the calendar and the clear button. The value is not submitted.                                                   |
 | readonly        | bool                        | false        | Locks the input, the calendar and the clear button. The value is still submitted.                                                 |
 
@@ -77,6 +82,21 @@ inline attribute always wins over the global default, so `start="0"` keeps Sunda
 single picker while the configuration moves the others. The configured value goes through
 the same validation as the attribute: anything outside `0`–`6` raises the exception below.
 
+## Typeable
+
+`typeable` turns the input into a regular text field with an auto-formatting mask
+derived from the `format` tokens (`DD/MM/YYYY` becomes `##/##/####`), inserting the
+separators as the user types. On blur the typed value is parsed against the format
+and validated by the same rules as the picker — min/max, disabled dates, weekdays,
+weekends and only — so an invalid, impossible (`31/02/2020`) or out-of-range date
+restores the previous value, while clearing the field and leaving empties the model.
+Clicking the input no longer opens the picker; the calendar icon still does, and the
+keyboard focus keeps working.
+
+The `format` must contain the `YYYY`, `MM` and `DD` tokens, and `typeable` cannot be
+combined with `range`, `multiple` or `month-year-only` — combining them throws the
+exception below.
+
 ## Alpine.js Events
 
 | Event       | Description                                |
@@ -92,6 +112,7 @@ the same validation as the attribute: anything outside `0`–`6` raises the exce
 - The `min-year` must be less than or equal to `max-year` when both are set.
 - The `start` attribute, inline or configured, must be between 0 and 6.
 - The `only` attribute must not be greater than 6.
+- The `typeable` cannot be used with `range`, `multiple` or `month-year-only`.
 
 ## Event Payload Details
 
