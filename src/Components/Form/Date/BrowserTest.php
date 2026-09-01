@@ -600,6 +600,32 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_type_date_when_typeable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" typeable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@tallstackui_date_input', '20200115')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->keys('@tallstackui_date_input', '{tab}')
+            ->waitForTextIn('@date', '2020-01-15')
+            ->assertSeeIn('@date', '2020-01-15');
+    }
+
+    #[Test]
     public function can_use_custom_formats(): void
     {
         Livewire::visit(new class extends Component
@@ -835,6 +861,33 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_open_picker_clicking_the_input_when_typeable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" typeable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->pause(300)
+            ->assertDontSee('January')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->assertSee('January');
+    }
+
+    #[Test]
     public function cannot_open_when_date_is_disabled(): void
     {
         Livewire::visit(new class extends Component
@@ -1031,6 +1084,69 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] Form\Date: The [start] attribute must be between 0 and 6.');
+    }
+
+    #[Test]
+    public function cannot_type_date_outside_boundaries_when_typeable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-15';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" min-date="2020-01-01" max-date="2020-01-31" typeable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            // Selecting instead of clearing avoids the intermediate blur
+            // WebDriver fires on clear(), which a human typist never causes.
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '20200215')
+            ->assertInputValue('@tallstackui_date_input', '2020-02-15')
+            ->keys('@tallstackui_date_input', '{tab}')
+            ->pause(500)
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->assertSeeIn('@date', '2020-01-15');
+    }
+
+    #[Test]
+    public function cannot_type_invalid_date_when_typeable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" typeable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '99999999')
+            ->keys('@tallstackui_date_input', '{tab}')
+            ->pause(500)
+            ->assertInputValue('@tallstackui_date_input', '2020-01-01')
+            ->assertSeeIn('@date', '2020-01-01');
     }
 
     #[Test]
