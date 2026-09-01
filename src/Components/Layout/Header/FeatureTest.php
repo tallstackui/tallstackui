@@ -19,7 +19,21 @@ function tallstackui_header_size(string $size): void
     __ts_get_component_configuration(Component::class, flush: true);
 }
 
-afterEach(fn () => tallstackui_header_size('md'));
+function tallstackui_header_collapse_icon(?string $icon): void
+{
+    $components = config('ts-ui.components');
+
+    $components['layout.header'][1]['collapse-icon'] = $icon;
+
+    config()->set('ts-ui.components', $components);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+}
+
+afterEach(function () {
+    tallstackui_header_size('md');
+    tallstackui_header_collapse_icon(null);
+});
 
 it('can render', function () {
     $component = <<<'HTML'
@@ -104,4 +118,30 @@ it('cannot render with an invalid size', function () {
     $this->expectException(ViewException::class);
 
     expect('<x-layout.header size="2xl" />')->render();
+});
+
+it('can render the default collapse icon')
+    ->expect('<x-layout.header />')
+    ->render()
+    ->toContain('aria-label="Toggle sidebar"')
+    ->toContain('M3 5.25a.75.75');
+
+it('can render the collapse icon through the attribute', function () {
+    expect('<x-layout.header collapse-icon="chevron-double-left" />')->render()
+        ->toContain('M10.72 11.47a');
+});
+
+it('can render the collapse icon through the global configuration', function () {
+    tallstackui_header_collapse_icon('chevron-double-left');
+
+    expect('<x-layout.header />')->render()
+        ->toContain('M10.72 11.47a');
+});
+
+it('can suppress the global collapse icon through the attribute', function () {
+    tallstackui_header_collapse_icon('chevron-double-left');
+
+    expect('<x-layout.header collapse-icon="arrows-pointing-in" />')->render()
+        ->toContain('M3.22 3.22a.75')
+        ->not->toContain('M10.72 11.47a');
 });
