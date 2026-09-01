@@ -481,6 +481,31 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_hide_the_style_tooltip_while_the_dropdown_is_open(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p>foo</p>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->mouseover('@tallstackui_editor_style')
+            ->waitFor('[data-tsui-tooltip][data-show]')
+            ->click('@tallstackui_editor_style')
+            ->waitUntilMissing('[data-tsui-tooltip][data-show]')
+            ->assertVisible('@tallstackui_editor_style')
+            ->assertAttribute('@tallstackui_editor_style', 'data-tooltip-disabled', 'true');
+    }
+
+    #[Test]
     public function can_indent_a_list_item(): void
     {
         Livewire::visit(new class extends LivewireComponent
