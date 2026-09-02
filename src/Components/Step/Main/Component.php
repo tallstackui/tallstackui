@@ -71,7 +71,7 @@ class Component extends TallStackUiComponent implements Customization
                     'active' => 'bg-green-600',
                 ],
                 'divider' => [
-                    'wrapper' => 'h-full w-0.5 transition-colors group-last:hidden md:mt-0 md:h-0.5 md:w-full md:flex-1',
+                    'wrapper' => 'h-full min-h-4 w-0.5 transition-colors group-last:hidden md:mt-0 md:h-0.5 md:min-h-0 md:w-full md:flex-1',
                     'inactive' => 'bg-gray-200 dark:bg-dark-700',
                     'active' => 'bg-green-600',
                 ],

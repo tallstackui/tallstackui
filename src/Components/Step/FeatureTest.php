@@ -57,6 +57,26 @@ it('can keep the panels scroll container free of the border and the radius', fun
         ->toContain('class="md:flex overflow-auto soft-scrollbar"');
 });
 
+it('can keep the circles divider visible on mobile without a description', function () {
+    $component = <<<'HTML'
+    <x-step selected="1" circles>
+        <x-step.items step="1" title="Foo">
+            Foo
+        </x-step.items>
+        <x-step.items step="2" title="Bar">
+            Bar
+        </x-step.items>
+    </x-step>
+    HTML;
+
+    // Without a description the text column matches the circle height,
+    // so the vertical divider would shrink to zero and the stacked
+    // circles would touch. The minimum height keeps the gap.
+    expect($component)->render()
+        ->toContain('h-full min-h-4 w-0.5')
+        ->toContain('md:min-h-0');
+});
+
 it('can render without id on step items', function () {
     $component = <<<'HTML'
     <x-step selected="1">
