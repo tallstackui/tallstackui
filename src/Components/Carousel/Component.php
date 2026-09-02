@@ -115,8 +115,8 @@ class Component extends TallStackUiComponent implements Customization
                     'inactive' => 'ring-1 ring-gray-200 transition hover:ring-gray-300 dark:ring-dark-600 dark:hover:ring-dark-500',
                 ],
                 'remaining' => [
-                    'tile' => 'flex h-full w-full cursor-pointer items-center justify-center bg-gray-100 text-gray-600 dark:bg-dark-700 dark:text-dark-300',
-                    'text' => 'text-sm font-medium',
+                    'wrapper' => 'absolute inset-0 z-10 flex items-center justify-center bg-black/60 transition',
+                    'text' => 'text-sm font-semibold text-white sm:text-base',
                 ],
             ],
             'clickable' => [

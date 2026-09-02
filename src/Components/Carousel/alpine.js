@@ -76,7 +76,7 @@ export default (
   },
   /**
    * Whether the tile at the given position represents the current slide.
-   * The +N tile stands for every slide without a tile of its own.
+   * The last tile also stands for every slide beyond the limit.
    *
    * @param {Number} index 0-based tile index.
    * @return {Boolean}
