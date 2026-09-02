@@ -439,7 +439,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('1-foo')
-            ->assertSee('+3')
+            ->assertSee('+2')
             ->tap(fn (Browser $browser) => Assert::assertCount(4, $browser->elements('@tallstackui_carousel_thumbnail')))
             ->click('@tallstackui_carousel_thumbnail_more')
             ->waitForText('4-foo')
@@ -448,7 +448,7 @@ class BrowserTest extends BrowserTestCase
             ->pressAndWaitFor('@tallstackui_carousel_next')
             ->waitForText('5-foo')
             ->assertSee('5-foo')
-            // The +N tile keeps the highlight while the current slide has no tile of its own.
+            // The last tile keeps the highlight while the current slide sits beyond the limit.
             ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4) > button', 'aria-current', 'true')
             ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4)', 'class', 'ring-2')
             ->assertAttributeMissing('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1) > button', 'aria-current');
