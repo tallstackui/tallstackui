@@ -376,6 +376,85 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_seek_a_slide_from_its_thumbnail(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel thumbnails :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'thumbnail-1',
+                            'title' => '1-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'alt' => 'thumbnail-2',
+                            'title' => '2-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp',
+                            'alt' => 'thumbnail-3',
+                            'title' => '3-foo',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('1-foo')
+            ->assertVisible('@tallstackui_carousel_thumbnails')
+            ->assertMissing('@tallstackui_carousel_thumbnail_more')
+            ->tap(fn (Browser $browser) => Assert::assertCount(3, $browser->elements('@tallstackui_carousel_thumbnail')))
+            ->click('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(3) > button')
+            ->waitForText('3-foo')
+            ->assertSee('3-foo')
+            ->waitUntilMissingText('1-foo')
+            ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(3) > button', 'aria-current', 'true')
+            ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(3) > button', 'aria-label', 'thumbnail-3');
+    }
+
+    #[Test]
+    public function can_seek_the_hidden_image_from_the_remaining_thumbnail(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel thumbnails :limit="4" :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'thumbnail-1', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'thumbnail-2', 'title' => '2-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp', 'alt' => 'thumbnail-3', 'title' => '3-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'thumbnail-4', 'title' => '4-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'thumbnail-5', 'title' => '5-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp', 'alt' => 'thumbnail-6', 'title' => '6-foo'],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('1-foo')
+            ->assertSee('+3')
+            ->tap(fn (Browser $browser) => Assert::assertCount(4, $browser->elements('@tallstackui_carousel_thumbnail')))
+            ->click('@tallstackui_carousel_thumbnail_more')
+            ->waitForText('4-foo')
+            ->assertSee('4-foo')
+            ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4) > button', 'aria-current', 'true')
+            ->pressAndWaitFor('@tallstackui_carousel_next')
+            ->waitForText('5-foo')
+            ->assertSee('5-foo')
+            // The +N tile keeps the highlight while the current slide has no tile of its own.
+            ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4) > button', 'aria-current', 'true')
+            ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4)', 'class', 'ring-2')
+            ->assertAttributeMissing('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1) > button', 'aria-current');
+    }
+
+    #[Test]
     public function cannot_navigate_next_without_loop(): void
     {
         Livewire::visit(new class extends Component
@@ -476,5 +555,86 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] Carousel: The [images] attribute is required.');
+    }
+
+    #[Test]
+    public function thumbnail_highlight_follows_the_arrows(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel thumbnails :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'thumbnail-1',
+                            'title' => '1-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'alt' => 'thumbnail-2',
+                            'title' => '2-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp',
+                            'alt' => 'thumbnail-3',
+                            'title' => '3-foo',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('1-foo')
+            ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1)', 'class', 'ring-2')
+            ->assertAttributeMissing('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2) > button', 'aria-current')
+            ->pressAndWaitFor('@tallstackui_carousel_next')
+            ->waitForText('2-foo')
+            ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2)', 'class', 'ring-2')
+            ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2) > button', 'aria-current', 'true')
+            ->assertAttributeDoesntContain('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1)', 'class', 'ring-2')
+            ->assertAttributeMissing('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1) > button', 'aria-current')
+            ->pressAndWaitFor('@tallstackui_carousel_previous')
+            ->waitForText('1-foo')
+            ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1)', 'class', 'ring-2')
+            ->assertAttributeDoesntContain('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2)', 'class', 'ring-2');
+    }
+
+    #[Test]
+    public function thumbnails_follow_the_shuffled_slide_order(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel thumbnails shuffle :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'thumbnail-1', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'thumbnail-2', 'title' => '2-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp', 'alt' => 'thumbnail-3', 'title' => '3-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'thumbnail-4', 'title' => '4-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'thumbnail-5', 'title' => '5-foo'],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->waitFor('@tallstackui_carousel_thumbnail')
+            ->tap(function (Browser $browser) {
+                [$slides, $tiles] = $browser->script([
+                    "return Alpine.\$data(document.querySelector('[x-ref=\"carousel\"]')).images.map((image) => image.alt)",
+                    "return Array.from(document.querySelectorAll('[dusk=\"tallstackui_carousel_thumbnail\"]')).map((button) => button.getAttribute('aria-label'))",
+                ]);
+
+                Assert::assertCount(5, $tiles);
+                Assert::assertSame($slides, $tiles);
+
+                $browser->click('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2) > button')
+                    ->waitForText(str_replace('thumbnail-', '', $slides[1]).'-foo')
+                    ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(2) > button', 'aria-current', 'true');
+            });
     }
 }
