@@ -626,7 +626,7 @@ class BrowserTest extends BrowserTestCase
             ->tap(function (Browser $browser) {
                 [$slides, $tiles] = $browser->script([
                     "return Alpine.\$data(document.querySelector('[x-ref=\"carousel\"]')).images.map((image) => image.alt)",
-                    "return Array.from(document.querySelectorAll('[dusk=\"tallstackui_carousel_thumbnail\"]')).map((button) => button.getAttribute('aria-label'))",
+                    "return Array.from(document.querySelectorAll('[dusk=\"tallstackui_carousel_thumbnail\"] > button')).map((button) => button.getAttribute('aria-label'))",
                 ]);
 
                 Assert::assertCount(5, $tiles);
