@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-An image carousel/slider component with manual navigation or autoplay, optional indicators, looping, shuffle, rounded corners, an opt-in lightbox that expands the active image fullscreen, and support for image titles, descriptions, URLs, and custom header/footer slots.
+An image carousel/slider component with manual navigation or autoplay, optional indicators, looping, shuffle, rounded corners, an opt-in thumbnail strip below the slides, an opt-in lightbox that expands the active image fullscreen, and support for image titles, descriptions, URLs, and custom header/footer slots.
 
 ## Basic Usage
 
@@ -45,6 +45,8 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 | shuffle           | bool                    | null    | Randomizes the image order on initialization                                                                                                                                                                                                                                                                                                               |
 | clickable         | bool                    | null    | Renders each slide as a button that opens the image in a fullscreen lightbox (overlay teleported to the body, closes on the X button, ESC, or click outside the image). When enabled, `url`/`target` on image entries are ignored.                                                                                                                         |
 | navigable         | bool                    | null    | Adds prev/next arrow buttons and `←`/`→` keyboard shortcuts inside the lightbox so the user can step through every image without closing it. Requires `clickable`. Looping mirrors the carousel's own `withoutLoop` behavior — by default it wraps; with `withoutLoop` the buttons become disabled at the edges.                                           |
+| thumbnails        | bool\|null              | null    | Renders a left-aligned row of small square thumbnail tiles below the slides (between the slides and the `footer` slot). Clicking a tile jumps to that slide; the tile of the current slide is highlighted. Implies `withoutIndicators`. Falls back to the `thumbnails` configuration key (default `false`).                                                |
+| limit             | int\|null               | null    | Maximum number of thumbnail tiles. When the carousel holds more images than `limit`, the last tile becomes a muted `+N` tile counting every image from its own position onwards (`N = count($images) - $limit + 1`). Requires `thumbnails` and must be at least 2. Falls back to the `limit` configuration key (default `6`).                              |
 | caption           | string\|null            | null    | Renders the expanded image's `title` and `description` inside the lightbox. Accepts `overlay` (caption sits on top of the image, anchored to its bottom edge with a fade gradient) or `footer` (caption sits below the image on a separate row). Requires `clickable`. When the expanded image carries no title or description, the figcaption is skipped. |
 | wrapper           | string\|null            | null    | Custom CSS class for the slide container height (overrides default `min-h-[50svh]`)                                                                                                                                                                                                                                                                        |
 | header            | ComponentSlot\|null     | null    | Header slot content displayed above the carousel                                                                                                                                                                                                                                                                                                           |
@@ -75,6 +77,9 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 - The `caption` must be either `overlay` or `footer`.
 - The `caption` requires `clickable` to be enabled.
 - The `navigable` requires `clickable` to be enabled.
+- The `limit` can only be used along with `thumbnails`.
+- The `limit` must be at least 2.
+- The `round` must be a boolean or one of `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `full`.
 
 ## Autoplay
 
@@ -100,6 +105,36 @@ Set a specific image as the initial cover:
     ['src' => '/img/3.jpg', 'alt' => 'Image 3'],
 ]" />
 ```
+
+## Thumbnails
+
+Add `thumbnails` to render a left-aligned row of small square tiles below the slides, the usual product-page arrangement, so the user sees at a glance that the carousel holds more images and can jump to any of them.
+
+```blade
+<x-carousel thumbnails :images="$images" />
+```
+
+```blade
+<x-carousel thumbnails :limit="5" round="xl" wrapper="min-h-[26rem]" :images="$images" />
+```
+
+```blade
+<x-carousel thumbnails autoplay :interval="5" stop-on-hover :images="$images">
+    <x-slot:footer>
+        <p class="mt-2 text-sm text-gray-500">Click a thumbnail to jump to that photo.</p>
+    </x-slot:footer>
+</x-carousel>
+```
+
+- Tiles are fixed-size squares (`h-16 w-16`, `h-20 w-20` from `sm`) separated by `gap-3`; the row never stretches to fill the width.
+- Clicking a tile moves the carousel to that slide and restarts the autoplay timer, exactly like the dot indicators.
+- The tile of the current slide carries a 2px primary ring and `aria-current="true"`; the other tiles carry a subtle gray ring.
+- `thumbnails` implies `withoutIndicators`: the strip already shows the position, so the bottom dots are hidden.
+- `limit` caps the number of tiles (default `6`). When the carousel holds more images than `limit`, the last tile becomes a muted `+N` tile counting every image without a tile of its own, itself included (`N = count($images) - $limit + 1`). Clicking it moves to the image under it (the `limit`-th image), and the arrows keep going from there. While the current slide sits beyond the visible tiles, the `+N` tile keeps the highlight.
+- When the carousel holds `limit` images or fewer, the strip simply renders one tile per image and no `+N` tile appears.
+- The strip renders from the same Alpine state the slides use, so it follows the `shuffle` order and never drifts from the slides.
+- `round` applies to the tiles the same way it applies to the slides.
+- Tiles are `<button type="button">` elements labelled by the image `alt`, so they are reachable by keyboard.
 
 ## Clickable (Lightbox)
 
@@ -164,6 +199,17 @@ The main carousel position stays in sync with the lightbox: when the user closes
     x-on:collapse="console.log('Closed lightbox')" />
 ```
 
+## Configuration
+
+In `config/tallstackui.php` under `components.carousel`:
+
+| Option     | Type | Default | Description                                                     |
+|------------|------|---------|-----------------------------------------------------------------|
+| thumbnails | bool | false   | Renders the thumbnail strip below the slides by default         |
+| limit      | int  | 6       | Default maximum number of thumbnail tiles rendered by the strip |
+
+The inline props always win over the global defaults, so `:thumbnails="false"` hides the strip on a single carousel while the configuration keeps it on everywhere else.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
@@ -178,39 +224,48 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                                 | Purpose                                                          |
-|--------------------------------------------|------------------------------------------------------------------|
-| wrapper.first                              | Outer overflow container                                         |
-| wrapper.second                             | Inner relative container for slides                              |
-| images.wrapper.first                       | Absolute positioning for each slide                              |
-| images.wrapper.second                      | Overlay container with gradient background for title/description |
-| images.content.title                       | Slide title text styles                                          |
-| images.content.description                 | Slide description text styles                                    |
-| images.base                                | Image element base styles (object-cover, absolute positioning)   |
-| buttons.left.base                          | Left navigation button styles                                    |
-| buttons.left.icon.size                     | Left button icon dimensions                                      |
-| buttons.right.base                         | Right navigation button styles                                   |
-| buttons.right.icon.size                    | Right button icon dimensions                                     |
-| indicators.wrapper                         | Bottom indicator bar container                                   |
-| indicators.buttons.base                    | Individual indicator dot base styles                             |
-| indicators.buttons.current                 | Active indicator dot styles                                      |
-| indicators.buttons.inactive                | Inactive indicator dot styles                                    |
-| clickable.trigger                          | Button wrapping each slide when `clickable` is set               |
-| clickable.overlay                          | Fullscreen lightbox backdrop (teleported to body)                |
-| clickable.image                            | Expanded image inside the lightbox (no caption layout)           |
-| clickable.close.button                     | Lightbox close button                                            |
-| clickable.close.icon                       | Lightbox close icon dimensions                                   |
-| clickable.navigable.button.left.base       | Lightbox previous button (visible when `navigable` is set)       |
-| clickable.navigable.button.left.icon.size  | Lightbox previous button icon dimensions                         |
-| clickable.navigable.button.right.base      | Lightbox next button (visible when `navigable` is set)           |
-| clickable.navigable.button.right.icon.size | Lightbox next button icon dimensions                             |
-| clickable.caption.overlay.figure           | Figure container when `caption="overlay"`                        |
-| clickable.caption.overlay.image            | Image styles when `caption="overlay"`                            |
-| clickable.caption.overlay.wrapper          | Gradient caption wrapper anchored to the image bottom            |
-| clickable.caption.overlay.title            | Title styles inside the overlay caption                          |
-| clickable.caption.overlay.description      | Description styles inside the overlay caption                    |
-| clickable.caption.footer.figure            | Flex column container when `caption="footer"`                    |
-| clickable.caption.footer.image             | Image styles when `caption="footer"`                             |
-| clickable.caption.footer.wrapper           | Caption row sitting below the image                              |
-| clickable.caption.footer.title             | Title styles inside the footer caption                           |
-| clickable.caption.footer.description       | Description styles inside the footer caption                     |
+| Block Name                                 | Purpose                                                            |
+|--------------------------------------------|--------------------------------------------------------------------|
+| wrapper.first                              | Outer overflow container                                           |
+| wrapper.second                             | Inner relative container for slides                                |
+| images.wrapper.first                       | Absolute positioning for each slide                                |
+| images.wrapper.second                      | Overlay container with gradient background for title/description   |
+| images.content.title                       | Slide title text styles                                            |
+| images.content.description                 | Slide description text styles                                      |
+| images.base                                | Image element base styles (object-cover, absolute positioning)     |
+| buttons.left.base                          | Left navigation button styles                                      |
+| buttons.left.icon.size                     | Left button icon dimensions                                        |
+| buttons.right.base                         | Right navigation button styles                                     |
+| buttons.right.icon.size                    | Right button icon dimensions                                       |
+| indicators.wrapper                         | Bottom indicator bar container                                     |
+| indicators.buttons.base                    | Individual indicator dot base styles                               |
+| indicators.buttons.current                 | Active indicator dot styles                                        |
+| indicators.buttons.inactive                | Inactive indicator dot styles                                      |
+| thumbnails.wrapper                         | Thumbnail row rendered below the slides                            |
+| thumbnails.tile.base                       | Individual thumbnail tile container                                |
+| thumbnails.tile.size                       | Fixed thumbnail tile dimensions                                    |
+| thumbnails.tile.button                     | Button filling each thumbnail tile                                 |
+| thumbnails.tile.image                      | Thumbnail image styles                                             |
+| thumbnails.tile.current                    | Ring applied to the tile of the current slide                      |
+| thumbnails.tile.inactive                   | Ring applied to the tiles of the other slides                      |
+| thumbnails.remaining.tile                  | Muted `+N` tile replacing the last tile when images exceed `limit` |
+| thumbnails.remaining.text                  | `+N` tile text styles                                              |
+| clickable.trigger                          | Button wrapping each slide when `clickable` is set                 |
+| clickable.overlay                          | Fullscreen lightbox backdrop (teleported to body)                  |
+| clickable.image                            | Expanded image inside the lightbox (no caption layout)             |
+| clickable.close.button                     | Lightbox close button                                              |
+| clickable.close.icon                       | Lightbox close icon dimensions                                     |
+| clickable.navigable.button.left.base       | Lightbox previous button (visible when `navigable` is set)         |
+| clickable.navigable.button.left.icon.size  | Lightbox previous button icon dimensions                           |
+| clickable.navigable.button.right.base      | Lightbox next button (visible when `navigable` is set)             |
+| clickable.navigable.button.right.icon.size | Lightbox next button icon dimensions                               |
+| clickable.caption.overlay.figure           | Figure container when `caption="overlay"`                          |
+| clickable.caption.overlay.image            | Image styles when `caption="overlay"`                              |
+| clickable.caption.overlay.wrapper          | Gradient caption wrapper anchored to the image bottom              |
+| clickable.caption.overlay.title            | Title styles inside the overlay caption                            |
+| clickable.caption.overlay.description      | Description styles inside the overlay caption                      |
+| clickable.caption.footer.figure            | Flex column container when `caption="footer"`                      |
+| clickable.caption.footer.image             | Image styles when `caption="footer"`                               |
+| clickable.caption.footer.wrapper           | Caption row sitting below the image                                |
+| clickable.caption.footer.title             | Title styles inside the footer caption                             |
+| clickable.caption.footer.description       | Description styles inside the footer caption                       |
