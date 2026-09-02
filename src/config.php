@@ -266,7 +266,21 @@ return [
                 'start' => 0,
             ],
         ],
-        'carousel' => Components\Carousel\Component::class,
+        'carousel' => [
+            Components\Carousel\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Carousel Settings
+            |----------------------------------------------------------------------
+            | thumbnails: renders the thumbnail strip below the slides by default.
+            | limit: default number of thumbnail tiles rendered by the strip.
+            |
+            */
+            [
+                'thumbnails' => false,
+                'limit' => 6,
+            ],
+        ],
         'card' => [
             Components\Card\Component::class,
             /*

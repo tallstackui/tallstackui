@@ -14,7 +14,8 @@ export default (
   withoutLoop,
   shuffle,
   clickable,
-  navigable
+  navigable,
+  limit = 6
 ) => ({
   id: unique(),
   images: images,
@@ -64,6 +65,26 @@ export default (
   /** @return {Boolean} Whether this carousel is the topmost UI element. */
   get top_ui() {
     return top_ui_element(this.id);
+  },
+  /**
+   * The images that own a thumbnail tile, in slide order.
+   *
+   * @return {Array}
+   */
+  get tiles() {
+    return this.images.slice(0, limit);
+  },
+  /**
+   * Whether the tile at the given position represents the current slide.
+   * The +N tile stands for every slide without a tile of its own.
+   *
+   * @param {Number} index 0-based tile index.
+   * @return {Boolean}
+   */
+  highlighted(index) {
+    const position = index + 1;
+
+    return this.current === position || (position === limit && this.current > limit);
   },
   /**
    * Whether the lightbox can step backward from the current expanded image.
