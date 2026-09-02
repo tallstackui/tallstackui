@@ -47,6 +47,7 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 | navigable         | bool                    | null    | Adds prev/next arrow buttons and `←`/`→` keyboard shortcuts inside the lightbox so the user can step through every image without closing it. Requires `clickable`. Looping mirrors the carousel's own `withoutLoop` behavior — by default it wraps; with `withoutLoop` the buttons become disabled at the edges.                                           |
 | thumbnails        | bool\|null              | null    | Renders a left-aligned row of small square thumbnail tiles below the slides (between the slides and the `footer` slot). Clicking a tile jumps to that slide; the tile of the current slide is highlighted. Implies `withoutIndicators`. Falls back to the `thumbnails` configuration key (default `false`).                                                |
 | limit             | int\|null               | null    | Maximum number of thumbnail tiles. When the carousel holds more images than `limit`, the last tile becomes a muted `+N` tile counting every image from its own position onwards (`N = count($images) - $limit + 1`). Requires `thumbnails` and must be at least 2. Falls back to the `limit` configuration key (default `6`).                              |
+| withoutHighlight  | bool\|null              | null    | Renders every thumbnail tile with the inactive look, dropping the primary ring from the tile of the current slide. `aria-current` is still set. Requires `thumbnails`.                                                                                                                                                                                     |
 | caption           | string\|null            | null    | Renders the expanded image's `title` and `description` inside the lightbox. Accepts `overlay` (caption sits on top of the image, anchored to its bottom edge with a fade gradient) or `footer` (caption sits below the image on a separate row). Requires `clickable`. When the expanded image carries no title or description, the figcaption is skipped. |
 | wrapper           | string\|null            | null    | Custom CSS class for the slide container height (overrides default `min-h-[50svh]`)                                                                                                                                                                                                                                                                        |
 | header            | ComponentSlot\|null     | null    | Header slot content displayed above the carousel                                                                                                                                                                                                                                                                                                           |
@@ -79,6 +80,7 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 - The `navigable` requires `clickable` to be enabled.
 - The `limit` can only be used along with `thumbnails`.
 - The `limit` must be at least 2.
+- The `without-highlight` can only be used along with `thumbnails`.
 - The `round` must be a boolean or one of `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `full`.
 
 ## Autoplay
@@ -129,6 +131,12 @@ Add `thumbnails` to render a left-aligned row of small square tiles below the sl
 - Tiles are fixed-size squares (`h-16 w-16`, `h-20 w-20` from `sm`) separated by `gap-3`; the row never stretches to fill the width.
 - Clicking a tile moves the carousel to that slide and restarts the autoplay timer, exactly like the dot indicators.
 - The tile of the current slide carries a 2px primary ring and `aria-current="true"`; the other tiles carry a subtle gray ring.
+- Add `without-highlight` to drop the primary ring, so every tile shares the inactive look while `aria-current` keeps marking the current slide for assistive technology.
+
+```blade
+<x-carousel thumbnails without-highlight :images="$images" />
+```
+
 - `thumbnails` implies `withoutIndicators`: the strip already shows the position, so the bottom dots are hidden.
 - `limit` caps the number of tiles (default `6`). When the carousel holds more images than `limit`, the last tile becomes a muted `+N` tile counting every image without a tile of its own, itself included (`N = count($images) - $limit + 1`). Clicking it moves to the image under it (the `limit`-th image), and the arrows keep going from there. While the current slide sits beyond the visible tiles, the `+N` tile keeps the highlight.
 - When the carousel holds `limit` images or fewer, the strip simply renders one tile per image and no `+N` tile appears.
@@ -203,10 +211,11 @@ The main carousel position stays in sync with the lightbox: when the user closes
 
 In `config/tallstackui.php` under `components.carousel`:
 
-| Option     | Type | Default | Description                                                     |
-|------------|------|---------|-----------------------------------------------------------------|
-| thumbnails | bool | false   | Renders the thumbnail strip below the slides by default         |
-| limit      | int  | 6       | Default maximum number of thumbnail tiles rendered by the strip |
+| Option            | Type | Default | Description                                                                                                                                            |
+|-------------------|------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| thumbnails        | bool | false   | Renders the thumbnail strip below the slides by default                                                                                                |
+| limit             | int  | 6       | Default maximum number of thumbnail tiles rendered by the strip                                                                                        |
+| without-highlight | bool | false   | Drops the ring from the thumbnail of the current slide by default. Only read when the strip is rendered, so a carousel without `thumbnails` ignores it |
 
 The inline props always win over the global defaults, so `:thumbnails="false"` hides the strip on a single carousel while the configuration keeps it on everywhere else.
 
