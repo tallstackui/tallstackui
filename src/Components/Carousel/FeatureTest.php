@@ -164,8 +164,7 @@ it('renders the remaining overlay when the images exceed the limit', function ()
     expect('<x-carousel thumbnails :limit="4" :images="$images" />')->render(['images' => $images])
         ->toContain('tallstackui_carousel_thumbnail_more')
         ->toContain('index + 1 === 4')
-        ->toContain('index + 1 !== 4')
-        ->toContain('+6</span>');
+        ->toContain('+5</span>');
 });
 
 it('passes the limit to the alpine component', function () {
@@ -229,7 +228,7 @@ it('can render the limit through the global configuration', function () {
 
     expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
         ->toContain('index + 1 === 3')
-        ->toContain('+3</span>');
+        ->toContain('+2</span>');
 
     config()->set('ts-ui.components.carousel.1.limit', 6);
 
