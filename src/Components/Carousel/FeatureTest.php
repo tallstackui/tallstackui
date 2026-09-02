@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Carousel\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -135,4 +136,174 @@ it('cannot render with an invalid round', function () {
     $images = [['src' => 'a.jpg', 'alt' => 'a']];
 
     expect('<x-carousel round="foo" :images="$images" />')->render(['images' => $images]);
+});
+
+it('does not render the thumbnail strip by default', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->not->toContain('tallstackui_carousel_thumbnails')
+        ->not->toContain('tallstackui_carousel_thumbnail"');
+});
+
+it('renders the thumbnail strip with thumbnails', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->toContain('tallstackui_carousel_thumbnails')
+        ->toContain('tallstackui_carousel_thumbnail"')
+        ->toContain('x-for="(image, index) in tiles"')
+        ->toContain('seek(index + 1)')
+        ->toContain('aria-current')
+        ->not->toContain('tallstackui_carousel_thumbnail_more');
+});
+
+it('renders the remaining overlay when the images exceed the limit', function () {
+    $images = collect(range(1, 9))->map(fn (int $index) => ['src' => "{$index}.jpg", 'alt' => "image-{$index}"])->toArray();
+
+    expect('<x-carousel thumbnails :limit="4" :images="$images" />')->render(['images' => $images])
+        ->toContain('tallstackui_carousel_thumbnail_more')
+        ->toContain('index + 1 === 4')
+        ->toContain('index + 1 !== 4')
+        ->toContain('+6</span>');
+});
+
+it('passes the limit to the alpine component', function () {
+    $images = collect(range(1, 9))->map(fn (int $index) => ['src' => "{$index}.jpg", 'alt' => "image-{$index}"])->toArray();
+
+    expect('<x-carousel thumbnails :limit="4" :images="$images" />')->render(['images' => $images])
+        ->toContain(', 4)"');
+});
+
+it('does not render the remaining overlay when the images fit the limit', function () {
+    $images = collect(range(1, 6))->map(fn (int $index) => ['src' => "{$index}.jpg", 'alt' => "image-{$index}"])->toArray();
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->toContain('tallstackui_carousel_thumbnails')
+        ->not->toContain('tallstackui_carousel_thumbnail_more');
+});
+
+it('applies round to the thumbnail tiles', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel thumbnails round="full" :images="$images" />')->render(['images' => $images])
+        ->toContain('sm:w-20 rounded-full');
+});
+
+it('can render the thumbnails through the global configuration', function () {
+    config()->set('ts-ui.components.carousel.1.thumbnails', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->toContain('tallstackui_carousel_thumbnails');
+
+    config()->set('ts-ui.components.carousel.1.thumbnails', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can suppress the global thumbnails through the inline prop', function () {
+    config()->set('ts-ui.components.carousel.1.thumbnails', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel :thumbnails="false" :images="$images" />')->render(['images' => $images])
+        ->not->toContain('tallstackui_carousel_thumbnails');
+
+    config()->set('ts-ui.components.carousel.1.thumbnails', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can render the limit through the global configuration', function () {
+    config()->set('ts-ui.components.carousel.1.limit', 3);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $images = collect(range(1, 5))->map(fn (int $index) => ['src' => "{$index}.jpg", 'alt' => "image-{$index}"])->toArray();
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->toContain('index + 1 === 3')
+        ->toContain('+3</span>');
+
+    config()->set('ts-ui.components.carousel.1.limit', 6);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('cannot use limit without thumbnails', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [limit] can only be used along with [thumbnails].');
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel :limit="4" :images="$images" />')->render(['images' => $images]);
+});
+
+it('cannot use a limit lower than 2', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [limit] must be at least 2.');
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel thumbnails :limit="1" :images="$images" />')->render(['images' => $images]);
+});
+
+it('hides the indicators when thumbnails is set', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->toContain('seek(index + 1)')
+        ->toContain('rounded-full transition');
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->not->toContain('rounded-full transition');
+});
+
+it('can render the thumbnails without the highlight', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->toContain('ring-primary-500');
+
+    expect('<x-carousel thumbnails without-highlight :images="$images" />')->render(['images' => $images])
+        ->not->toContain('ring-primary-500')
+        ->toContain('ring-gray-200')
+        ->toContain('aria-current');
+});
+
+it('cannot use without-highlight without thumbnails', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [without-highlight] can only be used along with [thumbnails].');
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel without-highlight :images="$images" />')->render(['images' => $images]);
+});
+
+it('can render the thumbnails without the highlight through the global configuration', function () {
+    config()->set('ts-ui.components.carousel.1.without-highlight', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->not->toContain('ring-primary-500')
+        ->toContain('ring-gray-200');
+
+    expect('<x-carousel thumbnails :without-highlight="false" :images="$images" />')->render(['images' => $images])
+        ->toContain('ring-primary-500');
+
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->not->toContain('tallstackui_carousel_thumbnails');
+
+    config()->set('ts-ui.components.carousel.1.without-highlight', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
 });

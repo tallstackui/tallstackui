@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle), @js($clickable), @js($navigable))"
+<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle), @js($clickable), @js($navigable), @js($visible))"
      {{ $attributes->only(['x-on:next', 'x-on:previous', 'x-on:expand', 'x-on:collapse']) }}
      x-ref="carousel">
     @if ($header)
@@ -78,7 +78,7 @@
                 </div>
             </template>
         </div>
-        @if (!$withoutIndicators)
+        @if (!$withoutIndicators && !$thumbnails)
             <div class="{{ $customization['indicators.wrapper'] }}">
                 <template x-for="(image, index) in images">
                     <button class="{{ $customization['indicators.buttons.base'] }}"
@@ -90,6 +90,50 @@
             </div>
         @endif
     </div>
+    @if ($thumbnails)
+        <div class="{{ $customization['thumbnails.wrapper'] }}" dusk="tallstackui_carousel_thumbnails">
+            <template x-for="(image, index) in tiles" :key="index">
+                <div @class([
+                        $customization['thumbnails.tile.base'],
+                        $customization['thumbnails.tile.size'],
+                        ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round,
+                     ])
+                     @if ($withoutHighlight)
+                         class="{{ $customization['thumbnails.tile.inactive'] }}"
+                     @else
+                         x-bind:class="highlighted(index) ? '{{ $customization['thumbnails.tile.current'] }}' : '{{ $customization['thumbnails.tile.inactive'] }}'"
+                     @endif
+                     dusk="tallstackui_carousel_thumbnail">
+                    @if ($remaining > 0)
+                        <template x-if="index + 1 === {{ $visible }}">
+                            <button type="button"
+                                    class="{{ $customization['thumbnails.remaining.tile'] }}"
+                                    x-on:click="seek(index + 1)"
+                                    x-bind:aria-current="highlighted(index) ? 'true' : false"
+                                    dusk="tallstackui_carousel_thumbnail_more">
+                                <span class="{{ $customization['thumbnails.remaining.text'] }}">+{{ $remaining }}</span>
+                            </button>
+                        </template>
+                        <template x-if="index + 1 !== {{ $visible }}">
+                    @endif
+                            <button type="button"
+                                    class="{{ $customization['thumbnails.tile.button'] }}"
+                                    x-on:click="seek(index + 1)"
+                                    x-bind:aria-label="image.alt"
+                                    x-bind:aria-current="highlighted(index) ? 'true' : false">
+                                <img @class([$customization['thumbnails.tile.image'], ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                                     x-bind:src="image.src"
+                                     x-bind:alt="image.alt"
+                                     loading="lazy"
+                                     decoding="async" />
+                            </button>
+                    @if ($remaining > 0)
+                        </template>
+                    @endif
+                </div>
+            </template>
+        </div>
+    @endif
     @if ($footer)
         {{ $footer }}
     @endif

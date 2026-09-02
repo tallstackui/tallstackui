@@ -6,11 +6,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Runtime\Components\CarouselRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('carousel')]
+#[PassThroughRuntime(CarouselRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
@@ -25,6 +28,9 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $shuffle = null,
         public ?bool $clickable = null,
         public ?bool $navigable = null,
+        public ?bool $thumbnails = null,
+        public ?int $limit = null,
+        public ?bool $withoutHighlight = null,
         public ?string $caption = null,
         public ?string $wrapper = null,
         public ComponentSlot|string|null $header = null,
@@ -37,6 +43,12 @@ class Component extends TallStackUiComponent implements Customization
         $this->images = $this->images->toArray();
 
         $this->interval *= 1000;
+
+        $this->thumbnails ??= __ts_get_component_configuration(self::class, 'thumbnails') ?? false;
+
+        if ($this->thumbnails) {
+            $this->withoutHighlight ??= __ts_get_component_configuration(self::class, 'without-highlight') ?? false;
+        }
     }
 
     public function blade(): View
@@ -90,6 +102,21 @@ class Component extends TallStackUiComponent implements Customization
                     'base' => 'w-2 h-2 cursor-pointer rounded-full transition bg-dark-700 dark:bg-dark-300',
                     'current' => 'bg-dark-700 dark:bg-dark-300',
                     'inactive' => 'bg-dark-700/50 dark:bg-dark-300/50',
+                ],
+            ],
+            'thumbnails' => [
+                'wrapper' => 'mt-3 flex flex-wrap gap-3',
+                'tile' => [
+                    'base' => 'relative shrink-0 overflow-hidden',
+                    'size' => 'h-16 w-16 sm:h-20 sm:w-20',
+                    'button' => 'block h-full w-full cursor-pointer',
+                    'image' => 'h-full w-full object-cover text-slate-700 dark:text-dark-300',
+                    'current' => 'ring-2 ring-primary-500 dark:ring-primary-400',
+                    'inactive' => 'ring-1 ring-gray-200 transition hover:ring-gray-300 dark:ring-dark-600 dark:hover:ring-dark-500',
+                ],
+                'remaining' => [
+                    'tile' => 'flex h-full w-full cursor-pointer items-center justify-center bg-gray-100 text-gray-600 dark:bg-dark-700 dark:text-dark-300',
+                    'text' => 'text-sm font-medium',
                 ],
             ],
             'clickable' => [
@@ -148,6 +175,18 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->navigable && ! $this->clickable) {
             __ts_validation_exception($this, 'The [navigable] requires [clickable] to be enabled.');
+        }
+
+        if ($this->limit !== null && ! $this->thumbnails) {
+            __ts_validation_exception($this, 'The [limit] can only be used along with [thumbnails].');
+        }
+
+        if ($this->limit !== null && $this->limit < 2) {
+            __ts_validation_exception($this, 'The [limit] must be at least 2.');
+        }
+
+        if ($this->withoutHighlight && ! $this->thumbnails) {
+            __ts_validation_exception($this, 'The [without-highlight] can only be used along with [thumbnails].');
         }
 
         $rounded = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'];
