@@ -30,6 +30,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $navigable = null,
         public ?bool $thumbnails = null,
         public ?int $limit = null,
+        public ?bool $withoutHighlight = null,
         public ?string $caption = null,
         public ?string $wrapper = null,
         public ComponentSlot|string|null $header = null,
@@ -44,6 +45,10 @@ class Component extends TallStackUiComponent implements Customization
         $this->interval *= 1000;
 
         $this->thumbnails ??= __ts_get_component_configuration(self::class, 'thumbnails') ?? false;
+
+        if ($this->thumbnails) {
+            $this->withoutHighlight ??= __ts_get_component_configuration(self::class, 'without-highlight') ?? false;
+        }
     }
 
     public function blade(): View
@@ -178,6 +183,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->limit !== null && $this->limit < 2) {
             __ts_validation_exception($this, 'The [limit] must be at least 2.');
+        }
+
+        if ($this->withoutHighlight && ! $this->thumbnails) {
+            __ts_validation_exception($this, 'The [without-highlight] can only be used along with [thumbnails].');
         }
 
         $rounded = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'];

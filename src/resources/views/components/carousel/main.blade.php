@@ -98,7 +98,11 @@
                         $customization['thumbnails.tile.size'],
                         ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round,
                      ])
-                     x-bind:class="highlighted(index) ? '{{ $customization['thumbnails.tile.current'] }}' : '{{ $customization['thumbnails.tile.inactive'] }}'"
+                     @if ($withoutHighlight)
+                         class="{{ $customization['thumbnails.tile.inactive'] }}"
+                     @else
+                         x-bind:class="highlighted(index) ? '{{ $customization['thumbnails.tile.current'] }}' : '{{ $customization['thumbnails.tile.inactive'] }}'"
+                     @endif
                      dusk="tallstackui_carousel_thumbnail">
                     @if ($remaining > 0)
                         <template x-if="index + 1 === {{ $visible }}">

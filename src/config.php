@@ -274,11 +274,13 @@ return [
             |----------------------------------------------------------------------
             | thumbnails: renders the thumbnail strip below the slides by default.
             | limit: default number of thumbnail tiles rendered by the strip.
+            | without-highlight: drops the ring from the thumbnail of the current slide by default.
             |
             */
             [
                 'thumbnails' => false,
                 'limit' => 6,
+                'without-highlight' => false,
             ],
         ],
         'card' => [
