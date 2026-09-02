@@ -264,3 +264,46 @@ it('hides the indicators when thumbnails is set', function () {
     expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
         ->not->toContain('rounded-full transition');
 });
+
+it('can render the thumbnails without the highlight', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->toContain('ring-primary-500');
+
+    expect('<x-carousel thumbnails without-highlight :images="$images" />')->render(['images' => $images])
+        ->not->toContain('ring-primary-500')
+        ->toContain('ring-gray-200')
+        ->toContain('aria-current');
+});
+
+it('cannot use without-highlight without thumbnails', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [without-highlight] can only be used along with [thumbnails].');
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel without-highlight :images="$images" />')->render(['images' => $images]);
+});
+
+it('can render the thumbnails without the highlight through the global configuration', function () {
+    config()->set('ts-ui.components.carousel.1.without-highlight', true);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect('<x-carousel thumbnails :images="$images" />')->render(['images' => $images])
+        ->not->toContain('ring-primary-500')
+        ->toContain('ring-gray-200');
+
+    expect('<x-carousel thumbnails :without-highlight="false" :images="$images" />')->render(['images' => $images])
+        ->toContain('ring-primary-500');
+
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->not->toContain('tallstackui_carousel_thumbnails');
+
+    config()->set('ts-ui.components.carousel.1.without-highlight', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
