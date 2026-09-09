@@ -70,3 +70,9 @@ it('does not render the generator button while locked, but keeps the reveal', fu
         ->not->toContain('tallstackui_form_password_generate')
         ->toContain('tallstackui_form_password_reveal');
 })->with(['readonly', 'disabled']);
+
+it('binds the input type with the explicit x-bind syntax')
+    ->expect('<x-password />')
+    ->render()
+    ->toContain('x-bind:type="!show ? \'password\' : \'text\'"')
+    ->not->toContain('::type');
