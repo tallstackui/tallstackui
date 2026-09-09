@@ -10,7 +10,7 @@
                          :$label
                          :$hint
                          :$invalidate
-                         ::type="!show ? 'password' : 'text'"
+                         x-bind:type="!show ? 'password' : 'text'"
                          floatable
                          autocomplete="{{ $attributes->get('autocomplete', 'off') }}"
                          x-on:paste="paste($event)"

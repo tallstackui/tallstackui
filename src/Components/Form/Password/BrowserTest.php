@@ -318,6 +318,30 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_toggle_the_input_type_when_revealing(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $password = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-password dusk="input" wire:model="password" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertScript('document.querySelector("[dusk=input]").type === "password"')
+            ->click('@tallstackui_form_password_reveal')
+            ->waitUntil('document.querySelector("[dusk=input]").type === "text"')
+            ->click('@tallstackui_form_password_reveal')
+            ->waitUntil('document.querySelector("[dusk=input]").type === "password"');
+    }
+
+    #[Test]
     public function can_use_a_custom_generator_rule(): void
     {
         Livewire::visit(new class extends Component
