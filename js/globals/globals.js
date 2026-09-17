@@ -1,4 +1,4 @@
-import { event, error } from '../helpers';
+import { event, error, slug } from '../helpers';
 import copy from '../../src/Components/Clipboard/copy';
 import DialogInteraction from '../../src/Components/Dialog/frontend';
 import ToastInteraction from '../../src/Components/Toast/frontend';
@@ -7,24 +7,26 @@ window.$tsui = {
   /** Methods to open components by name. */
   open: {
     /** @param {String} name @return {void} */
-    modal: (name) => event(`modal:${name}-open`, null, false),
+    modal: (name) => event(`modal:${slug(name)}-open`, null, false),
     /** @param {String} name @return {void} */
-    slide: (name) => event(`slide:${name}-open`, null, false),
+    slide: (name) => event(`slide:${slug(name)}-open`, null, false),
     /** @param {String} name @return {void} */
-    select: (name) => event(`select:${name}-open`, null, false),
+    select: (name) => event(`select:${slug(name)}-open`, null, false),
     /** @param {String} id @return {void} */
-    commandPalette: (id = 'command-palette') => event(`command-palette:${id}-open`, null, false),
+    commandPalette: (id = 'command-palette') =>
+      event(`command-palette:${slug(id)}-open`, null, false),
   },
   /** Methods to close components by name. */
   close: {
     /** @param {String} name @return {void} */
-    modal: (name) => event(`modal:${name}-close`, null, false),
+    modal: (name) => event(`modal:${slug(name)}-close`, null, false),
     /** @param {String} name @return {void} */
-    slide: (name) => event(`slide:${name}-close`, null, false),
+    slide: (name) => event(`slide:${slug(name)}-close`, null, false),
     /** @param {String} name @return {void} */
-    select: (name) => event(`select:${name}-close`, null, false),
+    select: (name) => event(`select:${slug(name)}-close`, null, false),
     /** @param {String} id @return {void} */
-    commandPalette: (id = 'command-palette') => event(`command-palette:${id}-close`, null, false),
+    commandPalette: (id = 'command-palette') =>
+      event(`command-palette:${slug(id)}-close`, null, false),
   },
   /**
    * Copy arbitrary text to the clipboard. Resolves to whether the copy

@@ -270,6 +270,25 @@ export const lockable = (disabled = false, readonly = false) => ({
   },
 });
 
+/**
+ * Mirror of Laravel's Str::slug, the normalization the Blade side applies to
+ * the id before naming the open/close events. Without it a camel-cased id
+ * would never match its listener, since HTML lowercases attribute names.
+ *
+ * @param value {String}
+ * @return {String}
+ */
+export const slug = (value) =>
+  String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/_+/g, '-')
+    .replace(/@/g, '-at-')
+    .toLowerCase()
+    .replace(/[^-\p{L}\p{N}\s]+/gu, '')
+    .replace(/[-\s]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 /** @returns {string} */
 export const unique = () =>
   [...crypto.getRandomValues(new Uint8Array(12))]
