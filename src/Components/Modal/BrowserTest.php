@@ -241,6 +241,33 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_and_close_using_helper_with_camel_case_id(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal id="filterMenu">
+                        Foo bar
+                        <x-button dusk="close" x-on:click="$tsui.close.modal('filterMenu')">Close</x-button>
+                    </x-modal>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('filterMenu')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Foo bar')
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->click('@close')
+            ->waitUntilMissingText('Foo bar')
+            ->assertDontSee('Foo bar');
+    }
+
+    #[Test]
     public function can_open_and_see_footer(): void
     {
         Livewire::visit(new class extends Component
