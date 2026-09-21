@@ -1,5 +1,4 @@
 import { lockable, overflow } from '../../../../../js/helpers';
-import editor from '../editor';
 
 const readable = (bytes) => {
   if (!bytes) {
@@ -50,7 +49,6 @@ export default (options) => ({
   multiple: options.multiple,
   manual: options.manual,
   ...lockable(options.disabled, options.readonly),
-  ...editor(options.editor),
   limit: options.limit,
   config: options.config,
   i18n: options.i18n || {},
@@ -179,29 +177,22 @@ export default (options) => ({
     this.intake([...(event.dataTransfer?.files ?? [])]);
   },
 
-  async intake(list) {
+  intake(list) {
     const usable = this.multiple ? list : list.slice(0, 1);
 
-    // Sequential on purpose: the editor handles one image at a time.
+    // Single mode replaces whatever is there, aborting an upload in flight.
+    if (!this.multiple && usable.length && this.files.length) {
+      this.aborts.get(this.files[0].uuid)?.abort();
+      this.files = [];
+    }
+
     for (const raw of usable) {
-      await this.accept(raw);
+      this.accept(raw);
     }
   },
 
-  // Single mode replaces whatever is there, aborting an upload in flight.
-  // Called only once the newcomer is settled, so a cancelled edit leaves
-  // the previous file untouched.
-  replace() {
-    if (this.multiple || !this.files.length) {
-      return;
-    }
-
-    this.aborts.get(this.files[0].uuid)?.abort();
-    this.files = [];
-  },
-
-  describe(raw) {
-    return {
+  accept(raw) {
+    const file = {
       uuid: crypto.randomUUID(),
       raw,
       real_name: raw.name,
@@ -218,16 +209,14 @@ export default (options) => ({
       progress: 0,
       error: null,
     };
-  },
 
-  async accept(raw) {
     if (!acceptable(raw, this.config.accept)) {
-      return this.reject(this.describe(raw), 'mime', this.i18n.errors?.mime);
+      return this.reject(file, 'mime', this.i18n.errors?.mime);
     }
 
     if (this.config.max_size && raw.size > this.config.max_size * 1024 * 1024) {
       return this.reject(
-        this.describe(raw),
+        file,
         'size',
         (this.i18n.errors?.size ?? '').replace(':max', this.config.max_size)
       );
@@ -237,21 +226,11 @@ export default (options) => ({
 
     if (this.multiple && this.limit && future > this.limit) {
       return this.reject(
-        this.describe(raw),
+        file,
         'limit',
         (this.i18n.errors?.limit ?? '').replace(':max', this.limit)
       );
     }
-
-    const edited = await this.edit(raw);
-
-    if (!edited) {
-      return;
-    }
-
-    const file = this.describe(edited);
-
-    this.replace();
 
     this.files.push(file);
 
@@ -265,8 +244,6 @@ export default (options) => ({
   reject(file, reason, message) {
     file.status = 'rejected';
     file.error = message;
-
-    this.replace();
 
     this.files.push(file);
 

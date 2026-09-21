@@ -469,10 +469,7 @@ return [
             | toolbar_tooltip: displays a tooltip while hovering the toolbar buttons.
             | counters: displays the word and line counters in the footer.
             | min_height, max_height: the editable boundaries, in any CSS unit.
-            | upload: the constraints checked in the browser before uploading, and the
-            | image editor opened before the upload (editor: false, true, crop or rotate;
-            | aspect: the [width:height] crop ratio; quality: jpeg and webp compression;
-            | format: null keeps the original, or png, jpeg, webp).
+            | upload: the constraints checked in the browser before uploading.
             | sanitization: the whitelist applied to any pasted content.
             |
             */
@@ -497,10 +494,6 @@ return [
                 'upload' => [
                     'mimes' => ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
                     'max_size' => 5120,
-                    'editor' => false,
-                    'aspect' => null,
-                    'quality' => 0.92,
-                    'format' => null,
                 ],
                 'sanitization' => [
                     'allowed_tags' => [
@@ -1113,27 +1106,7 @@ return [
                 'invert' => false,
             ],
         ],
-        'upload' => [
-            Components\Form\Upload\Component::class,
-            [
-                /*
-                |----------------------------------------------------------------------
-                | Upload Global Settings
-                |----------------------------------------------------------------------
-                |
-                | editor: opens the image editor before uploading (Allowed: false, true, crop, rotate).
-                | aspect: locks the crop box to a ratio, in the [width:height] format (null = free).
-                | quality: controls the jpeg and webp compression of the edited image (0 to 1).
-                | format: forces the output format of the edited image (Allowed: null, png, jpeg, webp).
-                |
-                */
-                'editor' => false,
-                'aspect' => null,
-                'quality' => 0.92,
-                'format' => null,
-            ],
-        ],
-        'upload.editor' => Components\Form\Upload\Editor\Component::class,
+        'upload' => Components\Form\Upload\Component::class,
         'upload.async' => [
             Components\Form\Upload\Async\Component::class,
             [
@@ -1152,10 +1125,6 @@ return [
                 | tmp_directory: controls the directory, inside tmp_disk, used to stage the chunks.
                 | disk: controls the destination disk of the finalized files (allowed: any driver).
                 | keep: controls the seconds an unfinished upload is kept (discarded by tallstackui:async-upload:clear).
-                | editor: opens the image editor before uploading (Allowed: false, true, crop, rotate).
-                | aspect: locks the crop box to a ratio, in the [width:height] format (null = free).
-                | quality: controls the jpeg and webp compression of the edited image (0 to 1).
-                | format: forces the output format of the edited image (Allowed: null, png, jpeg, webp).
                 |
                 */
                 'chunk_size' => 2 * 1024 * 1024,
@@ -1168,10 +1137,6 @@ return [
                 'tmp_directory' => 'async-uploads',
                 'disk' => 'local',
                 'keep' => 60 * 60 * 6,
-                'editor' => false,
-                'aspect' => null,
-                'quality' => 0.92,
-                'format' => null,
             ],
         ],
         'reaction' => [

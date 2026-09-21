@@ -96,13 +96,6 @@ return [
             ],
         ],
         'invalid' => 'Er trad een validatiefout op.',
-        'editor' => [
-            'rotate_left' => 'Naar links draaien',
-            'rotate_right' => 'Naar rechts draaien',
-            'reset' => 'Herstellen',
-            'cancel' => 'Annuleren',
-            'apply' => 'Toepassen',
-        ],
     ],
 
     'upload_async' => [

@@ -4,7 +4,6 @@ namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
 use TallStackUi\Components\Editor\Component;
-use TallStackUi\Support\Miscellaneous\UploadEditorOptions;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class EditorRuntime extends AbstractRuntime
@@ -75,7 +74,6 @@ class EditorRuntime extends AbstractRuntime
                 'mimes' => $component->uploadMimes,
                 'max_size' => $component->uploadMaxSize,
                 'readable' => $this->readable($component->uploadMaxSize),
-                'editor' => $this->editor($id),
             ],
             // Slugged the same way the modal derives its open and close events.
             'dialogs' => [
@@ -94,20 +92,6 @@ class EditorRuntime extends AbstractRuntime
         }
 
         return array_values(array_diff($toolbar, self::MARKDOWN_INCOMPATIBLE));
-    }
-
-    private function editor(string $id): ?array
-    {
-        /** @var Component $component */
-        $component = $this->component;
-
-        if ($component->uploadProperty === null || $component->uploadMethod === null) {
-            return null;
-        }
-
-        $configuration = __ts_get_component_configuration(Component::class)['upload'] ?? [];
-
-        return (new UploadEditorOptions($component, $component->uploadEditor, $component->uploadAspect, $configuration, $id, $this->livewire))();
     }
 
     /** Flatten the toolbar into buttons and dividers the view can loop over. */

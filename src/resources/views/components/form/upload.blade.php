@@ -13,8 +13,7 @@
         @js($overflow),
         @js($closeAfterUpload),
         @js($disabled),
-        @js($readonly),
-        @js($editing))"
+        @js($readonly))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
      x-on:livewire-upload-finish="uploading = false"
@@ -61,9 +60,6 @@
         <span class="{{ $customization['invalid'] }}">
                 {{ trans('ts-ui::messages.upload.invalid') }}
             </span>
-    @endif
-    @if ($editing)
-        <x-dynamic-component :component="TallStackUi::prefix('upload.editor')" :$editing />
     @endif
     @if ($preview)
         <template x-teleport="body">

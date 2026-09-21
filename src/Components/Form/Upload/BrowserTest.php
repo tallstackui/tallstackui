@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Form;
 use Livewire\Livewire;
@@ -18,39 +17,6 @@ use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
-    #[Test]
-    public function can_cancel_the_editor_without_uploading(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            use WithFileUploads;
-
-            public mixed $photo = null;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    @if ($photo)
-                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
-                    @endif
-
-                    <x-upload label="Document" wire:model.live="photo" editor />
-                </div>
-                HTML;
-            }
-        })
-            ->click('@tallstackui_upload_input')
-            ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
-            ->waitFor('@tallstackui_upload_editor')
-            ->waitForUploadEditorCanvas()
-            ->click('@tallstackui_upload_editor_cancel')
-            ->waitUntilMissing('@tallstackui_upload_editor')
-            ->pause(500)
-            ->assertMissing('@uploaded');
-    }
-
     #[Test]
     public function can_close_after_upload(): void
     {
@@ -81,27 +47,6 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->assertNotVisible('@tallstackui_upload_floating');
-    }
-
-    #[Test]
-    public function can_crop_an_image_before_uploading(): void
-    {
-        Livewire::visit($this->editable())
-            ->click('@tallstackui_upload_input')
-            ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
-            ->waitFor('@tallstackui_upload_editor')
-            ->waitForUploadEditorCanvas()
-            // Dragging handles is not something the driver can promise, so
-            // the box is placed straight on the state: the left half.
-            ->tap(fn (Browser $browser) => $browser->script(
-                "const data = Alpine.\$data(document.querySelector('[dusk=tallstackui_upload_editor_crop]'));
-                 data.editor.crop = { x: 0, y: 0, width: data.editor.width / 2, height: data.editor.height };"
-            ))
-            ->click('@tallstackui_upload_editor_apply')
-            ->waitForTextIn('@uploaded', 'test.jpg')
-            ->waitForTextIn('@dims', 'x407')
-            ->assertDontSeeIn('@dims', '611x');
     }
 
     #[Test]
@@ -311,56 +256,6 @@ class BrowserTest extends BrowserTestCase
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForText('Foo Bar Baz')
             ->assertSee('Foo Bar Baz');
-    }
-
-    #[Test]
-    public function can_open_the_editor_of_the_right_upload_when_the_property_repeats(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            use WithFileUploads;
-
-            public mixed $photo = null;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <x-upload label="Crop" wire:model="photo" editor="crop" />
-                    <div dusk="second">
-                        <x-upload label="Rotate" wire:model="photo" editor="rotate" />
-                    </div>
-                </div>
-                HTML;
-            }
-        })
-            ->assertPresent('#upload-editor-photo')
-            ->assertPresent('#upload-editor-photo-2')
-            ->click('[dusk=second] [dusk=tallstackui_upload_input]')
-            ->waitForText('Click here to upload')
-            ->attach('[dusk=tallstackui_upload_floating]:not([style*="display: none"]) [dusk=tallstackui_file_select]', __DIR__.'/test.jpeg')
-            ->waitFor('#upload-editor-photo-2 [dusk=tallstackui_upload_editor]')
-            ->waitUntil("document.querySelector('#upload-editor-photo-2 [dusk=tallstackui_upload_editor_canvas]').width > 0")
-            ->assertVisible('#upload-editor-photo-2 [dusk=tallstackui_upload_editor_rotate_left]')
-            ->assertMissing('#upload-editor-photo [dusk=tallstackui_upload_editor]')
-            // An untouched canvas keeps the 300px default width: the first editor never painted.
-            ->assertScript("document.querySelector('#upload-editor-photo [dusk=tallstackui_upload_editor_canvas]').width", 300);
-    }
-
-    #[Test]
-    public function can_rotate_an_image_before_uploading(): void
-    {
-        Livewire::visit($this->editable())
-            ->click('@tallstackui_upload_input')
-            ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
-            ->waitFor('@tallstackui_upload_editor')
-            ->waitForUploadEditorCanvas()
-            ->assertSee('test.jpeg')
-            ->click('@tallstackui_upload_editor_rotate_right')
-            ->click('@tallstackui_upload_editor_apply')
-            ->waitForTextIn('@uploaded', 'test.jpg')
-            ->waitForTextIn('@dims', '407x611');
     }
 
     #[Test]
@@ -578,35 +473,6 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_skip_the_editor_for_documents(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            use WithFileUploads;
-
-            public mixed $document = null;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    @if ($document)
-                        <p dusk="uploaded">{{ $document->getClientOriginalName() }}</p>
-                    @endif
-
-                    <x-upload label="Document" wire:model.live="document" editor />
-                </div>
-                HTML;
-            }
-        })
-            ->click('@tallstackui_upload_input')
-            ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/test.pdf')
-            ->waitForTextIn('@uploaded', 'test.pdf')
-            ->assertMissing('@tallstackui_upload_editor');
-    }
-
-    #[Test]
     public function can_thrown_exception_if_property_bind_was_not_defined(): void
     {
         Livewire::visit(new class extends Component
@@ -620,19 +486,6 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })->assertSee('[TallStackUI] Form\Upload: The component requires a property to bind using [wire:model].');
-    }
-
-    #[Test]
-    public function can_upload_an_untouched_image_through_the_editor(): void
-    {
-        Livewire::visit($this->editable())
-            ->click('@tallstackui_upload_input')
-            ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
-            ->waitFor('@tallstackui_upload_editor')
-            ->waitForUploadEditorCanvas()
-            ->click('@tallstackui_upload_editor_apply')
-            ->waitForTextIn('@dims', '611x407');
     }
 
     #[Test]
@@ -924,37 +777,6 @@ class BrowserTest extends BrowserTestCase
             ->assertVisible('@upload')
             ->waitForTextIn('@upload', 'Upload')
             ->assertSeeIn('@upload', 'Upload');
-    }
-
-    private function editable(): Component
-    {
-        return new class extends Component
-        {
-            use WithFileUploads;
-
-            public mixed $photo = null;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    @if ($photo)
-                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
-                        <p dusk="dims">{{ $this->dimensions() }}</p>
-                    @endif
-
-                    <x-upload label="Document" wire:model.live="photo" editor />
-                </div>
-                HTML;
-            }
-
-            public function dimensions(): string
-            {
-                [$width, $height] = getimagesize($this->photo->getRealPath());
-
-                return "{$width}x{$height}";
-            }
-        };
     }
 }
 

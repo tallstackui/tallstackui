@@ -96,13 +96,6 @@ return [
             ],
         ],
         'invalid' => 'Terjadi kesalahan validasi.',
-        'editor' => [
-            'rotate_left' => 'Putar ke kiri',
-            'rotate_right' => 'Putar ke kanan',
-            'reset' => 'Atur ulang',
-            'cancel' => 'Batal',
-            'apply' => 'Terapkan',
-        ],
     ],
 
     'upload_async' => [

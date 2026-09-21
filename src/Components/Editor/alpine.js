@@ -1,5 +1,4 @@
 import { overflow } from '../../../js/helpers';
-import editor from '../Form/Upload/editor';
 import autoformat from './autoformat';
 import parse from './parse';
 import serialize from './serialize';
@@ -117,7 +116,6 @@ const compacted = (value) => String(value).replace(/\s/g, '').toLowerCase();
 const dangerous = (value) => /^(javascript|vbscript|data):/.test(compacted(value));
 
 export default (options) => ({
-  ...editor(options.upload?.editor ?? null),
   // Holds Markdown or HTML, whichever the component was told to store.
   content: options.entangle ?? options.value ?? '',
   empty: true,
@@ -1006,7 +1004,7 @@ export default (options) => ({
       .replace(/'/g, '&#39;');
   },
 
-  async uploadImage(file) {
+  uploadImage(file) {
     if (!file) {
       return;
     }
@@ -1024,14 +1022,6 @@ export default (options) => ({
 
       return;
     }
-
-    const edited = await this.edit(file);
-
-    if (!edited) {
-      return;
-    }
-
-    file = edited;
 
     this.uploading = true;
     this.uploadProgress = 0;

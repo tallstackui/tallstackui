@@ -73,7 +73,6 @@
 - [Toggle](components/form/toggle.md)
 - [Upload](components/form/upload.md) *(Livewire only)*
 - [Upload Async](components/form/upload/async.md)
-- [Upload Editor](components/form/upload/editor.md) *(internal, rendered by Upload, Upload Async and Editor)*
 
 ### Overlay & Interaction
 

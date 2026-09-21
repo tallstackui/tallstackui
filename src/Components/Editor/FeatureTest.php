@@ -510,12 +510,6 @@ it('cannot render a malformed inline prefix', function () {
     expect('<x-editor name="content" output-classes="Blog" />')->render();
 });
 
-it('cannot render the image editor without the upload attributes', function () {
-    expect('<x-editor name="content" upload-editor />')
-        ->render()
-        ->not->toContain('tallstackui_upload_editor');
-});
-
 it('can render the toolbar tooltips by default', function () {
     expect('<x-editor name="content" />')
         ->render()
