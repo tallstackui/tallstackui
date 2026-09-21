@@ -92,6 +92,7 @@ class BrowserTest extends BrowserTestCase
             HTML;
             }
         })
+            ->waitFor('@tallstackui_carousel_expand')
             ->click('@tallstackui_carousel_expand')
             ->pause(300)
             ->assertVisible('@tallstackui_carousel_close')
@@ -121,6 +122,7 @@ class BrowserTest extends BrowserTestCase
             HTML;
             }
         })
+            ->waitFor('@tallstackui_carousel_expand')
             ->click('@tallstackui_carousel_expand')
             ->pause(300)
             ->assertSee('Caption title in footer')
@@ -151,6 +153,7 @@ class BrowserTest extends BrowserTestCase
             HTML;
             }
         })
+            ->waitFor('@tallstackui_carousel_expand')
             ->click('@tallstackui_carousel_expand')
             ->pause(300)
             ->assertSee('Caption title in overlay')
@@ -232,6 +235,7 @@ class BrowserTest extends BrowserTestCase
             HTML;
             }
         })
+            ->waitFor('@tallstackui_carousel_expand')
             ->click('@tallstackui_carousel_expand')
             ->pause(300)
             ->assertVisible('@tallstackui_carousel_expanded_next')
