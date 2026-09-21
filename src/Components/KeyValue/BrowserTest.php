@@ -252,7 +252,7 @@ class BrowserTest extends BrowserTestCase
             ->assertPresent('@tallstackui_input_key')
             ->pause(100)
             ->click('@tallstackui_add_row_button')
-            ->assertNotVisible('@tallstackui_add_row_button');
+            ->waitUntilMissing('@tallstackui_add_row_button');
 
         $this->assertTrue(
             count(
