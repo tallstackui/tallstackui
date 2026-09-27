@@ -39,7 +39,7 @@ class Toast extends AbstractInteraction
     /**
      * Control the timeout seconds.
      */
-    protected ?int $timeout = 3;
+    protected ?int $timeout = null;
 
     /**
      * {@inheritdoc}
@@ -156,7 +156,7 @@ class Toast extends AbstractInteraction
      */
     public function timeout(?int $seconds = null): self
     {
-        $this->timeout = $seconds ?? (int) (__ts_get_component_configuration(Component::class, 'timeout') ?? 3);
+        $this->timeout = $seconds;
 
         return $this;
     }
@@ -184,7 +184,7 @@ class Toast extends AbstractInteraction
 
         return [
             'expandable' => $this->expand ?? $configuration['expandable'] ?? false,
-            'timeout' => $this->timeout,
+            'timeout' => $this->timeout ?? (int) ($configuration['timeout'] ?? 3),
             'persistent' => $this->persistent,
             'position' => $this->position ?? $configuration['position'] ?? 'top-right',
             'sole' => $this->sole,

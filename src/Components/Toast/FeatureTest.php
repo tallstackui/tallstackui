@@ -11,8 +11,11 @@ afterEach(function () {
     config()->set('ts-ui.components.toast.1.position', 'top-right');
     config()->set('ts-ui.components.toast.1.stacked', false);
     config()->set('ts-ui.components.toast.1.top-on-mobile', false);
+    config()->set('ts-ui.components.toast.1.timeout', 3);
 
     __ts_get_component_configuration(Component::class, flush: true);
+
+    session()->forget('ts-ui:toast');
 });
 
 it('can render')
@@ -121,4 +124,40 @@ it('tells the pile about top-on-mobile so it can flip its anchor', function () {
         ->render()
         ->toContain("tallstackui_toastBase(null, 'top-right', false, true, true)")
         ->toContain('max-md:justify-start');
+});
+
+it('uses the configured timeout when timeout() is not called', function () {
+    config()->set('ts-ui.components.toast.1.timeout', 60);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    (new Toast(null))->success('Test')->send();
+
+    expect(session()->get('ts-ui:toast')['timeout'])->toBe(60);
+});
+
+it('falls back to three seconds when the timeout is not configured', function () {
+    config()->set('ts-ui.components.toast.1.timeout', null);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    (new Toast(null))->success('Test')->send();
+
+    expect(session()->get('ts-ui:toast')['timeout'])->toBe(3);
+});
+
+it('uses the configured timeout when timeout() is called without seconds', function () {
+    config()->set('ts-ui.components.toast.1.timeout', 60);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    (new Toast(null))->success('Test')->timeout()->send();
+
+    expect(session()->get('ts-ui:toast')['timeout'])->toBe(60);
+});
+
+it('prefers the explicit timeout over the configured one', function () {
+    config()->set('ts-ui.components.toast.1.timeout', 60);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    (new Toast(null))->success('Test')->timeout(10)->send();
+
+    expect(session()->get('ts-ui:toast')['timeout'])->toBe(10);
 });
