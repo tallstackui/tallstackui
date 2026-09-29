@@ -47,7 +47,7 @@ export default (
     }
 
     if (this.model) {
-      this.selected = this.findByValue(this.model);
+      this.selected = this.resolve(this.model);
       this.search = this.selected ? this.selected.value : this.strict ? '' : this.model;
 
       if (this.strict && !this.selected) {
@@ -88,7 +88,7 @@ export default (
         return;
       }
 
-      const matched = this.findByValue(value);
+      const matched = this.resolve(value);
 
       this.selected = matched ?? this.selected;
       this.search = matched ? matched.value : this.strict ? '' : (value ?? '');
@@ -175,6 +175,23 @@ export default (
     }
 
     return this.items.find((item) => item.value === value) ?? null;
+  },
+
+  /**
+   * Resolve the item behind a value. A remote source has nothing loaded to
+   * look the value up in, so there the value itself stands as the item.
+   *
+   * @param {*} value
+   * @returns {Object|null}
+   */
+  resolve(value) {
+    const found = this.findByValue(value);
+
+    if (found || !this.request || value === null || value === undefined || value === '') {
+      return found;
+    }
+
+    return { value: value, description: null, image: null, disabled: false, metadata: null };
   },
 
   /**
