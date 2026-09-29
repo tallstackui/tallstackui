@@ -437,6 +437,74 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function strict_drops_a_value_missing_from_the_local_items(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $picked = 'Baz';
+
+            public int $synced = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked ?? 'null' }}</p>
+                    <p dusk="synced">{{ $synced }}</p>
+                    <x-autocomplete wire:model="picked" strict :items="[
+                        ['value' => 'Foo'],
+                        ['value' => 'Bar'],
+                    ]" />
+                    <button type="button" dusk="sync" wire:click="sync">Sync</button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->synced++;
+            }
+        })
+            ->assertInputValue('@tallstackui_autocomplete_input', '')
+            ->click('@sync')
+            ->waitForTextIn('@synced', '1')
+            ->assertSeeIn('@picked', 'null');
+    }
+
+    #[Test]
+    public function strict_keeps_the_server_value_on_a_remote_source(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $picked = 'et porro tempora';
+
+            public int $synced = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked ?? 'null' }}</p>
+                    <p dusk="synced">{{ $synced }}</p>
+                    <x-autocomplete wire:model="picked" strict request="/searchable-filtered" />
+                    <button type="button" dusk="sync" wire:click="sync">Sync</button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->synced++;
+            }
+        })
+            ->assertInputValue('@tallstackui_autocomplete_input', 'et porro tempora')
+            ->click('@sync')
+            ->waitForTextIn('@synced', '1')
+            ->assertSeeIn('@picked', 'et porro tempora')
+            ->assertInputValue('@tallstackui_autocomplete_input', 'et porro tempora');
+    }
+
+    #[Test]
     public function strict_reverts_input_on_blur_when_unmatched(): void
     {
         Livewire::visit(new class extends Component
@@ -465,5 +533,35 @@ class BrowserTest extends BrowserTestCase
             ->keys('@tallstackui_autocomplete_input', ['{ESCAPE}'])
             ->pause(300)
             ->assertInputValue('@tallstackui_autocomplete_input', '');
+    }
+
+    #[Test]
+    public function strict_shows_a_value_set_by_the_server_on_a_remote_source(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $picked = null;
+
+            public function load(): void
+            {
+                $this->picked = 'et porro tempora';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked ?? 'null' }}</p>
+                    <x-autocomplete wire:model="picked" strict request="/searchable-filtered" />
+                    <button type="button" dusk="load" wire:click="load">Load</button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertInputValue('@tallstackui_autocomplete_input', '')
+            ->click('@load')
+            ->waitForTextIn('@picked', 'et porro tempora')
+            ->pause(150)
+            ->assertInputValue('@tallstackui_autocomplete_input', 'et porro tempora');
     }
 }
