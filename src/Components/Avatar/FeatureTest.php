@@ -289,7 +289,24 @@ it('can point the gravatar at another model column', function () {
 it('can fall back to the letters when the gravatar is missing')
     ->expect('<x-avatar gravatar="aj@mail.com" text="AJ" />')
     ->render()
-    ->toContain('d='.urlencode('https://ui-avatars.com/api?name=AJ'));
+    ->toContain('d='.urlencode('https://ui-avatars.com/api/AJ/96/0D8ABC').'&amp;');
+
+it('cannot send the fallback parameters as a query string, which gravatar drops')
+    ->expect('<x-avatar gravatar="aj@mail.com" text="AJ" />')
+    ->render()
+    ->not
+    ->toContain(urlencode('https://ui-avatars.com/api?'));
+
+it('can fall back to the model name when the gravatar is missing', function () {
+    expect('<x-avatar :model="$user" gravatar />')
+        ->render(['user' => avatar_model(['name' => 'João Silva', 'email' => 'aj@mail.com'])])
+        ->toContain('d='.urlencode('https://ui-avatars.com/api/'.rawurlencode('João Silva').'/96/0D8ABC').'&amp;');
+});
+
+it('can send a hex color to the gravatar fallback')
+    ->expect('<x-avatar gravatar="aj@mail.com" text="AJ" color="fff" />')
+    ->render()
+    ->toContain('d='.urlencode('https://ui-avatars.com/api/AJ/96/0D8ABC/fff').'&amp;');
 
 it('can fall back to the gravatar default without a name')
     ->expect('<x-avatar gravatar="aj@mail.com" />')
