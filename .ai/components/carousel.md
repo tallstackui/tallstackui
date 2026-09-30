@@ -92,6 +92,8 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 <x-carousel :images="$images" autoplay interval="2" />
 ```
 
+The timer stops when the carousel leaves the page, through a Livewire re-render or a `wire:navigate` visit.
+
 ## Cover Image
 
 Set a specific image as the initial cover:
