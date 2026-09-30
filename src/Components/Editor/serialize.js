@@ -103,6 +103,13 @@ const list = (node, depth) => {
   let index = 1;
 
   for (const item of node.children) {
+    // The browser nests an indented item as a sibling of the <li>, not inside it.
+    if (item.tagName === 'UL' || item.tagName === 'OL') {
+      lines.push(list(item, depth + 1));
+
+      continue;
+    }
+
     if (item.tagName !== 'LI') {
       continue;
     }
