@@ -52,8 +52,11 @@ class EditorRuntime extends AbstractRuntime
         $this->validateUpload();
 
         // This component also renders outside of Livewire, where there is no
-        // component to read from.
-        $value = $property && $this->wireable() ? $this->property($property) : $component->attributes->get('value');
+        // component to read from. Blade escapes a bound or echoed attribute
+        // before it gets here, so the markup has to be decoded back.
+        $value = $property && $this->wireable()
+            ? $this->property($property)
+            : htmlspecialchars_decode((string) $component->attributes->get('value'), ENT_QUOTES);
 
         // The keys below avoid the component property names: a public property
         // shadows a runtime key of the same name.
