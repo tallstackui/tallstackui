@@ -173,6 +173,19 @@ regardless of locale.
 > `mutate` and `decimal` are mutually exclusive. Setting both raises a
 > validation exception at render time.
 
+#### Initial value and server changes
+
+The value the component sends is not reformatted when it comes back in the same
+response: a typed `int` or `float` property returns it as a number, and that echo is
+ignored, so the digits are not read again as units and `wire:model.live` does not keep
+sending requests. A different value set on the server, such as `$this->reset('price')`
+or a value loaded by an edit action, still reaches the input.
+
+Values coming from the server are read by type: a number is taken as units (`1041.3`
+displays `1,041.30`) and a string goes through the reading of the mode (`"1000"` displays
+`10.00` in the default mode). An integer cents column bound to an `int` property therefore
+displays as units; keep the property a string to display it as cents.
+
 #### Global defaults
 
 If most components in your application need the same mode, set it once in
