@@ -1,7 +1,7 @@
 import { lockable } from '../../../../js/helpers';
 import { close, open } from '../../Tooltip/alpine';
 
-export default (model, initial, min, max, step, disabled, readonly, tooltip) => ({
+export default (model, initial, min, max, step, disabled, readonly, tooltip, livewire = false) => ({
   model: model,
   start: initial[0],
   end: initial[1],
@@ -69,7 +69,7 @@ export default (model, initial, min, max, step, disabled, readonly, tooltip) => 
       close(this.$refs.tooltipEnd);
     }
 
-    if (this.model === null) {
+    if (!livewire) {
       return;
     }
 

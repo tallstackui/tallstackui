@@ -5,7 +5,7 @@
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint
                      :$invalidate :wrapper="$customization['input.wrapper']">
     @if ($dual)
-        <div x-data="tallstackui_formRange({!! $entangle !!}, @js($initial), @js($min), @js($max), @js($step), @js($disabled), @js($readonly), @js($tooltip))"
+        <div x-data="tallstackui_formRange({!! $entangle !!}, @js($initial), @js($min), @js($max), @js($step), @js($disabled), @js($readonly), @js($tooltip), @js($livewire))"
              {{ $attributes->except('name')->whereDoesntStartWith('wire:model')->class([
                     $customization['dual.wrapper.base'],
                     $customization['dual.wrapper.sizes.' . $size],
