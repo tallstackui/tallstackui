@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Form\Autocomplete\Component;
 use TallStackUi\Components\Spinner\Component as Spinner;
@@ -242,4 +245,24 @@ it('cannot use an invalid indicator', function () {
     $this->expectExceptionMessage('The [indicator] must be [spinner] or [spinner.{type}]');
 
     expect('<x-autocomplete request="https://api.example.com/cities" indicator="spinner.foo" />')->render();
+});
+
+it('can render the validation error of a named field', function () {
+    $errors = new ViewErrorBag;
+    $errors->put('default', new MessageBag(['city' => 'The city field is required.']));
+
+    View::share('errors', $errors);
+
+    expect('<x-autocomplete name="city" :items="[[\'value\' => \'São Paulo\']]" />')->render()
+        ->toContain('The city field is required.');
+});
+
+it('cannot render the validation error of a named field when invalidated', function () {
+    $errors = new ViewErrorBag;
+    $errors->put('default', new MessageBag(['city' => 'The city field is required.']));
+
+    View::share('errors', $errors);
+
+    expect('<x-autocomplete name="city" :items="[[\'value\' => \'São Paulo\']]" invalidate />')->render()
+        ->not->toContain('The city field is required.');
 });

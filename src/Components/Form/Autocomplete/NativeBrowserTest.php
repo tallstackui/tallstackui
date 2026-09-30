@@ -71,6 +71,15 @@ class NativeBrowserTest extends BrowserTestCase
             ->assertScript("document.getElementsByName('state')[0].value", 'Pernambuco'));
     }
 
+    #[Test]
+    public function submits_the_value_given_upfront_on_a_strict_remote_source(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-autocomplete')
+            ->waitFor('@tallstackui_autocomplete_input')
+            ->pause(500)
+            ->assertScript("document.getElementsByName('country')[0].value", 'et porro tempora'));
+    }
+
     /** @param  Router  $router */
     protected function defineWebRoutes($router): void
     {
@@ -87,6 +96,7 @@ class NativeBrowserTest extends BrowserTestCase
             <form method="GET" action="/native-autocomplete/result">
                 <x-autocomplete name="city" :items="['Recife', 'Olinda', 'Caruaru']" clearable />
                 <x-autocomplete name="state" :items="['Pernambuco', 'Bahia']" value="Pernambuco" />
+                <x-autocomplete name="country" request="/searchable-filtered" value="et porro tempora" strict />
 
                 <button type="submit" dusk="submit">Send</button>
             </form>

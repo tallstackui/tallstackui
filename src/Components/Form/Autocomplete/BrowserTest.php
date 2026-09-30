@@ -2,6 +2,8 @@
 
 namespace TallStackUi\Components\Form\Autocomplete;
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -151,6 +153,38 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_the_server_value_on_a_remote_source(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $picked = 'et porro tempora';
+
+            public int $synced = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked ?? 'null' }}</p>
+                    <p dusk="synced">{{ $synced }}</p>
+                    <x-autocomplete wire:model="picked" request="/searchable-filtered" />
+                    <button type="button" dusk="sync" wire:click="sync">Sync</button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->synced++;
+            }
+        })
+            ->assertInputValue('@tallstackui_autocomplete_input', 'et porro tempora')
+            ->click('@sync')
+            ->waitForTextIn('@synced', '1')
+            ->assertSeeIn('@picked', 'et porro tempora');
+    }
+
+    #[Test]
     public function can_navigate_with_arrow_keys_and_pick_with_enter(): void
     {
         Livewire::visit(new class extends Component
@@ -279,6 +313,80 @@ class BrowserTest extends BrowserTestCase
             ->pause(300)
             ->assertSee('Bob')
             ->assertDontSee('Alice');
+    }
+
+    #[Test]
+    public function can_send_the_request_params(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :request="[
+                        'url' => '/searchable-echoing-parameters',
+                        'params' => ['raw' => 'foo'],
+                    ]" select="value:label" />
+                </div>
+                HTML;
+            }
+        })
+            ->type('@tallstackui_autocomplete_input', 'raw')
+            ->waitForText('raw:foo')
+            ->assertSee('raw:foo');
+    }
+
+    #[Test]
+    public function can_send_the_request_params_through_post(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete :request="[
+                        'url' => '/autocomplete-echoing-parameters',
+                        'method' => 'post',
+                        'params' => ['raw' => 'foo'],
+                    ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->type('@tallstackui_autocomplete_input', 'raw')
+            ->waitForText('raw:foo search:raw')
+            ->assertSee('raw:foo search:raw');
+    }
+
+    #[Test]
+    public function can_show_the_validation_error(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-autocomplete wire:model="city" :items="[
+                        ['value' => 'Foo'],
+                    ]" />
+                    <button type="button" dusk="save" wire:click="save">Save</button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->validate(['city' => 'required']);
+            }
+        })
+            ->click('@save')
+            ->waitForText('The city field is required.')
+            ->assertSee('The city field is required.');
     }
 
     #[Test]
@@ -563,5 +671,15 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@picked', 'et porro tempora')
             ->pause(150)
             ->assertInputValue('@tallstackui_autocomplete_input', 'et porro tempora');
+    }
+
+    /** @param  Router  $router */
+    protected function defineWebRoutes($router): void
+    {
+        parent::defineWebRoutes($router);
+
+        $router->post('/autocomplete-echoing-parameters', fn (Request $request): array => [
+            ['value' => 'raw:'.$request->input('raw', 'none').' search:'.$request->input('search', 'none')],
+        ]);
     }
 }
