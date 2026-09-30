@@ -68,6 +68,8 @@
                          offset="-24"
                          x-show="show"
                          x-anchor="$refs.button"
+                         x-on:pointerenter="$refs.dropdown.dispatchEvent(new PointerEvent('pointerenter', { pointerType: $event.pointerType }))"
+                         x-on:pointerleave="$refs.dropdown.dispatchEvent(new PointerEvent('pointerleave', { pointerType: $event.pointerType }))"
                          x-bind:data-tsui-dropdown-size="size"
                          x-bind:data-tsui-dropdown-width="width"
                          role="submenu">
