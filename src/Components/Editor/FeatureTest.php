@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Js;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Editor\Component;
 use TallStackUi\Facades\TallStackUi;
@@ -531,3 +532,14 @@ it('can render without the toolbar tooltips', function () {
 
     __ts_get_component_configuration(Component::class, flush: true);
 });
+
+it('can render an initial value bound from a variable', function (string $component) {
+    $value = "<p>Hello <strong>world</strong>, it's fine</p>";
+
+    expect($component)
+        ->render(['value' => $value])
+        ->toContain('value: '.Js::from($value).',');
+})->with([
+    'bound attribute' => '<x-editor name="content" :value="$value" />',
+    'echoed attribute' => '<x-editor name="content" value="{{ $value }}" />',
+]);
