@@ -205,6 +205,73 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_follow_a_reset_of_the_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [['key' => 'foo', 'value' => 'bar']];
+
+            public function clean(): void
+            {
+                $this->metadata = [];
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="metadata">@json($metadata)</p>
+
+                    <x-key-value wire:model="metadata" />
+
+                    <x-button dusk="clean" wire:click="clean">Clean</x-button>
+                    <x-button dusk="sync" wire:click="$refresh">Sync</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_input_key', 'foo')
+            ->waitForLivewire()->click('@clean')
+            ->assertNotPresent('@tallstackui_input_key')
+            ->click('@tallstackui_add_row_button')
+            ->waitFor('@tallstackui_input_key')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@metadata', '[{"key":"","value":""}]');
+    }
+
+    #[Test]
+    public function can_follow_a_value_set_by_the_server(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function load(): void
+            {
+                $this->metadata = [['key' => 'foo', 'value' => 'bar']];
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" />
+
+                    <x-button dusk="load" wire:click="load">Load</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertNotPresent('@tallstackui_input_key')
+            ->waitForLivewire()->click('@load')
+            ->waitFor('@tallstackui_input_key')
+            ->assertInputValue('@tallstackui_input_key', 'foo')
+            ->assertInputValue('@tallstackui_input_value', 'bar');
+    }
+
+    #[Test]
     public function can_see_header(): void
     {
         Livewire::visit(new class extends Component
@@ -226,6 +293,32 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertSee('No rows added.')
             ->assertSee('FooBarBazBah');
+    }
+
+    #[Test]
+    public function can_send_an_edit_without_pressing_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [['key' => 'foo', 'value' => 'bar']];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="metadata">@json($metadata)</p>
+
+                    <x-key-value wire:model="metadata" />
+
+                    <x-button dusk="sync" wire:click="$refresh">Sync</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@tallstackui_input_value', 'baz')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@metadata', '[{"key":"foo","value":"baz"}]');
     }
 
     #[Test]
@@ -354,6 +447,31 @@ class BrowserTest extends BrowserTestCase
             ->pause(100)
             ->assertDontSee('No rows added.')
             ->assertNotPresent('@tallstackui_delete_row_button');
+    }
+
+    #[Test]
+    public function cannot_send_the_row_index_to_the_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [['key' => 'foo', 'value' => 'bar']];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="metadata">@json($metadata)</p>
+
+                    <x-key-value wire:model="metadata" />
+
+                    <x-button dusk="sync" wire:click="$refresh">Sync</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@metadata', '[{"key":"foo","value":"bar"}]');
     }
 
     #[Test]
