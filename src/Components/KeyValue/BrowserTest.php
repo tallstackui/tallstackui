@@ -349,19 +349,19 @@ class BrowserTest extends BrowserTestCase
 
         $this->assertTrue(
             count(
-                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[3]/div/div[2]/div[3]'))
+                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[1]/div/div[2]/div[3]'))
             ) > 0
         );
 
         $this->assertTrue(
             count(
-                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[3]/div/div[2]/div[4]'))
+                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[1]/div/div[2]/div[4]'))
             ) == 0
         );
 
         $this->assertTrue(
             count(
-                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[3]/div/div[2]/div[5]'))
+                $browser->driver->findElements(WebDriverBy::xpath('//html/body/div[1]/div/div[2]/div[5]'))
             ) == 0
         );
     }
