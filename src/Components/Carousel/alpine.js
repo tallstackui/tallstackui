@@ -56,6 +56,8 @@ export default (
    * @return {void}
    */
   destroy() {
+    clearInterval(this.interval);
+
     unregister_ui_element(this.id);
 
     if (window.__tsui_elements.length === 0) {
