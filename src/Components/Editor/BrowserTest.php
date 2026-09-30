@@ -720,6 +720,41 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_backslash_inside_inline_code_booted_from_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = 'Match `\d+\.\d+` inside `App\\Models` here';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->assertScript("document.querySelectorAll('[dusk=tallstackui_editor_editable] code')[0].textContent", '\d+\.\d+')
+            ->assertScript("document.querySelectorAll('[dusk=tallstackui_editor_editable] code')[1].textContent", 'App\\Models')
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                const range = document.createRange();
+                range.selectNodeContents(editable.querySelector('p'));
+                range.collapse(false);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                editable.focus();
+            JS))
+            ->pause(300)
+            ->keys('@tallstackui_editor_editable', '!')
+            ->pause(700)
+            ->assertScript('Livewire.first().content', 'Match `\d+\.\d+` inside `App\\Models` here!');
+    }
+
+    #[Test]
     public function can_keep_a_nested_list_booted_from_markdown_after_an_edit(): void
     {
         Livewire::visit(new class extends LivewireComponent
