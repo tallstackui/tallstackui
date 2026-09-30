@@ -43,12 +43,12 @@ $button = 'inline-flex cursor-pointer select-none items-center gap-1 px-1 py-2 t
         @endif
         @if ($finish)
             @if ($finish instanceof \Illuminate\View\ComponentSlot)
-                <div x-show="selected === steps.length">
+                <div x-show="parseInt(selected) === steps.length">
                     {{ $finish }}
                 </div>
             @else
                 <button type="button"
-                        x-show="selected === steps.length"
+                        x-show="parseInt(selected) === steps.length"
                         x-on:click="$el.dispatchEvent(new CustomEvent('finish', {detail: {step: selected}}))"
                         dusk="tallstackui_step_finish"
                         {{ $attributes->only('x-on:finish') }}

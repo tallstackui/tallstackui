@@ -18,12 +18,12 @@ $finishButton = 'inline-flex cursor-pointer select-none items-center rounded-lg 
 <div class="{{ $wrapper }}" {{ $attributes->only('x-on:change') }} x-ref="buttons">
     @if ($finish)
         @if ($finish instanceof \Illuminate\View\ComponentSlot)
-            <div x-show="selected === steps.length">
+            <div x-show="parseInt(selected) === steps.length">
                 {{ $finish }}
             </div>
         @else
             <button type="button"
-                    x-show="selected === steps.length"
+                    x-show="parseInt(selected) === steps.length"
                     x-on:click="$el.dispatchEvent(new CustomEvent('finish', {detail: {step: selected}}))"
                     dusk="tallstackui_step_finish"
                     {{ $attributes->only('x-on:finish') }}
