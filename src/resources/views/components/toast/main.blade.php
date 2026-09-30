@@ -2,6 +2,7 @@
     $customization = $classes();
 @endphp
 
+<template x-teleport="body" x-data>
 <div x-cloak
      x-data="tallstackui_toastBase(@js(session()->pull('ts-ui:toast')), @js($configurations['position']), @js($ts_ui__flash), @js($configurations['stacked']), @js($configurations['top-on-mobile']))"
      x-on:ts-ui:toast.window="add($event)"
@@ -146,3 +147,4 @@
     </template>
     </div>
 </div>
+</template>
