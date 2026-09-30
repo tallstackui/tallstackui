@@ -52,6 +52,12 @@ export default (
 
       this.format(value);
 
+      // In the default mode a number set by the server is read as units, so
+      // syncing it back would send the digits as cents, a hundred times more.
+      if (typeof value === 'number' && !this.decimal && !this.mutate) {
+        return;
+      }
+
       this.sync();
     });
 
