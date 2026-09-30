@@ -510,7 +510,7 @@ export default (
 
       this._abort = new AbortController();
 
-      const params = this.$refs.params ? JSON.parse(this.$refs.params.textContent || '{}') : {};
+      const params = this.$refs.params ? Alpine.evaluate(this, this.$refs.params.textContent) : {};
 
       const url = new URL(this.request.url, window.location.origin);
       const init = { signal: this._abort.signal, headers: headers() };
