@@ -58,8 +58,7 @@
                              offset="5"
                              :$position
                              x-anchor="$refs.dropdown"
-                             x-on:pointerenter="enter($event)"
-                             x-on:pointerleave="leave($event)"
+                             {{ $attributes->only([])->merge($hover ? ['x-on:pointerenter' => 'enter($event)', 'x-on:pointerleave' => 'leave($event)'] : []) }}
                              role="menu"
                              :data-tsui-dropdown-size="$size"
                              :data-tsui-dropdown-width="$width">
