@@ -12,6 +12,50 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_release_the_escape_key_when_removed_while_open(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [1, 2];
+
+            public function delete(int $row): void
+            {
+                $this->rows = array_values(array_diff($this->rows, [$row]));
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @foreach ($rows as $row)
+                        <div wire:key="row-{{ $row }}" dusk="row-{{ $row }}">
+                            <x-dropdown text="Row {{ $row }}">
+                                <x-dropdown.items text="Delete {{ $row }}" wire:click="delete({{ $row }})" dusk="delete-{{ $row }}" />
+                            </x-dropdown>
+                        </div>
+                    @endforeach
+
+                    <x-modal id="test-modal" title="Modal Title">
+                        Modal body
+                    </x-modal>
+
+                    <x-button dusk="open-modal" x-on:click="$tsui.open.modal('test-modal')">Open Modal</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@row-1 [dusk="tallstackui_open_dropdown"]')
+            ->waitForText('Delete 1')
+            ->waitForLivewire()->click('@delete-1')
+            ->waitUntilMissing('@row-1')
+            ->click('@open-modal')
+            ->waitForText('Modal body')
+            ->keys('', '{escape}')
+            ->waitUntilMissingText('Modal body')
+            ->assertDontSee('Modal body');
+    }
+
+    #[Test]
     public function does_not_lock_the_body_when_the_configuration_is_off(): void
     {
         Livewire::visit(new class extends Component
