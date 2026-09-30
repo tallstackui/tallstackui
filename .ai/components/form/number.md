@@ -25,20 +25,20 @@ A numeric input component with increment/decrement buttons, configurable min/max
 
 ## Attributes
 
-| Attribute   | Type                        | Default | Description                                                                                                               |
-|-------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------------------------------|
-| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                      |
-| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                       |
-| min         | int\|null                   | null    | Minimum allowed value                                                                                                     |
-| max         | int\|null                   | null    | Maximum allowed value                                                                                                     |
-| delay       | int\|null                   | null    | Press-and-hold repeat interval (`delay * 100ms`, lower is faster; falls back to the global configuration, `2` by default) |
-| selectable  | bool\|null                  | null    | Prevents keyboard input, allowing only button-based changes                                                               |
-| chevron     | bool\|null                  | null    | Uses chevron (up/down) icons instead of plus/minus icons                                                                  |
-| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this input                                                              |
-| centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides                                                               |
-| step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode                                                    |
-| disabled    | bool                        | false   | Locks the input and both steppers. The value is not submitted.                                                            |
-| readonly    | bool                        | false   | Locks the input and both steppers. The value is still submitted.                                                          |
+| Attribute   | Type                        | Default | Description                                                                                                                        |
+|-------------|-----------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|
+| label       | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                               |
+| hint        | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                                |
+| min         | int\|null                   | null    | Minimum allowed value                                                                                                              |
+| max         | int\|null                   | null    | Maximum allowed value                                                                                                              |
+| delay       | int\|null                   | null    | Press-and-hold repeat interval (`delay * 100ms`, lower is faster; falls back to the global configuration, `2` by default)          |
+| selectable  | bool\|null                  | null    | Prevents keyboard input, allowing only button-based changes. The `Tab` key still moves the focus through the input and the buttons |
+| chevron     | bool\|null                  | null    | Uses chevron (up/down) icons instead of plus/minus icons                                                                           |
+| invalidate  | bool\|null                  | null    | Prevents displaying validation error messages for this input                                                                       |
+| centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides                                                                        |
+| step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode                                                             |
+| disabled    | bool                        | false   | Locks the input and both steppers. The value is not submitted.                                                                     |
+| readonly    | bool                        | false   | Locks the input and both steppers. The value is still submitted.                                                                   |
 
 ## Additional Options
 
