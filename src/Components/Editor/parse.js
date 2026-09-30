@@ -19,12 +19,14 @@ const inline = (text) => {
   const shelf = [];
   const park = (html) => `${OPEN}${shelf.push(html) - 1}${CLOSE}`;
 
-  // Backslash escapes are shelved before anything can read them as syntax, and
-  // code spans before the emphasis pass, so a marker inside code survives.
+  // Code spans and backslash escapes are shelved in a single pass, from left to
+  // right, before anything can read them as syntax: a marker inside code
+  // survives, and so does a backslash, which is literal in there.
   const output = escapeHtml(
-    String(text).replace(/\\([\\`*_[\]#>~\-+.!()])/g, (_, character) => park(escapeHtml(character)))
+    String(text).replace(/(`+)([^`]+?)\1|\\([\\`*_[\]#>~\-+.!()])/g, (_, fence, code, character) =>
+      park(fence ? `<code>${escapeHtml(code)}</code>` : escapeHtml(character))
+    )
   )
-    .replace(/(`+)([^`]+?)\1/g, (_, __, code) => park(`<code>${code}</code>`))
     .replace(/!\[([^\]]*)]\(([^)\s]+)\)/g, '<img src="$2" alt="$1" />')
     .replace(/\[([^\]]+)]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
     .replace(/(\*\*|__)(?=\S)([\s\S]*?\S)\1/g, '<strong>$2</strong>')
