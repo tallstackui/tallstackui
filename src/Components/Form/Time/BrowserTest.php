@@ -297,6 +297,82 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_start_with_the_current_time_after_midnight_when_required(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <script>
+                        window.Date = class extends Date {
+                            constructor(...args) {
+                                args.length === 0 ? super(2024, 0, 15, 0, 30, 0) : super(...args);
+                            }
+                        };
+                    </script>
+
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" wire:model="time" required />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_time_input', '12:30 AM')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@time', '12:30 AM');
+    }
+
+    #[Test]
+    public function can_start_with_the_current_time_in_the_afternoon_when_required(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <script>
+                        window.Date = class extends Date {
+                            constructor(...args) {
+                                args.length === 0 ? super(2024, 0, 15, 14, 30, 0) : super(...args);
+                            }
+                        };
+                    </script>
+
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" wire:model="time" required />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_time_input', '02:30 PM')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@time', '02:30 PM');
+    }
+
+    #[Test]
     public function can_tab_out_of_the_input(): void
     {
         Livewire::visit(new class extends Component
