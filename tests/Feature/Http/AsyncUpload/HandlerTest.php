@@ -203,6 +203,64 @@ it('cannot keep a client extension that the bytes do not back up', function (str
     'no extension' => ['test.jpeg', '', 'photo', '.jpg'],
 ]);
 
+it('cannot keep a script extension on content of another kind', function (string $content, string $name, string $extension) {
+    $response = $this->postJson('/_test/async-upload', upload($content, $name));
+
+    $response->assertOk();
+
+    expect(pathinfo($response->json('path'), PATHINFO_EXTENSION))->toBe($extension);
+})->with([
+    'php source' => ["<?php echo 1; ?>\n", 'shell.php', ''],
+    'binary' => [str_repeat("\x00\x01\x02\xff", 40), 'shell.php', 'bin'],
+    'plain text' => [str_repeat('A', 64), 'shell.phtml', 'txt'],
+]);
+
+it('cannot keep a client extension when the file arrives in chunks', function () {
+    $content = sample('test.jpeg')."\n<?php echo 1; ?>";
+    $half = intdiv(strlen($content), 2);
+
+    $base = [
+        'uuid' => (string) Str::uuid(),
+        'total_chunks' => 2,
+        'chunk_size' => $half,
+        'total_size' => strlen($content),
+        'real_name' => 'avatar.php',
+    ];
+
+    $this->postJson('/_test/async-upload', chunk($base + [
+        'chunk' => UploadedFile::fake()->createWithContent('a.bin', substr($content, 0, $half)),
+        'chunk_index' => 0,
+    ]))->assertNoContent();
+
+    $response = $this->postJson('/_test/async-upload', chunk($base + [
+        'chunk' => UploadedFile::fake()->createWithContent('b.bin', substr($content, $half)),
+        'chunk_index' => 1,
+    ]));
+
+    $response->assertOk();
+
+    expect($response->json('path'))->toEndWith('.jpg')
+        ->and(Storage::disk('local')->get($response->json('path')))->toBe($content);
+});
+
+it('cannot reach the store callback with a php named file under a mimes rule', function () {
+    $reached = false;
+
+    endpoint('/_test/async-upload-store-guarded', [
+        'rules' => ['file' => ['mimes:jpg,png,pdf']],
+        'store' => function (SplFileInfo $file) use (&$reached): string {
+            $reached = true;
+
+            return 'custom/place.bin';
+        },
+    ]);
+
+    $this->postJson('/_test/async-upload-store-guarded', upload(sample('test.jpeg')."\n<?php echo 1; ?>", 'avatar.php'))
+        ->assertStatus(422);
+
+    expect($reached)->toBeFalse();
+});
+
 it('cannot accept a php named file under a mimes rule', function () {
     Event::fake();
 
