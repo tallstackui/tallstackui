@@ -550,13 +550,16 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->waitForText('1-foo')
+            ->tap(fn (Browser $browser) => $browser->script(
+                "window.__carousel = Alpine.\$data(document.querySelector('[x-data^=\"tallstackui_carousel\"]'));"
+            ))
             ->waitForLivewire()->click('@remove')
             ->assertDontSee('1-foo')
-            ->tap(fn (Browser $browser) => $browser->script(
-                "window.__flushes = 0; window.addEventListener('tallstackui:floating-flush', () => window.__flushes++);"
-            ))
+            // The Alpine data outlives the element, so a timer left running
+            // would keep calling next() on it after the removal.
+            ->tap(fn (Browser $browser) => $browser->script('window.__ticks = 0; window.__carousel.next = () => window.__ticks++;'))
             ->pause(2500)
-            ->assertScript('window.__flushes', 0);
+            ->assertScript('window.__ticks', 0);
     }
 
     #[Test]
