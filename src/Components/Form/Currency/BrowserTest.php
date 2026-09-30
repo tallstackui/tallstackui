@@ -274,6 +274,43 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_the_number_set_by_the_server_across_a_round_trip(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $money = null;
+
+            public function load(): void
+            {
+                $this->money = 1000;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">[{{ $money }}]</p>
+
+                    <x-currency dusk="input" wire:model="money" />
+
+                    <x-button dusk="load" wire:click="load">Load</x-button>
+                    <x-button dusk="save" wire:click="$refresh">Save</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@load')
+            ->waitForTextIn('@money', '[1000]')
+            ->pause(500)
+            ->assertInputValue('@input', '1,000.00')
+            ->click('@save')
+            ->pause(500)
+            ->assertSeeIn('@money', '[1000]')
+            ->assertInputValue('@input', '1,000.00');
+    }
+
+    #[Test]
     public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
