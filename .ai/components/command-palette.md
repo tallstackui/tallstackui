@@ -21,6 +21,8 @@ Place the component in your application layout (e.g., `resources/views/component
 </body>
 ```
 
+The shortcut listener is removed together with the component, so a layout visited through `wire:navigate` keeps a single palette answering the shortcut.
+
 ```php
 // config/tallstackui.php
 'command-palette' => [
