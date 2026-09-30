@@ -129,7 +129,45 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Saved')
             ->click('@tallstackui_toast_close')
             ->waitUntilMissingText('Saved')
-            ->assertSee('Modal');
+            // The modal leaves with a transition, so a closed one would still
+            // read as visible right after the click on the toast.
+            ->pause(600)
+            ->assertVisible('@notify');
+    }
+
+    #[Test]
+    public function can_close_over_a_slide(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function notify(): void
+            {
+                $this->toast()->success('Saved')->persistent()->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="open" x-on:click="$tsui.open.slide('toast')">Open</x-button>
+
+                    <x-slide title="Slide" id="toast">
+                        <x-button dusk="notify" wire:click="notify">Save</x-button>
+                    </x-slide>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Slide')
+            ->waitForLivewire()->click('@notify')
+            ->waitForText('Saved')
+            ->click('@tallstackui_toast_close')
+            ->waitUntilMissingText('Saved')
+            ->pause(600)
+            ->assertVisible('@notify');
     }
 
     #[Test]
