@@ -384,6 +384,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_tab_out_of_the_input_when_selectable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 3;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-number label="Quantity" wire:model="quantity" selectable />
+
+                    <x-button dusk="after" text="After" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Quantity')
+            ->keys('@tallstackui_form_number_input', '{tab}')
+            ->assertScript('document.activeElement.getAttribute("dusk")', 'tallstackui_form_number_decrement');
+    }
+
+    #[Test]
     public function cannot_decrease_beyond_min(): void
     {
         Livewire::visit(new class extends Component

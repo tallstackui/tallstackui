@@ -674,6 +674,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_tab_out_of_the_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-date label="DatePicker" wire:model="date" />
+
+                    <x-button dusk="after" text="After" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->keys('@tallstackui_date_input', '{tab}')
+            ->assertScript('document.activeElement.getAttribute("dusk") !== "tallstackui_date_input"');
+    }
+
+    #[Test]
     public function can_type_date_when_typeable(): void
     {
         Livewire::visit(new class extends Component

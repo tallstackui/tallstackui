@@ -297,6 +297,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_tab_out_of_the_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-time label="Time" wire:model="time" />
+
+                    <x-button dusk="after" text="After" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->keys('@tallstackui_time_input', '{tab}')
+            ->assertScript('document.activeElement.getAttribute("dusk") !== "tallstackui_time_input"');
+    }
+
+    #[Test]
     public function cannot_pass_the_max_hour(): void
     {
         Livewire::visit(new class extends Component
