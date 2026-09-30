@@ -30,7 +30,7 @@ It is content focused rather than a document editor: no tables, no image resize 
 </form>
 ```
 
-Either `wire:model` or `name` is required. With `name` the HTML is mirrored into a hidden input, so the editor works in a plain form outside Livewire.
+Either `wire:model` or `name` is required. With `name` the HTML is mirrored into a hidden input, so the editor works in a plain form outside Livewire. There the initial content goes in the `value` attribute, bound or echoed: `:value="$post->body"` or `value="{{ old('body') }}"`.
 
 ## Attributes
 
@@ -106,7 +106,7 @@ A new line is a `<p>`. Engines default to a `<div>` there, which says nothing ab
 <x-editor wire:model="content" markdown />
 ```
 
-The editing surface does not change: it stays a WYSIWYG, and bold text still looks bold while it is being written. Markdown is a serialization format at the boundary, so the property holds `**bold**` where it would otherwise hold `<strong>bold</strong>`. An initial value is read as Markdown too.
+The editing surface does not change: it stays a WYSIWYG, and bold text still looks bold while it is being written. Markdown is a serialization format at the boundary, so the property holds `**bold**` where it would otherwise hold `<strong>bold</strong>`. An initial value is read as Markdown too. Inside inline code a backslash is literal, so a pattern such as `\d+\.\d+` written between backticks comes back as it was stored.
 
 Turn it on for every editor at once through the `markdown` key in the config.
 
