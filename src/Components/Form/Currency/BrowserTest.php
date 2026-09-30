@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Currency;
 
+use Laravel\Dusk\Browser;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -240,6 +241,39 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_integer_property_across_round_trips(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $money = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">[{{ $money }}]</p>
+
+                    <x-currency dusk="input" wire:model="money" />
+
+                    <x-button dusk="save" wire:click="$refresh">Save</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '1000')
+            ->assertInputValue('@input', '10.00')
+            ->click('@save')
+            ->waitForTextIn('@money', '[1000]')
+            ->pause(500)
+            ->assertInputValue('@input', '10.00')
+            ->click('@save')
+            ->pause(500)
+            ->assertSeeIn('@money', '[1000]')
+            ->assertInputValue('@input', '10.00');
+    }
+
+    #[Test]
     public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
@@ -263,6 +297,44 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_form_currency_clearable')
             ->pause(250)
             ->assertSee('The money field is required.');
+    }
+
+    #[Test]
+    public function can_stop_syncing_float_property_after_the_server_echo(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?float $money = null;
+
+            public int $updates = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">[{{ $money }}]</p>
+                    <p dusk="updates">[{{ $updates }}]</p>
+
+                    <x-currency dusk="input" wire:model.live="money" decimal />
+                </div>
+                HTML;
+            }
+
+            public function updatedMoney(): void
+            {
+                $this->updates++;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '100000')
+            ->pause(1000)
+            ->tap(function (Browser $browser): void {
+                $updates = $browser->text('@updates');
+
+                $browser->pause(1500)->assertSeeIn('@updates', $updates);
+            })
+            ->assertSeeIn('@money', '[1000]')
+            ->assertInputValue('@input', '1,000.00');
     }
 
     #[Test]
