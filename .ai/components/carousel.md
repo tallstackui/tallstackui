@@ -94,6 +94,11 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 
 The timer stops when the carousel leaves the page, through a Livewire re-render or a `wire:navigate` visit.
 
+A slide change does not close the floating popups on the page. The slides only hold
+images and the `header` and `footer` slots stay in place, so a dropdown placed in one of
+them, or a select and a date picker elsewhere on the page, stay open while the autoplay
+runs.
+
 ## Cover Image
 
 Set a specific image as the initial cover:
