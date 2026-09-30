@@ -202,6 +202,108 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_see_the_finish_slot_with_a_string_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $step = '1';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="step">{{ $step }}</p>
+
+                    <x-step wire:model.live="step" helpers>
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                        <x-slot:finish>
+                            Finish
+                        </x-slot:finish>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Finish')
+            ->waitForLivewire()->click('@tallstackui_step_next')
+            ->assertSeeIn('@step', '2')
+            ->assertSee('Finish');
+    }
+
+    #[Test]
+    public function can_see_the_finish_slot_with_a_string_property_using_the_compact_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $step = '1';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="step">{{ $step }}</p>
+
+                    <x-step wire:model.live="step" helpers="compact">
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                        <x-slot:finish>
+                            Finish
+                        </x-slot:finish>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Finish')
+            ->waitForLivewire()->click('@tallstackui_step_next')
+            ->assertSeeIn('@step', '2')
+            ->assertSee('Finish');
+    }
+
+    #[Test]
+    public function can_see_the_finish_slot_with_a_string_property_using_the_minimal_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $step = '1';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="step">{{ $step }}</p>
+
+                    <x-step wire:model.live="step" helpers="minimal">
+                        <x-step.items step="1" title="Foo">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar">
+                            Baz bar foo
+                        </x-step.items>
+                        <x-slot:finish>
+                            Finish
+                        </x-slot:finish>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Finish')
+            ->waitForLivewire()->click('@tallstackui_step_next')
+            ->assertSeeIn('@step', '2')
+            ->assertSee('Finish');
+    }
+
+    #[Test]
     public function can_select_with_entangle(): void
     {
         Livewire::visit(new class extends Component
