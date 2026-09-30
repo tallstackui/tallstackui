@@ -164,6 +164,66 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_popup_inside_open_when_the_slide_changes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'title' => '2-foo'],
+                    ]" autoplay interval="1">
+                        <x-slot:header>
+                            <x-dropdown text="Inside">
+                                <x-dropdown.items text="Inner settings" />
+                            </x-dropdown>
+                        </x-slot:header>
+                    </x-carousel>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->press('Inside')
+            ->waitForText('Inner settings')
+            ->waitForText('2-foo')
+            ->pause(1500)
+            ->assertSee('Inner settings');
+    }
+
+    #[Test]
+    public function can_keep_popups_outside_open_while_playing(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dropdown text="Outside">
+                        <x-dropdown.items text="Settings" />
+                    </x-dropdown>
+
+                    <x-carousel :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'title' => '2-foo'],
+                    ]" autoplay interval="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->press('Outside')
+            ->waitForText('Settings')
+            ->waitForText('2-foo')
+            ->pause(1500)
+            ->assertSee('Settings');
+    }
+
+    #[Test]
     public function can_navigate_automatically(): void
     {
         Livewire::visit(new class extends Component
@@ -456,6 +516,50 @@ class BrowserTest extends BrowserTestCase
             ->assertAttribute('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4) > button', 'aria-current', 'true')
             ->assertAttributeContains('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(4)', 'class', 'ring-2')
             ->assertAttributeMissing('[dusk="tallstackui_carousel_thumbnails"] > div:nth-of-type(1) > button', 'aria-current');
+    }
+
+    #[Test]
+    public function can_stop_the_autoplay_when_removed(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $visible = true;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($visible)
+                        <x-carousel :images="[
+                            [
+                                'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                                'title' => '1-foo',
+                                'description' => '1-bar',
+                            ],
+                            [
+                                'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                                'title' => '2-foo',
+                                'description' => '2-bar',
+                            ],
+                        ]" autoplay interval="1" />
+                    @endif
+
+                    <x-button dusk="remove" wire:click="$set('visible', false)">Remove</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->tap(fn (Browser $browser) => $browser->script(
+                "window.__carousel = Alpine.\$data(document.querySelector('[x-data^=\"tallstackui_carousel\"]'));"
+            ))
+            ->waitForLivewire()->click('@remove')
+            ->assertDontSee('1-foo')
+            // The Alpine data outlives the element, so a timer left running
+            // would keep calling next() on it after the removal.
+            ->tap(fn (Browser $browser) => $browser->script('window.__ticks = 0; window.__carousel.next = () => window.__ticks++;'))
+            ->pause(2500)
+            ->assertScript('window.__ticks', 0);
     }
 
     #[Test]

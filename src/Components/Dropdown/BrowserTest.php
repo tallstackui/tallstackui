@@ -74,6 +74,95 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_open_via_hover_while_the_pointer_is_over_the_menu(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="outside">Outside</p>
+
+                    <x-dropdown text="Menu" hover>
+                        <x-dropdown.items text="Settings" dusk="settings" />
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Menu')
+            ->assertDontSee('Settings');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_open_dropdown"]')))
+            ->perform();
+
+        $browser->waitForText('Settings');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="settings"]')))
+            ->perform();
+
+        $browser->pause(600)
+            ->assertSee('Settings');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="outside"]')))
+            ->perform();
+
+        $browser->waitUntilMissingText('Settings')
+            ->assertDontSee('Settings');
+    }
+
+    #[Test]
+    public function can_keep_open_via_hover_while_the_pointer_is_over_the_submenu(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="outside">Outside</p>
+
+                    <x-dropdown text="Menu" hover>
+                        <x-dropdown.submenu text="Submenu">
+                            <x-dropdown.items text="Nested" dusk="nested" />
+                        </x-dropdown.submenu>
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 900)
+            ->assertSee('Menu')
+            ->assertDontSee('Submenu');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_open_dropdown"]')))
+            ->perform();
+
+        $browser->waitForText('Submenu')
+            ->clickAtVisibleXPath('//button[contains(., "Submenu")]')
+            ->waitForText('Nested');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="nested"]')))
+            ->perform();
+
+        $browser->pause(600)
+            ->assertSee('Nested');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="outside"]')))
+            ->perform();
+
+        $browser->waitUntilMissingText('Nested')
+            ->assertDontSee('Submenu');
+    }
+
+    #[Test]
     public function can_open_and_close_via_hover(): void
     {
         $browser = Livewire::visit(new class extends Component

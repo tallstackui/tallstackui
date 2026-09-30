@@ -127,6 +127,37 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_move_when_the_property_starts_null(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $price = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="pair">{{ json_encode($price) }}</p>
+
+                    <x-range dual wire:model="price" />
+
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->tap(fn (Browser $browser) => $browser->script($this->move('end', 70)))
+            ->click('@sync')
+            ->waitForTextIn('@pair', '[0,70]', 10)
+            ->assertSeeIn('@pair', '[0,70]');
+    }
+
+    #[Test]
     public function can_move_with_live_entangle(): void
     {
         Livewire::visit(new class extends Component

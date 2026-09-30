@@ -235,3 +235,11 @@ it('can filter the messages using only with a single field', function (string $o
     ':only="[\'name\']"',
     ':only="collect([\'name\'])"',
 ]);
+
+it('cannot render when only the other fields have errors', function (string $only) {
+    expect(str_replace('{{ only }}', $only, '<x-errors {{ only }} />'))->render()
+        ->toBeEmpty();
+})->with([
+    'only="email"',
+    ':only="[\'email\', \'description\']"',
+]);

@@ -75,10 +75,11 @@ customized Spinner is the one that shows up.
 
 ## Body overflow
 
-By default the page scroll is locked while the request is in flight and released once the
-response is morphed in, so the page cannot be scrolled behind the overlay. `overflow`
-opts out of that. The lock is also released when a request fails or is cancelled, which
-never reaches the morph.
+By default the page scroll is locked while the request is in flight and released as soon
+as the request is over, so the page cannot be scrolled behind the overlay. `overflow`
+opts out of that. The release does not wait for a morph, so an action that renders
+nothing, such as a `#[Renderless]` method, and a request that fails or is cancelled
+give the scroll back as well.
 
 ## Slots
 

@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-@if ($errors->isNotEmpty())
+@if ($count($errors) > 0)
     <div wire:key="errors-{{ uniqid() }}" class="{{ $customization['outer'] }}"
          x-data="{ show : true }"
          x-show="show">

@@ -101,6 +101,7 @@ export default function floating(
   const guard = () => {
     if (!el.isConnected) {
       scrollLock(false);
+      floating_visibility(false, id);
       guardRaf = null;
       return;
     }

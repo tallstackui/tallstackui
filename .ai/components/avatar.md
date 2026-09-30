@@ -108,6 +108,10 @@ ui-avatars URL it already knows how to build. An email with no Gravatar account
 lands on the same coloured initials the component renders elsewhere. Without a
 name, `d` carries `gravatarDefault` instead.
 
+Gravatar drops the query string of the URL it receives in `d`, so the fallback
+sends the name, the size, the `background` and a hex `color` as path segments.
+`options` and a `color` that is not hex are left out of it.
+
 **Size.** `s` is sent at twice the rendered size, so a `7xl` avatar asks for
 320px and stays sharp on a retina screen. `size` is sent to ui-avatars the same
 way.

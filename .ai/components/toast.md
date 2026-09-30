@@ -107,6 +107,21 @@ In `config/tallstackui.php` under `components.toast`:
 | stacked       | bool   | false       | Piles the toasts instead of listing them                                                     |
 | top-on-mobile | bool   | false       | Pins the toasts to the top below the `md` breakpoint                                         |
 
+## Stacking
+
+The toast stack is teleported to the end of `<body>`, like the modal and the slide, and
+moves to the last place there every time a toast is added. With the same `z-index`, the
+element that comes last wins, so a toast sent from inside an open modal or slide shows
+above it, readable and clickable, with the default configuration. A higher `z-index` set on
+a modal still puts the modal above, since the class decides before the order does.
+
+A toast that arrives while a dialog is open shows above the dialog, and closing or
+confirming it leaves the dialog open. A dialog sent from a toast confirmation shows above
+the remaining toasts.
+
+The tag can also live inside a Livewire component instead of the layout: the teleported
+stack is kept across renders while toasts are shown.
+
 ### Stacked Toasts
 
 With `stacked` on, the toasts overlap into a pile instead of growing a vertical list.

@@ -2,6 +2,7 @@
     $customization = $classes();
 @endphp
 
+<template x-teleport="body" x-data>
 <div x-cloak
      x-data="tallstackui_dialog(@js(session()->pull('ts-ui:dialog')), @js(trans('ts-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:ts-ui:dialog.window="add($event.detail)"
@@ -43,7 +44,7 @@
                          'question': @js($colors['background']['question']),
                      })[dialog.type]"
                  @endif
-                 @if (!$configurations['persistent']) x-on:click.outside="top_ui && remove(true)" @endif>
+                 @if (!$configurations['persistent']) x-on:click.outside="top_ui && $root.contains($event.target) && remove(true)" @endif>
                 <div class="{{ $customization['buttons.close.wrapper'] }}">
                     <button x-on:click="remove()">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -160,3 +161,4 @@
         </div>
     </div>
 </div>
+</template>

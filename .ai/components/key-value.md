@@ -81,6 +81,12 @@ component alone; customize `header.wrapper-compact` as well when both modes are 
 | x-on:add    | Fires when a new row is added |
 | x-on:remove | Fires when a row is removed   |
 
+Both events carry the rows in `$event.detail.rows`, each one as `{ key, value }`.
+
+## Server Changes
+
+The rows follow the property both ways. A change made on the server after the first render, such as `$this->reset('metadata')` once a record is saved or a list loaded into the property by an edit action, replaces the rows on screen. The property only ever holds `key` and `value` for each row.
+
 ## Validation Constraints
 
 - The `static` and `limit` attributes cannot be used at the same time.

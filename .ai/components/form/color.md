@@ -39,7 +39,7 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 | picker         | bool\|null                  | null    | Enables the full Tailwind CSS color palette with shade range slider (falls back to the global configuration, `false` by default) |
 | colors         | Collection\|array\|null     | null    | Array of custom hex color strings (must start with #)                                                                            |
 | invalidate     | bool\|null                  | null    | Prevents displaying validation error messages                                                                                    |
-| selectable     | bool\|null                  | null    | Makes the input read-only so colors can only be picked from the palette                                                          |
+| selectable     | bool\|null                  | null    | Makes the input read-only so colors can only be picked from the palette. The `Tab` key still moves the focus through it          |
 | clearable      | bool\|null                  | null    | Shows a clear button to reset the selected color                                                                                 |
 | excluded-color | string\|array\|null         | null    | Tailwind color name(s) to exclude from the palette (e.g., 'slate', 'gray')                                                       |
 | excluded-step  | string\|array\|null         | null    | Tailwind shade step(s) to exclude from the palette (e.g., '50', '950'). Only works with `picker`                                 |

@@ -15,16 +15,17 @@ class Directives
      */
     public static function register(): void
     {
-        Blade::directive('tallStackUiScript', fn (): string => Facade::directives()->script());
+        // The tags are echoed when the view is rendered, never written into the
+        // compiled view: the file names carry a hash that changes on every release,
+        // and a layout compiled before an upgrade would keep asking for the old ones.
+        $script = '<?php echo \\'.Facade::class.'::directives()->script(); ?>';
+        $style = '<?php echo \\'.Facade::class.'::directives()->style(); ?>';
 
-        Blade::directive('tallStackUiStyle', fn (): string => Facade::directives()->style());
+        Blade::directive('tallStackUiScript', fn (): string => $script);
 
-        Blade::directive('tallStackUiSetup', function (): string {
-            $script = Facade::directives()->script();
-            $style = Facade::directives()->style();
+        Blade::directive('tallStackUiStyle', fn (): string => $style);
 
-            return "{$script}\n{$style}";
-        });
+        Blade::directive('tallStackUiSetup', fn (): string => "{$script}\n{$style}");
 
         // The goal of this directive is to allow interaction with the contents of the table
         // component. The concept was taken from konradkalemba/blade-components-scoped-slots.
@@ -46,15 +47,10 @@ class Directives
 
         Blade::directive('endinteract', fn (): string => '<?php }); ?>');
 
-        Blade::precompiler(fn (string $string): string => preg_replace_callback('/<\s*tallstackui\:(setup|script|style)(\s+[a-zA-Z0-9_-]+(?:\s+[a-zA-Z0-9_-]+)*)?\s*\/?>/', function (array $matches): string {
-            $script = Facade::directives()->script();
-            $style = Facade::directives()->style();
-
-            return match ($matches[1]) {
-                'setup' => "{$script}\n{$style}",
-                'script' => $script,
-                'style' => $style,
-            };
+        Blade::precompiler(fn (string $string): string => preg_replace_callback('/<\s*tallstackui\:(setup|script|style)(\s+[a-zA-Z0-9_-]+(?:\s+[a-zA-Z0-9_-]+)*)?\s*\/?>/', fn (array $matches): string => match ($matches[1]) {
+            'setup' => "{$script}\n{$style}",
+            'script' => $script,
+            'style' => $style,
         }, $string));
     }
 

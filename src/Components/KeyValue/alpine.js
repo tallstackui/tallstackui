@@ -5,17 +5,43 @@ export default (model, id, limit, addable, deleteMethod) => ({
   init() {
     this.component = Livewire.find(id).__instance;
 
-    if (this.model.length > 0) {
-      this.$nextTick(() => {
-        this.model = this.model.map((row) => ({
-          index: Math.random().toString(36).substring(2, 12),
-          key: row.key,
-          value: row.value,
-        }));
+    this.rows = this.hydrate(this.model);
 
-        this.rows = this.model;
-      });
-    }
+    // The rows are a copy of the model, so a value set outside the component,
+    // as the server does on a reset, has to be brought in.
+    this.$watch('model', (value) => {
+      if (JSON.stringify(this.plain(value ?? [])) === JSON.stringify(this.plain(this.rows))) {
+        return;
+      }
+
+      this.rows = this.hydrate(value);
+    });
+
+    // Mirrored on every change, so an edit reaches the model without Enter.
+    this.$watch('rows', () => this.sync());
+  },
+  /**
+   * Build the rows out of the model. The `index` only keys the row for
+   * Alpine and never leaves the component.
+   *
+   * @param {Array|Null} rows
+   * @returns {Array}
+   */
+  hydrate(rows) {
+    return (rows ?? []).map((row) => ({
+      index: Math.random().toString(36).substring(2, 12),
+      key: row.key,
+      value: row.value,
+    }));
+  },
+  /**
+   * The rows as the model holds them.
+   *
+   * @param {Array} rows
+   * @returns {Array}
+   */
+  plain(rows) {
+    return rows.map((row) => ({ key: row.key, value: row.value }));
   },
   /**
    * Adds a new item to the row's array.
@@ -36,7 +62,7 @@ export default (model, id, limit, addable, deleteMethod) => ({
     this.$el.dispatchEvent(
       new CustomEvent('add', {
         detail: {
-          rows: this.rows,
+          rows: this.plain(this.rows),
         },
       })
     );
@@ -50,14 +76,14 @@ export default (model, id, limit, addable, deleteMethod) => ({
    * @return {void}
    */
   remove(index) {
-    const rows = this.rows;
+    const rows = this.plain(this.rows);
 
     this.rows = this.rows.filter((_, i) => i !== index);
 
     this.$el.dispatchEvent(
       new CustomEvent('remove', {
         detail: {
-          rows: this.rows,
+          rows: this.plain(this.rows),
         },
       })
     );
@@ -74,12 +100,7 @@ export default (model, id, limit, addable, deleteMethod) => ({
    * @returns {void}
    */
   sync() {
-    this.rows = this.rows.map((row) => ({
-      key: row.key,
-      value: row.value,
-    }));
-
-    this.model = this.rows;
+    this.model = this.plain(this.rows);
   },
   /**
    * Check if the new rows can be added.

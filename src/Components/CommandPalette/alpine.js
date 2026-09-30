@@ -30,6 +30,7 @@ export default (
   _options: null,
   _keyboard: false,
   _debounce: null,
+  _shortcut: null,
   init() {
     this.shortcut(shortcutKey);
 
@@ -53,7 +54,7 @@ export default (
     const letter = parts[parts.length - 1].toLowerCase();
     const modifiers = parts.slice(0, -1).map((m) => m.toLowerCase());
 
-    window.addEventListener('keydown', (e) => {
+    this._shortcut = (e) => {
       if (e.key.toLowerCase() !== letter) {
         return;
       }
@@ -78,7 +79,9 @@ export default (
       e.preventDefault();
 
       this.show ? this.close() : this.open();
-    });
+    };
+
+    window.addEventListener('keydown', this._shortcut);
   },
   /**
    * Open the command palette and reset state.
@@ -126,6 +129,8 @@ export default (
    * @return {void}
    */
   destroy() {
+    window.removeEventListener('keydown', this._shortcut);
+
     unregister_ui_element(id);
 
     if (window.__tsui_elements.length === 0) {

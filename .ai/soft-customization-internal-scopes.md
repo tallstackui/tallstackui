@@ -49,7 +49,7 @@ TallStackUi::customize()
 
 | Scope           | Target         | Line(s) |
 |-----------------|----------------|---------|
-| `dialog.button` | `<x-button />` | 121     |
+| `dialog.button` | `<x-button />` | 122     |
 
 ### `dropdown`
 

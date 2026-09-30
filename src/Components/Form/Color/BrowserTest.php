@@ -357,6 +357,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_tab_out_of_the_input_when_selectable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-color label="Color" wire:model="color" dusk="color" selectable />
+
+                    <x-button dusk="after" text="After" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Color')
+            ->keys('@color', '{tab}')
+            ->assertScript('document.activeElement.getAttribute("dusk") !== "color"');
+    }
+
+    #[Test]
     public function cannot_see_clearable_when_no_color_is_selected(): void
     {
         Livewire::visit(new class extends Component

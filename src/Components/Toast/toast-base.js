@@ -46,6 +46,12 @@ export default (
    * @return {void}
    */
   add(event) {
+    // A modal or slide opened before the toast sits later in the body and
+    // wins the same z-index, so the stack takes the last place before showing.
+    if (document.body.lastElementChild !== this.$root) {
+      document.body.appendChild(this.$root);
+    }
+
     this.$nextTick(() => (this.show = true));
 
     // This same method also handles the window event, and `flash` is a closure

@@ -12,6 +12,7 @@ export default (
 ) => ({
   model: model,
   input: '',
+  sent: null,
   decimals: decimals,
   precision: precision,
   clearable: clearable,
@@ -45,7 +46,17 @@ export default (
         return;
       }
 
+      if (this.echo(value)) {
+        return;
+      }
+
       this.format(value);
+
+      // In the default mode a number set by the server is read as units, so
+      // syncing it back would send the digits as cents, a hundred times more.
+      if (typeof value === 'number' && !this.decimal && !this.mutate) {
+        return;
+      }
 
       this.sync();
     });
@@ -99,6 +110,8 @@ export default (
       value = this.input.replace(/\D/g, '');
     }
 
+    this.sent = value;
+
     if (this.livewire) {
       this.$nextTick(() => (this.model = value));
 
@@ -134,12 +147,32 @@ export default (
     return input.split(group).join('').replace(decimal, '.');
   },
   /**
+   * Whether the value is the one the last sync sent, coming back
+   * from the server as a number because the property is typed.
+   *
+   * @param {*} value
+   * @returns {boolean}
+   */
+  echo(value) {
+    if (this.sent === null || this.sent === '') {
+      return false;
+    }
+
+    if (typeof value === 'number') {
+      return value === Number(this.sent);
+    }
+
+    return value === this.sent;
+  },
+  /**
    * Clear the input.
    *
    * @returns {void}
    */
   clear() {
     this.input = '';
+
+    this.sent = null;
 
     this.model = null;
   },

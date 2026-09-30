@@ -272,6 +272,22 @@ class Component extends TallStackUiComponent implements Customization
     {
         $name = $this->text ?? $this->model?->getAttribute($this->property);
 
-        return filled($name) ? $this->modelable($name) : $this->gravatarDefault;
+        if (blank($name)) {
+            return $this->gravatarDefault;
+        }
+
+        // Gravatar drops the query string of the URL given in `d`, so the
+        // parameters go as path segments, which ui-avatars reads as well.
+        $segments = [rawurlencode($name), $this->dimension()];
+
+        if (filled($this->background)) {
+            $segments[] = $this->background;
+
+            if (ctype_xdigit((string) $this->color)) {
+                $segments[] = $this->color;
+            }
+        }
+
+        return 'https://ui-avatars.com/api/'.implode('/', $segments);
     }
 }

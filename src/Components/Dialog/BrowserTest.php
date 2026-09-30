@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Dialog;
 
 use Laravel\Dusk\Browser;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -199,7 +200,7 @@ class BrowserTest extends BrowserTestCase
                 <div>
                     <x-button dusk="confirm" x-on:click="$tsui.open.modal('dialog')">Open</x-button>
 
-                    <x-modal title="Modal" id="dialog" z-index="z-40">
+                    <x-modal title="Modal" id="dialog">
                         <x-button dusk="confirming" wire:click="confirm">Click here to confirm</x-button>
                     </x-modal>
                 </div>
@@ -242,7 +243,7 @@ class BrowserTest extends BrowserTestCase
                 <div>
                     <x-button dusk="confirm" x-on:click="$tsui.open.slide('dialog')">Open</x-button>
 
-                    <x-slide title="Slide" id="dialog" z-index="z-40">
+                    <x-slide title="Slide" id="dialog">
                         <x-button dusk="confirming" wire:click="confirm">Click here to confirm</x-button>
                     </x-slide>
                 </div>
@@ -263,6 +264,75 @@ class BrowserTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar confirmation')
             ->assertSee('Slide')
             ->assertSee('Click here to confirm');
+    }
+
+    #[Test]
+    public function can_be_placed_inside_the_component_across_renders(): void
+    {
+        Livewire::visit(new #[Layout('layouts::bare')] class extends Component
+        {
+            use Interactions;
+
+            public int $renders = 0;
+
+            public ?string $status = null;
+
+            public function ask(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function notify(): void
+            {
+                $this->toast()->success('Saved in background')->persistent()->send();
+            }
+
+            public function tick(): void
+            {
+                $this->renders++;
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dialog />
+                    <x-toast />
+
+                    <p dusk="renders">[{{ $renders }}]</p>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="ask" wire:click="ask">Ask</x-button>
+                    <x-button dusk="notify" wire:click="notify">Notify</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewire()->click('@ask')
+            ->waitForText('Delete the record?')
+            ->tap(fn (Browser $browser) => $browser->script('Livewire.first().call("tick")'))
+            ->waitForTextIn('@renders', '[1]')
+            ->assertScript('document.querySelectorAll("[x-data^=\'tallstackui_dialog\']").length', 1)
+            ->assertVisible('@tallstackui_dialog_confirmation')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->waitForLivewire()->click('@notify')
+            ->waitForText('Saved in background')
+            ->tap(fn (Browser $browser) => $browser->script('Livewire.first().call("tick")'))
+            ->waitForTextIn('@renders', '[2]')
+            ->assertScript('document.querySelectorAll("[x-data^=\'tallstackui_toastBase\']").length', 1)
+            ->assertSee('Saved in background')
+            ->click('@tallstackui_toast_close')
+            ->waitUntilMissingText('Saved in background');
     }
 
     #[Test]
@@ -389,6 +459,216 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation')
             ->waitUntilMissingText('Persistent OK Button')
             ->assertDontSee('Persistent OK Button');
+    }
+
+    #[Test]
+    public function can_confirm_over_a_modal(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('dialog')">Open</x-button>
+
+                    <x-modal title="Modal" id="dialog">
+                        <x-button dusk="confirming" wire:click="confirm">Delete</x-button>
+                    </x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Modal')
+            ->waitForLivewire()->click('@confirming')
+            ->waitForText('Delete the record?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->assertDontSee('Delete the record?')
+            ->assertSee('Modal');
+    }
+
+    #[Test]
+    public function can_confirm_over_a_modal_while_a_toast_shows(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function notify(): void
+            {
+                $this->toast()->success('Saved in background')->persistent()->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('dialog')">Open</x-button>
+
+                    <x-modal title="Modal" id="dialog">
+                        <x-button dusk="confirming" wire:click="confirm">Delete</x-button>
+                    </x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Modal')
+            ->waitForLivewire()->click('@confirming')
+            ->waitForText('Delete the record?')
+            ->tap(fn (Browser $browser) => $browser->script('Livewire.first().call("notify")'))
+            ->waitForText('Saved in background')
+            ->click('@tallstackui_toast_close')
+            ->waitUntilMissingText('Saved in background')
+            ->pause(500)
+            ->assertVisible('@tallstackui_dialog_confirmation')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->assertDontSee('Delete the record?')
+            ->assertSee('Modal');
+    }
+
+    #[Test]
+    public function can_confirm_over_a_nested_modal(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('outer')">Open</x-button>
+
+                    <x-modal title="Outer Modal" id="outer">
+                        <x-button dusk="inner" x-on:click="$tsui.open.modal('inner')">Details</x-button>
+                    </x-modal>
+
+                    <x-modal title="Inner Modal" id="inner">
+                        <x-button dusk="confirming" wire:click="confirm">Delete</x-button>
+                    </x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Outer Modal')
+            ->click('@inner')
+            ->waitForText('Inner Modal')
+            ->waitForLivewire()->click('@confirming')
+            ->waitForText('Delete the record?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->assertDontSee('Delete the record?')
+            ->assertSee('Inner Modal')
+            ->assertSee('Outer Modal');
+    }
+
+    #[Test]
+    public function can_confirm_over_a_slide(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="open" x-on:click="$tsui.open.slide('dialog')">Open</x-button>
+
+                    <x-slide title="Slide" id="dialog">
+                        <x-button dusk="confirming" wire:click="confirm">Delete</x-button>
+                    </x-slide>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Slide')
+            ->waitForLivewire()->click('@confirming')
+            ->waitForText('Delete the record?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->assertDontSee('Delete the record?')
+            ->assertSee('Slide');
     }
 
     #[Test]
@@ -721,6 +1001,59 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_from_a_toast_confirmation(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function notify(): void
+            {
+                $this->toast()
+                    ->question('Archive the record?', 'You can delete it next')
+                    ->confirm('Archive', 'ask')
+                    ->cancel('Keep')
+                    ->persistent()
+                    ->send();
+            }
+
+            public function ask(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="notify" wire:click="notify">Notify</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewire()->click('@notify')
+            ->waitForText('Archive the record?')
+            ->click('@tallstackui_toast_confirmation')
+            ->waitForText('Delete the record?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed')
+            ->assertDontSee('Delete the record?');
+    }
+
+    #[Test]
     public function can_reject_persistent_interaction_dialog_with_confirmation(): void
     {
         Livewire::visit(new class extends Component
@@ -807,6 +1140,59 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo bar confirmation description')
             ->click('@tallstackui_dialog_confirmation')
             ->waitUntilMissingText('Foo bar confirmation description');
+    }
+
+    #[Test]
+    public function can_stay_open_while_a_toast_is_closed(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $status = null;
+
+            public function ask(): void
+            {
+                $this->dialog()
+                    ->question('Delete the record?', 'This cannot be undone')
+                    ->confirm('Yes', 'confirmed')
+                    ->cancel('No')
+                    ->send();
+            }
+
+            public function notify(): void
+            {
+                $this->toast()->success('Saved in background')->persistent()->send();
+            }
+
+            public function confirmed(): void
+            {
+                $this->status = 'Confirmed';
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="status">{{ $status }}</p>
+
+                    <x-button dusk="ask" wire:click="ask">Ask</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewire()->click('@ask')
+            ->waitForText('Delete the record?')
+            ->tap(fn (Browser $browser) => $browser->script('Livewire.first().call("notify")'))
+            ->waitForText('Saved in background')
+            ->click('@tallstackui_toast_close')
+            ->waitUntilMissingText('Saved in background')
+            // The dialog leaves with a transition, so a dismissed one would
+            // still read as visible right after the click on the toast.
+            ->pause(500)
+            ->assertVisible('@tallstackui_dialog_confirmation')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@status', 'Confirmed');
     }
 
     #[Test]

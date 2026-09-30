@@ -28,7 +28,7 @@
                          floatable
                          x-ref="input"
                          x-on:click="!locked() && (show = !show)"
-                         x-on:keydown="$event.preventDefault()"
+                         x-on:keydown="window.tallstackui_lockKeydown($event)"
                          dusk="tallstackui_time_input"
                          class="cursor-pointer {{ $customization['input.caret'] }}">
         <x-slot:suffix :class="$customization['slot.spacing']">

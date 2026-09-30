@@ -35,7 +35,7 @@ Unlike the single mode, it binds to an array of exactly two values.
 public array $price = [200, 800];
 ```
 
-The bound property is always an indexed pair, `[start, end]`.
+The bound property is always an indexed pair, `[start, end]`. A property that starts as `null` or `[]` renders the whole interval, from `min` to `max`, and receives the pair on the first change.
 
 ```blade
 <x-range dual wire:model="price" :min="0" :max="1000" color="emerald" tooltip lg />

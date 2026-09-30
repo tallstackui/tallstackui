@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\CarbonImmutable;
+use Carbon\CarbonPeriod;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Calendar\Component;
 use Tests\TestCase;
@@ -168,3 +170,14 @@ it('cannot start the week out of range through the global configuration', functi
         __ts_get_component_configuration(Component::class, flush: true);
     }
 });
+
+it('formats every date instance of the disable attribute', function (array $disable) {
+    expect((new Component(disable: $disable))->disable->all())->toBe(['2024-12-24', '2024-12-25']);
+})->with([
+    'illuminate carbon' => [[Illuminate\Support\Carbon::parse('2024-12-24'), Illuminate\Support\Carbon::parse('2024-12-25')]],
+    'carbon' => [[Carbon\Carbon::parse('2024-12-24'), Carbon\Carbon::parse('2024-12-25')]],
+    'carbon immutable' => [[CarbonImmutable::parse('2024-12-24'), CarbonImmutable::parse('2024-12-25')]],
+    'carbon period' => [CarbonPeriod::create('2024-12-24', '2024-12-25')->toArray()],
+    'native date time' => [[new DateTime('2024-12-24'), new DateTimeImmutable('2024-12-25')]],
+    'strings' => [['2024-12-24', '2024-12-25']],
+]);

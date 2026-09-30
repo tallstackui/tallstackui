@@ -90,6 +90,22 @@ In `config/tallstackui.php` under `components.dialog`:
 | blur       | bool   | false   | Enables background blur effect                             |
 | persistent | bool   | false   | When true, prevents closing by clicking outside by default |
 
+## Stacking
+
+The dialog is teleported to the end of `<body>`, like the modal and the slide, and moves
+to the last place there every time it opens. With the same `z-index`, the element that
+comes last wins, so a dialog sent from inside an open modal or slide, nested modals
+included, shows above it and takes the click, with the default configuration. A higher
+`z-index` set on a modal still puts the modal above, since the class decides before the
+order does.
+
+Clicking outside the dialog only dismisses it when the click lands on its own backdrop.
+A click on something shown above it, such as a toast that arrived while the dialog was
+open, does not dismiss it.
+
+The tag can also live inside a Livewire component instead of the layout: the teleported
+dialog is kept across renders while open.
+
 ## Keyboard
 
 The dialog is driven from the keyboard without any extra markup:

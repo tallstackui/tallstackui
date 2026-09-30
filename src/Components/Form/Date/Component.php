@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Date;
 
+use DateTimeInterface;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
@@ -45,8 +46,8 @@ class Component extends TallStackUiComponent implements Customization
         $this->disable = collect($this->disable)
             ->flatten()
             ->unique()
-            ->map(function (string|Carbon $value) {
-                if (! $value instanceof Carbon) {
+            ->map(function (string|DateTimeInterface $value) {
+                if (! $value instanceof DateTimeInterface) {
                     return $value;
                 }
 

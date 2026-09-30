@@ -56,6 +56,8 @@ export default (
    * @return {void}
    */
   destroy() {
+    clearInterval(this.interval);
+
     unregister_ui_element(this.id);
 
     if (window.__tsui_elements.length === 0) {
@@ -222,8 +224,6 @@ export default (
       return;
     }
 
-    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
-
     if (this.current < this.images.length) {
       this.current = this.current + 1;
 
@@ -246,8 +246,6 @@ export default (
       return;
     }
 
-    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
-
     if (this.current > 1) {
       this.current = this.current - 1;
 
@@ -268,8 +266,6 @@ export default (
    */
   seek(index) {
     if (this.current === index) return;
-
-    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
 
     this.current = index;
 

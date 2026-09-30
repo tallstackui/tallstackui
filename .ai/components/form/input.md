@@ -51,6 +51,8 @@ A versatile text input component with support for icons, prefix/suffix addons (t
 - The `icon` cannot be used with `prefix` or `suffix` at the same side (icon on left conflicts with prefix; icon on right conflicts with suffix).
 - The `clearable` cannot be used with `suffix`.
 
+The `clearable` works together with `strip-zeros` and with a custom `x-ref` on the input.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
