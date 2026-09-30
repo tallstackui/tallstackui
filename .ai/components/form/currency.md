@@ -184,7 +184,9 @@ or a value loaded by an edit action, still reaches the input.
 Values coming from the server are read by type: a number is taken as units (`1041.3`
 displays `1,041.30`) and a string goes through the reading of the mode (`"1000"` displays
 `10.00` in the default mode). An integer cents column bound to an `int` property therefore
-displays as units; keep the property a string to display it as cents.
+displays as units; keep the property a string to display it as cents. In the default mode a
+number set by the server after the first render is displayed but not written back, so the
+property keeps the value the server gave it until the user types.
 
 #### Global defaults
 
