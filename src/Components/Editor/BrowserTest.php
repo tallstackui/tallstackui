@@ -720,6 +720,40 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_nested_list_booted_from_markdown_after_an_edit(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = "- one\n  - two\n- three";
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                const range = document.createRange();
+                range.selectNodeContents(editable.querySelectorAll('li')[2]);
+                range.collapse(false);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                editable.focus();
+            JS))
+            ->pause(300)
+            ->keys('@tallstackui_editor_editable', '!')
+            ->pause(700)
+            ->assertScript('Livewire.first().content', "- one\n  - two\n- three!");
+    }
+
+    #[Test]
     public function can_keep_the_caret_line_while_empty(): void
     {
         // An empty editable draws a minimum-height caret beside the
@@ -1214,6 +1248,111 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_editor_unordered_list')
             ->pause(700)
             ->assertSeeIn('@output', '- foo');
+    }
+
+    #[Test]
+    public function can_store_a_list_item_indented_with_the_tab_key_as_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = "- one\n- two\n- three";
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                const range = document.createRange();
+                range.selectNodeContents(editable.querySelectorAll('li')[1]);
+                range.collapse(false);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                editable.focus();
+            JS))
+            ->pause(300)
+            ->keys('@tallstackui_editor_editable', '{tab}')
+            ->pause(700)
+            ->assertSeeIn('@output', '- one - two - three')
+            ->assertScript('Livewire.first().content', "- one\n  - two\n- three");
+    }
+
+    #[Test]
+    public function can_store_an_indented_list_item_as_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = "- one\n- two\n- three";
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                const range = document.createRange();
+                range.selectNodeContents(editable.querySelectorAll('li')[1]);
+                range.collapse(false);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                editable.focus();
+            JS))
+            ->pause(300)
+            ->click('@tallstackui_editor_indent')
+            ->pause(700)
+            ->assertSeeIn('@output', '- one - two - three')
+            ->assertScript('Livewire.first().content', "- one\n  - two\n- three");
+    }
+
+    #[Test]
+    public function can_store_an_indented_ordered_list_item_as_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = "1. one\n2. two\n3. three";
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil($this->booted())
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                const range = document.createRange();
+                range.selectNodeContents(editable.querySelectorAll('li')[1]);
+                range.collapse(false);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                editable.focus();
+            JS))
+            ->pause(300)
+            ->click('@tallstackui_editor_indent')
+            ->pause(700)
+            ->assertSeeIn('@output', '1. one 1. two 2. three')
+            ->assertScript('Livewire.first().content', "1. one\n  1. two\n2. three");
     }
 
     #[Test]

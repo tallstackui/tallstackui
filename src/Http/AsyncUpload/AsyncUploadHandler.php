@@ -6,10 +6,12 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\Mime\MimeTypes;
 use TallStackUi\Components\Form\Upload\Async\Component;
 use TallStackUi\Http\AsyncUpload\Events\AsyncUploadCompleted;
 use TallStackUi\Http\AsyncUpload\Events\AsyncUploadFailed;
@@ -116,14 +118,13 @@ class AsyncUploadHandler
         return $disk;
     }
 
-    protected function extension(string $name): string
+    protected function extension(SymfonyFile $file, string $name): string
     {
-        $extension = Str::of(pathinfo($name, PATHINFO_EXTENSION))
-            ->lower()
-            ->replaceMatches('/[^a-z0-9]/', '')
-            ->limit(10, '');
+        $claimed = Str::lower(pathinfo($name, PATHINFO_EXTENSION));
+        $known = MimeTypes::getDefault()->getExtensions((string) $file->getMimeType());
+        $extension = in_array($claimed, $known, true) ? $claimed : $file->guessExtension();
 
-        return $extension->isEmpty() ? '' : '.'.$extension;
+        return blank($extension) ? '' : '.'.$extension;
     }
 
     /** @param array<string, array<int, string>> $errors */
@@ -161,7 +162,8 @@ class AsyncUploadHandler
         // Rules run against the assembled bytes, so mime and size are checked
         // on what actually landed rather than on what the client claimed.
         if ($rules = ($this->options['rules'] ?? null)) {
-            $validator = Validator::make(['file' => $file], $rules);
+            $named = new UploadedFile($assembled, (string) $request->input('real_name'), test: true);
+            $validator = Validator::make(['file' => $named], $rules);
 
             if ($validator->fails()) {
                 $tmp->deleteDirectory($sealed);
@@ -231,7 +233,7 @@ class AsyncUploadHandler
         }
 
         $directory = trim((string) $this->options['directory'], '/');
-        $name = Str::uuid()->toString().$this->extension((string) $request->input('real_name'));
+        $name = Str::uuid()->toString().$this->extension($file, (string) $request->input('real_name'));
 
         $this->disk()->putFileAs($directory, $file, $name);
 

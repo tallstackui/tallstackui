@@ -76,7 +76,7 @@ TallStackUi::customize()
 | Scope                        | Target           | Line(s) |
 |------------------------------|------------------|---------|
 | `form.autocomplete.input`    | `<x-input />`    | 22      |
-| `form.autocomplete.floating` | `<x-floating />` | 62      |
+| `form.autocomplete.floating` | `<x-floating />` | 63      |
 
 ### `form/checkbox/group`
 
@@ -103,7 +103,7 @@ TallStackUi::customize()
 | Scope                | Target           | Line(s) |
 |----------------------|------------------|---------|
 | `form.date.input`    | `<x-input />`    | 31      |
-| `form.date.floating` | `<x-floating />` | 65      |
+| `form.date.floating` | `<x-floating />` | 66      |
 
 ### `form/password`
 

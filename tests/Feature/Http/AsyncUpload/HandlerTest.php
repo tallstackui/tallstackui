@@ -50,6 +50,21 @@ function chunk(array $overrides = []): array
     ], $overrides);
 }
 
+function sample(string $name): string
+{
+    return file_get_contents(__DIR__.'/../../../../src/Components/Form/Upload/'.$name);
+}
+
+function upload(string $content, string $name): array
+{
+    return chunk([
+        'chunk' => UploadedFile::fake()->createWithContent('chunk.bin', $content),
+        'chunk_size' => strlen($content),
+        'total_size' => strlen($content),
+        'real_name' => $name,
+    ]);
+}
+
 beforeEach(function () {
     Storage::fake('local');
 
@@ -149,13 +164,135 @@ it('can finalize once the part set is complete, in index order', function () {
 });
 
 it('can sanitize the extension of the stored file', function () {
-    $response = $this->postJson('/_test/async-upload', chunk(['real_name' => 'report..//..\\weird.PDF']));
+    $response = $this->postJson('/_test/async-upload', upload(sample('test.pdf'), 'report..//..\\weird.PDF'));
 
     $response->assertOk();
 
     expect($response->json('path'))->toEndWith('.pdf')
         ->and($response->json('path'))->toStartWith('uploads/')
         ->and($response->json('real_name'))->toBe('report..//..\\weird.PDF');
+});
+
+it('can keep the client extension when the bytes back it up', function (string $sample, string $name, string $extension) {
+    $response = $this->postJson('/_test/async-upload', upload(sample($sample), $name));
+
+    $response->assertOk();
+
+    expect($response->json('path'))->toEndWith($extension)
+        ->and($response->json('real_name'))->toBe($name);
+})->with([
+    'jpeg' => ['test.jpeg', 'photo.jpeg', '.jpeg'],
+    'uppercase jpg' => ['test.jpeg', 'photo.JPG', '.jpg'],
+    'pdf' => ['test.pdf', 'report.pdf', '.pdf'],
+]);
+
+it('cannot keep a client extension that the bytes do not back up', function (string $sample, string $suffix, string $name, string $extension) {
+    $response = $this->postJson('/_test/async-upload', upload(sample($sample).$suffix, $name));
+
+    $response->assertOk();
+
+    expect($response->json('path'))->toEndWith($extension)
+        ->and($response->json('real_name'))->toBe($name);
+
+    Storage::disk('local')->assertExists($response->json('path'));
+})->with([
+    'php behind a jpeg' => ['test.jpeg', "\n<?php echo 1; ?>", 'avatar.php', '.jpg'],
+    'phtml behind a jpeg' => ['test.jpeg', "\n<?php echo 1; ?>", 'avatar.phtml', '.jpg'],
+    'html behind a pdf' => ['test.pdf', "\n<script>alert(1)</script>", 'doc.html', '.pdf'],
+    'svg behind a jpeg' => ['test.jpeg', '', 'logo.svg', '.jpg'],
+    'no extension' => ['test.jpeg', '', 'photo', '.jpg'],
+]);
+
+it('cannot keep a script extension on content of another kind', function (string $content, string $name, string $extension) {
+    $response = $this->postJson('/_test/async-upload', upload($content, $name));
+
+    $response->assertOk();
+
+    expect(pathinfo($response->json('path'), PATHINFO_EXTENSION))->toBe($extension);
+})->with([
+    'php source' => ["<?php echo 1; ?>\n", 'shell.php', ''],
+    'binary' => [str_repeat("\x00\x01\x02\xff", 40), 'shell.php', 'bin'],
+    'plain text' => [str_repeat('A', 64), 'shell.phtml', 'txt'],
+]);
+
+it('cannot keep a client extension when the file arrives in chunks', function () {
+    $content = sample('test.jpeg')."\n<?php echo 1; ?>";
+    $half = intdiv(strlen($content), 2);
+
+    $base = [
+        'uuid' => (string) Str::uuid(),
+        'total_chunks' => 2,
+        'chunk_size' => $half,
+        'total_size' => strlen($content),
+        'real_name' => 'avatar.php',
+    ];
+
+    $this->postJson('/_test/async-upload', chunk($base + [
+        'chunk' => UploadedFile::fake()->createWithContent('a.bin', substr($content, 0, $half)),
+        'chunk_index' => 0,
+    ]))->assertNoContent();
+
+    $response = $this->postJson('/_test/async-upload', chunk($base + [
+        'chunk' => UploadedFile::fake()->createWithContent('b.bin', substr($content, $half)),
+        'chunk_index' => 1,
+    ]));
+
+    $response->assertOk();
+
+    expect($response->json('path'))->toEndWith('.jpg')
+        ->and(Storage::disk('local')->get($response->json('path')))->toBe($content);
+});
+
+it('cannot reach the store callback with a php named file under a mimes rule', function () {
+    $reached = false;
+
+    endpoint('/_test/async-upload-store-guarded', [
+        'rules' => ['file' => ['mimes:jpg,png,pdf']],
+        'store' => function (SplFileInfo $file) use (&$reached): string {
+            $reached = true;
+
+            return 'custom/place.bin';
+        },
+    ]);
+
+    $this->postJson('/_test/async-upload-store-guarded', upload(sample('test.jpeg')."\n<?php echo 1; ?>", 'avatar.php'))
+        ->assertStatus(422);
+
+    expect($reached)->toBeFalse();
+});
+
+it('cannot accept a php named file under a mimes rule', function () {
+    Event::fake();
+
+    endpoint('/_test/async-upload-guarded', ['directory' => 'uploads', 'rules' => ['file' => ['mimes:jpg,png,pdf']]]);
+
+    $this->postJson('/_test/async-upload-guarded', upload(sample('test.jpeg')."\n<?php echo 1; ?>", 'avatar.php'))
+        ->assertStatus(422)
+        ->assertJsonStructure(['message', 'errors' => ['file']]);
+
+    expect(Storage::disk('local')->allFiles('uploads'))->toBeEmpty();
+
+    Event::assertDispatched(AsyncUploadFailed::class, fn (AsyncUploadFailed $event) => $event->reason === 'rules');
+});
+
+it('cannot store an html named file as html under a mimes rule', function () {
+    endpoint('/_test/async-upload-guarded', ['directory' => 'uploads', 'rules' => ['file' => ['mimes:jpg,png,pdf']]]);
+
+    $response = $this->postJson('/_test/async-upload-guarded', upload(sample('test.pdf')."\n<script>alert(1)</script>", 'doc.html'));
+
+    $response->assertOk();
+
+    expect($response->json('path'))->toEndWith('.pdf');
+});
+
+it('can apply the extensions rule against the client name', function () {
+    endpoint('/_test/async-upload-extensions', ['directory' => 'uploads', 'rules' => ['file' => ['extensions:jpg,jpeg,png']]]);
+
+    $this->postJson('/_test/async-upload-extensions', upload(sample('test.jpeg'), 'photo.jpeg'))->assertOk();
+
+    $this->postJson('/_test/async-upload-extensions', upload(sample('test.jpeg'), 'photo.html'))
+        ->assertStatus(422)
+        ->assertJsonStructure(['message', 'errors' => ['file']]);
 });
 
 it('cannot exceed the server side size ceiling', function () {

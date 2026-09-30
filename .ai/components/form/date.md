@@ -86,12 +86,12 @@ the same validation as the attribute: anything outside `0`–`6` raises the exce
 
 `typeable` turns the input into a regular text field with an auto-formatting mask
 derived from the `format` tokens (`DD/MM/YYYY` becomes `##/##/####`), inserting the
-separators as the user types. On blur the typed value is parsed against the format
-and validated by the same rules as the picker — min/max, disabled dates, weekdays,
-weekends and only — so an invalid, impossible (`31/02/2020`) or out-of-range date
-restores the previous value, while clearing the field and leaving empties the model.
-Clicking the input no longer opens the picker; the calendar icon still does, and the
-keyboard focus keeps working.
+separators as the user types. On blur, or when Enter is pressed, the typed value is
+parsed against the format and validated by the same rules as the picker — min/max,
+disabled dates, weekdays, weekends and only — so an invalid, impossible (`31/02/2020`)
+or out-of-range date restores the previous value, while clearing the field and leaving
+empties the model. Clicking the input no longer opens the picker; the calendar icon
+still does, and the keyboard focus keeps working.
 
 The `format` must contain the `YYYY`, `MM` and `DD` tokens, and `typeable` cannot be
 combined with `range`, `multiple` or `month-year-only` — combining them throws the

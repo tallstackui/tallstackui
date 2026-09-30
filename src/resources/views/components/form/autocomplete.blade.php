@@ -26,6 +26,7 @@
                          :prefix="$prefix"
                          :placeholder="$placeholder"
                          :invalidate="$invalidate"
+                         :alternative="$property"
                          :disabled="$disabled"
                          :readonly="$readonly"
                          floatable

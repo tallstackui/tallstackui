@@ -99,6 +99,8 @@ Both `wire:model` and `name` receive the same shape, an array of finished upload
 
 Following `wire:model` semantics, the array is synced on the next round trip. Use `wire:model.live` to push it immediately.
 
+The tiles follow the property both ways. A change made on the server after the first render, such as `$this->reset('files')` once a record is saved or a list loaded into the property by an edit action, is reflected in the grid. Files still pending, uploading or failed stay where they are.
+
 ## Backend
 
 The endpoint is yours. The `Uploader` trait handles the chunk protocol:
@@ -145,6 +147,7 @@ The callback receives the assembled file and returns its final path. This is whe
 ```php
 return $this->upload($request, [
     'disk' => 'public',
+    'rules' => ['file' => ['mimes:jpg,png,pdf', 'extensions:jpg,png,pdf']],
     'store' => fn (SplFileInfo $file, AsyncUploadRequest $request): string => $post
         ->addMedia($file)
         ->usingFileName($request->input('real_name'))
@@ -158,6 +161,8 @@ It runs once per file, not once per chunk, after the pieces are joined and valid
 ### Guards
 
 `max-size` on the component is feedback for the user; a request built by hand would ignore it. The handler re-checks the declared size on every chunk and compares the assembled bytes to it at the end, so neither can be lied about. `rules` run against the real bytes, not the mime the browser claimed.
+
+The stored file takes its extension from those bytes too. The one in `real_name` is only kept when it matches what was detected, so a JPEG sent as `avatar.php` is stored as `.jpg`. A `store` callback that names the file after `real_name` is not covered by that: add the `extensions` rule, which checks the name the client sent.
 
 Route middleware is yours. The `authorize` option sits on top of it, for rules middleware cannot express. It receives the validated `AsyncUploadRequest` and runs on every chunk, before anything is written:
 

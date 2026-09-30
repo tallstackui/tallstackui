@@ -38,6 +38,7 @@
                          x-ref="input"
                          x-on:click="!locked() && !typeable && (show = !show)"
                          x-on:keydown="!typeable && $event.preventDefault()"
+                         x-on:keydown.enter="typeable && parseTyped()"
                          x-on:input="typeable && applyMask($event)"
                          x-on:blur="typeable && parseTyped()"
                          dusk="tallstackui_date_input"
