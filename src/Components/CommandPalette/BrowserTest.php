@@ -468,6 +468,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_release_the_scroll_lock_after_the_palette_was_rebuilt(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $visible = true;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($visible)
+                        <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+                    @endif
+
+                    <x-button dusk="toggle" wire:click="$toggle('visible')">Toggle</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewire()->click('@toggle')
+            ->waitForLivewire()->click('@toggle')
+            ->keys('', ['{control}', 'k'])
+            ->waitFor('@tallstackui_command_palette')
+            ->keys('', '{escape}')
+            ->waitUntilMissing('@tallstackui_command_palette')
+            ->assertScript('document.body.style.overflow !== "hidden"')
+            ->assertScript('(window.__tsui_elements ?? []).length', 0);
+    }
+
+    #[Test]
     public function focuses_search_input_on_open(): void
     {
         $browser = Livewire::visit(new class extends Component
