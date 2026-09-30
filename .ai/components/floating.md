@@ -87,6 +87,10 @@ Both halves are needed because every listener sits on `window` and runs in
 registration order: an overlay running before the panel sees it still open in the
 registry, and one running after sees the mark left on the event.
 
+The entry leaves the registry when the panel is torn out of the DOM while open, the
+same cases that release the scroll lock, so a popup removed by a Livewire morph does
+not keep the key away from the overlays.
+
 ## Position
 
 `position` accepts the twelve concrete placements, `top`, `bottom`, `left` and
