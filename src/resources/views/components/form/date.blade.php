@@ -37,7 +37,7 @@
                          floatable
                          x-ref="input"
                          x-on:click="!locked() && !typeable && (show = !show)"
-                         x-on:keydown="!typeable && $event.preventDefault()"
+                         x-on:keydown="!typeable && window.tallstackui_lockKeydown($event)"
                          x-on:keydown.enter="typeable && parseTyped()"
                          x-on:input="typeable && applyMask($event)"
                          x-on:blur="typeable && parseTyped()"

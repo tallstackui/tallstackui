@@ -24,7 +24,7 @@ class ColorRuntime extends AbstractRuntime
             'select' => $component->selectable === true && ! $locks['locked'] ? [
                 'x-on:click' => 'show = !show',
                 'class' => 'cursor-pointer caret-transparent',
-                'x-on:keydown' => '$event.preventDefault()',
+                'x-on:keydown' => 'window.tallstackui_lockKeydown($event)',
                 'spellcheck' => 'false',
             ] : [],
         ];

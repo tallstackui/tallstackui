@@ -19,7 +19,7 @@
                    @if ($min) min="{{ $min }}" @endif
                    @if ($max) max="{{ $max }}" @endif
                    @if ($step) step="{{ $step }}" @endif
-                   @if ($configurations['selectable']) x-on:keydown="$event.preventDefault()" @endif
+                   @if ($configurations['selectable']) x-on:keydown="window.tallstackui_lockKeydown($event)" @endif
                    {{ $attributes->class([
                         $customization['input.base'],
                         $customization['input.centralized'] => $configurations['centralized'],
