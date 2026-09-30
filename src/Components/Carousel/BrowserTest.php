@@ -459,6 +459,47 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_stop_the_autoplay_when_removed(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $visible = true;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($visible)
+                        <x-carousel :images="[
+                            [
+                                'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                                'title' => '1-foo',
+                                'description' => '1-bar',
+                            ],
+                            [
+                                'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                                'title' => '2-foo',
+                                'description' => '2-bar',
+                            ],
+                        ]" autoplay interval="1" />
+                    @endif
+
+                    <x-button dusk="remove" wire:click="$set('visible', false)">Remove</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->waitForLivewire()->click('@remove')
+            ->assertDontSee('1-foo')
+            ->tap(fn (Browser $browser) => $browser->script(
+                "window.__flushes = 0; window.addEventListener('tallstackui:floating-flush', () => window.__flushes++);"
+            ))
+            ->pause(2500)
+            ->assertScript('window.__flushes', 0);
+    }
+
+    #[Test]
     public function cannot_navigate_next_without_loop(): void
     {
         Livewire::visit(new class extends Component
