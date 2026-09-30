@@ -600,6 +600,80 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_submit_the_typed_date_with_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public ?string $saved = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="saved">{{ $saved }}</p>
+
+                    <form wire:submit="save">
+                        <x-date label="DatePicker" wire:model="date" typeable />
+
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = $this->date;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@tallstackui_date_input', '20200115')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->keys('@tallstackui_date_input', '{enter}')
+            ->waitForTextIn('@saved', '2020-01-15')
+            ->assertSeeIn('@saved', '2020-01-15');
+    }
+
+    #[Test]
+    public function can_submit_the_typed_date_with_enter_using_a_custom_format(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public ?string $saved = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="saved">{{ $saved }}</p>
+
+                    <form wire:submit="save">
+                        <x-date label="DatePicker" wire:model="date" format="DD/MM/YYYY" typeable />
+
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = $this->date;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@tallstackui_date_input', '15012020')
+            ->assertInputValue('@tallstackui_date_input', '15/01/2020')
+            ->keys('@tallstackui_date_input', '{enter}')
+            ->waitForTextIn('@saved', '2020-01-15')
+            ->assertSeeIn('@saved', '2020-01-15');
+    }
+
+    #[Test]
     public function can_type_date_when_typeable(): void
     {
         Livewire::visit(new class extends Component
@@ -1084,6 +1158,48 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] Form\Date: The [start] attribute must be between 0 and 6.');
+    }
+
+    #[Test]
+    public function cannot_submit_an_invalid_typed_date_with_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public ?string $saved = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="saved">{{ $saved }}</p>
+
+                    <form wire:submit="save">
+                        <x-date label="DatePicker" wire:model="date" typeable />
+
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = $this->date;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '20200231')
+            ->assertInputValue('@tallstackui_date_input', '2020-02-31')
+            ->keys('@tallstackui_date_input', '{enter}')
+            ->waitForTextIn('@saved', '2020-01-10')
+            ->assertSeeIn('@saved', '2020-01-10')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-10');
     }
 
     #[Test]
