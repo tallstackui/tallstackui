@@ -12,6 +12,7 @@
         $customization['wrapper.position.top-on-mobile'] => $configurations['top-on-mobile'],
     ]) x-bind:class="{ '{{ $customization['wrapper.position.top-x'] }}' : position.includes('top-') === true, '{{ $customization['wrapper.position.bottom-x'] }}' : position.includes('bottom-') === true }">
     <div dusk="tallstackui_toast_stack"
+         x-on:mousedown.stop
          x-on:mouseenter="expand()"
          x-on:mouseleave="collapse()"
          x-on:ts-ui:toast-measured="register($event.detail)"
