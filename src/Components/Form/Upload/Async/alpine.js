@@ -59,14 +59,51 @@ export default (options) => ({
   aborts: new Map(),
   queue: [],
   workers: 0,
+  last: null,
 
   init() {
     // options.wire only carries an id when PHP rendered us inside a Livewire
     // component, which is exactly when the $wire magic is safe to touch.
-    this.hydrate(options.existing);
+    this.files = this.hydrate(options.existing);
+    this.last = this.stamp(options.existing);
 
     this.$watch('preview.open', (value) => overflow(value, 'upload-async', false));
     this.$watch('files', () => this.$nextTick(() => this.measure()));
+
+    this.$nextTick(() => this.observe());
+  },
+
+  // The root carries wire:ignore, so a property the server changes after the
+  // first render (reset, load) only reaches the tiles through this watcher.
+  observe() {
+    const wire = this.bridge();
+
+    if (!wire || !this.property || typeof wire.$watch !== 'function') {
+      return;
+    }
+
+    wire.$watch(this.property, (value) => this.follow(value));
+  },
+
+  // Our own sync() echoes back through the watcher with the exact list we
+  // sent, so only a value that differs from it rebuilds the tiles. Files
+  // still pending, uploading or failed are not the server's to replace.
+  follow(value) {
+    const incoming = this.stamp(value);
+
+    if (incoming === this.last) {
+      return;
+    }
+
+    this.last = incoming;
+    this.files = [
+      ...this.hydrate(value),
+      ...this.files.filter((file) => file.status !== 'success'),
+    ];
+  },
+
+  stamp(value) {
+    return JSON.stringify(value ?? (this.multiple ? [] : null));
   },
 
   // The bottom fade only earns its place once there is something scrolled
@@ -91,12 +128,12 @@ export default (options) => ({
 
   hydrate(existing) {
     if (!existing) {
-      return;
+      return [];
     }
 
     const list = Array.isArray(existing) ? existing : [existing];
 
-    this.files = list
+    return list
       .filter((file) => file && file.path)
       .map((file) => ({
         ...file,
@@ -531,7 +568,11 @@ export default (options) => ({
       url: file.url,
     }));
 
-    wire.set(this.property, this.multiple ? payload : (payload[0] ?? null), this.live);
+    const value = this.multiple ? payload : (payload[0] ?? null);
+
+    this.last = this.stamp(value);
+
+    wire.set(this.property, value, this.live);
   },
 
   emit(name, detail) {
