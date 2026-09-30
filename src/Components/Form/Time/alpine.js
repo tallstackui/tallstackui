@@ -49,9 +49,30 @@ export default (
 
     if (this.model) this.hydrate();
 
-    this.$watch('model', () => this.hydrate());
+    this.$watch('model', (value) => this.follow(value));
 
     this.sync();
+  },
+  /**
+   * Follow the model, so a value set or cleared outside the component,
+   * as the server does, reaches the input and the sliders.
+   *
+   * @param {String|Null} value
+   * @return {void}
+   */
+  follow(value) {
+    this.empty = !value;
+    this.$refs.input.value = value ?? '';
+
+    if (value) {
+      this.hydrate();
+
+      return;
+    }
+
+    this.hours = this.range.hour.min.toString().padStart(2, '0');
+    this.minutes = '00';
+    this.interval = 'AM';
   },
   /**
    * Hydrate the need stuff in the bootstrap.
