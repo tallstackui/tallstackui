@@ -87,6 +87,23 @@ Wheel and drag drive the underlying slider via `stepUp()`/`stepDown()`, so `step
 `step-minute`, `min-hour`/`max-hour` and `min-minute`/`max-minute` are always respected,
 and the `x-on:hour`/`x-on:minute` events fire exactly as if the slider had been moved.
 
+## Required
+
+With the `required` attribute and no value, the field starts with the current time in the
+component's format, folded into the 1-12 range on `format="12"` the same way the helper
+does, and the clear button is not rendered.
+
+## Server Changes
+
+The input and the sliders follow the property both ways. A change made on the server after
+the first render, such as `$this->reset('time')` once a record is saved or a value loaded
+by an edit action, is reflected in the field. A value reset to `null` empties the input and
+brings the sliders back to where they start.
+
+## Keyboard
+
+The input takes no typing, but `Tab` and `Shift+Tab` still move the focus through it.
+
 ## Current time helper
 
 `helper` writes the current time in the component's format. On `format="12"` the reading
