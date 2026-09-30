@@ -1,12 +1,14 @@
-export default (property) => ({
+export default () => ({
   clearable: false,
+  input: null,
   init() {
-    this.$nextTick(() => (this.clearable = this.$refs[property].value !== ''));
+    // Looked up through the markup, not `$refs`: the input can be its own
+    // Alpine root or carry a custom `x-ref`, and both hide it from here.
+    this.input = this.$el.parentElement.querySelector(':scope > input');
 
-    this.$refs[property].addEventListener(
-      'input',
-      () => (this.clearable = this.$refs[property].value !== '')
-    );
+    this.$nextTick(() => (this.clearable = this.input.value !== ''));
+
+    this.input.addEventListener('input', () => (this.clearable = this.input.value !== ''));
   },
   /**
    * Clear the input value
@@ -14,10 +16,10 @@ export default (property) => ({
    * @returns {void}
    */
   clear() {
-    this.$refs[property].value = '';
+    this.input.value = '';
 
     this.clearable = false;
 
-    this.$refs[property].dispatchEvent(new Event('input'));
+    this.input.dispatchEvent(new Event('input'));
   },
 });
