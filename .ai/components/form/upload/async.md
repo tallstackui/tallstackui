@@ -99,6 +99,8 @@ Both `wire:model` and `name` receive the same shape, an array of finished upload
 
 Following `wire:model` semantics, the array is synced on the next round trip. Use `wire:model.live` to push it immediately.
 
+The tiles follow the property both ways. A change made on the server after the first render, such as `$this->reset('files')` once a record is saved or a list loaded into the property by an edit action, is reflected in the grid. Files still pending, uploading or failed stay where they are.
+
 ## Backend
 
 The endpoint is yours. The `Uploader` trait handles the chunk protocol:
