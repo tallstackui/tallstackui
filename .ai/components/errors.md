@@ -33,6 +33,9 @@ collection:
 <x-errors :only="collect(['name', 'description'])" />
 ```
 
+With `only`, the box is rendered just when one of the listed fields has an error,
+so a form can hold one box per section.
+
 Hide the title and its divider, and render a numbered list:
 
 ```blade
