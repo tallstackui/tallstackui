@@ -50,6 +50,13 @@ export default (flash, texts, overflowing) => ({
   add(dialog) {
     this.dialog = {};
     this.dialog = dialog;
+
+    // A modal or slide opened before the dialog sits later in the body and
+    // wins the same z-index, so the dialog takes the last place before showing.
+    if (document.body.lastElementChild !== this.$root) {
+      document.body.appendChild(this.$root);
+    }
+
     this.show = true;
   },
   /**
