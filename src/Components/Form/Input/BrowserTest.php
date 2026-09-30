@@ -36,6 +36,56 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_clear_input_using_clearable_with_a_custom_ref(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '123';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    <x-input dusk="input" wire:model.live="value" clearable x-ref="custom" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitFor('@tallstackui_form_input_clearable')
+            ->waitForLivewire()->click('@tallstackui_form_input_clearable')
+            ->assertDontSeeIn('@value', '123')
+            ->assertInputValue('@input', '');
+    }
+
+    #[Test]
+    public function can_clear_input_using_clearable_with_strip_zeros(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '123';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    <x-input dusk="input" wire:model.live="value" clearable strip-zeros />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitFor('@tallstackui_form_input_clearable')
+            ->waitForLivewire()->click('@tallstackui_form_input_clearable')
+            ->assertDontSeeIn('@value', '123')
+            ->assertInputValue('@input', '');
+    }
+
+    #[Test]
     public function can_handle_decimal_values_with_strip_leading_zeros(): void
     {
         Livewire::visit(new class extends Component
