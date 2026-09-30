@@ -164,6 +164,66 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_popup_inside_open_when_the_slide_changes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'title' => '2-foo'],
+                    ]" autoplay interval="1">
+                        <x-slot:header>
+                            <x-dropdown text="Inside">
+                                <x-dropdown.items text="Inner settings" />
+                            </x-dropdown>
+                        </x-slot:header>
+                    </x-carousel>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->press('Inside')
+            ->waitForText('Inner settings')
+            ->waitForText('2-foo')
+            ->pause(1500)
+            ->assertSee('Inner settings');
+    }
+
+    #[Test]
+    public function can_keep_popups_outside_open_while_playing(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dropdown text="Outside">
+                        <x-dropdown.items text="Settings" />
+                    </x-dropdown>
+
+                    <x-carousel :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'title' => '1-foo'],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'title' => '2-foo'],
+                    ]" autoplay interval="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->press('Outside')
+            ->waitForText('Settings')
+            ->waitForText('2-foo')
+            ->pause(1500)
+            ->assertSee('Settings');
+    }
+
+    #[Test]
     public function can_navigate_automatically(): void
     {
         Livewire::visit(new class extends Component
