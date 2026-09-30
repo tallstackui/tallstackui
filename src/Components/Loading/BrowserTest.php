@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Loading;
 
 use Laravel\Dusk\Browser;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Assert;
@@ -11,6 +12,33 @@ use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function can_release_the_scroll_lock_after_a_renderless_action(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-loading />
+
+                    <x-button dusk="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            #[Renderless]
+            public function save(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewire()->click('@save')
+            ->pause(300)
+            ->assertScript('document.body.style.overflow !== "hidden"');
+    }
+
     #[Test]
     public function can_see_loading_using_spinner_indicator(): void
     {
