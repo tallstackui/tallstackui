@@ -152,6 +152,8 @@ Bind the current step to a Livewire string property:
 </x-step>
 ```
 
+The property can also be an `int`: the helpers, the finish button and the finish slot read both the same way.
+
 Use `wire:model.live` for real-time server sync on every step change.
 
 ## Alpine.js Event Payloads
