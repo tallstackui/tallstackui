@@ -99,6 +99,40 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_close_over_a_modal(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function notify(): void
+            {
+                $this->toast()->success('Saved')->persistent()->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('toast')">Open</x-button>
+
+                    <x-modal title="Modal" id="toast">
+                        <x-button dusk="notify" wire:click="notify">Save</x-button>
+                    </x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Modal')
+            ->waitForLivewire()->click('@notify')
+            ->waitForText('Saved')
+            ->click('@tallstackui_toast_close')
+            ->waitUntilMissingText('Saved')
+            ->assertSee('Modal');
+    }
+
+    #[Test]
     public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id(): void
     {
         Livewire::visit(new class extends Component
