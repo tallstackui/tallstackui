@@ -2,13 +2,29 @@
 
 namespace TallStackUi\Components\Breadcrumbs;
 
+use Illuminate\Routing\Router;
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
+use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function can_keep_the_registry_trail_after_a_livewire_update(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/breadcrumbs-registry/laravel')
+            ->waitForText('Team laravel')
+            ->assertSee('Teams')
+            ->click('@increment')
+            ->waitForTextIn('@count', '1')
+            ->assertSee('Teams')
+            ->assertSee('Team laravel'));
+    }
+
     #[Test]
     public function can_render_all_size_variants(): void
     {
@@ -186,5 +202,41 @@ class BrowserTest extends BrowserTestCase
             ->click('@add-item')
             ->waitForText('New Page')
             ->assertSee('New Page');
+    }
+
+    /** @param  Router  $router */
+    protected function defineWebRoutes($router): void
+    {
+        parent::defineWebRoutes($router);
+
+        $router->get('/breadcrumbs-registry/{team}', BreadcrumbsRegistryPage::class)->name('breadcrumbs.registry');
+
+        TallStackUi::breadcrumbs()->for(
+            'breadcrumbs.registry',
+            fn (BreadcrumbTrail $trail, string $team) => $trail->add('Teams', '/')->add("Team {$team}")
+        );
+    }
+}
+
+class BreadcrumbsRegistryPage extends Component
+{
+    public int $count = 0;
+
+    public function increment(): void
+    {
+        $this->count++;
+    }
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            <x-breadcrumbs />
+
+            <p dusk="count">{{ $count }}</p>
+
+            <button type="button" dusk="increment" wire:click="increment">Increment</button>
+        </div>
+        HTML;
     }
 }
