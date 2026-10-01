@@ -894,6 +894,54 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_dispatch_change_event_when_the_typed_date_is_unchanged(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public int $changes = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="changes">{{ $changes }}</p>
+                    <p dusk="date">[{{ $date }}]</p>
+
+                    <x-date label="DatePicker" wire:model="date" wire:change="changed" typeable />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function changed(): void
+            {
+                $this->changes++;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@changes', '0')
+            ->click('@tallstackui_date_input')
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '20200115')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->click('@changes')
+            ->waitForTextIn('@date', '[2020-01-15]')
+            ->assertDontSeeIn('@changes', '0');
+    }
+
+    #[Test]
     public function cannot_navigate_beyond_max_year(): void
     {
         Livewire::visit(new class extends Component
