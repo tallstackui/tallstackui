@@ -91,7 +91,22 @@ and the `x-on:hour`/`x-on:minute` events fire exactly as if the slider had been 
 
 With the `required` attribute and no value, the field starts with the current time in the
 component's format, folded into the 1-12 range on `format="12"` the same way the helper
-does, and the clear button is not rendered.
+does, and the clear button is not rendered. An empty string counts as no value.
+
+## Empty Values
+
+A property that starts as `null` or as an empty string, as `public string $time = ''`
+does, leaves the field empty. Nothing is written to it until the user picks a time.
+
+## Change Event
+
+`wire:change` calls the Livewire method with the new value when the user moves the hour
+or the minute, picks the interval, uses the helper or clears the field, which sends
+`null`. It is not called when the component mounts nor when the server changes the value.
+
+```blade
+<x-time wire:model="time" wire:change="save" />
+```
 
 ## Server Changes
 
