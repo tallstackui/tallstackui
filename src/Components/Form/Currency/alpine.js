@@ -175,5 +175,9 @@ export default (
     this.sent = null;
 
     this.model = null;
+
+    if (!this.livewire) {
+      this.sync();
+    }
   },
 });
