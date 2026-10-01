@@ -327,6 +327,22 @@ it('can ask ui-avatars for twice the rendered size', function () {
         ->toContain('size=320');
 });
 
+it('cannot send a color that is not hex to ui-avatars', function (string $attribute) {
+    expect('<x-avatar :model="$user" '.$attribute.' />')
+        ->render(['user' => avatar_model()])
+        ->toContain('https://ui-avatars.com/api?name=AJ%20Meireles&amp;background=0D8ABC&amp;size=96')
+        ->not->toContain('color=');
+})->with([
+    'default' => [''],
+    'named' => ['color="red"'],
+]);
+
+it('can send a hex color to ui-avatars', function () {
+    expect('<x-avatar :model="$user" color="fff" />')
+        ->render(['user' => avatar_model()])
+        ->toContain('background=0D8ABC&amp;color=fff&amp;size=96');
+});
+
 it('can let the image win over the gravatar')
     ->expect('<x-avatar image="https://cdn.test/a.png" gravatar="aj@mail.com" />')
     ->render()
