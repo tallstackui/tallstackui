@@ -424,6 +424,10 @@ export default (
 
       this.input = this.model;
 
+      if (change) {
+        wireChange(change, this.model);
+      }
+
       return;
     }
 
