@@ -177,7 +177,8 @@ class Component extends TallStackUiComponent implements Customization
         $params = Arr::query([
             'name' => $name ?? $this->model->getAttribute($this->property),
             'background' => $this->background,
-            'color' => $this->color,
+            // ui-avatars only reads a hex color and breaks the image on anything else.
+            'color' => ctype_xdigit((string) $this->color) ? $this->color : null,
             'size' => $this->dimension(),
             ...$this->options,
         ]);
