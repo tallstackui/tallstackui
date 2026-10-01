@@ -3,7 +3,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}">
+    <input hidden name="{{ $property }}" @disabled($disabled)>
 @endif
 
 <div x-data="tallstackui_autocomplete({!! $entangle !!}, @js($items), @js($selectable), @js($request), @js((bool) $strict), @js($lazy), @js($livewire), @js($property), @js($value), @js($disabled), @js($readonly))"

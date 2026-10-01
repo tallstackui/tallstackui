@@ -3,7 +3,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}">
+    <input hidden name="{{ $property }}" @disabled($disabled)>
 @endif
 
 <div x-data="tallstackui_select(
