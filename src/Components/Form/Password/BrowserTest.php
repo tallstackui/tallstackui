@@ -250,6 +250,44 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_value_bound_from_the_server(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $secret = 's3cr3t';
+
+            public string $token = 't0k3n';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="secret">[{{ $secret ?? 'null' }}]</p>
+                    <p dusk="token">[{{ $token }}]</p>
+
+                    <x-password dusk="input" wire:model="secret" />
+                    <x-password dusk="rules" wire:model="token" rules />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@input', 's3cr3t')
+            ->assertInputValue('@rules', 't0k3n')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@secret', '[s3cr3t]')
+            ->assertSeeIn('@token', '[t0k3n]')
+            ->assertInputValue('@input', 's3cr3t');
+    }
+
+    #[Test]
     public function can_persist_generated_password_on_confirmation_field(): void
     {
         Livewire::visit(new class extends Component
