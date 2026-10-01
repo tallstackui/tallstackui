@@ -22,6 +22,9 @@ export default (number, animated, duration = 1) => ({
         return;
       }
 
+      const decimals = (String(this.number).split('.')[1] ?? '').length;
+      const factor = Math.pow(10, decimals);
+
       this.start = 0;
 
       const step = (timestamp) => {
@@ -31,9 +34,12 @@ export default (number, animated, duration = 1) => ({
 
         const progress = timestamp - this.start;
         const percentage = Math.min(progress / (this.duration * 1000), 1);
-        const value = Math.floor(percentage * target);
+        const value = percentage === 1 ? target : Math.floor(percentage * target * factor) / factor;
 
-        element.textContent = value.toLocaleString();
+        element.textContent = value.toLocaleString(undefined, {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        });
 
         if (progress < this.duration * 1000) {
           window.requestAnimationFrame(step);
