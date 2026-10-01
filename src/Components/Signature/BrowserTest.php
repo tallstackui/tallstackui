@@ -85,6 +85,50 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_follow_a_reset_of_the_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $signature = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <p dusk="state">[{{ $signature ? 'filled' : 'empty' }}]</p>
+
+                        <x-signature wire:model="signature" />
+
+                        <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                        <x-button dusk="wipe" wire:click="wipe">Wipe</x-button>
+                    </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+
+            public function wipe(): void
+            {
+                $this->signature = null;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->dragRight('@tallstackui_signature_canva', 100)
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@state', '[filled]')
+            ->waitForLivewire()->click('@wipe')
+            ->assertSeeIn('@state', '[empty]')
+            ->assertScript("Alpine.\$data(document.querySelector('[x-data^=tallstackui_signature]')).strokes.length", 0)
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@state', '[empty]')
+            ->dragLeft('@tallstackui_signature_canva', 100)
+            ->assertScript("Alpine.\$data(document.querySelector('[x-data^=tallstackui_signature]')).strokes.length", 1);
+    }
+
+    #[Test]
     public function can_redo(): void
     {
         $browser = Livewire::visit(new class extends Component
