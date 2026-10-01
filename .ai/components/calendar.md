@@ -31,6 +31,10 @@ A single date arrives as `Y-m-d`; `range` and `multiple` arrive JSON encoded:
 </form>
 ```
 
+`value` takes the same back: a date string, and for `range` or `multiple` an array, the
+JSON string the form submitted or a comma separated string
+(`value="2026-10-01,2026-10-05"`).
+
 Range selection:
 
 ```blade

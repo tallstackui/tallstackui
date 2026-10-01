@@ -37,7 +37,9 @@ The component layers on top of `Form/Input` (so `floatable`, label, hint, error 
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form: a hidden input carries the
-picked value to the server, and `value` seeds the initial selection.
+picked value to the server, and `value` seeds the initial selection. The value is read
+as it is, commas included. A string made only of digits is compared as a number, so its
+leading zeros are dropped.
 
 ```blade
 <form method="POST" action="/subscriptions">

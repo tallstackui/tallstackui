@@ -34,6 +34,10 @@ A single tag arrives as a plain value and several arrive JSON encoded:
 </form>
 ```
 
+`value` takes the same back: an array, the JSON string the form submitted or a comma
+separated string, so `:value="old('tags')"` and `value="php, laravel"` both work. A tag
+keeps its leading zeros.
+
 Enter adds a tag rather than submitting the surrounding form, so the two do not fight
 over the key.
 

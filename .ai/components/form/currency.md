@@ -119,6 +119,17 @@ The sync mode below decides what that raw value looks like:
 Use `decimal` when the server expects something directly castable to a number
 (`1234.56`), and `mutate` when it expects the formatted string.
 
+`value` gives the initial amount. A number, integer or decimal, and a string made only
+of digits are amounts in units: `:value="1234.56"` shows `1,234.56` and `value="1500"`
+shows `1,500.00`. The default mode submits the amount in cents, so handing
+`old('price')` back to `value` in that mode multiplies the amount by 100. A form that
+gives the submitted value back to the field should use `decimal` or `mutate`, whose
+submitted value is read back as the same amount:
+
+```blade
+<x-currency name="price" decimal :value="old('price', $product->price)" />
+```
+
 ### Sync Modes
 
 The Currency component offers three modes of sending the value to the Livewire

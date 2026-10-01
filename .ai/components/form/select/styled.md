@@ -156,6 +156,21 @@ hidden input backing the form:
                  select="label:label|value:value" />
 ```
 
+Outside Livewire, `value` takes what the form submitted, so `old()` can be handed
+straight back. A single value is read as it is, commas included. With `multiple` it
+takes an array, the JSON string the hidden input submits or a comma separated string:
+
+```blade
+<x-select.styled name="person" :options="$people" :value="old('person')" />
+
+<x-select.styled name="plans" multiple :options="$plans" value="basic,team" />
+```
+
+A single value holding a comma is submitted JSON encoded, quotes included
+(`"Silva, João"`). A string made only of digits is compared as a number, so
+`value="02"` selects the option `2`. For the same reason an option whose value is the
+string `"033"` is not matched by `value="033"`.
+
 ## Validation Constraints
 
 - The `options` and `request` cannot be defined at the same time.

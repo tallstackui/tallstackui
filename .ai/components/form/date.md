@@ -39,6 +39,17 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 <x-date wire:model="date" label="Birth Date" format="DD/MM/YYYY" typeable />
 ```
 
+Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+A single date is submitted as `Y-m-d`; `range` and `multiple` are submitted JSON
+encoded. `value` takes the same back: a date string, and for `range` or `multiple` an
+array, that JSON string or a comma separated string:
+
+```blade
+<x-date name="period" range :value="old('period')" />
+
+<x-date name="period" range value="2026-10-01,2026-10-05" />
+```
+
 ## Attributes
 
 | Attribute       | Type                        | Default      | Description                                                                                                                           |
