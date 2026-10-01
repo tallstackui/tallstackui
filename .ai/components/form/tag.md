@@ -24,6 +24,8 @@ A tag input component that allows users to add multiple tag values by pressing E
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `tags[]`.
 A single tag arrives as a plain value and several arrive JSON encoded:
 
 ```blade

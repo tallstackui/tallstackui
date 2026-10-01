@@ -119,6 +119,10 @@ The sync mode below decides what that raw value looks like:
 Use `decimal` when the server expects something directly castable to a number
 (`1234.56`), and `mutate` when it expects the formatted string.
 
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `prices[]`. The
+`clearable` button empties the hidden input too, so a cleared field is submitted empty.
+
 `value` gives the initial amount. A number, integer or decimal, and a string made only
 of digits are amounts in units: `:value="1234.56"` shows `1,234.56` and `value="1500"`
 shows `1,500.00`. The default mode submits the amount in cents, so handing

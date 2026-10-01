@@ -22,6 +22,8 @@ With a label and hint:
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `days[]`.
 A single date arrives as `Y-m-d`; `range` and `multiple` arrive JSON encoded:
 
 ```blade
