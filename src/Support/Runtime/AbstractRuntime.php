@@ -190,7 +190,7 @@ abstract class AbstractRuntime
      * a comma separated string, so a single value keeps its commas. Only a
      * component comparing the value as a number drops its leading zeros.
      */
-    protected function sanitize(bool $list = false, bool $numeric = false): null|int|string|array
+    protected function sanitize(bool $list = false, bool $numeric = false): null|int|float|string|array
     {
         $value = $this->data['attributes']?->get('value');
         $value = $value === 'null' ? null : ($value === '[]' ? [] : $value);
