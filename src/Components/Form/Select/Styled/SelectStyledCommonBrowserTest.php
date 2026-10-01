@@ -244,6 +244,26 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_hydrate_a_zero_of_a_plain_list(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $number = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="number" label="Select" :options="[0, 1, 2]" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForTextIn('@tallstackui_select_open_close', '0')
+            ->assertDontSeeIn('@tallstackui_select_open_close', 'Select an option');
+    }
+
+    #[Test]
     public function can_hydrate_grouped_single_option_with_default_value(): void
     {
         Livewire::visit(new class extends Component
@@ -514,6 +534,42 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_a_zero_of_a_plain_list_in_a_multiple_selection(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $numbers = [0, 1];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="numbers">[{{ implode(',', $numbers) }}]</p>
+
+                    <x-select.styled wire:model="numbers" label="Select" :options="[0, 1, 2]" multiple />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->waitFor('button[dusk="tallstackui_select_open_close"] a:nth-of-type(2)')
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitFor('@tallstackui_select_options')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
+            ->click('@sync')
+            ->waitForTextIn('@numbers', '[0,1,2]')
+            ->clickAtVisibleXPath('//button[@dusk="tallstackui_select_open_close"]//a[1]//button')
+            ->click('@sync')
+            ->waitForTextIn('@numbers', '[1,2]');
+    }
+
+    #[Test]
     public function can_navigate_grouped_options_with_keyboard(): void
     {
         Livewire::visit(new class extends Component
@@ -684,6 +740,29 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->assertSee('Option 499')
             ->waitUntilMissingText('Option 1 ')
             ->assertDontSee('Option 2 ');
+    }
+
+    #[Test]
+    public function can_search_a_zero_of_a_plain_list(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="number" label="Select" :options="[0, 1, 2]" searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitFor('@tallstackui_select_search_input')
+            ->type('@tallstackui_select_search_input', '0')
+            ->waitUntilMissingText('2')
+            ->assertPresent('ul[dusk="tallstackui_select_options"] li[role="option"]');
     }
 
     #[Test]
@@ -891,6 +970,42 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->click('@sync')
             ->waitForTextIn('@string', 'foo');
+    }
+
+    #[Test]
+    public function can_select_a_zero_of_a_plain_list(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="number">[{{ $number ?? 'null' }}]</p>
+
+                    <x-select.styled wire:model="number" label="Select" :options="[0, 1, 2]" />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitFor('@tallstackui_select_options')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->waitUntilMissing('@tallstackui_select_options')
+            ->click('@sync')
+            ->waitForTextIn('@number', '[0]')
+            ->assertSeeIn('@tallstackui_select_open_close', '0')
+            ->assertDontSeeIn('@tallstackui_select_open_close', 'Select an option');
     }
 
     #[Test]
