@@ -311,6 +311,43 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_keep_an_empty_string_property_empty(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $time = '';
+
+            public string $full = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">[{{ $time }}]</p>
+                    <p dusk="full">[{{ $full }}]</p>
+
+                    <x-time label="Time" wire:model="time" />
+                    <x-time label="Full" wire:model="full" format="24" />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_time_input', '')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@time', '[]')
+            ->assertSeeIn('@full', '[]')
+            ->assertInputValue('@tallstackui_time_input', '');
+    }
+
+    #[Test]
     public function can_select_current_hour(): void
     {
         Livewire::visit(new class extends Component
@@ -515,6 +552,44 @@ class BrowserTest extends BrowserTestCase
             ->dragRight('@tallstackui_time_hours', 300)
             ->waitForTextIn('@time', '05:00 AM')
             ->assertSeeIn('@time', '05:00 AM');
+    }
+
+    #[Test]
+    public function can_start_with_the_current_time_when_required_and_the_property_is_an_empty_string(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $time = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <script>
+                        window.Date = class extends Date {
+                            constructor(...args) {
+                                args.length === 0 ? super(2024, 0, 15, 14, 30, 0) : super(...args);
+                            }
+                        };
+                    </script>
+
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" wire:model="time" required />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_time_input', '02:30 PM')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@time', '02:30 PM');
     }
 
     #[Test]
