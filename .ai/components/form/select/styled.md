@@ -156,6 +156,12 @@ hidden input backing the form:
                  select="label:label|value:value" />
 ```
 
+The same holds for a plain list such as `:options="[0, 1, 2]"`: `0` can be picked,
+searched, shown from a bound value and kept or removed in a `multiple` selection.
+
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `status[]`.
+
 Outside Livewire, `value` takes what the form submitted, so `old()` can be handed
 straight back. A single value is read as it is, commas included. With `multiple` it
 takes an array, the JSON string the hidden input submits or a comma separated string:
@@ -232,6 +238,10 @@ $tsui.close.select('name')
 ]" />
 ```
 
+The `url` may carry its own query string, such as a signed route or
+`route('api.users', ['type' => 'admin'])`. With `get`, the component adds its own
+parameters to it instead of starting a second query string.
+
 ### Server-Side Implementation
 
 The component sends a `search` query parameter. Your endpoint must return a JSON array of objects:
@@ -297,6 +307,16 @@ Include `disabled: true` in the option array to prevent selection:
         </div>
     </x-slot:after>
 </x-select.styled>
+```
+
+### Change Event
+
+`wire:change` calls the Livewire method with the new value every time the selection
+changes: when an option is picked, when the selection is cleared and, with `multiple`,
+when a single item is removed, through its chip or by clicking the option again.
+
+```blade
+<x-select.styled wire:model="tags" wire:change="recalculate" :options="$options" multiple />
 ```
 
 ### Alpine.js Events
