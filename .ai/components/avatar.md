@@ -112,6 +112,11 @@ Gravatar drops the query string of the URL it receives in `d`, so the fallback
 sends the name, the size, the `background` and a hex `color` as path segments.
 `options` and a `color` that is not hex are left out of it.
 
+**Model.** Without Gravatar, the model's `property` goes to ui-avatars together with
+`background`, `size`, `options` and the `color` when it is hex, such as `color="fff"`.
+ui-avatars only reads hex, so the default `primary` or a name like `red` is left out and
+the service picks the text color.
+
 **Size.** `s` is sent at twice the rendered size, so a `7xl` avatar asks for
 320px and stays sharp on a retina screen. `size` is sent to ui-avatars the same
 way.
