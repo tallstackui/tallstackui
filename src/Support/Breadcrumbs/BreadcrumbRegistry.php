@@ -3,7 +3,11 @@
 namespace TallStackUi\Support\Breadcrumbs;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route as PageRoute;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
+use Throwable;
 
 class BreadcrumbRegistry
 {
@@ -47,7 +51,9 @@ class BreadcrumbRegistry
      */
     public function resolve(?string $route = null): array
     {
-        $route ??= Route::currentRouteName();
+        $current = $this->current();
+
+        $route ??= $current?->getName();
 
         if (! $route || ! isset($this->definitions[$route])) {
             return [];
@@ -55,7 +61,6 @@ class BreadcrumbRegistry
 
         $trail = new BreadcrumbTrail;
 
-        $current = Route::current();
         $parameters = $current ? $current->parameters() : [];
 
         app()->call($this->definitions[$route], array_merge(['trail' => $trail], $parameters));
@@ -67,5 +72,28 @@ class BreadcrumbRegistry
         }
 
         return array_merge($items, $trail->items());
+    }
+
+    /**
+     * The route of the page being rendered. A Livewire update runs on its
+     * own route, so the page one is matched again from the URL the
+     * component was first rendered at.
+     */
+    private function current(): ?PageRoute
+    {
+        if (! Livewire::isLivewireRequest()) {
+            return Route::current();
+        }
+
+        try {
+            $route = Route::getRoutes()->match(Request::create(Livewire::originalUrl(), Livewire::originalMethod()));
+
+            Route::substituteBindings($route);
+            Route::substituteImplicitBindings($route);
+
+            return $route;
+        } catch (Throwable) {
+            return Route::current();
+        }
     }
 }
