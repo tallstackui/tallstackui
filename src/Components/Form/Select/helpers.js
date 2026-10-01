@@ -82,7 +82,13 @@ export const body = (request, search, selected) => {
       params.selected = JSON.stringify(selected);
     }
 
-    url += '?' + stringify(params);
+    const query = stringify(params);
+
+    if (!url.includes('?')) {
+      url += '?' + query;
+    } else if (query !== '') {
+      url += (url.endsWith('?') || url.endsWith('&') ? '' : '&') + query;
+    }
   } else {
     init.body = JSON.stringify({
       ...params,
