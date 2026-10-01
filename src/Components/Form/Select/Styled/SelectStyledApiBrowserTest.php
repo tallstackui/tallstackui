@@ -478,6 +478,60 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
             ->assertSee('Beta Two')
             ->assertDontSee('Alpha One');
     }
+
+    #[Test]
+    public function request_url_can_carry_its_own_query_string(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model.live="item"
+                                    :request="[
+                                        'url' => route('searchable.echoing-parameters', ['raw' => 'from-url']),
+                                        'params' => ['filters' => ['status' => 'active']],
+                                    ]"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitForText('status:active')
+            ->assertSee('raw:from-url')
+            ->assertDontSee('raw:from-url?');
+    }
+
+    #[Test]
+    public function request_url_given_as_a_string_can_carry_its_own_query_string(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model.live="item"
+                                    :request="route('searchable.echoing-parameters', ['raw' => 'from-url'])"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitForText('raw:from-url')
+            ->assertDontSee('raw:from-url?');
+    }
 }
 
 class StyledComponent_Searchable extends Component
