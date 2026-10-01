@@ -17,6 +17,20 @@ use Tests\Browser\BrowserTestCase;
 class NativeBrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function clearing_empties_the_submitted_value(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-currency')
+            ->waitFor('@cleared')
+            ->pause(250)
+            ->assertInputValue('@cleared', '12.345,00')
+            ->click('@tallstackui_form_currency_clearable')
+            ->assertInputValue('@cleared', '')
+            ->click('@submit')
+            ->waitForText('received:')
+            ->assertSee('discount:[]'));
+    }
+
+    #[Test]
     public function renders_a_single_named_input(): void
     {
         // Two inputs sharing the same name would leave PHP with the last one, which
@@ -92,6 +106,7 @@ class NativeBrowserTest extends BrowserTestCase
                 <x-currency dusk="input" name="price" symbol currency locale="pt-BR" />
                 <x-currency dusk="decimal" name="total" decimal locale="pt-BR" />
                 <x-currency dusk="filled" name="fee" value="9990" locale="pt-BR" />
+                <x-currency dusk="cleared" name="discount" value="12345" decimal clearable locale="pt-BR" />
 
                 <button type="submit" dusk="submit">Send</button>
             </form>
@@ -99,6 +114,6 @@ class NativeBrowserTest extends BrowserTestCase
         </html>
         HTML));
 
-        $router->get('/native-currency/result', fn (Request $request): string => 'received:'.$request->query('price').' total:'.$request->query('total').' fee:'.$request->query('fee'));
+        $router->get('/native-currency/result', fn (Request $request): string => 'received:'.$request->query('price').' total:'.$request->query('total').' fee:'.$request->query('fee').' discount:['.$request->query('discount').']');
     }
 }
