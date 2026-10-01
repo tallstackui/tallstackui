@@ -59,6 +59,46 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_toggle_through_the_label_when_another_component_binds_the_same_property(): void
+    {
+        Livewire::visit([
+            new class extends Component
+            {
+                public function render(): string
+                {
+                    return <<<'HTML'
+                    <div>
+                        <livewire:child name="first" />
+
+                        <livewire:child name="second" />
+                    </div>
+                    HTML;
+                }
+            },
+            'child' => new class extends Component
+            {
+                public string $name;
+
+                public bool $active = false;
+
+                public function render(): string
+                {
+                    return <<<'HTML'
+                    <div dusk="{{ $name }}">
+                        <p dusk="{{ $name }}-state">{{ $active ? 'on' : 'off' }}</p>
+
+                        <x-toggle wire:model.live="active" label="Foo" />
+                    </div>
+                    HTML;
+                }
+            },
+        ])
+            ->click('@second label span')
+            ->waitForTextIn('@second-state', 'on')
+            ->assertSeeIn('@first-state', 'off');
+    }
+
+    #[Test]
     public function cannot_toggle_through_the_label_when_locked(): void
     {
         Livewire::visit(new class extends Component
