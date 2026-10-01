@@ -18,7 +18,7 @@ class TagRuntime extends AbstractRuntime
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
-            'value' => $this->sanitize(),
+            'value' => $this->sanitize(list: true),
             'listable' => $this->data('options') !== [] || $this->data('after') !== null,
         ];
     }

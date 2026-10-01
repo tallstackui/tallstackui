@@ -19,7 +19,7 @@ class DateRuntime extends AbstractRuntime
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
-            'value' => $value = $this->sanitize(),
+            'value' => $value = $this->sanitize(list: $this->data('range') || $this->data('multiple')),
             'change' => $this->change(),
         ];
 

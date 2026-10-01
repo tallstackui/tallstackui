@@ -25,7 +25,7 @@ class SelectStyledRuntime extends AbstractRuntime
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
             'validate' => $bind->get('validate'),
-            'value' => $this->sanitize(),
+            'value' => $this->sanitize(list: (bool) $this->data('multiple'), numeric: true),
             'change' => $this->change(),
             'open' => $id ? str($id)->slug()->kebab().'-open' : null,
             'close' => $id ? str($id)->slug()->kebab().'-close' : null,
