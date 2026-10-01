@@ -92,6 +92,10 @@ class Component extends TallStackUiComponent implements Customization
 
     final public function matches(): bool
     {
+        if ($this->match && request()->routeIs($this->match)) {
+            return true;
+        }
+
         if ($this->route) {
             $str = str($this->route);
 
@@ -119,6 +123,6 @@ class Component extends TallStackUiComponent implements Customization
             );
         }
 
-        return $this->match && request()->routeIs($this->match);
+        return false;
     }
 }
