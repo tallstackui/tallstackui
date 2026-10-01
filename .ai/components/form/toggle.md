@@ -33,6 +33,11 @@ The label also accepts a slot, which is what you need when it carries markup. Th
 `start` on the same slot aligns the label to the top instead of centering it, which
 matters when the text wraps over more than one line.
 
+The label wraps its input and only carries `for` when an `id` is given. With a
+generated id it relies on wrapping the input, so a click on it always reaches the
+input inside it, even when another Livewire component on the page binds the same
+property and renders the same id.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                           |

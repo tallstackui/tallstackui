@@ -36,8 +36,13 @@ matters when the text wraps over more than one line.
 ## Ids and the validation message
 
 When no `id` is given, one is generated from the bound property plus the `value`, so
-several checkboxes sharing a property keep distinct ids and each label's `for` points at
-its own input. An explicit `id` is always used as given.
+several checkboxes sharing a property keep distinct ids. An explicit `id` is always used
+as given.
+
+The label wraps its input and only carries `for` when an `id` is given. With a
+generated id it relies on wrapping the input, so a click on it always reaches the
+input inside it, even when another Livewire component on the page binds the same
+property and renders the same id.
 
 The validation message is printed once per property, by the first checkbox that renders
 it, rather than repeated under every one bound to it.
