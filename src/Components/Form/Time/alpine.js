@@ -1,4 +1,4 @@
-import { lockable, wireChange } from '../../../../js/helpers';
+import { hidden, lockable, wireChange } from '../../../../js/helpers';
 import { datetime } from '../../../../js/helpers/date';
 
 // Pixels of vertical drag required to move one step.
@@ -344,7 +344,7 @@ export default (
    * @return {void}
    */
   set input(value) {
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

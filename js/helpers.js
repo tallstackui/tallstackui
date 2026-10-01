@@ -238,6 +238,28 @@ export const wireChange = (change, model) => {
 };
 
 /**
+ * Find the hidden input a component renders before itself to carry its value
+ * in a plain form. The name alone is not enough: it may repeat on the page,
+ * and the first match would then belong to another component.
+ *
+ * @param root {HTMLElement}
+ * @param name {String}
+ * @return {HTMLInputElement|undefined}
+ */
+export const hidden = (root, name) => {
+  const elements = [...document.getElementsByName(name)];
+
+  const own = elements.filter(
+    (element) =>
+      root &&
+      element.matches('input[hidden]') &&
+      element.compareDocumentPosition(root) & Node.DOCUMENT_POSITION_FOLLOWING
+  );
+
+  return own.at(-1) ?? elements[0];
+};
+
+/**
  * Swallow a keypress on a control the browser refuses to lock through
  * `readonly`. Tab goes through, so the control keeps its place in the tab order.
  *

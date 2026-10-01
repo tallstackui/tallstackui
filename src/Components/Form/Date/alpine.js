@@ -1,5 +1,5 @@
 import { datetime, isDatetime, localize } from '../../../../js/helpers/date';
-import { lockable, wireChange } from '../../../../js/helpers';
+import { hidden, lockable, wireChange } from '../../../../js/helpers';
 
 export default (
   model,
@@ -773,7 +773,7 @@ export default (
 
     if (this.livewire) return;
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

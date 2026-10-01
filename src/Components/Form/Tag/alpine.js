@@ -1,4 +1,4 @@
-import { lockable } from '../../../../js/helpers';
+import { hidden, lockable } from '../../../../js/helpers';
 
 export default (
   model,
@@ -261,7 +261,7 @@ export default (
   set input(value) {
     if (this.livewire) return;
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

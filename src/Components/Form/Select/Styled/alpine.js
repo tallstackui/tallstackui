@@ -1,4 +1,4 @@
-import { error, wireChange } from '../../../../../js/helpers';
+import { error, hidden, wireChange } from '../../../../../js/helpers';
 import { body } from '../helpers';
 
 export default (
@@ -830,7 +830,7 @@ export default (
   set input(value) {
     if (this.livewire) return;
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

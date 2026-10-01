@@ -1,4 +1,4 @@
-import { error, lockable, wireChange } from '../../../../js/helpers';
+import { error, hidden, lockable, wireChange } from '../../../../js/helpers';
 import { headers } from '../Select/helpers';
 
 // Strips diacritics so "Sao" matches "São Paulo" and vice versa.
@@ -120,7 +120,7 @@ export default (
       return;
     }
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) {
       return;
