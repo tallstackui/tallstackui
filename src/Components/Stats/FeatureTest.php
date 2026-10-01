@@ -347,3 +347,14 @@ it('cannot render the skeleton with a count', function () {
 
     expect('<x-stats skeleton="3" />')->render();
 });
+
+it('can render a decimal number', function (float $number, string $expected) {
+    expect('<x-stats :number="$number" />')
+        ->render(['number' => $number])
+        ->toContain('x-ref="number">'.$expected.'</h2>')
+        ->toContain('tallstackui_stats('.$expected.',');
+})->with([
+    [99.5, '99.5'],
+    [1234.56, '1234.56'],
+    [-0.75, '-0.75'],
+]);
