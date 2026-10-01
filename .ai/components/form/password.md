@@ -23,7 +23,9 @@ A password input component with toggle visibility, strength indicator rules (min
 ```
 
 Outside Livewire, `value` prefills the input exactly as given: quotes, commas and
-leading zeros are kept.
+leading zeros are kept. Inside Livewire the input starts with the value of the bound
+property, so a secret that is already stored, on a settings screen for instance, is
+shown masked and stays in the property until the user changes it.
 
 ```blade
 <x-password wire:model="password" label="Password" :rules="true" typing-only />
