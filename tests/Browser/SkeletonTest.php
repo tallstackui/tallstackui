@@ -19,18 +19,13 @@ class SkeletonTest extends BrowserTestCase
                 ['index' => 'email', 'label' => 'E-mail'],
             ];
 
-            // Skipped on the first paint and only called when the lazy request
-            // lands, which is what holds the skeleton on screen long enough
-            // for the assertion below to observe it.
-            public function mount(): void
-            {
-                usleep(500000);
-            }
-
+            // A lazy component only loads once it intersects the viewport, so
+            // the margin holds the skeleton below the fold until the test
+            // scrolls to it, instead of racing the lazy request.
             public function placeholder(): string
             {
                 return <<<'HTML'
-                <div>
+                <div style="margin-top: 200vh">
                     <x-table :$headers skeleton="3" />
                 </div>
                 HTML;
@@ -50,6 +45,7 @@ class SkeletonTest extends BrowserTestCase
             ->assertSourceHas('Name')
             ->assertSourceHas('E-mail')
             ->assertDontSee('Taylor')
+            ->scrollIntoView('[aria-busy="true"]')
             ->waitForText('Taylor')
             ->assertSee('Taylor')
             ->assertMissing('[aria-busy="true"]');
