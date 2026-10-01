@@ -694,6 +694,8 @@ export default (
       return;
     }
 
+    const previous = this.model;
+
     this.date.start = parsed.toDate();
     this.date.end = null;
     this.model = parsed.format('YYYY-MM-DD');
@@ -703,7 +705,10 @@ export default (
     this.sync();
     this.refresh();
 
-    wireChange(change, this.model);
+    // Enter and blur both land here, so an untouched date must not count as a change.
+    if (this.model !== previous) {
+      wireChange(change, this.model);
+    }
   },
   /**
    * Parse a display-formatted date string back to a DateTime instance
