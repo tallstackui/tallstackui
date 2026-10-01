@@ -43,8 +43,11 @@ export default (
   dragging: null,
   scrolling: null,
   init() {
-    this.model ??= this.value ?? (required ? datetime().format(full ? 'HH:mm' : 'hh:mm A') : null);
-    this.empty = this.model === null;
+    this.model ??= this.value ?? null;
+
+    if (required && !this.model) this.model = datetime().format(full ? 'HH:mm' : 'hh:mm A');
+
+    this.empty = !this.model;
     this.hours = this.range.hour.min.toString().padStart(2, '0');
 
     if (this.model) this.hydrate();
