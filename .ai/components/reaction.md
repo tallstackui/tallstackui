@@ -173,6 +173,9 @@ To show a live-updating reaction count, bind a Livewire property with `wire:mode
 <x-reaction wire:model="quantity" :$quantity />
 ```
 
+The counter is rendered for any quantity, `0` included, so content with no reaction yet
+shows `0` and counts up from there. Without `quantity` there is no counter.
+
 ## Styling the Panel
 
 The panel is created by JavaScript, so it is **not** reachable through `TallStackUi::customize()`. It is styled in `css/plugins/popover.css` and overridden through a stable selector:
