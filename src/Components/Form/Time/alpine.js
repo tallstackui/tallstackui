@@ -127,7 +127,7 @@ export default (
    * @return {void}
    */
   change(event, type) {
-    const change = {
+    const apply = {
       hours: () => {
         this.hours = this.clamp(parseInt(event.target.value), 'hour');
 
@@ -142,10 +142,12 @@ export default (
       },
     };
 
-    change[type]();
+    apply[type]();
     this.empty = false;
 
     this.sync();
+
+    wireChange(change, this.model);
   },
   /**
    * Move the hour or minute one step in the given direction,
@@ -273,6 +275,8 @@ export default (
     this.show = this.empty = false;
 
     this.sync();
+
+    wireChange(change, this.model);
   },
   /**
    * Sync the input and model.
@@ -287,8 +291,6 @@ export default (
     }
 
     if (!this.empty) this.$refs.input.value = this.model = value;
-
-    wireChange(change, this.model);
 
     if (this.empty) return;
 
@@ -309,6 +311,8 @@ export default (
 
     this.sync();
 
+    wireChange(change, this.model);
+
     this.show = false;
   },
   /**
@@ -328,6 +332,8 @@ export default (
     this.interval = 'AM';
 
     this.input = this.$refs.input.value = this.model = null;
+
+    wireChange(change, this.model);
 
     this.$el.dispatchEvent(new CustomEvent('clear', { detail: { time: model } }));
   },
