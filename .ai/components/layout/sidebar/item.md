@@ -44,6 +44,10 @@ Using route pattern matching:
 <x-side-bar.item text="Orders" route="/orders" icon="shopping-cart" match="orders.*" />
 ```
 
+With `smart`, an item is active when the current route name fits `match` or when the
+current URL is its `route`. Both can be used together, so the item above stays active on
+`orders.index` and on every child page such as `orders.show`.
+
 ## Attributes
 
 | Attribute   | Type               | Default | Description                                                             |
