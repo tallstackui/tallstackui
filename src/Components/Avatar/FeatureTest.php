@@ -303,10 +303,14 @@ it('can fall back to the model name when the gravatar is missing', function () {
         ->toContain('d='.urlencode('https://ui-avatars.com/api/'.rawurlencode('João Silva').'/96/0D8ABC').'&amp;');
 });
 
-it('can send a hex color to the gravatar fallback')
-    ->expect('<x-avatar gravatar="aj@mail.com" text="AJ" color="fff" />')
-    ->render()
-    ->toContain('d='.urlencode('https://ui-avatars.com/api/AJ/96/0D8ABC/fff').'&amp;');
+it('can send a hex color to the gravatar fallback', function (string $color) {
+    expect('<x-avatar gravatar="aj@mail.com" text="AJ" color="'.$color.'" />')
+        ->render()
+        ->toContain('d='.urlencode('https://ui-avatars.com/api/AJ/96/0D8ABC/fff').'&amp;');
+})->with([
+    'bare' => ['fff'],
+    'with a hash' => ['#fff'],
+]);
 
 it('can fall back to the gravatar default without a name')
     ->expect('<x-avatar gravatar="aj@mail.com" />')
@@ -337,11 +341,14 @@ it('cannot send a color that is not hex to ui-avatars', function (string $attrib
     'named' => ['color="red"'],
 ]);
 
-it('can send a hex color to ui-avatars', function () {
-    expect('<x-avatar :model="$user" color="fff" />')
+it('can send a hex color to ui-avatars', function (string $color) {
+    expect('<x-avatar :model="$user" color="'.$color.'" />')
         ->render(['user' => avatar_model()])
         ->toContain('background=0D8ABC&amp;color=fff&amp;size=96');
-});
+})->with([
+    'bare' => ['fff'],
+    'with a hash' => ['#fff'],
+]);
 
 it('can let the image win over the gravatar')
     ->expect('<x-avatar image="https://cdn.test/a.png" gravatar="aj@mail.com" />')
