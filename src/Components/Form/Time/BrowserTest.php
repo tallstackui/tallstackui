@@ -154,6 +154,43 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_dispatch_change_event_when_the_sliders_move(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '10:30 AM';
+
+            public int $changes = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="changes">{{ $changes }}</p>
+                    <p dusk="time">[{{ $time }}]</p>
+
+                    <x-time label="Time" wire:model="time" wire:change="changed" />
+                </div>
+                HTML;
+            }
+
+            public function changed(): void
+            {
+                $this->changes++;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitFor('@tallstackui_time_hours')
+            ->dragRight('@tallstackui_time_hours', 5)
+            ->waitForTextIn('@changes', '1')
+            ->assertDontSeeIn('@time', '[10:30 AM]')
+            ->dragRight('@tallstackui_time_minutes', 40)
+            ->waitForTextIn('@changes', '2')
+            ->assertDontSeeIn('@time', ':30 AM]');
+    }
+
+    #[Test]
     public function can_dispatch_select_hour_event(): void
     {
         Livewire::visit(new class extends Component
