@@ -177,7 +177,7 @@ class Component extends TallStackUiComponent implements Customization
         $params = Arr::query([
             'name' => $name ?? $this->model->getAttribute($this->property),
             'background' => $this->background,
-            'color' => $this->color,
+            'color' => $this->hex(),
             'size' => $this->dimension(),
             ...$this->options,
         ]);
@@ -283,11 +283,19 @@ class Component extends TallStackUiComponent implements Customization
         if (filled($this->background)) {
             $segments[] = $this->background;
 
-            if (ctype_xdigit((string) $this->color)) {
-                $segments[] = $this->color;
+            if (($color = $this->hex()) !== null) {
+                $segments[] = $color;
             }
         }
 
         return 'https://ui-avatars.com/api/'.implode('/', $segments);
+    }
+
+    // ui-avatars only reads a hex color and breaks the image on anything else.
+    private function hex(): ?string
+    {
+        $color = ltrim((string) $this->color, '#');
+
+        return ctype_xdigit($color) ? $color : null;
     }
 }

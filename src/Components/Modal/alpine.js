@@ -17,7 +17,7 @@ export default (state, overflowing, handle = false) => ({
   delta: 0,
   origin: 0,
   init() {
-    this.$watch('show', (value) => {
+    const toggle = (value) => {
       overflow(value, 'modal', overflowing);
 
       value ? register_ui_element(this.id, 'modal') : unregister_ui_element(this.id);
@@ -27,7 +27,15 @@ export default (state, overflowing, handle = false) => ({
       }
 
       this.$el.dispatchEvent(new CustomEvent(value ? 'open' : 'close'));
-    });
+    };
+
+    this.$watch('show', toggle);
+
+    // A watcher stays silent for the value it starts with, so a modal
+    // that is born open has to be registered by hand.
+    if (this.show) {
+      this.$nextTick(() => this.show && toggle(true));
+    }
   },
   /**
    * Drop this modal from the registry when it is torn down (e.g. removed by

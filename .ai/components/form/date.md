@@ -39,6 +39,19 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 <x-date wire:model="date" label="Birth Date" format="DD/MM/YYYY" typeable />
 ```
 
+Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `dates[]`.
+A single date is submitted as `Y-m-d`; `range` and `multiple` are submitted JSON
+encoded. `value` takes the same back: a date string, and for `range` or `multiple` an
+array, that JSON string or a comma separated string:
+
+```blade
+<x-date name="period" range :value="old('period')" />
+
+<x-date name="period" range value="2026-10-01,2026-10-05" />
+```
+
 ## Attributes
 
 | Attribute       | Type                        | Default      | Description                                                                                                                           |
@@ -92,6 +105,9 @@ disabled dates, weekdays, weekends and only — so an invalid, impossible (`31/0
 or out-of-range date restores the previous value, while clearing the field and leaving
 empties the model. Clicking the input no longer opens the picker; the calendar icon
 still does, and the keyboard focus keeps working.
+
+With `wire:change`, the method is called only when the typed date differs from the
+current one, so leaving the field without changing it calls nothing.
 
 Without `typeable` the input takes no typing, but `Tab` and `Shift+Tab` still move the
 focus through it.

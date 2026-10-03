@@ -37,7 +37,12 @@ The component layers on top of `Form/Input` (so `floatable`, label, hint, error 
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form: a hidden input carries the
-picked value to the server, and `value` seeds the initial selection.
+picked value to the server, and `value` seeds the initial selection. The value is read
+as it is, commas included. A string made only of digits becomes a number, so its leading
+zeros are dropped and it matches an item whose `value` is that number, not the same
+digits as a string. The hidden input belongs to the component that renders it, so the
+same `name` can repeat on the page, in another form or as an array name such as
+`cities[]`.
 
 ```blade
 <form method="POST" action="/subscriptions">
@@ -157,6 +162,10 @@ The inline attribute always wins over the configured default.
 By default, `wire:model` reflects whatever the user types — even values that don't appear in the list. With `:strict`, the binding only updates when a row is picked from the dropdown. If the user blurs or presses Esc with an unmatched query, the input reverts to the last selected value (or empties if nothing was ever picked). Use the `after` slot as the escape hatch for "I can't find this option, create one".
 
 A value that is already bound when the component mounts, or that the server sets later, is checked against the list only with a local source. With `request` there is no list to check it against until the user types, so the value is kept as it came. Validate it on the server.
+
+A value emptied on the server, such as a `reset()` after saving, empties the field and
+drops the last selection with it, so closing the panel afterwards does not bring the old
+value back.
 
 A global default is available so an entire application can opt every Autocomplete into strict mode at once:
 

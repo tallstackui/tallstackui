@@ -26,7 +26,7 @@
                 @endforeach
             @endif
         </div>
-        @if ($quantity)
+        @if ($quantity !== null && $quantity !== '')
             @if (is_string($quantity))
                 <p class="{{ $customization['quantity'] }}" x-text="quantity"></p>
             @else

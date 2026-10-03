@@ -1,4 +1,4 @@
-import { error, lockable, wireChange } from '../../../../js/helpers';
+import { error, hidden, lockable, wireChange } from '../../../../js/helpers';
 import { headers } from '../Select/helpers';
 
 // Strips diacritics so "Sao" matches "São Paulo" and vice versa.
@@ -89,8 +89,10 @@ export default (
       }
 
       const matched = this.resolve(value);
+      const emptied = value === null || value === undefined || value === '';
 
-      this.selected = matched ?? this.selected;
+      // A cleared value drops the selection, or strict restores it on close.
+      this.selected = matched ?? (emptied ? null : this.selected);
       this.search = matched ? matched.value : this.strict ? '' : (value ?? '');
     });
 
@@ -118,7 +120,7 @@ export default (
       return;
     }
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) {
       return;

@@ -185,6 +185,11 @@ Custom property name:
 </x-button>
 ```
 
+The property may already be `true` on the first render, set in `mount()` or through
+`#[Url]` for instance. The slide then opens with the page and behaves like any other open
+slide: Escape and a click outside close it, the page scroll is locked and `x-on:open` is
+dispatched.
+
 ## Alpine.js Events
 
 ```blade

@@ -209,3 +209,15 @@ it('prefers the configured delay over the flash global', function () {
 
     __ts_get_component_configuration(Component::class, flush: true);
 });
+
+it('can render the counter when the quantity is zero', function (mixed $quantity) {
+    expect('<x-reaction id="reactions" :quantity="$quantity" />')
+        ->render(['quantity' => $quantity])
+        ->toContain('x-text="quantity"');
+})->with([0, '0', 3]);
+
+it('cannot render the counter without a quantity', function (mixed $quantity) {
+    expect('<x-reaction id="reactions" :quantity="$quantity" />')
+        ->render(['quantity' => $quantity])
+        ->not->toContain('x-text="quantity"');
+})->with([null, '']);

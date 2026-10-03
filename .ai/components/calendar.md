@@ -22,6 +22,8 @@ With a label and hint:
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+The hidden input belongs to the component that renders it, so the same `name` can
+repeat on the page, in another form or as an array name such as `days[]`.
 A single date arrives as `Y-m-d`; `range` and `multiple` arrive JSON encoded:
 
 ```blade
@@ -30,6 +32,10 @@ A single date arrives as `Y-m-d`; `range` and `multiple` arrive JSON encoded:
     <x-calendar name="scheduled_at" />
 </form>
 ```
+
+`value` takes the same back: a date string, and for `range` or `multiple` an array, the
+JSON string the form submitted or a comma separated string
+(`value="2026-10-01,2026-10-05"`).
 
 Range selection:
 

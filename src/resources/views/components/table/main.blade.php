@@ -177,11 +177,11 @@
                                     $clickable = $link !== null;
                                 @endphp
                                 @isset(${"column_".$row})
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click="redirect(@js($url), @js($blank), $event)" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
                                         {{ ${"column_".$row}($value) }}
                                     </td>
                                 @else
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click="redirect(@js($url), @js($blank), $event)" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['table.align.'.$alignment($header)], $customization['cell-clickable'] => $clickable])>
                                         {{ data_get($value, $header['index']) }}
                                     </td>
                                 @endisset

@@ -1,4 +1,4 @@
-import { error as alert, lockable, wireChange } from '../../../../js/helpers';
+import { error as alert, hidden, lockable, wireChange } from '../../../../js/helpers';
 
 export default (
   model,
@@ -61,7 +61,7 @@ export default (
         return this.syncInput(value);
       }
 
-      const input = document.getElementsByName(this.property)[0];
+      const input = hidden(this.$root, this.property);
 
       if (!input) {
         return;

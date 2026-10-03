@@ -21,6 +21,8 @@ abstract class AbstractRuntime
 {
     private const ALIGNMENTS = ['start', 'center', 'end', 'between'];
 
+    private const SAFE_INTEGER = 9007199254740991;
+
     private const UNWRAPPED = 'unwrapped';
 
     public function __construct(
@@ -182,11 +184,13 @@ abstract class AbstractRuntime
     }
 
     /**
-     * Sanitizes the value to prepare the component when we are
-     * out of the Livewire context, applied to components: `date`,
-     * `select.styled`, `tag` and `time`.
+     * Prepares the [value] attribute when we are out of the Livewire
+     * context, where it reaches the component as a string. JSON, as sent
+     * back by `old()`, is decoded. Only a component holding a list splits
+     * a comma separated string, so a single value keeps its commas. Only a
+     * component comparing the value as a number drops its leading zeros.
      */
-    protected function sanitize(): null|int|string|array
+    protected function sanitize(bool $list = false, bool $numeric = false): null|int|float|string|array
     {
         $value = $this->data['attributes']?->get('value');
         $value = $value === 'null' ? null : ($value === '[]' ? [] : $value);
@@ -197,27 +201,43 @@ abstract class AbstractRuntime
             return $value;
         }
 
-        $decoded = str_replace('"', '', htmlspecialchars_decode($value));
+        $decoded = trim(htmlspecialchars_decode($value));
 
-        // This function aims to sanitize the value, removing the
-        // brackets and converting the value to the correct type.
-        $sanitize = function (string $value): int|string {
-            $value = trim(str_replace(['[', ']'], '', $value));
+        // A component comparing numbers casts every digit string. The others
+        // only cast what JavaScript gives back unchanged, so the leading
+        // zeros and the numbers beyond its safe integer stay a string.
+        $cast = function (string $value) use ($numeric): int|string {
+            if (! ctype_digit($value)) {
+                return $value;
+            }
 
-            return ctype_digit($value) ? (int) $value : $value;
+            $number = $numeric ? (ltrim($value, '0') ?: '0') : $value;
+
+            return (string) (int) $number === $number && ($numeric || (int) $number <= self::SAFE_INTEGER) ? (int) $number : $value;
         };
 
-        // If the value is not an array, we just sanitize the value.
-        if (! str_contains($decoded, ',')) {
-            $result = $sanitize($decoded);
-            $array = str_contains($decoded, '[') || str_contains($decoded, ']');
+        if (str_starts_with($decoded, '[') || str_starts_with($decoded, '"')) {
+            $json = json_decode($decoded, true);
 
-            return $array ? [$result] : $result;
+            if (is_array($json)) {
+                return array_map(fn (mixed $item): mixed => is_string($item) ? $cast(trim($item)) : $item, $json);
+            }
+
+            if (is_string($json)) {
+                $decoded = trim($json);
+            }
         }
 
-        // If the value is an array, we need to explode
-        // the string and map the values to sanitize them.
-        return array_map($sanitize, explode(',', $decoded));
+        if (! $list) {
+            return $cast($decoded);
+        }
+
+        $items = array_map(
+            fn (string $item): int|string => $cast(trim(str_replace(['[', ']', '"'], '', $item))),
+            explode(',', $decoded)
+        );
+
+        return count($items) === 1 && ! str_contains($decoded, '[') && ! str_contains($decoded, ']') ? $items[0] : $items;
     }
 
     protected function skeleton(int $default): int

@@ -1,4 +1,4 @@
-import { error, wireChange } from '../../../../../js/helpers';
+import { error, hidden, wireChange } from '../../../../../js/helpers';
 import { body } from '../helpers';
 
 export default (
@@ -315,7 +315,8 @@ export default (
    * @return {void}
    */
   select(option) {
-    if (!option || option.disabled) return;
+    // Not !option: 0 is a legitimate option of a plain list.
+    if (option === null || option === undefined || option.disabled) return;
 
     this.internal = true;
 
@@ -401,7 +402,7 @@ export default (
       );
     }
 
-    if (selected && this.multiple) {
+    if (selected !== null && selected !== undefined && this.multiple) {
       if (this.required && this.quantity === 1) {
         this.show = false;
 
@@ -409,7 +410,7 @@ export default (
       }
 
       this.selects = this.selects.filter((option) => {
-        if (!option || !selected) return true;
+        if (option === null || option === undefined) return true;
 
         const value = this.dimensional ? option[this.selectable.value] : option;
         const selecting = this.dimensional ? selected[this.selectable.value] : selected;
@@ -422,6 +423,10 @@ export default (
         : this.selects;
 
       this.input = this.model;
+
+      if (change) {
+        wireChange(change, this.model);
+      }
 
       return;
     }
@@ -593,7 +598,7 @@ export default (
       const set = new Set(this.model.map((v) => String(v)));
 
       this.selects = items.filter((option) => {
-        if (!option) return false;
+        if (option === null || option === undefined) return false;
 
         const val = this.dimensional ? option[this.selectable.value] : option;
 
@@ -606,14 +611,14 @@ export default (
     const target = String(this.model);
 
     const selected = items.find((option) => {
-      if (!option) return false;
+      if (option === null || option === undefined) return false;
 
       const val = this.dimensional ? option[this.selectable.value] : option;
 
       return String(val) === target;
     });
 
-    if (selected) {
+    if (selected !== undefined) {
       this.selects = [selected];
       this.placeholder = this.display(selected) || placeholder;
       this.image = selected[this.selectable.image] ?? null;
@@ -825,7 +830,7 @@ export default (
   set input(value) {
     if (this.livewire) return;
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 
@@ -892,7 +897,7 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     const filter = (option) => {
-      if (!option) return false;
+      if (option === null || option === undefined) return false;
 
       if (this.dimensional) {
         const label = option.__normalized;

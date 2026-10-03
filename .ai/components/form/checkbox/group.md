@@ -37,6 +37,11 @@ Every input shares the same `name`. When it is not given, it falls back to the
 `id`, then to the bound property, always suffixed with `[]` so a plain form
 submission collects the options as an array.
 
+Each option is a label wrapping its input, and the label only carries `for` when
+an `id` is given. With generated ids it relies on wrapping the input, so a click
+on it always reaches the input inside it, even when another Livewire component on
+the page binds the same property and renders the same ids.
+
 ## Attributes
 
 | Attribute  | Type              | Default     | Description                                                                  |

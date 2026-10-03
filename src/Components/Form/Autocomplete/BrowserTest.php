@@ -580,6 +580,45 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function strict_forgets_the_selection_when_the_server_clears_the_value(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $picked = 'Foo';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked ?? 'null' }}</p>
+                    <x-autocomplete wire:model="picked" strict clearable :items="[
+                        ['value' => 'Foo'],
+                        ['value' => 'Bar'],
+                    ]" />
+                    <button type="button" dusk="wipe" wire:click="wipe">Wipe</button>
+                </div>
+                HTML;
+            }
+
+            public function wipe(): void
+            {
+                $this->picked = null;
+            }
+        })
+            ->assertInputValue('@tallstackui_autocomplete_input', 'Foo')
+            ->click('@wipe')
+            ->waitForTextIn('@picked', 'null')
+            ->pause(150)
+            ->assertInputValue('@tallstackui_autocomplete_input', '')
+            ->assertMissing('@tallstackui_autocomplete_clear')
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Bar')
+            ->keys('@tallstackui_autocomplete_input', ['{ESCAPE}'])
+            ->pause(300)
+            ->assertInputValue('@tallstackui_autocomplete_input', '');
+    }
+
+    #[Test]
     public function strict_keeps_the_server_value_on_a_remote_source(): void
     {
         Livewire::visit(new class extends Component

@@ -6,7 +6,7 @@
     <div hidden id="{{ $hash }}">@js($error)</div>
 @elseif ($property)
     <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
-    <input hidden name="{{ $property }}" @if ($attributes->has('value')) value="{{ $attributes->get('value') }}" @endif>
+    <input hidden name="{{ $property }}" @if ($attributes->has('value')) value="{{ $attributes->get('value') }}" @endif @disabled($disabled)>
 @endif
 
 <div>

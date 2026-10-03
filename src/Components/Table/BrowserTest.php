@@ -38,6 +38,186 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_click_a_button_inside_a_clickable_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+            ];
+
+            public bool $acted = false;
+
+            public function act(): void
+            {
+                $this->acted = true;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'name', 'label' => 'Name'],
+                            ['index' => 'action', 'label' => 'Action'],
+                        ];
+                    @endphp
+
+                    <p dusk="acted">[{{ $acted ? 'yes' : 'no' }}]</p>
+
+                    <x-table :$headers :$rows link="/tab-navigation-target?id={id}">
+                        @interact('column_action', $row)
+                            <x-button dusk="act" wire:click="act">Act</x-button>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Foo')
+            ->click('@act')
+            ->waitForTextIn('@acted', '[yes]')
+            ->pause(300)
+            ->assertPathIsNot('/tab-navigation-target')
+            ->assertSeeIn('@acted', '[yes]');
+    }
+
+    #[Test]
+    public function can_click_a_link_inside_a_clickable_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+            ];
+
+            public bool $acted = false;
+
+            public function act(): void
+            {
+                $this->acted = true;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'name', 'label' => 'Name'],
+                            ['index' => 'action', 'label' => 'Action'],
+                        ];
+                    @endphp
+
+                    <p dusk="acted">[{{ $acted ? 'yes' : 'no' }}]</p>
+
+                    <x-table :$headers :$rows link="/tab-navigation-target?id={id}">
+                        @interact('column_action', $row)
+                            <a href="/command-palette-redirect-target" dusk="native">Open</a>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Foo')
+            ->click('@native')
+            ->waitForText('Redirect Target')
+            ->assertDontSee('Tab Navigation Target Page');
+    }
+
+    #[Test]
+    public function can_click_an_element_with_its_own_handler_inside_a_clickable_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+            ];
+
+            public bool $acted = false;
+
+            public function act(): void
+            {
+                $this->acted = true;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'name', 'label' => 'Name'],
+                            ['index' => 'action', 'label' => 'Action'],
+                        ];
+                    @endphp
+
+                    <p dusk="acted">[{{ $acted ? 'yes' : 'no' }}]</p>
+
+                    <x-table :$headers :$rows link="/tab-navigation-target?id={id}">
+                        @interact('column_action', $row)
+                            <span dusk="act" wire:click.prevent="act">Act</span>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Foo')
+            ->click('@act')
+            ->waitForTextIn('@acted', '[yes]')
+            ->pause(300)
+            ->assertPathIsNot('/tab-navigation-target')
+            ->assertSeeIn('@acted', '[yes]');
+    }
+
+    #[Test]
+    public function can_follow_the_link_of_a_clickable_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+            ];
+
+            public bool $acted = false;
+
+            public function act(): void
+            {
+                $this->acted = true;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'name', 'label' => 'Name'],
+                            ['index' => 'action', 'label' => 'Action'],
+                        ];
+                    @endphp
+
+                    <p dusk="acted">[{{ $acted ? 'yes' : 'no' }}]</p>
+
+                    <x-table :$headers :$rows link="/tab-navigation-target?id={id}">
+                        @interact('column_action', $row)
+                            <x-button dusk="act" wire:click="act">Act</x-button>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Foo')
+            ->clickAtXPath('//td[contains(., "Foo")]')
+            ->waitForText('Tab Navigation Target Page')
+            ->assertSee('Tab Navigation Target Page');
+    }
+
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component

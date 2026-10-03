@@ -43,7 +43,7 @@ A compact value cycler shaped like an input: a chevron button on each side and t
 
 `preview` and `vertical` cannot be combined — the render throws.
 
-The model always carries the option **value**, never the index. A null model shows the first option without writing back until the user navigates. Outside Livewire the component keeps a hidden input in sync through `name` and pairs with Alpine's `x-model` through `x-modelable`.
+The model always carries the option **value**, never the index. A null model shows the first option without writing back until the user navigates. Outside Livewire the component keeps a hidden input in sync through `name` and pairs with Alpine's `x-model` through `x-modelable`. The `value` given there is read as it is, commas included, and a string made only of digits is compared as a number, so `value="02"` finds the option `2`.
 
 ## Options
 

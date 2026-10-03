@@ -132,9 +132,30 @@ export default (model, selectable) => ({
    *
    * @param {String} url
    * @param {Boolean} blank
+   * @param {Event|null} event
    * @returns {void}
    */
-  redirect(url, blank) {
+  redirect(url, blank, event = null) {
+    const cell = event?.currentTarget;
+
+    // A click on a control inside the cell belongs to that control, not to the row.
+    for (
+      let element = event?.target;
+      element && element !== cell;
+      element = element.parentElement
+    ) {
+      const handled = element
+        .getAttributeNames()
+        .some((name) => /^(wire:click|x-on:click|@click)/.test(name));
+
+      if (
+        handled ||
+        element.matches('a, button, input, select, textarea, label, summary, [role="button"]')
+      ) {
+        return;
+      }
+    }
+
     window.open(url, blank ? '_blank' : '_self');
   },
   /**

@@ -32,9 +32,52 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->assertDontSeeIn('@output', 'business')
-            ->click('label[for="plan-1"]')
+            ->click('label:has(#plan-1)')
             ->waitForTextIn('@output', 'business')
             ->assertSeeIn('@output', 'business');
+    }
+
+    #[Test]
+    public function can_select_an_option_when_another_component_binds_the_same_property(): void
+    {
+        Livewire::visit([
+            new class extends Component
+            {
+                public function render(): string
+                {
+                    return <<<'HTML'
+                    <div>
+                        <livewire:child name="first" />
+
+                        <livewire:child name="second" />
+                    </div>
+                    HTML;
+                }
+            },
+            'child' => new class extends Component
+            {
+                public string $name;
+
+                public ?string $plan = null;
+
+                public function render(): string
+                {
+                    return <<<'HTML'
+                    <div dusk="{{ $name }}">
+                        <p dusk="{{ $name }}-output">{{ $plan ?? 'empty' }}</p>
+
+                        <x-radio.group wire:model.live="plan" :options="[
+                            ['label' => 'Startup', 'value' => 'startup'],
+                            ['label' => 'Business', 'value' => 'business'],
+                        ]" />
+                    </div>
+                    HTML;
+                }
+            },
+        ])
+            ->click('@second input[value="business"] + span')
+            ->waitForTextIn('@second-output', 'business')
+            ->assertSeeIn('@first-output', 'empty');
     }
 
     #[Test]
@@ -59,7 +102,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('label[for="plan-1"]')
+            ->click('label:has(#plan-1)')
             ->waitForTextIn('@output', 'business')
             ->assertSeeIn('@output', 'business');
     }
@@ -86,7 +129,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('label[for="plan-1"]')
+            ->click('label:has(#plan-1)')
             ->pause(500)
             ->assertSeeIn('@output', 'empty');
     }
