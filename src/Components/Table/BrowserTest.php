@@ -78,7 +78,9 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo')
             ->click('@act')
             ->waitForTextIn('@acted', '[yes]')
-            ->assertDontSee('Tab Navigation Target Page');
+            ->pause(300)
+            ->assertPathIsNot('/tab-navigation-target')
+            ->assertSeeIn('@acted', '[yes]');
     }
 
     #[Test]
@@ -166,7 +168,9 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo')
             ->click('@act')
             ->waitForTextIn('@acted', '[yes]')
-            ->assertDontSee('Tab Navigation Target Page');
+            ->pause(300)
+            ->assertPathIsNot('/tab-navigation-target')
+            ->assertSeeIn('@acted', '[yes]');
     }
 
     #[Test]
