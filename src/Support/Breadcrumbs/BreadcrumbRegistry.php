@@ -51,27 +51,7 @@ class BreadcrumbRegistry
      */
     public function resolve(?string $route = null): array
     {
-        $current = $this->current();
-
-        $route ??= $current?->getName();
-
-        if (! $route || ! isset($this->definitions[$route])) {
-            return [];
-        }
-
-        $trail = new BreadcrumbTrail;
-
-        $parameters = $current ? $current->parameters() : [];
-
-        app()->call($this->definitions[$route], array_merge(['trail' => $trail], $parameters));
-
-        $items = [];
-
-        if ($parent = $trail->parentRoute()) {
-            $items = $this->resolve($parent);
-        }
-
-        return array_merge($items, $trail->items());
+        return $this->trail($route, $this->current());
     }
 
     /**
@@ -95,5 +75,31 @@ class BreadcrumbRegistry
         } catch (Throwable) {
             return Route::current();
         }
+    }
+
+    /**
+     * @return array<int, array{label: string, link?: string, icon?: string, tooltip?: string}>
+     */
+    private function trail(?string $route, ?PageRoute $current): array
+    {
+        $route ??= $current?->getName();
+
+        if (! $route || ! isset($this->definitions[$route])) {
+            return [];
+        }
+
+        $trail = new BreadcrumbTrail;
+
+        $parameters = $current ? $current->parameters() : [];
+
+        app()->call($this->definitions[$route], array_merge(['trail' => $trail], $parameters));
+
+        $items = [];
+
+        if ($parent = $trail->parentRoute()) {
+            $items = $this->trail($parent, $current);
+        }
+
+        return array_merge($items, $trail->items());
     }
 }
