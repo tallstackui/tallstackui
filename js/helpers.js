@@ -256,7 +256,7 @@ export const hidden = (root, name) => {
       element.compareDocumentPosition(root) & Node.DOCUMENT_POSITION_FOLLOWING
   );
 
-  return own.at(-1) ?? elements[0];
+  return own[own.length - 1] ?? elements[0];
 };
 
 /**
