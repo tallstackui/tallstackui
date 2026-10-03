@@ -38,10 +38,11 @@ The component layers on top of `Form/Input` (so `floatable`, label, hint, error 
 
 Outside Livewire, give it a `name` and it backs a plain form: a hidden input carries the
 picked value to the server, and `value` seeds the initial selection. The value is read
-as it is, commas included. A string made only of digits is compared as a number, so its
-leading zeros are dropped. The hidden input belongs to the component that renders
-it, so the same `name` can repeat on the page, in another form or as an array name such
-as `cities[]`.
+as it is, commas included. A string made only of digits becomes a number, so its leading
+zeros are dropped and it matches an item whose `value` is that number, not the same
+digits as a string. The hidden input belongs to the component that renders it, so the
+same `name` can repeat on the page, in another form or as an array name such as
+`cities[]`.
 
 ```blade
 <form method="POST" action="/subscriptions">
