@@ -106,8 +106,11 @@ or out-of-range date restores the previous value, while clearing the field and l
 empties the model. Clicking the input no longer opens the picker; the calendar icon
 still does, and the keyboard focus keeps working.
 
-With `wire:change`, the method is called only when the typed date differs from the
-current one, so leaving the field without changing it calls nothing.
+With `wire:change`, the method is called once, with the new date as its argument, and
+only when the typed date differs from the current one. Leaving the field without
+changing it, or with an invalid date, calls nothing. The attribute stays on the
+component and is not forwarded to the inner input, so the browser `change` event of
+the text field never calls the method on its own.
 
 Without `typeable` the input takes no typing, but `Tab` and `Shift+Tab` still move the
 focus through it.
