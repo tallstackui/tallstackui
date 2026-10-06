@@ -148,6 +148,58 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_dispatch_change_event_once_with_the_typed_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public int $changes = 0;
+
+            public ?string $argument = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="changes">{{ $changes }}</p>
+                    <p dusk="argument">[{{ $argument }}]</p>
+                    <p dusk="date">[{{ $date }}]</p>
+
+                    <x-date label="DatePicker" wire:model="date" wire:change="changed" typeable />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function changed(?string $date = null): void
+            {
+                $this->changes++;
+
+                $this->argument = $date;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '20200115')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->click('@changes')
+            ->waitForTextIn('@date', '[2020-01-15]')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@changes', '1')
+            ->assertSeeIn('@argument', '[2020-01-15]');
+    }
+
+    #[Test]
     public function can_interact_with_clear_event(): void
     {
         Livewire::visit(new class extends Component
@@ -891,6 +943,53 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_date_helper_yesterday')
             ->waitForTextIn('@date', $date = now()->subDays()->format('Y-m-d'))
             ->assertSeeIn('@date', $date);
+    }
+
+    #[Test]
+    public function cannot_dispatch_change_event_when_the_typed_date_is_invalid(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-10';
+
+            public int $changes = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="changes">{{ $changes }}</p>
+                    <p dusk="date">[{{ $date }}]</p>
+
+                    <x-date label="DatePicker" wire:model="date" wire:change="changed" typeable />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function changed(): void
+            {
+                $this->changes++;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_input')
+            ->tap(fn (Browser $browser) => $browser->driver->executeScript(
+                "document.querySelector('[dusk=\"tallstackui_date_input\"]').select()"
+            ))
+            ->keys('@tallstackui_date_input', '20200199')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-99')
+            ->click('@changes')
+            ->assertInputValue('@tallstackui_date_input', '2020-01-10')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@changes', '0')
+            ->assertSeeIn('@date', '[2020-01-10]');
     }
 
     #[Test]
