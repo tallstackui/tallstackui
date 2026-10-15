@@ -24,7 +24,7 @@ class Component extends TallStackUiComponent implements Customization
     use SkeletonSetup;
 
     public function __construct(
-        public string|int|null $number = null,
+        public string|int|float|null $number = null,
         public ?string $title = null,
         public ComponentSlot|string|null $icon = null,
         public ?string $color = 'primary',

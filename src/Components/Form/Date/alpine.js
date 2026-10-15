@@ -1,5 +1,5 @@
 import { datetime, isDatetime, localize } from '../../../../js/helpers/date';
-import { lockable, wireChange } from '../../../../js/helpers';
+import { hidden, lockable, wireChange } from '../../../../js/helpers';
 
 export default (
   model,
@@ -694,6 +694,8 @@ export default (
       return;
     }
 
+    const previous = this.model;
+
     this.date.start = parsed.toDate();
     this.date.end = null;
     this.model = parsed.format('YYYY-MM-DD');
@@ -703,7 +705,10 @@ export default (
     this.sync();
     this.refresh();
 
-    wireChange(change, this.model);
+    // Enter and blur both land here, so an untouched date must not count as a change.
+    if (this.model !== previous) {
+      wireChange(change, this.model);
+    }
   },
   /**
    * Parse a display-formatted date string back to a DateTime instance
@@ -768,7 +773,7 @@ export default (
 
     if (this.livewire) return;
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

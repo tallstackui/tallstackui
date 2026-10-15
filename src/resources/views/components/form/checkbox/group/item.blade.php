@@ -1,4 +1,4 @@
-<label for="{{ $reference }}-{{ $index }}" @class([
+<label @if ($id) for="{{ $reference }}-{{ $index }}" @endif @class([
     $customization['item.base'],
     $customization['item.' . $variant],
     $colors['border'],

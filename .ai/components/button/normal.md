@@ -92,7 +92,10 @@ animate their own text and throw inside a button:
 
 Blocking the mouse focus. `unfocus` stamps `data-tsui-unfocus` so a mouse click
 never focuses the button (no ring, no focus color), while the Tab key still
-does. Omitted, it falls back to `config('tallstackui.components.button.unfocus')`
+does. A field holding the focus (input, textarea, select, contenteditable) is
+blurred by that click, so a `wire:model.blur` or `wire:model.change` value is
+synced before the button action runs; any other focused element keeps the
+focus. Omitted, it falls back to `config('tallstackui.components.button.unfocus')`
 (shared with `<x-button.circle>`, `false` by default). The inline prop always
 wins, including `:unfocus="false"`:
 

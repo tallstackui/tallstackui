@@ -39,7 +39,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@success')
             ->waitForText('Foo bar success')
             ->assertSee('Foo bar success')
-            ->click('@tallstackui_banner_close')
+            ->clickDirectly('@tallstackui_banner_close')
             ->waitUntilMissingText('Foo bar success')
             ->assertDontSee('Foo bar success');
     }

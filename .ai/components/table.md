@@ -393,6 +393,18 @@ Make rows clickable with dynamic URL interpolation using column values:
 <x-table :$headers :$rows link="https://example.com/users/{id}" blank />
 ```
 
+A click on a control inside a cell belongs to that control and does not follow the row
+link. That covers links, buttons, form fields, labels and any element carrying
+`wire:click` or `x-on:click`, so an actions column works next to `link`:
+
+```blade
+<x-table :$headers :$rows link="/users/{id}">
+    @interact('column_action', $row)
+        <x-button.circle icon="trash" color="red" wire:click="delete({{ $row->id }})" />
+    @endinteract
+</x-table>
+```
+
 ## Expandable with Nested Tables
 
 Use `@interact` directive to render sub-tables inside expandable rows:

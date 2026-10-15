@@ -57,3 +57,35 @@ it('does not match when the current route has no name', function () {
         ->assertOk()
         ->assertSee('Reports');
 });
+
+it('matches through match when the item also has a route', function () {
+    Route::get('/orders', fn (): string => '')->name('orders.index');
+    Route::get('/users', fn (): string => '')->name('users.index');
+
+    Route::get('/orders/{order}', fn (): string => Blade::render(<<<'HTML'
+    <x-side-bar smart>
+        <x-side-bar.item text="Orders" :route="route('orders.index')" match="orders.*" />
+        <x-side-bar.item text="Users" :route="route('users.index')" match="users.*" />
+    </x-side-bar>
+    HTML))->name('orders.show');
+
+    $html = $this->get('/orders/5')->assertOk()->getContent();
+
+    // The sidebar renders its slot twice, for the mobile drawer and for the desktop panel.
+    expect(substr_count($html, 'aria-current="page"'))->toBe(2);
+});
+
+it('still matches through the route when the item also has a match', function () {
+    Route::get('/users', fn (): string => '')->name('users.index');
+
+    Route::get('/orders', fn (): string => Blade::render(<<<'HTML'
+    <x-side-bar smart>
+        <x-side-bar.item text="Orders" :route="route('orders.index')" match="invoices.*" />
+        <x-side-bar.item text="Users" :route="route('users.index')" match="users.*" />
+    </x-side-bar>
+    HTML))->name('orders.index');
+
+    $html = $this->get('/orders')->assertOk()->getContent();
+
+    expect(substr_count($html, 'aria-current="page"'))->toBe(2);
+});

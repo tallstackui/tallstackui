@@ -3,7 +3,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}">
+    <input hidden name="{{ $property }}" @disabled($disabled)>
 @endif
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint

@@ -36,9 +36,13 @@ matters when the text wraps over more than one line.
 ## Ids and the validation message
 
 Options of a group share the bound property, so the value joins the generated id to keep
-them apart: `plan-basic`, `plan-pro`, `plan-team`. Without that every label's `for` would
-resolve to the first input and clicking any label would select the first option. An
-explicit `id` is always used as given.
+them apart: `plan-basic`, `plan-pro`, `plan-team`. An explicit `id` is always used as
+given.
+
+The label wraps its input and only carries `for` when an `id` is given. With a
+generated id it relies on wrapping the input, so a click on it always reaches the
+input inside it, even when another Livewire component on the page binds the same
+property and renders the same id.
 
 The validation message is printed once per property, by the first option that renders
 it, rather than repeated under every option. `<x-radio.group>` centralises it on the

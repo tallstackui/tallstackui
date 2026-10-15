@@ -10,6 +10,32 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_close_with_escape_when_it_starts_open(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $slide = true;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-slide wire title="Born open" x-on:open="window.__opened = true">
+                        Foo bar
+                    </x-slide>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Foo bar')
+            ->assertScript('document.body.style.overflow', 'hidden')
+            ->assertScript('window.__opened === true')
+            ->keys('', '{escape}')
+            ->waitUntilMissingText('Foo bar')
+            ->assertScript('document.body.style.overflow', '');
+    }
+
+    #[Test]
     public function can_dispatch_events(): void
     {
         Livewire::visit(new class extends Component

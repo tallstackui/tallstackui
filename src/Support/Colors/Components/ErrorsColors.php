@@ -50,6 +50,10 @@ class ErrorsColors
             'fuchsia' => 'bg-fuchsia-50 dark:bg-fuchsia-900/70',
             'pink' => 'bg-pink-50 dark:bg-pink-900/70',
             'rose' => 'bg-rose-50 dark:bg-rose-900/70',
+            'mauve' => 'bg-mauve-50 dark:bg-mauve-900/70',
+            'olive' => 'bg-olive-50 dark:bg-olive-900/70',
+            'mist' => 'bg-mist-50 dark:bg-mist-900/70',
+            'taupe' => 'bg-taupe-50 dark:bg-taupe-900/70',
         ];
     }
 
@@ -81,6 +85,10 @@ class ErrorsColors
             'fuchsia' => 'border-b-fuchsia-200 dark:border-b-fuchsia-900/70',
             'pink' => 'border-b-pink-200 dark:border-b-pink-900/70',
             'rose' => 'border-b-rose-200 dark:border-b-rose-900/70',
+            'mauve' => 'border-b-mauve-200 dark:border-b-mauve-900/70',
+            'olive' => 'border-b-olive-200 dark:border-b-olive-900/70',
+            'mist' => 'border-b-mist-200 dark:border-b-mist-900/70',
+            'taupe' => 'border-b-taupe-200 dark:border-b-taupe-900/70',
         ];
     }
 
@@ -112,6 +120,10 @@ class ErrorsColors
             'fuchsia' => 'border-fuchsia-200 dark:border-fuchsia-900/70',
             'pink' => 'border-pink-200 dark:border-pink-900/70',
             'rose' => 'border-rose-200 dark:border-rose-900/70',
+            'mauve' => 'border-mauve-200 dark:border-mauve-900/70',
+            'olive' => 'border-olive-200 dark:border-olive-900/70',
+            'mist' => 'border-mist-200 dark:border-mist-900/70',
+            'taupe' => 'border-taupe-200 dark:border-taupe-900/70',
         ];
     }
 
@@ -143,6 +155,10 @@ class ErrorsColors
             'fuchsia' => 'text-fuchsia-700 dark:text-fuchsia-300',
             'pink' => 'text-pink-700 dark:text-pink-300',
             'rose' => 'text-rose-700 dark:text-rose-300',
+            'mauve' => 'text-mauve-700 dark:text-mauve-300',
+            'olive' => 'text-olive-700 dark:text-olive-300',
+            'mist' => 'text-mist-700 dark:text-mist-300',
+            'taupe' => 'text-taupe-700 dark:text-taupe-300',
         ];
     }
 }

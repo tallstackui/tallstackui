@@ -43,6 +43,12 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 |-------------|--------------------------------------------------|
 | x-on:export | Fires when the export/download button is clicked |
 
+## Server Changes
+
+The pad follows the property when it is emptied on the server. After
+`$this->reset('signature')`, as done once a record is saved, the drawing is wiped along
+with the undo and redo history, so the next signature starts on a clean pad.
+
 ## Resizing
 
 The canvas tracks the width of its container, so a window resize, a device rotation, the

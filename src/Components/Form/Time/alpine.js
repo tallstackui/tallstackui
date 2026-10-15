@@ -1,4 +1,4 @@
-import { lockable, wireChange } from '../../../../js/helpers';
+import { hidden, lockable, wireChange } from '../../../../js/helpers';
 import { datetime } from '../../../../js/helpers/date';
 
 // Pixels of vertical drag required to move one step.
@@ -43,8 +43,11 @@ export default (
   dragging: null,
   scrolling: null,
   init() {
-    this.model ??= this.value ?? (required ? datetime().format(full ? 'HH:mm' : 'hh:mm A') : null);
-    this.empty = this.model === null;
+    this.model ??= this.value ?? null;
+
+    if (required && !this.model) this.model = datetime().format(full ? 'HH:mm' : 'hh:mm A');
+
+    this.empty = !this.model;
     this.hours = this.range.hour.min.toString().padStart(2, '0');
 
     if (this.model) this.hydrate();
@@ -124,7 +127,7 @@ export default (
    * @return {void}
    */
   change(event, type) {
-    const change = {
+    const apply = {
       hours: () => {
         this.hours = this.clamp(parseInt(event.target.value), 'hour');
 
@@ -139,10 +142,12 @@ export default (
       },
     };
 
-    change[type]();
+    apply[type]();
     this.empty = false;
 
     this.sync();
+
+    wireChange(change, this.model);
   },
   /**
    * Move the hour or minute one step in the given direction,
@@ -270,6 +275,8 @@ export default (
     this.show = this.empty = false;
 
     this.sync();
+
+    wireChange(change, this.model);
   },
   /**
    * Sync the input and model.
@@ -284,8 +291,6 @@ export default (
     }
 
     if (!this.empty) this.$refs.input.value = this.model = value;
-
-    wireChange(change, this.model);
 
     if (this.empty) return;
 
@@ -305,6 +310,8 @@ export default (
     );
 
     this.sync();
+
+    wireChange(change, this.model);
 
     this.show = false;
   },
@@ -326,6 +333,8 @@ export default (
 
     this.input = this.$refs.input.value = this.model = null;
 
+    wireChange(change, this.model);
+
     this.$el.dispatchEvent(new CustomEvent('clear', { detail: { time: model } }));
   },
   /**
@@ -335,7 +344,7 @@ export default (
    * @return {void}
    */
   set input(value) {
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) return;
 

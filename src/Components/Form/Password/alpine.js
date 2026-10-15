@@ -19,7 +19,8 @@ export default (model, rules, typingOnly, value = null, target = null) => ({
   },
   typingOnly: typingOnly,
   init() {
-    this.password = value;
+    // Inside Livewire there is no [value], and writing it would wipe the bound property.
+    this.password = value ?? this.model;
 
     this.$watch('model', (value) => (this.input = value ?? ''));
 

@@ -157,6 +157,70 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_send_the_value_of_a_blur_model_when_clicked_with_unfocus(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $name = null;
+
+            public ?string $saved = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input dusk="name" wire:model.blur="name" />
+
+                    <x-button dusk="save" unfocus wire:click="save" text="Save" />
+
+                    <p dusk="saved">{{ $saved }}</p>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = $this->name;
+            }
+        })
+            ->type('@name', 'Alice')
+            ->click('@save')
+            ->waitForTextIn('@saved', 'Alice');
+    }
+
+    #[Test]
+    public function can_send_the_value_of_a_change_model_when_clicked_with_unfocus(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $name = null;
+
+            public ?string $saved = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input dusk="name" wire:model.change="name" />
+
+                    <x-button dusk="save" unfocus wire:click="save" text="Save" />
+
+                    <p dusk="saved">{{ $saved }}</p>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = $this->name;
+            }
+        })
+            ->type('@name', 'Alice')
+            ->click('@save')
+            ->waitForTextIn('@saved', 'Alice');
+    }
+
+    #[Test]
     public function cannot_focus_button_with_unfocus_through_mouse(): void
     {
         Livewire::visit(new class extends Component

@@ -19,7 +19,7 @@ class SwapRuntime extends AbstractRuntime
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
             'validate' => $bind->get('validate'),
-            'value' => $this->sanitize(),
+            'value' => $this->sanitize(numeric: true),
             'change' => $this->change(),
         ];
     }

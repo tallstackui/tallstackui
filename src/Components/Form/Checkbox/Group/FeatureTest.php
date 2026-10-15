@@ -253,3 +253,15 @@ it('hands the seam over to the checked option on the inline variant')
     ->render(['options' => [['label' => 'Bold', 'value' => 'bold'], ['label' => 'Italic', 'value' => 'italic']]])
     ->toContain('last:border-r has-checked:border-r')
     ->toContain('[&:has(:checked)+*]:border-l-0');
+
+it('points the label at the input when an id is given')
+    ->expect('<x-checkbox.group id="channels" :options="$options" />')
+    ->render(['options' => [['label' => 'Newsletter', 'value' => 'newsletter']]])
+    ->toContain('id="channels-0"')
+    ->toContain('for="channels-0"');
+
+it('does not point the label at a generated id')
+    ->expect('<x-checkbox.group name="features" :options="$options" />')
+    ->render(['options' => [['label' => 'Newsletter', 'value' => 'newsletter']]])
+    ->toContain('id="features-0"')
+    ->not->toContain('for=');

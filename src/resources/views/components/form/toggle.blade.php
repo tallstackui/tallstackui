@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-<x-dynamic-component :component="TallStackUi::prefix('wrapper.radio')" :$id :$property :$error :$label :$position
+<x-dynamic-component :component="TallStackUi::prefix('wrapper.radio')" :id="$attributes->get('id')" :$property :$error :$label :$position
                      :$invalidate :$locked>
     <div class="{{ $customization['wrapper'] }}">
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([

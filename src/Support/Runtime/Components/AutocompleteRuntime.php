@@ -13,7 +13,7 @@ class AutocompleteRuntime extends AbstractRuntime
         return [
             ...$this->bind(),
             ...$this->locks(),
-            'value' => $this->sanitize(),
+            'value' => $this->sanitize(numeric: true),
         ];
     }
 }

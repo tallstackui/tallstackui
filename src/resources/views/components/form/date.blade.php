@@ -3,7 +3,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}">
+    <input hidden name="{{ $property }}" @disabled($disabled)>
 @endif
 
 <div x-data="tallstackui_formDate(
@@ -29,7 +29,7 @@
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.date.input"
-                         {{ $attributes->except(['name', 'value'])->whereDoesntStartWith('wire:model') }}
+                         {{ $attributes->except(['name', 'value'])->whereDoesntStartWith(['wire:model', 'wire:change']) }}
                          :$label
                          :$hint
                          :$invalidate

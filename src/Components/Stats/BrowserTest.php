@@ -17,6 +17,32 @@ class BrowserTest extends BrowserTestCase
      * stale dist paints the chart over the number instead of behind it.
      */
     #[Test]
+    public function can_count_up_to_a_decimal_number(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <div dusk="text"><x-stats number="99.50" animated :duration="1" /></div>
+                    <div dusk="float"><x-stats :number="1234.56" animated :duration="1" /></div>
+                    <div dusk="negative"><x-stats :number="-0.75" animated :duration="1" /></div>
+                    <div dusk="integer"><x-stats :number="1234" animated :duration="1" /></div>
+                </div>
+                HTML;
+            }
+        })
+            ->waitFor('@text')
+            ->pause($this->paused(2))
+            ->assertSeeIn('@text', '99.50')
+            ->assertSeeIn('@float', '1,234.56')
+            ->assertSeeIn('@negative', '-0.75')
+            ->assertSeeIn('@integer', '1,234')
+            ->assertDontSeeIn('@integer', '1,234.');
+    }
+
+    #[Test]
     public function chart_layer_resolves_behind_the_content(): void
     {
         Livewire::visit(new class extends Component

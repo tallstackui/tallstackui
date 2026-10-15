@@ -293,3 +293,15 @@ it('hands the seam over to the checked option on the inline variant')
     ->render(['options' => [['label' => 'Monthly', 'value' => 'monthly'], ['label' => 'Yearly', 'value' => 'yearly']]])
     ->toContain('last:border-r has-checked:border-r')
     ->toContain('[&:has(:checked)+*]:border-l-0');
+
+it('points the label at the input when an id is given')
+    ->expect('<x-radio.group id="plans" :options="$options" />')
+    ->render(['options' => [['label' => 'Startup', 'value' => 'startup']]])
+    ->toContain('id="plans-0"')
+    ->toContain('for="plans-0"');
+
+it('does not point the label at a generated id')
+    ->expect('<x-radio.group name="plan" :options="$options" />')
+    ->render(['options' => [['label' => 'Startup', 'value' => 'startup']]])
+    ->toContain('id="plan-0"')
+    ->not->toContain('for=');

@@ -1,5 +1,5 @@
 import { datetime, isDatetime, localize } from '../../../js/helpers/date';
-import { wireChange } from '../../../js/helpers';
+import { hidden, wireChange } from '../../../js/helpers';
 
 export default (
   model,
@@ -110,7 +110,7 @@ export default (
       return;
     }
 
-    const input = document.getElementsByName(this.property)[0];
+    const input = hidden(this.$root, this.property);
 
     if (!input) {
       return;

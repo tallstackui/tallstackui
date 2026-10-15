@@ -69,3 +69,12 @@ it('can render the label on the left through the slot', function () {
     expect($component)->render()
         ->toMatch('/I agree.*<input/s');
 });
+
+it('points the label at an explicit id only', function () {
+    expect('<x-checkbox name="agree" label="Agree" id="custom" />')->render()
+        ->toContain('for="custom"');
+
+    expect('<x-checkbox name="agree" label="Agree" />')->render()
+        ->toContain('id="agree"')
+        ->not->toContain('for=');
+});

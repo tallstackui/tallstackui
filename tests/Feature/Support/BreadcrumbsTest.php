@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry;
 use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
 
@@ -99,4 +100,28 @@ it('resolve returns empty array when route is null', function () {
     $registry = new BreadcrumbRegistry;
 
     expect($registry->resolve(null))->toBe([]);
+});
+
+it('matches the page route once for the whole trail on a livewire update', function () {
+    $bindings = 0;
+
+    Route::bind('team', function (string $value) use (&$bindings): string {
+        $bindings++;
+
+        return $value;
+    });
+
+    Route::get('/teams/{team}/members', fn () => '')->name('teams.members');
+
+    request()->headers->set('X-Livewire', '1');
+    request()->merge(['components' => [['snapshot' => json_encode(['memo' => ['path' => 'teams/laravel/members', 'method' => 'GET']])]]]);
+
+    $registry = new BreadcrumbRegistry;
+
+    $registry->for('teams.index', fn (BreadcrumbTrail $trail) => $trail->add('Teams'));
+    $registry->for('teams.show', fn (BreadcrumbTrail $trail, string $team) => $trail->parent('teams.index')->add("Team {$team}"));
+    $registry->for('teams.members', fn (BreadcrumbTrail $trail) => $trail->parent('teams.show')->add('Members'));
+
+    expect(array_column($registry->resolve(), 'label'))->toBe(['Teams', 'Team laravel', 'Members'])
+        ->and($bindings)->toBe(1);
 });

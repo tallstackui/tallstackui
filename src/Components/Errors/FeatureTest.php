@@ -120,6 +120,22 @@ it('can render bordered', function () {
     expect('<x-errors bordered />')->render()->toContain('border-red-200');
 });
 
+it('can render with the colors of the Tailwind 4.2 palettes', function (string $color) {
+    expect(str_replace('{{ color }}', $color, '<x-errors color="{{ color }}" />'))->render()
+        ->toContain("bg-{$color}-50 dark:bg-{$color}-900/70")
+        ->toContain("text-{$color}-700 dark:text-{$color}-300")
+        ->toContain("border-b-{$color}-200 dark:border-b-{$color}-900/70")
+        ->not->toContain("border-{$color}-200");
+})->with(['mauve', 'olive', 'mist', 'taupe']);
+
+it('can render bordered with the colors of the Tailwind 4.2 palettes', function (string $color) {
+    expect(str_replace('{{ color }}', $color, '<x-errors color="{{ color }}" bordered />'))->render()
+        ->toContain("bg-{$color}-50 dark:bg-{$color}-900/70")
+        ->toContain("text-{$color}-700 dark:text-{$color}-300")
+        ->toContain("border-b-{$color}-200 dark:border-b-{$color}-900/70")
+        ->toContain("border-{$color}-200 dark:border-{$color}-900/70");
+})->with(['mauve', 'olive', 'mist', 'taupe']);
+
 it('can render paddingless through the global configuration', function () {
     config()->set('ts-ui.components.errors.1.paddingless', true);
 

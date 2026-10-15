@@ -68,3 +68,12 @@ it('can render the label on the left through the slot', function () {
 
     expect($component)->render()->toMatch('/Dark mode.*<input/s');
 });
+
+it('points the label at an explicit id only', function () {
+    expect('<x-toggle name="active" label="Active" id="custom" />')->render()
+        ->toContain('for="custom"');
+
+    expect('<x-toggle name="active" label="Active" />')->render()
+        ->toContain('id="active"')
+        ->not->toContain('for=');
+});

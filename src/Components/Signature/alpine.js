@@ -23,6 +23,20 @@ export default (model, color, background, line, height, jpeg, persistent) => ({
     this.observer = new ResizeObserver(() => this.size());
 
     this.observer.observe(this.canvas.parentElement);
+
+    // The pad only writes to the model, so a value emptied outside it,
+    // as a reset on the server does, has to wipe the drawing as well.
+    this.$watch('model', (value) => {
+      if (value || this.strokes.length === 0) {
+        return;
+      }
+
+      this.strokes = [];
+      this.undone = [];
+      this.stroke = null;
+
+      this.paint();
+    });
   },
   destroy() {
     this.observer.disconnect();

@@ -84,13 +84,17 @@ use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
 
 TallStackUi::breadcrumbs()
     ->for('dashboard', fn (BreadcrumbTrail $trail) =>
-        $trail->push('Dashboard', route('dashboard'))
+        $trail->add('Dashboard', route('dashboard'))
     )
     ->for('users.show', fn (BreadcrumbTrail $trail, User $user) =>
         $trail->parent('dashboard')
-              ->push($user->name)
+              ->add($user->name)
     );
 ```
+
+The trail is resolved from the route of the page. Inside a Livewire component it stays
+on that route across updates, so `<x-breadcrumbs />` can live in the view of a full-page
+component and survive actions, validation errors and polling.
 
 ## Soft Customization
 
