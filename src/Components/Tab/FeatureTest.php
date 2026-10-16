@@ -222,6 +222,27 @@ it('auto selects tab when url matches', function () {
         ->toContain("selected = 'A'");
 });
 
+it('renders the slot on a livewire update when the page url matches', function () {
+    request()->headers->set('X-Livewire', '1');
+    request()->merge(['components' => [['snapshot' => json_encode(['memo' => ['path' => 'profile', 'method' => 'GET']])]]]);
+
+    $component = '<x-tab><x-tab.items tab="A" href="'.url('profile').'">Matched Content</x-tab.items><x-tab.items tab="B" href="'.url('settings').'">Hidden Content</x-tab.items></x-tab>';
+
+    expect($component)->render()
+        ->toContain('Matched Content', "selected = 'A'")
+        ->not->toContain('Hidden Content');
+});
+
+it('does not render the slot on a livewire update when the page url does not match', function () {
+    request()->headers->set('X-Livewire', '1');
+    request()->merge(['components' => [['snapshot' => json_encode(['memo' => ['path' => 'profile', 'method' => 'GET']])]]]);
+
+    $component = '<x-tab><x-tab.items tab="A" href="'.url('settings').'">Hidden Content</x-tab.items></x-tab>';
+
+    expect($component)->render()
+        ->not->toContain('Hidden Content');
+});
+
 it('can render without content padding', function () {
     $component = '<x-tab paddingless><x-tab.items tab="A">Content A</x-tab.items></x-tab>';
 
