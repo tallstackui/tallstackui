@@ -3,6 +3,7 @@
 namespace TallStackUi\Support\Runtime\Components;
 
 use Illuminate\View\ComponentSlot;
+use Livewire\Livewire;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class TabItemsRuntime extends AbstractRuntime
@@ -23,7 +24,9 @@ class TabItemsRuntime extends AbstractRuntime
                 'right' => is_string($right) ? $right : ($right?->toHtml() ?? null),
                 'left' => is_string($left) ? $left : ($left?->toHtml() ?? null),
             ],
-            'shouldRender' => ! $href || rtrim(request()->url(), '/') === rtrim($href, '/'),
+            // A Livewire update runs on its own route, so Livewire rebuilds
+            // the page URL from the snapshot sent with the request.
+            'shouldRender' => ! $href || rtrim(Livewire::originalUrl(), '/') === rtrim($href, '/'),
         ];
     }
 }

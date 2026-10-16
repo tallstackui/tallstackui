@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Tab;
 
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -139,6 +140,63 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Baz bar foo')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz');
+    }
+
+    #[Test]
+    public function can_keep_matching_tab_content_after_parent_re_render(): void
+    {
+        Livewire::component('tab-child', new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>Child Component Content</div>
+                HTML;
+            }
+        });
+
+        Livewire::visit(new class extends Component
+        {
+            public int $count = 0;
+
+            public string $url = '';
+
+            public function mount(): void
+            {
+                $this->url = request()->url();
+            }
+
+            public function increment(): void
+            {
+                $this->count++;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p>Re-rendered {{ $count }} times</p>
+
+                    <x-tab>
+                        <x-tab.items tab="current" title="Current" :href="$url">
+                            <livewire:tab-child />
+                        </x-tab.items>
+                        <x-tab.items tab="other" title="Other" href="https://not-matching.test/other">
+                            Other Tab Content
+                        </x-tab.items>
+                    </x-tab>
+
+                    <x-button id="increment" wire:click="increment" text="Re-render" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Child Component Content')
+            ->click('#increment')
+            ->waitForText('Re-rendered 1 times')
+            ->assertSee('Child Component Content')
+            ->assertDontSee('Other Tab Content');
     }
 
     #[Test]
@@ -299,6 +357,39 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Foo Title')
             ->assertSee('Bar Title')
             ->assertSee('Foo bar baz through Livewire Component');
+    }
+
+    #[Test]
+    public function can_render_matching_tab_content_inside_a_lazy_parent(): void
+    {
+        Livewire::visit(new #[Lazy] class extends Component
+        {
+            public string $url = '';
+
+            public function mount(): void
+            {
+                $this->url = Livewire::originalUrl();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-tab>
+                        <x-tab.items tab="current" title="Current" :href="$url">
+                            Lazy Parent Tab Content
+                        </x-tab.items>
+                        <x-tab.items tab="other" title="Other" href="https://not-matching.test/other">
+                            Other Tab Content
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Lazy Parent Tab Content')
+            ->assertDontSee('Other Tab Content');
     }
 
     #[Test]
