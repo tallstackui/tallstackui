@@ -108,7 +108,7 @@ the shadow on a single tab while the configuration keeps it off everywhere else.
 
 ## Route-Based Tabs
 
-Tabs can be associated with URLs using the `href` attribute on `<x-tab.items>`. When set, only the tab whose `href` matches the page URL prints its content, and clicking a different tab navigates to its URL. The comparison ignores the query string, so each tab needs its own path. A Livewire update of the component around the tabs is matched against the URL the page was rendered at, so the open panel survives re-renders.
+Tabs can be associated with URLs using the `href` attribute on `<x-tab.items>`. When set, only the tab whose `href` matches the page URL prints its content, and clicking a different tab navigates to its URL. The page URL is compared without its query string and the `href` is compared as given, so an `href` with a query string never matches: give each tab its own path and an absolute URL, such as the one `route()` returns. A Livewire update of the component around the tabs is matched against the URL the page was rendered at, so the open panel survives re-renders.
 
 ```blade
 <x-tab>
@@ -121,7 +121,7 @@ Tabs can be associated with URLs using the `href` attribute on `<x-tab.items>`. 
 </x-tab>
 ```
 
-Blade evaluates the slot of every `<x-tab.items>` before the component decides whether to print it, so a Livewire component placed in an inactive tab is still mounted on the server and only its HTML is discarded. Mark heavy children `lazy`: Livewire then renders a placeholder instead of mounting them, and only the placeholder inside the printed panel loads.
+Blade evaluates the slot of every `<x-tab.items>` before the component decides whether to print it, so a Livewire component placed in an inactive tab is still mounted on the server and only its HTML is discarded. Mark heavy children `lazy`: Livewire then renders a placeholder instead of mounting them, and only the placeholder inside the printed panel loads, at the cost of one extra request for the open tab. An `@if` around the child also works when its condition reads a component property. A condition on `request()` does not: during a Livewire update it points at the update endpoint, so the child would be dropped on every re-render.
 
 ```blade
 <x-tab>
@@ -160,23 +160,6 @@ Bind the active tab to a Livewire string property:
 ```
 
 Use `wire:model.live` for real-time server sync on every tab change.
-
-## Route-Based Tabs
-
-Tabs can be linked to routes for URL-based navigation:
-
-```blade
-<x-tab>
-    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate>
-        <livewire:users.index />
-    </x-tab.items>
-    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>
-        <livewire:invoices.index />
-    </x-tab.items>
-</x-tab>
-```
-
-The `navigate` attribute uses Livewire's SPA-style navigation.
 
 ## Alpine.js Event Payload
 

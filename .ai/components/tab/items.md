@@ -42,15 +42,15 @@ With left and right decorations in the tab label:
 
 ## Attributes
 
-| Attribute      | Type                        | Default | Description                                                                                             |
-|----------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------------|
-| tab            | string\|null                | null    | Unique identifier for this tab (used to match `selected` on the parent)                                 |
-| title          | string\|null                | null    | Display label in the tab navigation (falls back to `tab` value if not set)                              |
-| href           | string\|null                | null    | URL that determines when this tab's content renders (compared to the page URL without the query string) |
-| navigate       | bool\|null                  | null    | Use Livewire SPA navigation (`Livewire.navigate()`) when clicking this tab                              |
-| navigate-hover | bool\|null                  | null    | Same as `navigate` but prefetches the URL on hover                                                      |
-| left           | ComponentSlot\|string\|null | null    | Content rendered to the left of the tab title in the navigation                                         |
-| right          | ComponentSlot\|string\|null | null    | Content rendered to the right of the tab title in the navigation                                        |
+| Attribute      | Type                        | Default | Description                                                                                                    |
+|----------------|-----------------------------|---------|----------------------------------------------------------------------------------------------------------------|
+| tab            | string\|null                | null    | Unique identifier for this tab (used to match `selected` on the parent)                                        |
+| title          | string\|null                | null    | Display label in the tab navigation (falls back to `tab` value if not set)                                     |
+| href           | string\|null                | null    | Absolute URL that must equal the page URL, compared without its query string, for this tab's content to render |
+| navigate       | bool\|null                  | null    | Use Livewire SPA navigation (`Livewire.navigate()`) when clicking this tab                                     |
+| navigate-hover | bool\|null                  | null    | Same as `navigate` but prefetches the URL on hover                                                             |
+| left           | ComponentSlot\|string\|null | null    | Content rendered to the left of the tab title in the navigation                                                |
+| right          | ComponentSlot\|string\|null | null    | Content rendered to the right of the tab title in the navigation                                               |
 
 ## Slots
 
@@ -62,9 +62,9 @@ With left and right decorations in the tab label:
 
 ## Route-Based Rendering
 
-When `href` is set, the tab's slot content only renders server-side if the page URL matches the `href` value. The comparison ignores the query string, so each tab needs its own path. On a Livewire update, the URL the page was rendered at is used, so the open panel survives re-renders of the component around the tabs. Tab headers always appear regardless of URL match. Clicking a tab with `href` navigates to that URL instead of switching client-side.
+When `href` is set, the tab's slot content only renders server-side if the page URL matches the `href` value. The page URL is compared without its query string and the `href` is compared as given, so an `href` with a query string never matches: give each tab its own path and an absolute URL, such as the one `route()` returns. On a Livewire update, the URL the page was rendered at is used, so the open panel survives re-renders of the component around the tabs. Tab headers always appear regardless of URL match. Clicking a tab with `href` navigates to that URL instead of switching client-side.
 
-Blade evaluates the slot of every `<x-tab.items>` before the component decides whether to print it, so a Livewire component placed in an inactive tab is still mounted on the server and only its HTML is discarded. Mark heavy children `lazy` so that only the one inside the printed panel loads:
+Blade evaluates the slot of every `<x-tab.items>` before the component decides whether to print it, so a Livewire component placed in an inactive tab is still mounted on the server and only its HTML is discarded. Mark heavy children `lazy` so that only the one inside the printed panel loads, at the cost of one extra request for the open tab. An `@if` around the child also works when its condition reads a component property; a condition on `request()` fails during Livewire updates and drops the child on every re-render.
 
 ```blade
 <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>

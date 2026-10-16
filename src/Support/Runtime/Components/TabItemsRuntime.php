@@ -24,8 +24,8 @@ class TabItemsRuntime extends AbstractRuntime
                 'right' => is_string($right) ? $right : ($right?->toHtml() ?? null),
                 'left' => is_string($left) ? $left : ($left?->toHtml() ?? null),
             ],
-            // A Livewire update runs on its own route, so the page URL
-            // comes from the snapshot of the component being updated.
+            // A Livewire update runs on its own route, so Livewire rebuilds
+            // the page URL from the snapshot sent with the request.
             'shouldRender' => ! $href || rtrim(Livewire::originalUrl(), '/') === rtrim($href, '/'),
         ];
     }
