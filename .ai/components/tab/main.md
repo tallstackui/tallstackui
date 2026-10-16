@@ -108,22 +108,35 @@ the shadow on a single tab while the configuration keeps it off everywhere else.
 
 ## Route-Based Tabs
 
-Tabs can be associated with URLs using the `href` attribute on `<x-tab.items>`. When set, the tab's content only renders server-side if the current URL matches. Clicking a different tab navigates to its URL. This avoids rendering heavy Livewire components for inactive tabs.
+Tabs can be associated with URLs using the `href` attribute on `<x-tab.items>`. When set, only the tab whose `href` matches the page URL prints its content, and clicking a different tab navigates to its URL. The comparison ignores the query string, so each tab needs its own path. A Livewire update of the component around the tabs is matched against the URL the page was rendered at, so the open panel survives re-renders.
 
 ```blade
 <x-tab>
-    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate>
+    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate>
         <livewire:users.index />
     </x-tab.items>
-    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate>
+    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>
         <livewire:invoices.index />
+    </x-tab.items>
+</x-tab>
+```
+
+Blade evaluates the slot of every `<x-tab.items>` before the component decides whether to print it, so a Livewire component placed in an inactive tab is still mounted on the server and only its HTML is discarded. Mark heavy children `lazy`: Livewire then renders a placeholder instead of mounting them, and only the placeholder inside the printed panel loads.
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate>
+        <livewire:users.index lazy />
+    </x-tab.items>
+    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>
+        <livewire:invoices.index lazy />
     </x-tab.items>
 </x-tab>
 ```
 
 Key behaviors:
 - Tab headers always appear regardless of URL match
-- The tab whose `href` matches the current URL is auto-selected
+- The tab whose `href` matches the page URL is auto-selected
 - `navigate` uses `Livewire.navigate()` for SPA navigation
 - `navigate-hover` adds prefetching on hover before navigation
 - Without `navigate`/`navigate-hover`, uses plain `window.location.href`
