@@ -66,6 +66,38 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_expand_a_backdrop_slide_when_clickable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel clickable :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'image-1', 'backdrop' => true],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'image-2'],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->waitFor('@tallstackui_carousel_backdrop')
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->assertVisible('@tallstackui_carousel_close')
+            ->tap(function (Browser $browser): void {
+                [$images, $alt] = $browser->script([
+                    "return document.querySelectorAll('[role=\"dialog\"] img').length",
+                    "return document.querySelector('[role=\"dialog\"] img').getAttribute('alt')",
+                ]);
+
+                Assert::assertSame(1, $images);
+                Assert::assertSame('image-1', $alt);
+            });
+    }
+
+    #[Test]
     public function can_expand_image_when_clickable(): void
     {
         Livewire::visit(new class extends Component
@@ -437,6 +469,50 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('2-bar')
             ->assertDontSee('3-foo')
             ->assertDontSee('3-bar');
+    }
+
+    #[Test]
+    public function can_render_the_backdrop_only_on_the_slides_that_set_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel :images="[
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp', 'alt' => 'image-1', 'title' => '1-foo', 'url' => '/foo', 'backdrop' => true],
+                        ['src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp', 'alt' => 'image-2', 'title' => '2-foo'],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->waitForText('1-foo')
+            ->assertVisible('@tallstackui_carousel_backdrop')
+            ->tap(function (Browser $browser): void {
+                [$backdrops, $alt, $hidden, $href, $images] = $browser->script([
+                    "return document.querySelectorAll('[dusk=\"tallstackui_carousel_backdrop\"]').length",
+                    "return document.querySelector('[dusk=\"tallstackui_carousel_backdrop\"] img').getAttribute('alt')",
+                    "return document.querySelector('[dusk=\"tallstackui_carousel_backdrop\"] img').getAttribute('aria-hidden')",
+                    "return document.querySelector('[dusk=\"tallstackui_carousel_backdrop\"]').closest('a').getAttribute('href')",
+                    "return Array.from(document.querySelectorAll('[x-ref=\"carousel\"] [x-show] > a > img')).map((image) => image.className)",
+                ]);
+
+                Assert::assertSame(1, $backdrops);
+                Assert::assertSame('', $alt);
+                Assert::assertSame('true', $hidden);
+                Assert::assertSame('/foo', $href);
+                Assert::assertCount(2, $images);
+                Assert::assertStringContainsString('object-contain', $images[0]);
+                Assert::assertStringNotContainsString('object-cover', $images[0]);
+                Assert::assertStringContainsString('object-cover', $images[1]);
+                Assert::assertStringNotContainsString('object-contain', $images[1]);
+            })
+            ->pressAndWaitFor('@tallstackui_carousel_next')
+            ->waitForText('2-foo')
+            ->waitUntilMissingText('1-foo')
+            ->assertMissing('@tallstackui_carousel_backdrop');
     }
 
     #[Test]
