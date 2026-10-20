@@ -26,16 +26,18 @@
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.upload.input"
                          :value="$placeholder"
+                         :$id
                          :$hint
                          :$disabled
                          :$readonly
+                         :$invalidate
+                         :alternative="$property"
                          x-on:click="!locked() && (show = !show)"
                          x-ref="input"
                          class="cursor-pointer {{ $customization['input.caret'] }}"
                          x-on:keydown="$event.preventDefault()"
                          spellcheck="false"
                          dusk="tallstackui_upload_input"
-                         invalidate
                          floatable>
         <x-slot:suffix :class="$customization['slot.spacing']">
             <button type="button" class="cursor-pointer" x-on:click="show = !show" @disabled($locked)>
@@ -52,11 +54,11 @@
                                      :$id
                                      :$label
                                      x-on:click="$event.preventDefault()"
-                                     :error="$errors->has($property)" />
+                                     :error="$invalid['status']" />
             @endif
         </x-slot:label>
     </x-dynamic-component>
-    @if ($invalid['status'])
+    @if ($invalid['summary'])
         <span class="{{ $customization['invalid'] }}">
                 {{ trans('ts-ui::messages.upload.invalid') }}
             </span>
@@ -111,8 +113,7 @@
                     @else
                         {{ $tip }}
                     @endif
-                    <input id="{{ $property }}"
-                           type="file"
+                    <input type="file"
                            dusk="tallstackui_file_select"
                            @if (!app()->runningUnitTests()) class="{{ $customization['placeholder.input'] }}" @endif
                            x-ref="files"
@@ -153,9 +154,11 @@
                                 @endif
                                 <div @class(['flex-auto', $customization['item.description']])>
                                     <p class="{{ $customization['item.title'] }}">{{ $file['real_name'] }}</p>
-                                    <x-dynamic-component :component="TallStackUi::prefix('error')"
-                                                         scope="form.upload.error"
-                                                         :property="is_array($value) ? $property . '.' . $key : $property" />
+                                    @if ($validate)
+                                        <x-dynamic-component :component="TallStackUi::prefix('error')"
+                                                             scope="form.upload.error"
+                                                             :property="is_array($value) ? $property . '.' . $key : $property" />
+                                    @endif
                                     @if ($file['size'] !== null)
                                         <p class="{{ $customization['item.size'] }}">
                                             <span>{{ trans('ts-ui::messages.upload.size') }}: </span>

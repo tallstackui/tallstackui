@@ -16,11 +16,13 @@ class UploadRuntime extends AbstractRuntime
             ...$this->locks(),
             'id' => $bind->get('id'),
             'property' => $property = $bind->get('property'),
+            'validate' => $validate = $bind->get('validate'),
             // We can get this directly - without need to check if we're in Livewire
             // context because this component is only used in Livewire context.
             'value' => $value = $this->property($property),
             'invalid' => [
-                'status' => $this->errors->has(is_array($value) ? $property.'.*' : $property),
+                'status' => $status = $bind->get('error'),
+                'summary' => $validate && ! $status && $this->errors->has($property.'.*'),
                 'quantity' => count($this->errors->get(is_array($value) ? $property.'.*' : $property)),
             ],
         ];

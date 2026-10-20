@@ -35,6 +35,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $footer = null,
         public ?bool $overflow = null,
         public ?bool $closeAfterUpload = null,
+        public ?bool $invalidate = null,
     ) {
         $this->placeholder ??= trans('ts-ui::messages.upload.placeholder');
         $this->error ??= trans('ts-ui::messages.upload.error');
