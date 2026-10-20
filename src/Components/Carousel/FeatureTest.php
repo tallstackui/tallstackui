@@ -306,3 +306,38 @@ it('can render the thumbnails without the highlight through the global configura
 
     __ts_get_component_configuration(Component::class, flush: true);
 });
+
+it('renders the slides without the backdrop when no image sets it', function (array $images) {
+    expect('<x-carousel :images="$images" />')->render(['images' => $images])
+        ->toContain('<img class="absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-dark-300"')
+        ->not->toContain('image.backdrop')
+        ->not->toContain('tallstackui_carousel_backdrop');
+})->with([
+    'without the key' => [[['src' => 'a.jpg', 'alt' => 'a'], ['src' => 'b.jpg', 'alt' => 'b']]],
+    'with the key off' => [[['src' => 'a.jpg', 'alt' => 'a', 'backdrop' => false], ['src' => 'b.jpg', 'alt' => 'b']]],
+]);
+
+it('renders the blurred backdrop behind the slides that set it', function (string $component) {
+    $images = [['src' => 'a.jpg', 'alt' => 'a', 'backdrop' => true], ['src' => 'b.jpg', 'alt' => 'b']];
+
+    expect($component)->render(['images' => $images])
+        ->toContain('x-if="image.backdrop"')
+        ->toContain('<div class="absolute inset-0 overflow-hidden"')
+        ->toContain('tallstackui_carousel_backdrop')
+        ->toContain('<img class="h-full w-full object-cover scale-125 blur-lg"')
+        ->toContain('alt=""')
+        ->toContain('aria-hidden="true"')
+        ->toContain("x-bind:class=\"image.backdrop ? 'absolute w-full h-full inset-0 object-contain text-slate-700 dark:text-dark-300' : 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-dark-300'\"")
+        ->not->toContain('<img class="absolute w-full h-full inset-0 object-cover');
+})->with([
+    'as links' => '<x-carousel :images="$images" />',
+    'as clickable' => '<x-carousel clickable :images="$images" />',
+]);
+
+it('applies round to the backdrop', function () {
+    $images = [['src' => 'a.jpg', 'alt' => 'a', 'backdrop' => true]];
+
+    expect('<x-carousel round="2xl" :images="$images" />')->render(['images' => $images])
+        ->toContain('<div class="absolute inset-0 overflow-hidden rounded-2xl"')
+        ->toContain('<img class="rounded-2xl"');
+});

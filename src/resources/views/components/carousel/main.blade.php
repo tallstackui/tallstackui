@@ -49,7 +49,21 @@
                                        x-text="image.description"></p>
                                 </div>
                             </template>
-                            <img @class([$customization['images.base'], ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                            @if ($backdrop)
+                                <template x-if="image.backdrop">
+                                    <div @class([$customization['images.backdrop.wrapper'], ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                                         dusk="tallstackui_carousel_backdrop">
+                                        <img class="{{ $customization['images.backdrop.image'] }}"
+                                             x-bind:src="image.src"
+                                             alt=""
+                                             aria-hidden="true" />
+                                    </div>
+                                </template>
+                            @endif
+                            <img @class([$customization['images.base'] => ! $backdrop, ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                                 @if ($backdrop)
+                                     x-bind:class="image.backdrop ? '{{ $customization['images.contain'] }}' : '{{ $customization['images.base'] }}'"
+                                 @endif
                                  x-bind:src="image.src"
                                  x-bind:alt="image.alt"
                                  @if ($autoplay && $stopOnHover)
@@ -66,7 +80,21 @@
                                        x-text="image.description"></p>
                                 </div>
                             </template>
-                            <img @class([$customization['images.base'], ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                            @if ($backdrop)
+                                <template x-if="image.backdrop">
+                                    <div @class([$customization['images.backdrop.wrapper'], ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                                         dusk="tallstackui_carousel_backdrop">
+                                        <img class="{{ $customization['images.backdrop.image'] }}"
+                                             x-bind:src="image.src"
+                                             alt=""
+                                             aria-hidden="true" />
+                                    </div>
+                                </template>
+                            @endif
+                            <img @class([$customization['images.base'] => ! $backdrop, ($customization['images.rounded.'.($round === true ? 'default' : $round)] ?? '') => (bool) $round])
+                                 @if ($backdrop)
+                                     x-bind:class="image.backdrop ? '{{ $customization['images.contain'] }}' : '{{ $customization['images.base'] }}'"
+                                 @endif
                                  x-bind:src="image.src"
                                  x-bind:alt="image.alt"
                                  @if ($autoplay && $stopOnHover)

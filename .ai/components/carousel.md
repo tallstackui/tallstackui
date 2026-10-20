@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-An image carousel/slider component with manual navigation or autoplay, optional indicators, looping, shuffle, rounded corners, an opt-in thumbnail strip below the slides, an opt-in lightbox that expands the active image fullscreen, and support for image titles, descriptions, URLs, and custom header/footer slots.
+An image carousel/slider component with manual navigation or autoplay, optional indicators, looping, shuffle, rounded corners, an opt-in thumbnail strip below the slides, an opt-in lightbox that expands the active image fullscreen, a per-slide blurred backdrop for images whose ratio differs from the frame, and support for image titles, descriptions, URLs, and custom header/footer slots.
 
 ## Basic Usage
 
@@ -34,7 +34,7 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 
 | Attribute         | Type                    | Default | Description                                                                                                                                                                                                                                                                                                                                                |
 |-------------------|-------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| images            | Collection\|array\|null | null    | Array of image objects (required). Each must have `src` and `alt`. Optional: `title`, `description`, `url`, `target`, `cover`.                                                                                                                                                                                                                             |
+| images            | Collection\|array\|null | null    | Array of image objects (required). Each must have `src` and `alt`. Optional: `title`, `description`, `url`, `target`, `cover`, `backdrop`.                                                                                                                                                                                                                 |
 | cover             | int\|null               | null    | 1-based index of the initial slide; or set `cover: true` on an image entry                                                                                                                                                                                                                                                                                 |
 | autoplay          | bool                    | null    | Enables automatic slide advancement                                                                                                                                                                                                                                                                                                                        |
 | interval          | int\|null               | 3       | Autoplay interval in seconds                                                                                                                                                                                                                                                                                                                               |
@@ -55,15 +55,16 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 
 ## Image Object Structure
 
-| Key         | Type   | Required | Description                                 |
-|-------------|--------|----------|---------------------------------------------|
-| src         | string | Yes      | Image source URL                            |
-| alt         | string | Yes      | Alt text for accessibility                  |
-| title       | string | No       | Overlay title text                          |
-| description | string | No       | Overlay description text below the title    |
-| url         | string | No       | Makes the slide a clickable link            |
-| target      | string | No       | Link target (e.g., `_blank`)                |
-| cover       | bool   | No       | Marks this image as the initial cover slide |
+| Key         | Type   | Required | Description                                                                                                                                  |
+|-------------|--------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| src         | string | Yes      | Image source URL                                                                                                                             |
+| alt         | string | Yes      | Alt text for accessibility                                                                                                                   |
+| title       | string | No       | Overlay title text                                                                                                                           |
+| description | string | No       | Overlay description text below the title                                                                                                     |
+| url         | string | No       | Makes the slide a clickable link                                                                                                             |
+| target      | string | No       | Link target (e.g., `_blank`)                                                                                                                 |
+| cover       | bool   | No       | Marks this image as the initial cover slide                                                                                                  |
+| backdrop    | bool   | No       | Shows the whole image (`object-contain`, centered) over a blurred, enlarged copy of itself instead of cropping it. See [Backdrop](#backdrop) |
 
 ## Slots
 
@@ -113,6 +114,34 @@ Set a specific image as the initial cover:
     ['src' => '/img/2.jpg', 'alt' => 'Image 2', 'cover' => true],
     ['src' => '/img/3.jpg', 'alt' => 'Image 3'],
 ]" />
+```
+
+## Backdrop
+
+Set `backdrop` on an image entry when that image has a different ratio from the frame and should show whole instead of being cropped. The slide renders the image with `object-contain`, centered, over a blurred and enlarged copy of itself that fills the empty bands, so the carousel height never changes between slides and nothing gets cropped.
+
+```blade
+<!-- A 2:1 banner carousel where one banner only exists at 4:1 -->
+<x-carousel wrapper="aspect-2/1" autoplay :images="[
+    ['src' => '/banners/summer.jpg', 'alt' => 'Summer sale'],
+    ['src' => '/banners/shipping-wide.jpg', 'alt' => 'Free shipping', 'url' => '/shipping', 'backdrop' => true],
+    ['src' => '/banners/new-arrivals.jpg', 'alt' => 'New arrivals'],
+]" />
+```
+
+- The copy is decorative: it renders with `alt=""` and `aria-hidden="true"`, so assistive technology only announces the image `alt`.
+- The copy sits inside the slide, so `url`/`target`, `clickable` and `stop-on-hover` behave exactly as on any other slide.
+- `round` clips the copy to the same corners as the slide.
+- The thumbnail tiles and the lightbox show the plain image.
+- Slides without `backdrop` keep `object-cover`, and a carousel where no image sets it renders the same markup as before.
+
+The image on top uses the `images.contain` block instead of `images.base`, and the copy uses `images.backdrop.wrapper` and `images.backdrop.image`:
+
+```php
+TallStackUi::customize()
+    ->carousel()
+    ->block('images.backdrop.image')
+    ->replace('blur-lg', 'blur-2xl');
 ```
 
 ## Thumbnails
@@ -249,6 +278,9 @@ TallStackUi::customize()
 | images.content.title                       | Slide title text styles                                            |
 | images.content.description                 | Slide description text styles                                      |
 | images.base                                | Image element base styles (object-cover, absolute positioning)     |
+| images.contain                             | Image element of a `backdrop` slide (object-contain)               |
+| images.backdrop.wrapper                    | Layer clipping the blurred copy behind a `backdrop` slide          |
+| images.backdrop.image                      | Blurred, enlarged copy of the image filling that layer             |
 | buttons.left.base                          | Left navigation button styles                                      |
 | buttons.left.icon.size                     | Left button icon dimensions                                        |
 | buttons.right.base                         | Right navigation button styles                                     |

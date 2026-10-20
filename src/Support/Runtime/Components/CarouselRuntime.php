@@ -17,6 +17,7 @@ class CarouselRuntime extends AbstractRuntime
         return [
             'visible' => $limit,
             'remaining' => max(0, count($component->images) - $limit),
+            'backdrop' => collect($component->images)->contains('backdrop', true),
         ];
     }
 }

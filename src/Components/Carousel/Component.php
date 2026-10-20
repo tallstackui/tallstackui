@@ -74,6 +74,11 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'text-sm text-white',
                 ],
                 'base' => 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-dark-300',
+                'contain' => 'absolute w-full h-full inset-0 object-contain text-slate-700 dark:text-dark-300',
+                'backdrop' => [
+                    'wrapper' => 'absolute inset-0 overflow-hidden',
+                    'image' => 'h-full w-full object-cover scale-125 blur-lg',
+                ],
                 'rounded' => [
                     'default' => 'rounded-xl',
                     'xs' => 'rounded-xs',
