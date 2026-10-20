@@ -29,15 +29,19 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $preview = true,
         public ?bool $delete = false,
         public ?bool $static = false,
+        public ?bool $direct = false,
         public ?string $placeholder = null,
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
         public ComponentSlot|string|null $footer = null,
         public ?bool $overflow = null,
         public ?bool $closeAfterUpload = null,
+        public ?bool $invalidate = null,
+        public ?bool $withoutSummary = null,
     ) {
         $this->placeholder ??= trans('ts-ui::messages.upload.placeholder');
         $this->error ??= trans('ts-ui::messages.upload.error');
+        $this->withoutSummary ??= __ts_get_component_configuration(self::class, 'without-summary') ?? false;
     }
 
     /** @throws Exception */
@@ -101,6 +105,7 @@ class Component extends TallStackUiComponent implements Customization
             'upload' => [
                 'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-dark-800',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',
+                'spinner' => 'text-primary-600 dark:text-dark-400 h-5 w-5 animate-spin',
             ],
             'preview' => [
                 'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500/80 dark:bg-dark-600/75',
@@ -125,5 +130,12 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'invalid' => 'mt-1 block text-sm font-medium text-red-500',
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->static && $this->direct) {
+            __ts_validation_exception($this, 'The [static] and [direct] cannot be used together.');
+        }
     }
 }

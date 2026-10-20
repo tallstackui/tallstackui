@@ -163,10 +163,10 @@ TallStackUi::customize()
 
 | Scope                  | Target           | Line(s) |
 |------------------------|------------------|---------|
-| `form.upload.input`    | `<x-input />`    | 27      |
-| `form.upload.label`    | `<x-label />`    | 51      |
-| `form.upload.floating` | `<x-floating />` | 93      |
-| `form.upload.error`    | `<x-error />`    | 157     |
+| `form.upload.input`    | `<x-input />`    | 28      |
+| `form.upload.label`    | `<x-label />`    | 60      |
+| `form.upload.floating` | `<x-floating />` | 115     |
+| `form.upload.error`    | `<x-error />`    | 179     |
 
 ### `form/upload/async`
 

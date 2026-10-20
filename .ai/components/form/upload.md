@@ -29,6 +29,10 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 <x-upload wire:model="avatar" label="Existing Files" static delete />
 ```
 
+```blade
+<x-upload wire:model="banner" label="Banner" accept="image/*" direct />
+```
+
 ## Attributes
 
 | Attribute          | Type                        | Default        | Description                                                                         |
@@ -40,6 +44,7 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 | preview            | bool                        | true           | Enables image preview on click (fullscreen lightbox)                                |
 | delete             | bool                        | false          | Shows a delete button next to each uploaded file                                    |
 | static             | bool                        | false          | Static mode for displaying previously uploaded files (no drag-and-drop area)        |
+| direct             | bool                        | false          | Opens the file picker straight from the input, without the floating panel           |
 | placeholder        | string\|null                | null           | Custom placeholder text for the input (defaults to translation)                     |
 | delete-method      | string                      | 'deleteUpload' | Name of the Livewire method called when deleting a file                             |
 | error              | string\|bool\|null          | null           | Custom error message for upload failures (defaults to translation)                  |
@@ -48,6 +53,8 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 | close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded                    |
 | disabled           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is not submitted.   |
 | readonly           | bool                        | false          | Locks the input, the dropzone and the delete buttons. The value is still submitted. |
+| invalidate         | bool\|null                  | null           | Hides every validation feedback. Falls back to the `invalidate_global` config       |
+| without-summary    | bool\|null                  | config         | Hides the generic message that sums up the validation errors of each file           |
 
 ## Slots
 
@@ -55,6 +62,37 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 |--------|--------------------------------------------------------------------------------------------------------------------------------------|
 | tip    | Custom content for the upload area tip. Can be a string or a full slot with markup.                                                  |
 | footer | Footer content rendered at the bottom of the floating panel. Supports `when-uploaded` attribute to only show when files are present. |
+
+## Validation
+
+An error on the bound property paints the input red, turns the label red, hides the `hint` and shows the rule message below the input, the same way `<x-input>` does.
+
+In `multiple` mode the errors of each file land on `photos.0`, `photos.1` and so on. Those are listed next to each file inside the floating panel, and the input shows a generic "There was some validation error." below it. An error on the property itself, such as `required` or a `max` on the array, behaves like the single mode and takes the place of the generic message, so only one message is shown below the input at a time.
+
+`without-summary` drops the generic message in every scenario, leaving only the messages next to each file. The `without-summary` key of the config sets it for every upload.
+
+```blade
+<x-upload wire:model="photos" multiple without-summary />
+```
+
+`invalidate` hides all of it: the red state, the message below the input, the generic message and the messages next to each file. Without the attribute, the `invalidate_global` config decides.
+
+```blade
+<x-upload wire:model="photo" invalidate />
+```
+
+## Direct Mode
+
+`direct` skips the floating panel. Clicking the input, or its icon, opens the operating system's file picker, and the chosen file is uploaded right away.
+
+```blade
+<x-upload wire:model="banner" label="Banner" accept="image/*" direct />
+<x-upload wire:model="photos" label="Photos" multiple direct />
+```
+
+While the file is uploading, a spinning loading icon takes the place of the upload icon. A failed upload shows the `error` message below the input. Validation errors follow the rules above, but in `multiple` mode the messages next to each file have nowhere to be rendered, so only the generic message is shown for them. With `without-summary` on top of `direct` and `multiple`, an error that only touches a file is not shown at all.
+
+Everything that lives inside the panel does not apply: the file list, `delete`, `preview`, `tip`, the `footer` slot and `close-after-upload`. `accept`, `multiple`, `x-on:upload` and the input text (`1 file sent`) work as usual. `direct` cannot be combined with `static`, which throws an exception.
 
 ## Livewire Integration
 
@@ -200,6 +238,16 @@ public function deleteUpload(array $content): void
 <x-upload delete x-on:remove="console.log($event.detail.file)" />
 ```
 
+## Configuration
+
+In `config/tallstackui.php` under `components.upload`:
+
+| Option          | Type | Default | Description                                                               |
+|-----------------|------|---------|---------------------------------------------------------------------------|
+| without-summary | bool | false   | Hides the generic message that sums up the validation errors of each file |
+
+The inline prop always wins over the global default, so `:without-summary="false"` brings the message back on a single upload while the configuration hides it everywhere else.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
@@ -227,6 +275,7 @@ TallStackUi::customize()
 | floating.class           | Floating panel additional styles                         |
 | upload.wrapper           | Progress bar outer wrapper                               |
 | upload.progress          | Progress bar fill styles                                 |
+| upload.spinner           | Loading icon that replaces the icon in direct mode       |
 | item.wrapper             | File list scrollable container                           |
 | item.ul                  | File list divider styles                                 |
 | item.li                  | File list item flex layout                               |
@@ -246,4 +295,4 @@ TallStackUi::customize()
 | static.empty.icon        | Empty state icon                                         |
 | static.empty.title       | Empty state title text                                   |
 | static.empty.description | Empty state description text                             |
-| invalid                  | Validation error message text below the input            |
+| invalid                  | Generic validation message and direct mode upload error  |

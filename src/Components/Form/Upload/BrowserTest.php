@@ -7,12 +7,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Form;
 use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Finder\SplFileInfo;
+use TallStackUi\Components\Form\Upload\Component as UploadComponent;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
@@ -226,6 +228,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_link_the_label_to_the_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public mixed $banner = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Photo" wire:model="photo" />
+                    <x-upload id="cover" label="Banner" wire:model="banner" direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Photo')
+            ->assertScript("document.querySelectorAll('[id=photo]').length", 1)
+            ->assertScript("document.getElementById('photo').getAttribute('dusk')", 'tallstackui_upload_input')
+            ->assertPresent('label[for=photo]')
+            ->assertScript("document.querySelectorAll('[id=cover]').length", 1)
+            ->assertScript("document.getElementById('cover').getAttribute('dusk')", 'tallstackui_upload_input')
+            ->assertPresent('label[for=cover]');
+    }
+
+    #[Test]
     public function can_only_see_footer_slot_when_not_empty(): void
     {
         Livewire::visit(new class extends Component
@@ -256,6 +288,33 @@ class BrowserTest extends BrowserTestCase
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForText('Foo Bar Baz')
             ->assertSee('Foo Bar Baz');
+    }
+
+    #[Test]
+    public function can_open_the_file_picker_directly(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" wire:model="photo" direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertNotPresent('@tallstackui_upload_floating')
+            // preventDefault() keeps the native file dialog closed.
+            ->tap(fn (Browser $browser) => $browser->script("document.querySelector('[dusk=tallstackui_file_select]').addEventListener('click', (event) => { event.preventDefault(); window.picked = true; });"))
+            ->click('@tallstackui_upload_input')
+            ->assertScript('window.picked === true')
+            ->assertNotPresent('@tallstackui_upload_floating');
     }
 
     #[Test]
@@ -400,6 +459,148 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_see_the_generic_validation_error_for_the_files(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForText('test.jpeg')
+            ->click('@save')
+            ->waitForText('There was some validation error.')
+            ->assertSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_floating]').textContent.includes('The photos.0 field must be a file of type: pdf.')");
+    }
+
+    #[Test]
+    public function can_see_the_generic_validation_error_for_the_files_in_direct_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="uploaded">{{ count($photos) }}</p>
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple direct />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos' => ['array', 'max:2'],
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@uploaded', '1')
+            ->click('@save')
+            ->waitForText('There was some validation error.')
+            ->assertSee('There was some validation error.')
+            ->assertDontSee('The photos field must not have more than 2 items.');
+    }
+
+    #[Test]
+    public function can_see_the_loading_in_place_of_the_icon_in_direct_mode(): void
+    {
+        $dispatch = fn (string $event): string => "document.querySelector('[dusk=tallstackui_file_select]').dispatchEvent(new CustomEvent('{$event}', { bubbles: true }));";
+        $icon = "getComputedStyle(document.querySelector('[dusk=tallstackui_upload_loading]').parentElement.querySelector('svg:not([dusk])')).display";
+
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" wire:model="photo" direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@tallstackui_upload_loading')
+            ->assertScript($icon, 'block')
+            ->tap(fn (Browser $browser) => $browser->script($dispatch('livewire-upload-start')))
+            ->waitFor('@tallstackui_upload_loading')
+            ->assertScript($icon, 'none')
+            ->tap(fn (Browser $browser) => $browser->script($dispatch('livewire-upload-finish')))
+            ->waitUntilMissing('@tallstackui_upload_loading')
+            ->assertScript($icon, 'block');
+    }
+
+    #[Test]
+    public function can_see_the_upload_failure_in_direct_mode(): void
+    {
+        // Above the 12 MB that Livewire accepts for a temporary upload.
+        File::put($file = self::tmp().'large.pdf', str_repeat('0', 13 * 1024 * 1024));
+
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" wire:model.live="photo" direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Something went wrong. Please, try again.')
+            ->attach('@tallstackui_file_select', $file)
+            ->waitForText('Something went wrong. Please, try again.')
+            ->assertMissing('@tallstackui_upload_loading');
+    }
+
+    #[Test]
     public function can_see_tip(): void
     {
         Livewire::visit(new class extends Component
@@ -469,7 +670,89 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_upload_input')
             ->pause(100)
             ->click('@save')
-            ->waitForText('There was some validation error.');
+            ->waitForText('The photo field must be a file of type: pdf.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')");
+    }
+
+    #[Test]
+    public function can_show_validation_error_in_direct_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+
+                    <x-upload label="Document" wire:model.live="photo" direct />
+                    <button dusk="save" wire:click="save">Save</button>
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photo' => ['required', 'mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->click('@save')
+            ->waitForText('The photo field must be a file of type: pdf.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')");
+    }
+
+    #[Test]
+    public function can_show_validation_error_of_the_property_in_multiple_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos' => ['required'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Document')
+            ->click('@save')
+            ->waitForText('The photos field is required.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')");
     }
 
     #[Test]
@@ -486,6 +769,38 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })->assertSee('[TallStackUI] Form\Upload: The component requires a property to bind using [wire:model].');
+    }
+
+    #[Test]
+    public function can_upload_directly_without_the_floating(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+
+                    <x-upload label="Document" wire:model.live="photo" accept=".jpeg,.pdf" direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_input]').value === '1 file sent'")
+            ->assertNotPresent('@tallstackui_upload_floating')
+            ->assertNotPresent('@tallstackui_file_preview_backdrop')
+            ->assertAttribute('@tallstackui_file_select', 'accept', '.jpeg,.pdf');
     }
 
     #[Test]
@@ -564,6 +879,33 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_upload_multiple_files_directly(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="uploaded">{{ collect($photos)->map->getClientOriginalName()->implode(',') }}</p>
+
+                    <x-upload label="Document" wire:model="photos" multiple direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertAttribute('@tallstackui_file_select', 'multiple', 'true')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg'."\n".__DIR__.'/test.pdf')
+            ->waitForTextIn('@uploaded', 'test.jpeg,test.pdf')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_input]').value === '2 files sent'");
+    }
+
+    #[Test]
     public function can_upload_single_file(): void
     {
         Livewire::visit(new class extends Component
@@ -591,7 +933,8 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
-            ->assertSeeIn('@uploaded', 'test.jpeg');
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->assertNotPresent('@tallstackui_upload_loading');
     }
 
     #[Test]
@@ -777,6 +1120,407 @@ class BrowserTest extends BrowserTestCase
             ->assertVisible('@upload')
             ->waitForTextIn('@upload', 'Upload')
             ->assertSeeIn('@upload', 'Upload');
+    }
+
+    #[Test]
+    public function can_use_upload_event_in_direct_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public mixed $uploaded = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($uploaded)
+                        <p dusk="upload">{{ $uploaded }}</p>
+                    @endif
+
+                    <x-upload label="Document"
+                              wire:model.live="photo"
+                              x-on:upload="$wire.set('uploaded', 'Upload')"
+                              direct />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@upload', 'Upload');
+    }
+
+    #[Test]
+    public function cannot_open_the_file_picker_when_readonly(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" wire:model="photo" direct readonly />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            // preventDefault() keeps the native file dialog closed.
+            ->tap(fn (Browser $browser) => $browser->script("document.querySelector('[dusk=tallstackui_file_select]').addEventListener('click', (event) => { event.preventDefault(); window.picked = true; });"))
+            ->click('@tallstackui_upload_input')
+            ->pause(300)
+            ->assertScript('window.picked === undefined');
+    }
+
+    #[Test]
+    public function cannot_see_the_generic_validation_error_with_an_error_of_the_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="uploaded">{{ count($photos) }}</p>
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos' => ['array', 'max:1'],
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg'."\n".__DIR__.'/test.pdf')
+            ->waitForTextIn('@uploaded', '2')
+            ->click('@save')
+            ->waitForText('The photos field must not have more than 1 items.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_floating]').textContent.includes('The photos.0 field must be a file of type: pdf.')");
+    }
+
+    #[Test]
+    public function cannot_see_the_generic_validation_error_with_an_error_of_the_property_in_direct_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="uploaded">{{ count($photos) }}</p>
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple direct />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos' => ['array', 'max:1'],
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg'."\n".__DIR__.'/test.pdf')
+            ->waitForTextIn('@uploaded', '2')
+            ->click('@save')
+            ->waitForText('The photos field must not have more than 1 items.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')");
+    }
+
+    #[Test]
+    public function cannot_see_the_generic_validation_error_without_summary(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($errors->any())
+                        <p dusk="errors">{{ $errors->count() }}</p>
+                    @endif
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple without-summary />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForText('test.jpeg')
+            ->click('@save')
+            ->waitForTextIn('@errors', '1')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_floating]').textContent.includes('The photos.0 field must be a file of type: pdf.')");
+    }
+
+    #[Test]
+    public function cannot_see_the_generic_validation_error_without_summary_based_on_config(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function boot(): void
+            {
+                config(['ts-ui.components.upload.1.without-summary' => true]);
+
+                __ts_get_component_configuration(UploadComponent::class, flush: true);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($errors->any())
+                        <p dusk="errors">{{ $errors->count() }}</p>
+                    @endif
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple direct />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitUntil("document.querySelector('[dusk=tallstackui_upload_input]').value === '1 files sent'")
+            ->click('@save')
+            ->waitForTextIn('@errors', '1')
+            ->assertDontSee('There was some validation error.');
+    }
+
+    #[Test]
+    public function cannot_see_the_hint_while_invalid(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" hint="Only PDF files" wire:model="photo" />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photo' => ['required'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Only PDF files')
+            ->assertScript("document.querySelector('label[for=photo]').classList.contains('text-red-600')", false)
+            ->click('@save')
+            ->waitForText('The photo field is required.')
+            ->assertDontSee('Only PDF files')
+            ->assertScript("document.querySelector('label[for=photo]').classList.contains('text-red-600')");
+    }
+
+    #[Test]
+    public function cannot_see_validation_error_when_invalidated(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+
+                    @if ($errors->any())
+                        <p dusk="errors">{{ $errors->count() }}</p>
+                    @endif
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model.live="photo" invalidate />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photo' => ['required', 'mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->click('@save')
+            ->waitForTextIn('@errors', '1')
+            ->assertDontSee('The photo field must be a file of type: pdf.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_floating]').textContent.includes('The photo field must be a file of type: pdf.')", false)
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')", false);
+    }
+
+    #[Test]
+    public function cannot_see_validation_error_when_invalidated_based_on_config(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public array $photos = [];
+
+            public function boot(): void
+            {
+                config(['ts-ui.invalidate_global' => true]);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($errors->any())
+                        <p dusk="errors">{{ $errors->count() }}</p>
+                    @endif
+
+                    <button dusk="save" wire:click="save">Save</button>
+                    <x-upload label="Document" wire:model="photos" multiple />
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photos' => ['required', 'max:0'],
+                    'photos.*' => ['mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->waitForText('test.jpeg')
+            ->click('@save')
+            ->waitForTextIn('@errors', '2')
+            ->assertDontSee('The photos field must not have more than 0 items.')
+            ->assertDontSee('There was some validation error.')
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_floating]').textContent.includes('The photos.0 field must be a file of type: pdf.')", false)
+            ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')", false);
+    }
+
+    #[Test]
+    public function cannot_use_direct_with_static(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" wire:model="photo" direct static />
+                </div>
+                HTML;
+            }
+        })->assertSee('[TallStackUI] Form\Upload: The [static] and [direct] cannot be used together.');
     }
 }
 
