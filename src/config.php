@@ -1106,7 +1106,21 @@ return [
                 'invert' => false,
             ],
         ],
-        'upload' => Components\Form\Upload\Component::class,
+        'upload' => [
+            Components\Form\Upload\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Upload Global Settings
+            |----------------------------------------------------------------------
+            |
+            | without-summary: hides the generic message that sums up the validation
+            | errors of each file, shown below the input in the multiple mode.
+            |
+            */
+            [
+                'without-summary' => false,
+            ],
+        ],
         'upload.async' => [
             Components\Form\Upload\Async\Component::class,
             [

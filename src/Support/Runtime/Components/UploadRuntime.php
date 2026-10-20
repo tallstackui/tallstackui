@@ -22,7 +22,7 @@ class UploadRuntime extends AbstractRuntime
             'value' => $value = $this->property($property),
             'invalid' => [
                 'status' => $status = $bind->get('error'),
-                'summary' => $validate && ! $status && $this->errors->has($property.'.*'),
+                'summary' => $validate && ! $status && ! $this->data('withoutSummary') && $this->errors->has($property.'.*'),
                 'quantity' => count($this->errors->get(is_array($value) ? $property.'.*' : $property)),
             ],
         ];
