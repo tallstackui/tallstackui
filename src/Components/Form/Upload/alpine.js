@@ -11,7 +11,8 @@ export default (
   overflowing,
   closeAfterUpload,
   disabled = false,
-  readonly = false
+  readonly = false,
+  direct = false
 ) => ({
   ...lockable(disabled, readonly),
   show: false,
@@ -33,6 +34,23 @@ export default (
     this.component.$wire.watch(this.property, () => this.text());
     this.$watch('uploading', () => this.text());
     this.$watch('preview', (value) => overflow(value, 'upload', overflowing));
+  },
+  /**
+   * Toggle the floating or, in the direct mode, open the file picker.
+   * @returns {void}
+   */
+  pick() {
+    if (this.locked()) {
+      return;
+    }
+
+    if (direct) {
+      this.$refs.files.click();
+
+      return;
+    }
+
+    this.show = !this.show;
   },
   /**
    * Toggle the file upload modal.

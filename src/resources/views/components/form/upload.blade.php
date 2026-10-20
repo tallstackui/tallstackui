@@ -13,7 +13,8 @@
         @js($overflow),
         @js($closeAfterUpload),
         @js($disabled),
-        @js($readonly))"
+        @js($readonly),
+        @js($direct))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
      x-on:livewire-upload-finish="uploading = false"
@@ -32,7 +33,7 @@
                          :$readonly
                          :$invalidate
                          :alternative="$property"
-                         x-on:click="!locked() && (show = !show)"
+                         x-on:click="pick()"
                          x-ref="input"
                          class="cursor-pointer {{ $customization['input.caret'] }}"
                          x-on:keydown="$event.preventDefault()"
@@ -40,10 +41,16 @@
                          dusk="tallstackui_upload_input"
                          floatable>
         <x-slot:suffix :class="$customization['slot.spacing']">
-            <button type="button" class="cursor-pointer" x-on:click="show = !show" @disabled($locked)>
+            <button type="button" class="cursor-pointer" x-on:click="pick()" @disabled($locked)>
+                @if ($direct)
+                    <x-ts-ui::icon.generic.loading x-show="uploading"
+                                                   class="{{ $customization['upload.spinner'] }}"
+                                                   dusk="tallstackui_upload_loading" />
+                @endif
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('arrow-up-tray')"
                                      internal
+                                     :x-show="$direct ? '!uploading' : null"
                                      class="{{ $customization['icon'] }}" />
             </button>
         </x-slot:suffix>
@@ -63,7 +70,7 @@
                 {{ trans('ts-ui::messages.upload.invalid') }}
             </span>
     @endif
-    @if ($preview)
+    @if ($preview && ! $direct)
         <template x-teleport="body">
             <div x-show="preview"
                  x-on:mousedown.stop
@@ -91,119 +98,133 @@
             </div>
         </template>
     @endif
-    <x-dynamic-component :component="TallStackUi::prefix('floating')"
-                         scope="form.upload.floating"
-                         :floating="$customization['floating.default']"
-                         :class="$customization['floating.class']"
-                         dusk="tallstackui_upload_floating">
-        @if (!$static)
-            <div @class(['flex', $customization['staging.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()])>
-                <div class="{{ $customization['placeholder.wrapper'] }}" :class="{ '{{ $customization['placeholder.wrapper-dragging'] }}': dragging }">
-                    <div class="{{ $customization['placeholder.icon.wrapper'] }}">
-                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                             :icon="TallStackUi::icon('cloud-arrow-up')"
-                                             internal
-                                             class="{{ $customization['placeholder.icon.class'] }}" />
-                        <p class="{{ $customization['placeholder.title'] }}">
-                            {{ trans('ts-ui::messages.upload.upload') }}
-                        </p>
-                    </div>
-                    @if (is_string($tip))
-                        <p class="{{ $customization['placeholder.tip'] }}">{{ $tip }}</p>
-                    @else
-                        {{ $tip }}
-                    @endif
-                    <input type="file"
-                           dusk="tallstackui_file_select"
-                           @if (!app()->runningUnitTests()) class="{{ $customization['placeholder.input'] }}" @endif
-                           x-ref="files"
-                           {{ $attributes->only(['accept', 'x-on:upload']) }}
-                           @disabled($locked)
-                           x-on:change="upload()"
-                           x-on:dragover="dragging = true"
-                           x-on:dragleave="dragging = false"
-                           x-on:drop="dragging = false;"
-                           @if ($multiple) multiple @endif />
-                </div>
-            </div>
+    @if ($direct)
+        <input type="file"
+               hidden
+               dusk="tallstackui_file_select"
+               x-ref="files"
+               {{ $attributes->only(['accept', 'x-on:upload']) }}
+               @disabled($locked)
+               x-on:change="upload()"
+               @if ($multiple) multiple @endif />
+        @if ($error)
+            <span x-show="error" x-text="warning" class="{{ $customization['invalid'] }}"></span>
         @endif
-        <div @class([$customization['error.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()]) x-show="@js($error) && error">
-            <p class="{{ $customization['error.message'] }}" x-text="warning"></p>
-        </div>
-        <div x-show="uploading"
-             role="progressbar"
-                @class([$customization['upload.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()])>
-            <div class="{{ $customization['upload.progress'] }}" x-bind:style="'width: ' + progress + '%'"></div>
-        </div>
-        @if ($value)
-            <div class="{{ $customization['item.wrapper'] }}" x-ref="items">
-                <ul role="list" class="{{ $customization['item.ul'] }}">
-                    @foreach($adapter($value) as $key => $file)
-                        <li @class([$customization['item.li'], $customization['item.li-multiple'] => is_array($value) && count($value) > 1])>
-                            <div @class(['flex', $customization['item.content']])>
-                                @if ($file['is_image'])
-                                    <img src="{{ $file['url'] }}"
-                                         dusk="tallstackui_file_preview"
-                                         @if ($preview) x-on:click="image = @js($file['url']); preview = true; show = false" @endif
-                                            @class([$customization['item.image'], $customization['item.image-clickable'] => $preview])>
-                                @else
-                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                         :icon="TallStackUi::icon('document-text')"
-                                                         internal
-                                                         :class="$customization['item.document']" />
-                                @endif
-                                <div @class(['flex-auto', $customization['item.description']])>
-                                    <p class="{{ $customization['item.title'] }}">{{ $file['real_name'] }}</p>
-                                    @if ($validate)
-                                        <x-dynamic-component :component="TallStackUi::prefix('error')"
-                                                             scope="form.upload.error"
-                                                             :property="is_array($value) ? $property . '.' . $key : $property" />
+    @else
+        <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                             scope="form.upload.floating"
+                             :floating="$customization['floating.default']"
+                             :class="$customization['floating.class']"
+                             dusk="tallstackui_upload_floating">
+            @if (!$static)
+                <div @class(['flex', $customization['staging.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()])>
+                    <div class="{{ $customization['placeholder.wrapper'] }}" :class="{ '{{ $customization['placeholder.wrapper-dragging'] }}': dragging }">
+                        <div class="{{ $customization['placeholder.icon.wrapper'] }}">
+                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                 :icon="TallStackUi::icon('cloud-arrow-up')"
+                                                 internal
+                                                 class="{{ $customization['placeholder.icon.class'] }}" />
+                            <p class="{{ $customization['placeholder.title'] }}">
+                                {{ trans('ts-ui::messages.upload.upload') }}
+                            </p>
+                        </div>
+                        @if (is_string($tip))
+                            <p class="{{ $customization['placeholder.tip'] }}">{{ $tip }}</p>
+                        @else
+                            {{ $tip }}
+                        @endif
+                        <input type="file"
+                               dusk="tallstackui_file_select"
+                               @if (!app()->runningUnitTests()) class="{{ $customization['placeholder.input'] }}" @endif
+                               x-ref="files"
+                               {{ $attributes->only(['accept', 'x-on:upload']) }}
+                               @disabled($locked)
+                               x-on:change="upload()"
+                               x-on:dragover="dragging = true"
+                               x-on:dragleave="dragging = false"
+                               x-on:drop="dragging = false;"
+                               @if ($multiple) multiple @endif />
+                    </div>
+                </div>
+            @endif
+            <div @class([$customization['error.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()]) x-show="@js($error) && error">
+                <p class="{{ $customization['error.message'] }}" x-text="warning"></p>
+            </div>
+            <div x-show="uploading"
+                 role="progressbar"
+                    @class([$customization['upload.wrapper'], $customization['staging.with-footer'] => $footer?->isNotEmpty()])>
+                <div class="{{ $customization['upload.progress'] }}" x-bind:style="'width: ' + progress + '%'"></div>
+            </div>
+            @if ($value)
+                <div class="{{ $customization['item.wrapper'] }}" x-ref="items">
+                    <ul role="list" class="{{ $customization['item.ul'] }}">
+                        @foreach($adapter($value) as $key => $file)
+                            <li @class([$customization['item.li'], $customization['item.li-multiple'] => is_array($value) && count($value) > 1])>
+                                <div @class(['flex', $customization['item.content']])>
+                                    @if ($file['is_image'])
+                                        <img src="{{ $file['url'] }}"
+                                             dusk="tallstackui_file_preview"
+                                             @if ($preview) x-on:click="image = @js($file['url']); preview = true; show = false" @endif
+                                                @class([$customization['item.image'], $customization['item.image-clickable'] => $preview])>
+                                    @else
+                                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                             :icon="TallStackUi::icon('document-text')"
+                                                             internal
+                                                             :class="$customization['item.document']" />
                                     @endif
-                                    @if ($file['size'] !== null)
-                                        <p class="{{ $customization['item.size'] }}">
-                                            <span>{{ trans('ts-ui::messages.upload.size') }}: </span>
-                                            <span>{{ $file['size'] }}</span>
-                                        </p>
+                                    <div @class(['flex-auto', $customization['item.description']])>
+                                        <p class="{{ $customization['item.title'] }}">{{ $file['real_name'] }}</p>
+                                        @if ($validate)
+                                            <x-dynamic-component :component="TallStackUi::prefix('error')"
+                                                                 scope="form.upload.error"
+                                                                 :property="is_array($value) ? $property . '.' . $key : $property" />
+                                        @endif
+                                        @if ($file['size'] !== null)
+                                            <p class="{{ $customization['item.size'] }}">
+                                                <span>{{ trans('ts-ui::messages.upload.size') }}: </span>
+                                                <span>{{ $file['size'] }}</span>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div @class(['flex shrink-0', $customization['item.actions']])>
+                                    @if ($delete && ! $locked)
+                                        <button type="button"
+                                                class="cursor-pointer"
+                                                {{ $attributes->only('x-on:remove') }}
+                                                x-on:click="remove(@js($deleteMethod), @js($file))">
+                                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                                 :icon="TallStackUi::icon('trash')"
+                                                                 class="{{ $customization['item.delete'] }}"
+                                                                 internal />
+                                        </button>
                                     @endif
                                 </div>
-                            </div>
-                            <div @class(['flex shrink-0', $customization['item.actions']])>
-                                @if ($delete && ! $locked)
-                                    <button type="button"
-                                            class="cursor-pointer"
-                                            {{ $attributes->only('x-on:remove') }}
-                                            x-on:click="remove(@js($deleteMethod), @js($file))">
-                                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                             :icon="TallStackUi::icon('trash')"
-                                                             class="{{ $customization['item.delete'] }}"
-                                                             internal />
-                                    </button>
-                                @endif
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        @elseif ($static === true)
-            <div class="{{ $customization['static.empty.wrapper'] }}">
-                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                     :icon="TallStackUi::icon('photo')"
-                                     internal
-                                     class="{{ $customization['static.empty.icon'] }}" />
-                <h3 class="{{ $customization['static.empty.title'] }}">
-                    {{ trans('ts-ui::messages.upload.static.empty.title') }}
-                </h3>
-                <p class="{{ $customization['static.empty.description'] }}">
-                    {{ trans('ts-ui::messages.upload.static.empty.description') }}
-                </p>
-            </div>
-        @endif
-        @if ($footer?->isNotEmpty())
-            @unless ($footer->attributes->has('when-uploaded') && !$value)
-                <x-slot:footer>
-                    {{ $footer }}
-                </x-slot:footer>
-            @endunless
-        @endif
-    </x-dynamic-component>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @elseif ($static === true)
+                <div class="{{ $customization['static.empty.wrapper'] }}">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('photo')"
+                                         internal
+                                         class="{{ $customization['static.empty.icon'] }}" />
+                    <h3 class="{{ $customization['static.empty.title'] }}">
+                        {{ trans('ts-ui::messages.upload.static.empty.title') }}
+                    </h3>
+                    <p class="{{ $customization['static.empty.description'] }}">
+                        {{ trans('ts-ui::messages.upload.static.empty.description') }}
+                    </p>
+                </div>
+            @endif
+            @if ($footer?->isNotEmpty())
+                @unless ($footer->attributes->has('when-uploaded') && !$value)
+                    <x-slot:footer>
+                        {{ $footer }}
+                    </x-slot:footer>
+                @endunless
+            @endif
+        </x-dynamic-component>
+    @endif
 </div>
