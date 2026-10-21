@@ -18,6 +18,17 @@ use Tests\Browser\BrowserTestCase;
 class NativeBrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function dispatches_the_select_event_once_through_helpers(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-calendar-helpers')
+            ->waitFor('@tallstackui_calendar')
+            ->click('@tallstackui_date_helper_today')
+            ->waitForTextIn('@selects', '1')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1'));
+    }
+
+    #[Test]
     public function renders_a_single_named_input(): void
     {
         $this->browse(fn (Browser $browser) => $browser->visit('/native-calendar')
@@ -91,5 +102,20 @@ class NativeBrowserTest extends BrowserTestCase
         HTML));
 
         $router->get('/native-calendar/result', fn (Request $request): string => 'scheduled_at:'.$request->query('scheduled_at').' expires_at:'.$request->query('expires_at'));
+
+        $router->get('/native-calendar-helpers', fn (): string => Blade::render(<<<'HTML'
+        <html>
+        <head>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <tallstackui:setup />
+            @livewireScripts
+        </head>
+        <body>
+            <x-calendar name="scheduled_at" helpers x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+
+            <p dusk="selects">0</p>
+        </body>
+        </html>
+        HTML));
     }
 }

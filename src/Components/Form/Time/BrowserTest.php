@@ -191,6 +191,34 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_dispatch_clear_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="cleared" wire:ignore></p>
+
+                    <x-time label="Time"
+                            wire:model.live="time"
+                            x-on:clear="document.querySelector('[dusk=cleared]').textContent += $event.detail.time + ','" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Time')
+            ->click('@tallstackui_time_clear')
+            ->waitForTextIn('@cleared', '11:30 PM,')
+            ->pause(300)
+            ->assertScript("document.querySelector('[dusk=cleared]').textContent", '11:30 PM,');
+    }
+
+    #[Test]
     public function can_dispatch_select_hour_event(): void
     {
         Livewire::visit(new class extends Component

@@ -18,6 +18,19 @@ use Tests\Browser\BrowserTestCase;
 class NativeBrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function dispatches_the_select_event_once_through_helpers(): void
+    {
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-date-helpers')
+            ->waitFor('@tallstackui_date_open_close')
+            ->click('@tallstackui_date_open_close')
+            ->waitFor('@tallstackui_date_helper_today')
+            ->click('@tallstackui_date_helper_today')
+            ->waitForTextIn('@selects', '1')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1'));
+    }
+
+    #[Test]
     public function renders_a_single_named_input(): void
     {
         // Two inputs sharing a name would leave PHP with the last one, and the
@@ -97,5 +110,20 @@ class NativeBrowserTest extends BrowserTestCase
         HTML));
 
         $router->get('/native-date/result', fn (Request $request): string => 'published_at:'.$request->query('published_at').' expires_at:'.$request->query('expires_at'));
+
+        $router->get('/native-date-helpers', fn (): string => Blade::render(<<<'HTML'
+        <html>
+        <head>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <tallstackui:setup />
+            @livewireScripts
+        </head>
+        <body>
+            <x-date name="published_at" helpers x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+
+            <p dusk="selects">0</p>
+        </body>
+        </html>
+        HTML));
     }
 }
