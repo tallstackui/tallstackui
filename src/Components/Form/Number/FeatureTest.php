@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use TallStackUi\Components\Form\Number\Component;
 use Tests\TestCase;
 
@@ -129,3 +130,29 @@ it('wires the steppers when unlocked')
     ->expect('<x-number name="foo" />')
     ->render()
     ->toContain('x-on:pointerdown');
+
+it('can render a value above the max')
+    ->expect('<x-number value="25" min="0" max="20" />')
+    ->render()
+    ->toContain('value="25"');
+
+it('can render a value below the min')
+    ->expect('<x-number value="2" min="5" max="20" />')
+    ->render()
+    ->toContain('value="2"');
+
+it('can render a zero min and max')
+    ->expect('<x-number min="0" max="0" />')
+    ->render()
+    ->toContain('min="0"')
+    ->toContain('max="0"');
+
+it('cannot render with min greater than max', function (string $component) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [min] value must be less than the [max] value.');
+
+    expect($component)->render();
+})->with([
+    'positive bounds' => '<x-number :min="20" :max="10" />',
+    'zero max' => '<x-number :min="5" :max="0" />',
+]);
