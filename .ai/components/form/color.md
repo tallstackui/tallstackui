@@ -48,9 +48,10 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 
 ## Alpine.js Events
 
-| Event    | Description                                         |
-|----------|-----------------------------------------------------|
-| x-on:set | Triggered when a color is selected from the palette |
+| Event      | Description                                         |
+|------------|-----------------------------------------------------|
+| x-on:set   | Triggered when a color is selected from the palette |
+| x-on:clear | Triggered when the clear button is clicked          |
 
 ## Validation Constraints
 
@@ -84,6 +85,7 @@ The `x-on:set` event detail contains the selected color string:
 ```
 
 `$event.detail.color` is a string like `"red-500"` or `"#ff0000"` depending on the selection.
+The `x-on:clear` event carries `$event.detail.color` as an empty string.
 
 ## Soft Customization
 

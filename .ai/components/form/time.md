@@ -57,12 +57,13 @@ A time picker component with a floating panel featuring range sliders for hours 
 
 ## Alpine.js Events
 
-| Event         | Description                                                     |
-|---------------|-----------------------------------------------------------------|
-| x-on:hour     | Triggered when the hour value changes                           |
-| x-on:minute   | Triggered when the minute value changes                         |
-| x-on:interval | Triggered when the AM/PM interval changes (12-hour format only) |
-| x-on:current  | Triggered when the "Current Time" helper button is clicked      |
+| Event         | Description                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------------|
+| x-on:hour     | Triggered when the hour value changes                                                              |
+| x-on:minute   | Triggered when the minute value changes                                                            |
+| x-on:interval | Triggered when the AM/PM interval changes (12-hour format only)                                    |
+| x-on:current  | Triggered when the "Current Time" helper button is clicked                                         |
+| x-on:clear    | Triggered when the clear button is clicked. `$event.detail.time` carries the time that was cleared |
 
 The `x-on:current` detail carries the hour already expressed in the component's own
 format: on `format="12"` an afternoon press reports `1`, not `13`, matching the value
