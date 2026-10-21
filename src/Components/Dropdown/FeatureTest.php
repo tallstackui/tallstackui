@@ -143,7 +143,7 @@ it('submenu inherits size and width via DOM ancestor lookup', function () {
     expect($dropdown)->render()
         ->toContain('data-tsui-dropdown-size="lg"')
         ->toContain('data-tsui-dropdown-width="2xl"')
-        ->toContain("\$el.closest('[data-tsui-dropdown-size]')")
+        ->toContain('x-data="tallstackui_dropdownSubmenu()"')
         ->toContain('x-bind:data-tsui-dropdown-size="size"')
         ->toContain('x-bind:data-tsui-dropdown-width="width"');
 });
