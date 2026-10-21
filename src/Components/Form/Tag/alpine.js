@@ -198,7 +198,7 @@ export default (
       this.show = false;
     }
 
-    this.$el.dispatchEvent(new CustomEvent('add', { detail: { tag: tag } }));
+    this.$refs.input.dispatchEvent(new CustomEvent('add', { detail: { tag: tag } }));
 
     this.clean();
   },
