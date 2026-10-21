@@ -198,6 +198,57 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_the_submenu_via_hover(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="outside">Outside</p>
+
+                    <x-dropdown text="Menu" hover>
+                        <x-dropdown.submenu text="Submenu">
+                            <x-dropdown.items text="Nested" dusk="nested" />
+                        </x-dropdown.submenu>
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 900)
+            ->assertSee('Menu')
+            ->assertDontSee('Submenu');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_open_dropdown"]')))
+            ->perform();
+
+        $browser->waitForText('Submenu');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::xpath('//button[contains(., "Submenu")]')))
+            ->perform();
+
+        $browser->waitForText('Nested');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="nested"]')))
+            ->perform();
+
+        $browser->pause(600)
+            ->assertSee('Nested');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="outside"]')))
+            ->perform();
+
+        $browser->waitUntilMissingText('Nested')
+            ->assertDontSee('Submenu');
+    }
+
+    #[Test]
     public function can_render_with_action(): void
     {
         Livewire::visit(new class extends Component
@@ -321,6 +372,52 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_open_dropdown')
             ->waitUntilMissingText('Lorem')
             ->waitUntilMissingText('Ipsum');
+    }
+
+    #[Test]
+    public function can_switch_between_submenus_via_hover(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dropdown text="Menu" hover>
+                        <x-dropdown.submenu text="Alpha">
+                            <x-dropdown.items text="First" />
+                        </x-dropdown.submenu>
+                        <x-dropdown.submenu text="Beta">
+                            <x-dropdown.items text="Second" />
+                        </x-dropdown.submenu>
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 900)
+            ->assertSee('Menu');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::cssSelector('[dusk="tallstackui_open_dropdown"]')))
+            ->perform();
+
+        $browser->waitForText('Alpha');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::xpath('//button[contains(., "Alpha")]')))
+            ->perform();
+
+        $browser->waitForText('First');
+
+        $browser->driver->action()
+            ->moveToElement($browser->driver->findElement(WebDriverBy::xpath('//button[contains(., "Beta")]')))
+            ->perform();
+
+        $browser->waitForText('Second')
+            ->waitUntilMissingText('First')
+            ->pause(600)
+            ->assertSee('Second');
     }
 
     #[Test]

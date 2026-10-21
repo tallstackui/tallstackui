@@ -384,6 +384,39 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_a_value_out_of_the_range(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 5;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+
+                    <x-number wire:model.live="quantity" :min="0" :max="20" />
+                    <x-button dusk="overflow" wire:click="overflow">Overflow</x-button>
+                </div>
+                HTML;
+            }
+
+            public function overflow(): void
+            {
+                $this->quantity = 25;
+            }
+        })
+            ->assertSee('Overflow')
+            ->click('@overflow')
+            ->waitForTextIn('@quantity', '25')
+            ->assertInputValue('@tallstackui_form_number_input', '25')
+            ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '20')
+            ->assertInputValue('@tallstackui_form_number_input', '20');
+    }
+
+    #[Test]
     public function can_tab_out_of_the_input_when_selectable(): void
     {
         Livewire::visit(new class extends Component
