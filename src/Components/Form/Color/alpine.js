@@ -453,7 +453,7 @@ export default (
     this.model = null;
     this.clearable = false;
     this.$refs.input.value = '';
-    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { color: '' } }));
+    this.$refs.input.dispatchEvent(new CustomEvent('clear', { detail: { color: '' } }));
   },
   /**
    * Apply color and step exclusions to the default Tailwind palette.
