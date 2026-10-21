@@ -576,6 +576,6 @@ export default (options) => ({
   },
 
   emit(name, detail) {
-    this.$el.dispatchEvent(new CustomEvent(name, { detail, bubbles: false }));
+    this.$root.dispatchEvent(new CustomEvent(name, { detail, bubbles: false }));
   },
 });

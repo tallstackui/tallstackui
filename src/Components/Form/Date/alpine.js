@@ -147,7 +147,7 @@ export default (
       // preventing the request from sending an empty array.
       if (!start && !end) this.model = null;
 
-      this.sync();
+      this.sync(true);
 
       return this.refresh();
     }
@@ -156,31 +156,34 @@ export default (
       // ... same as above!
       this.model = this.quantity === 0 ? null : this.model;
 
-      this.sync();
+      this.sync(true);
 
       return this.refresh();
     }
 
     this.date.start = this.model ? datetime(this.model).toDate() : null;
 
-    this.sync();
+    this.sync(true);
     this.refresh();
   },
   /**
    * Sync the input.
    *
+   * @param {Boolean} silent
    * @return {void}
    */
-  sync() {
+  sync(silent = false) {
     if (!this.model) {
       this.input = '';
 
       return;
     }
 
-    this.$el.dispatchEvent(
-      new CustomEvent('select', { detail: { type: this.type, date: this.model } })
-    );
+    if (!silent) {
+      this.$refs.input.dispatchEvent(
+        new CustomEvent('select', { detail: { type: this.type, date: this.model } })
+      );
+    }
 
     if (multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
@@ -343,6 +346,10 @@ export default (
     this.reset();
     this.input = date.format(this.format);
     this.map();
+
+    this.$refs.input.dispatchEvent(
+      new CustomEvent('select', { detail: { type: this.type, date: this.model } })
+    );
 
     wireChange(change, this.model);
   },

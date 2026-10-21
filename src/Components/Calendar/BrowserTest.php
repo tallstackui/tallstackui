@@ -196,6 +196,95 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function dispatches_the_select_event_once_through_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-calendar helpers
+                                wire:model.live="date"
+                                x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Sun')
+            ->click('@tallstackui_date_helper_today')
+            ->waitUntil("document.querySelector('[dusk=date]').textContent.trim() !== ''")
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1');
+    }
+
+    #[Test]
+    public function dispatches_the_select_event_once_through_month_year_only(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-calendar month-year-only
+                                wire:model.live="date"
+                                x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="Feb"])[1]')
+            ->waitForText('2021')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="2021"])[1]')
+            ->waitForTextIn('@date', '2021-02')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1');
+    }
+
+    #[Test]
+    public function does_not_dispatch_the_select_event_when_the_server_sets_the_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-calendar wire:model.live="date"
+                                x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+
+                    <button type="button" dusk="set" wire:click="$set('date', '2020-01-15')">Set</button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@set')
+            ->waitForTextIn('@date', '2020-01-15')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '0');
+    }
+
+    #[Test]
     public function double_mode_can_select_end_date_from_secondary_calendar(): void
     {
         Livewire::visit(new class extends Component

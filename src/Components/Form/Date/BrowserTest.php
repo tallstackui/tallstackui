@@ -268,6 +268,70 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_interact_with_select_event_once_through_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-date label="DatePicker"
+                            helpers
+                            wire:model.live="date"
+                            x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitFor('@tallstackui_date_helper_today')
+            ->click('@tallstackui_date_helper_today')
+            ->waitUntil("document.querySelector('[dusk=date]').textContent.trim() !== ''")
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1');
+    }
+
+    #[Test]
+    public function can_interact_with_select_event_once_through_month_year_only(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            month-year-only
+                            x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[13]')
+            ->waitForTextIn('@date', '2021-02')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '1');
+    }
+
+    #[Test]
     public function can_navigate_to_last_year(): void
     {
         Livewire::visit(new class extends Component
@@ -1038,6 +1102,37 @@ class BrowserTest extends BrowserTestCase
             ->click('@changes')
             ->waitForTextIn('@date', '[2020-01-15]')
             ->assertDontSeeIn('@changes', '0');
+    }
+
+    #[Test]
+    public function cannot_interact_with_select_event_when_the_server_sets_the_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    <p dusk="selects" wire:ignore>0</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            x-on:select="document.querySelector('[dusk=selects]').textContent++" />
+
+                    <button type="button" dusk="set" wire:click="$set('date', '2020-01-15')">Set</button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@set')
+            ->waitForTextIn('@date', '2020-01-15')
+            ->pause(500)
+            ->assertInputValue('@tallstackui_date_input', '2020-01-15')
+            ->assertScript("document.querySelector('[dusk=selects]').textContent", '0');
     }
 
     #[Test]

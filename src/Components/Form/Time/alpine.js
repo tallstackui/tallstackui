@@ -335,7 +335,7 @@ export default (
 
     wireChange(change, this.model);
 
-    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { time: model } }));
+    this.$refs.input.dispatchEvent(new CustomEvent('clear', { detail: { time: model } }));
   },
   /**
    * Set the input value.

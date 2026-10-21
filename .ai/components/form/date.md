@@ -121,10 +121,10 @@ exception below.
 
 ## Alpine.js Events
 
-| Event       | Description                                |
-|-------------|--------------------------------------------|
-| x-on:select | Triggered when a date is selected          |
-| x-on:clear  | Triggered when the clear button is clicked |
+| Event       | Description                                                                                                                                                                       |
+|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| x-on:select | Triggered when the user selects a date: a day click, a typed date, a helper button, or the month and year in `month-year-only`. Not triggered when the value is set by the server |
+| x-on:clear  | Triggered when the clear button is clicked                                                                                                                                        |
 
 ## Validation Constraints
 

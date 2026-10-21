@@ -72,13 +72,13 @@ over the key.
 
 ## Alpine.js Events
 
-| Event       | Description                                     |
-|-------------|-------------------------------------------------|
-| x-on:add    | Triggered when a tag is added                   |
-| x-on:remove | Triggered when an individual tag is removed     |
-| x-on:erase  | Triggered when the bulk erase button is clicked |
-| x-on:open   | Triggered when the floating list opens          |
-| x-on:close  | Triggered when the floating list closes         |
+| Event       | Description                                                           |
+|-------------|-----------------------------------------------------------------------|
+| x-on:add    | Triggered when a tag is added, typed or picked from the floating list |
+| x-on:remove | Triggered when an individual tag is removed                           |
+| x-on:erase  | Triggered when the bulk erase button is clicked                       |
+| x-on:open   | Triggered when the floating list opens                                |
+| x-on:close  | Triggered when the floating list closes                               |
 
 ## Validation Constraints
 
