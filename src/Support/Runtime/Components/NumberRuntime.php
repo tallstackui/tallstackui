@@ -32,7 +32,7 @@ class NumberRuntime extends AbstractRuntime
 
         $data = [
             ...$this->locks(),
-            'property' => $property = $bind->get('property'),
+            'property' => $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             // When the wire:model is debounced/throttled we defer the entangle
@@ -46,32 +46,20 @@ class NumberRuntime extends AbstractRuntime
             ],
         ];
 
-        $this->validate($this->value($property));
+        $this->validate();
 
         return $data;
     }
 
-    private function validate(mixed $value): void
+    // The value is not checked: it is user data, and throwing on it
+    // turns a value out of the range into a 500.
+    private function validate(): void
     {
         $min = $this->data('min');
         $max = $this->data('max');
 
-        if (($min && $max) && ($min > $max)) {
+        if ($min !== null && $max !== null && $min > $max) {
             __ts_validation_exception($this->component, 'The [min] value must be less than the [max] value.');
-        }
-
-        if (($min && $max) && ($max < $min)) {
-            __ts_validation_exception($this->component, 'The [max] value must be greater than the [min] value.');
-        }
-
-        $label = $this->wireable() ? 'wire:model' : 'value';
-
-        if ($value && $min && ((int) $value < $min)) {
-            __ts_validation_exception($this->component, "The [min] value must be greater than or equals to the defined in [$label] property.");
-        }
-
-        if ($value && $max && ((int) $value > $max)) {
-            __ts_validation_exception($this->component, "The [max] value must be less than or equals to the defined in [$label] property.");
         }
     }
 }

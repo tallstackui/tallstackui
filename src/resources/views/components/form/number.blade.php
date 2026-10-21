@@ -16,8 +16,8 @@
             type="number"
                    inputmode="{{ $mode() }}"
                    pattern="{{ $pattern() }}"
-                   @if ($min) min="{{ $min }}" @endif
-                   @if ($max) max="{{ $max }}" @endif
+                   @if (! is_null($min)) min="{{ $min }}" @endif
+                   @if (! is_null($max)) max="{{ $max }}" @endif
                    @if ($step) step="{{ $step }}" @endif
                    @if ($configurations['selectable']) x-on:keydown="window.tallstackui_lockKeydown($event)" @endif
                    {{ $attributes->class([
