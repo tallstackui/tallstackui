@@ -27,6 +27,7 @@
      @js($weekends))"
      class="{{ $customization['wrapper.outer'] }}"
      dusk="tallstackui_calendar"
+     {{ $attributes->only('x-on:select') }}
      x-cloak>
     @if ($label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" scope="calendar.label" :label="$label" />
@@ -181,7 +182,6 @@
                          }">
                         <button type="button"
                                 x-text="day.day"
-                                {{ $attributes->only('x-on:select') }}
                                 x-on:click="select($event, day);"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{
@@ -222,7 +222,6 @@
                              }">
                             <button type="button"
                                     x-text="day.day"
-                                    {{ $attributes->only('x-on:select') }}
                                     x-on:click="select($event, day);"
                                     x-bind:disabled="day.disabled"
                                     x-bind:class="{
