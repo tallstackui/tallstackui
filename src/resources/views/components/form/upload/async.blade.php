@@ -10,6 +10,8 @@
         method: @js($method),
         multiple: @js((bool) $multiple),
         manual: @js((bool) $manual),
+        sortable: @js($sortable),
+        ghost: @js($customization['sortable.ghost']),
         disabled: @js($disabled),
         readonly: @js($readonly),
         limit: @js($limit),
@@ -70,10 +72,19 @@
             <template x-for="(file, index) in files" :key="file.uuid">
                 <div role="listitem"
                      x-on:click.stop
+                     @if ($sortable)
+                         x-on:pointerdown="hold($event, file)"
+                         x-on:touchmove="sorting && $event.preventDefault()"
+                         x-on:contextmenu="press && $event.preventDefault()"
+                         x-bind:class="{ '{{ $customization['sortable.placeholder'] }}': sorting === file.uuid }"
+                     @endif
                      x-tooltip
                      x-bind:x-tooltip="file.error"
                      data-tooltip-color="red"
-                     class="{{ $customization['tile.wrapper'] }}"
+                     @class([
+                         $customization['tile.wrapper'],
+                         $customization['sortable.tile'] => $sortable,
+                     ])
                      dusk="tallstackui_upload_async_tile">
                     {{-- An overlay rather than a ring on the tile itself: the
                          thumbnail covers the whole box and would paint over it. --}}
@@ -82,6 +93,7 @@
                         <img x-bind:src="file.preview"
                              x-bind:alt="file.real_name"
                              @if ($preview) x-on:click.stop="expand(file)" @endif
+                             @if ($sortable) draggable="false" @endif
                              @class([
                                  $customization['tile.image'],
                                  $customization['tile.image-clickable'] => $preview,

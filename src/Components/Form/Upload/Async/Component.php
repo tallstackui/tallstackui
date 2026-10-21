@@ -27,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $multiple = false,
         public ?bool $preview = true,
         public ?bool $manual = false,
+        public ?bool $sortable = false,
         public ?bool $disabled = false,
         public ?bool $readonly = false,
         public ?int $limit = null,
@@ -48,6 +49,7 @@ class Component extends TallStackUiComponent implements Customization
         $this->description ??= trans('ts-ui::messages.upload_async.description');
         $this->height ??= 'min-h-48';
         $this->columns = max(1, min(6, $this->columns ?? 6));
+        $this->sortable = $this->multiple && $this->sortable;
         $this->files = $this->files instanceof Collection ? $this->files->all() : ($this->files ?? []);
         $this->error ??= trans('ts-ui::messages.upload_async.errors.generic');
 
@@ -115,6 +117,11 @@ class Component extends TallStackUiComponent implements Customization
                 'error-ring' => 'pointer-events-none absolute inset-0 z-10 rounded-md ring-2 ring-inset ring-red-500',
                 'error-badge' => 'absolute right-1 top-1 z-10 rounded-full bg-red-500 p-1 text-white',
                 'error-msg' => 'absolute inset-x-0 bottom-0 z-10 truncate bg-red-500 px-2 py-1 text-center text-xs font-medium text-white',
+            ],
+            'sortable' => [
+                'tile' => 'select-none [-webkit-touch-callout:none]',
+                'placeholder' => 'opacity-40',
+                'ghost' => 'z-50 rounded-md opacity-90 shadow-xl ring-2 ring-primary-500',
             ],
             'lightbox' => [
                 'backdrop' => 'fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-8 dark:bg-dark-800/90',

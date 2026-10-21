@@ -48,6 +48,7 @@ export default (options) => ({
   method: options.method,
   multiple: options.multiple,
   manual: options.manual,
+  sortable: options.sortable,
   ...lockable(options.disabled, options.readonly),
   limit: options.limit,
   config: options.config,
@@ -61,11 +62,21 @@ export default (options) => ({
   workers: 0,
   last: null,
 
+  sorting: null,
+  press: null,
+  handlers: null,
+
   init() {
     // options.wire only carries an id when PHP rendered us inside a Livewire
     // component, which is exactly when the $wire magic is safe to touch.
     this.files = this.hydrate(options.existing);
     this.last = this.stamp(options.existing);
+
+    // Kept as stable references so release() can take them off the window.
+    this.handlers = {
+      move: (event) => this.track(event),
+      up: () => this.release(),
+    };
 
     this.$watch('preview.open', (value) => overflow(value, 'upload-async', false));
     this.$watch('files', () => this.$nextTick(() => this.measure()));
@@ -192,6 +203,217 @@ export default (options) => ({
 
   collapse() {
     this.preview = { open: false, src: null, name: null };
+  },
+
+  // A mouse lifts the tile after a small move, so a plain click still opens
+  // the lightbox. Touch waits for a long press, so a swipe still scrolls.
+  hold(event, file) {
+    if (!this.sortable || this.locked() || event.button !== 0 || event.target.closest('button')) {
+      return;
+    }
+
+    if (event.pointerType === 'mouse') {
+      event.preventDefault();
+    }
+
+    this.press = {
+      id: event.pointerId,
+      uuid: file.uuid,
+      tile: event.currentTarget,
+      x: event.clientX,
+      y: event.clientY,
+      timer: event.pointerType === 'mouse' ? null : setTimeout(() => this.lift(), 300),
+    };
+
+    window.addEventListener('pointermove', this.handlers.move);
+    window.addEventListener('pointerup', this.handlers.up);
+    window.addEventListener('pointercancel', this.handlers.up);
+  },
+
+  lift() {
+    const press = this.press;
+
+    clearTimeout(press.timer);
+    press.timer = null;
+
+    const rect = press.tile.getBoundingClientRect();
+    const ghost = press.tile.cloneNode(true);
+
+    // A frozen picture of the tile: left with its directives, Alpine would
+    // try to evaluate them outside the loop that gives them a file.
+    for (const node of [ghost, ...ghost.querySelectorAll('*')]) {
+      for (const attribute of [...node.attributes]) {
+        if (/^(x-|:|@|wire:|dusk$|role$)/.test(attribute.name)) {
+          node.removeAttribute(attribute.name);
+        }
+      }
+    }
+
+    ghost.classList.add(...options.ghost.split(' ').filter(Boolean));
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.setAttribute('dusk', 'tallstackui_upload_async_ghost');
+
+    Object.assign(ghost.style, {
+      position: 'fixed',
+      left: `${rect.left}px`,
+      top: `${rect.top}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      margin: '0',
+      pointerEvents: 'none',
+    });
+
+    document.body.appendChild(ghost);
+
+    press.ghost = ghost;
+    press.from = this.files.findIndex((file) => file.uuid === press.uuid);
+
+    this.sorting = press.uuid;
+  },
+
+  track(event) {
+    const press = this.press;
+
+    if (!press || event.pointerId !== press.id) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - press.x, event.clientY - press.y);
+
+    if (!this.sorting) {
+      // Moving before the long press ends means the finger is scrolling.
+      if (press.timer) {
+        if (distance > 10) {
+          this.release();
+        }
+
+        return;
+      }
+
+      if (distance < 5) {
+        return;
+      }
+
+      this.lift();
+    }
+
+    press.cx = event.clientX;
+    press.cy = event.clientY;
+    press.ghost.style.transform = `translate(${event.clientX - press.x}px, ${event.clientY - press.y}px)`;
+
+    this.hover(event.clientX, event.clientY);
+    this.edge(event.clientY);
+  },
+
+  hover(x, y) {
+    const grid = this.$refs.grid;
+    const target = document.elementFromPoint(x, y)?.closest('[role=listitem]');
+
+    if (!target || target.parentElement !== grid) {
+      return;
+    }
+
+    const to = [...grid.querySelectorAll(':scope > [role=listitem]')].indexOf(target);
+    const from = this.files.findIndex((file) => file.uuid === this.sorting);
+
+    if (to < 0 || to === from) {
+      return;
+    }
+
+    this.files.splice(to, 0, ...this.files.splice(from, 1));
+  },
+
+  // The grid stops growing at its max height, so near its top or bottom edge
+  // it scrolls by itself; otherwise a tile below the fold could never reach
+  // the first slot.
+  edge(y) {
+    const press = this.press;
+    const grid = this.$refs.grid;
+    const rect = grid.getBoundingClientRect();
+
+    press.speed = 0;
+
+    if (grid.scrollHeight > grid.clientHeight) {
+      if (y < rect.top + 40) {
+        press.speed = -8;
+      } else if (y > rect.bottom - 40) {
+        press.speed = 8;
+      }
+    }
+
+    if (press.speed && !press.frame) {
+      press.frame = requestAnimationFrame(() => this.scroll());
+    }
+  },
+
+  scroll() {
+    const press = this.press;
+
+    if (!press) {
+      return;
+    }
+
+    if (!press.speed) {
+      press.frame = null;
+
+      return;
+    }
+
+    this.$refs.grid.scrollTop += press.speed;
+
+    this.hover(press.cx, press.cy);
+
+    press.frame = requestAnimationFrame(() => this.scroll());
+  },
+
+  release() {
+    const press = this.press;
+
+    if (!press) {
+      return;
+    }
+
+    clearTimeout(press.timer);
+    cancelAnimationFrame(press.frame);
+
+    window.removeEventListener('pointermove', this.handlers.move);
+    window.removeEventListener('pointerup', this.handlers.up);
+    window.removeEventListener('pointercancel', this.handlers.up);
+
+    this.press = null;
+
+    if (!this.sorting) {
+      return;
+    }
+
+    press.ghost.remove();
+
+    const to = this.files.findIndex((file) => file.uuid === this.sorting);
+
+    this.sorting = null;
+
+    this.swallow();
+
+    if (to === press.from) {
+      return;
+    }
+
+    this.emit('sorted', { file: this.files[to], from: press.from, to });
+
+    this.sync();
+  },
+
+  // The pointer still clicks wherever the drag ends: on a tile that opens the
+  // lightbox, on the grid it bubbles up and opens the file picker.
+  swallow() {
+    const block = (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+    };
+
+    window.addEventListener('click', block, true);
+
+    setTimeout(() => window.removeEventListener('click', block, true));
   },
 
   select(event) {
