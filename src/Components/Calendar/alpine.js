@@ -643,18 +643,6 @@ export default (
     return range;
   },
   /**
-   * Reset all properties
-   *
-   * @return {void}
-   */
-  clear() {
-    const model = this.model;
-
-    this.model = this.value = this.date.start = this.date.end = null;
-
-    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { type: this.type, date: model } }));
-  },
-  /**
    * Reset the day, month, and year to the current date.
    *
    * @return {void}
