@@ -208,6 +208,44 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_listen_to_the_events(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files"
+                                    :route="route('async.upload')"
+                                    multiple
+                                    x-on:added="document.querySelector('[dusk=added]').textContent = $event.detail.file.real_name"
+                                    x-on:success="document.querySelector('[dusk=succeeded]').textContent = $event.detail.file.real_name"
+                                    x-on:complete="document.querySelector('[dusk=completed]').textContent++"
+                                    x-on:removed="document.querySelector('[dusk=removed]').textContent = $event.detail.file.real_name" />
+                    <div wire:ignore>
+                        <p dusk="added"></p>
+                        <p dusk="succeeded"></p>
+                        <p dusk="completed">0</p>
+                        <p dusk="removed"></p>
+                    </div>
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@added', 'test.jpeg')
+            ->waitForTextIn('@succeeded', 'test.jpeg')
+            ->waitForTextIn('@completed', '1')
+            ->pause(500)
+            ->assertScript("document.querySelector('[dusk=completed]').textContent", '1')
+            ->tap(fn (Browser $browser) => $browser->script('document.querySelector("[dusk=tallstackui_upload_async_remove]").click()'))
+            ->waitForTextIn('@removed', 'test.jpeg');
+    }
+
+    #[Test]
     public function can_open_and_close_the_lightbox(): void
     {
         Livewire::visit(new class extends LivewireComponent

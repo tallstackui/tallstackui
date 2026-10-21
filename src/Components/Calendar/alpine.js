@@ -171,7 +171,7 @@ export default (
       // preventing the request from sending an empty array.
       if (!start && !end) this.model = null;
 
-      this.sync();
+      this.sync(true);
 
       return this.refresh();
     }
@@ -180,31 +180,34 @@ export default (
       // ... same as above!
       this.model = this.quantity === 0 ? null : this.model;
 
-      this.sync();
+      this.sync(true);
 
       return this.refresh();
     }
 
     this.date.start = this.model ? datetime(this.model).toDate() : null;
 
-    this.sync();
+    this.sync(true);
     this.refresh();
   },
   /**
    * Sync the state and dispatch the select event.
    *
+   * @param {Boolean} silent
    * @return {void}
    */
-  sync() {
+  sync(silent = false) {
     if (!this.model) {
       this.native();
 
       return;
     }
 
-    this.$el.dispatchEvent(
-      new CustomEvent('select', { detail: { type: this.type, date: this.model } })
-    );
+    if (!silent) {
+      this.$root.dispatchEvent(
+        new CustomEvent('select', { detail: { type: this.type, date: this.model } })
+      );
+    }
 
     if (multiple) {
       return;
@@ -405,6 +408,10 @@ export default (
 
     this.reset();
     this.map();
+
+    this.$root.dispatchEvent(
+      new CustomEvent('select', { detail: { type: this.type, date: this.model } })
+    );
 
     wireChange(change, this.model);
   },
@@ -641,18 +648,6 @@ export default (
     this.range.year.last = range[range.length - 1]?.year;
 
     return range;
-  },
-  /**
-   * Reset all properties
-   *
-   * @return {void}
-   */
-  clear() {
-    const model = this.model;
-
-    this.model = this.value = this.date.start = this.date.end = null;
-
-    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { type: this.type, date: model } }));
   },
   /**
    * Reset the day, month, and year to the current date.

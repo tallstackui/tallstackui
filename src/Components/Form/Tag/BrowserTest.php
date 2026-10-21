@@ -275,6 +275,39 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_listen_to_the_add_event_once_from_the_list_and_from_the_keyboard(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="added" wire:ignore></p>
+
+                    <x-tag dusk="tags"
+                           wire:model="tags"
+                           label="Tags"
+                           :options="['php', 'laravel']"
+                           x-on:add="document.querySelector('[dusk=added]').textContent += $event.detail.tag + ','" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@added', 'foo,')
+            ->waitFor('@tallstackui_tag_options')
+            ->clickAtVisibleXPath('(//li[@dusk="tallstackui_tag_option"])[2]')
+            ->waitForTextIn('@added', 'laravel,')
+            ->pause(300)
+            ->assertScript("document.querySelector('[dusk=added]').textContent", 'foo,laravel,');
+    }
+
+    #[Test]
     public function can_pick_a_reusable_tag_from_the_floating_list(): void
     {
         Livewire::visit(new class extends Component

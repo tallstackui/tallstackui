@@ -196,7 +196,6 @@
                          }">
                         <button type="button"
                                 x-text="day.day"
-                                {{ $attributes->only('x-on:select') }}
                                 x-on:click="select($event, day.day);"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{

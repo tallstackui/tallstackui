@@ -136,12 +136,11 @@ Calendar has no named slots — `label` and `hint` are passed as string props (o
 
 ## Events
 
-Dispatched on the Calendar's root `<div>` and bubble up:
+Dispatched on the Calendar's root `<div>`:
 
-| Event  | Detail                                               | Fired when                                                                                               |
-|--------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| select | `{ type: 'single'\|'range'\|'multiple', date: ... }` | A date is selected (single), a full range is set (range), or the list is toggled (multiple).             |
-| clear  | `{ type, date: <previous model> }`                   | Internal — dispatched when the model is cleared. No public clear button — use `$wire.set('date', null)`. |
+| Event  | Detail                                               | Fired when                                                                                                                                             |
+|--------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| select | `{ type: 'single'\|'range'\|'multiple', date: ... }` | The user selects a date: a day click, a helper button, or the month and year in `month-year-only`. Not dispatched when the value is set by the server. |
 
 Listen with Alpine or bind to a Livewire method:
 

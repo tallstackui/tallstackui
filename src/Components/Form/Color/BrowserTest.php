@@ -291,6 +291,35 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_select_a_color_and_dispatch_clear_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = '#64748b';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="cleared" wire:ignore></p>
+
+                    <x-color label="Color"
+                             wire:model.live="color"
+                             clearable
+                             x-on:clear="document.querySelector('[dusk=cleared]').textContent += 'cleared,'" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Color')
+            ->waitFor('@tallstackui_form_color_clearable')
+            ->click('@tallstackui_form_color_clearable')
+            ->waitForTextIn('@cleared', 'cleared,')
+            ->pause(300)
+            ->assertScript("document.querySelector('[dusk=cleared]').textContent", 'cleared,');
+    }
+
+    #[Test]
     public function can_select_color_with_excluded_color_in_picker_mode(): void
     {
         Livewire::visit(new class extends Component
