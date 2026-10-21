@@ -2,14 +2,7 @@
     $customization = $classes();
 @endphp
 
-<div x-data="{ show: false, size: 'md', width: 'md' }"
-     x-init="
-        const parent = $el.closest('[data-tsui-dropdown-size]');
-        if (parent) {
-            size = parent.dataset.tsuiDropdownSize;
-            width = parent.dataset.tsuiDropdownWidth ?? size;
-        }
-     "
+<div x-data="tallstackui_dropdownSubmenu()"
      x-on:click.outside="show = false"
      role="menu"
      aria-haspopup="true"
@@ -24,6 +17,8 @@
             ])
             type="button"
             x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
+            x-on:pointerenter="enter($event)"
+            x-on:pointerleave="leave($event)"
             x-ref="button"
             aria-expanded="show">
         @if ($position === 'left-start')
@@ -68,8 +63,8 @@
                          offset="-24"
                          x-show="show"
                          x-anchor="$refs.button"
-                         x-on:pointerenter="$refs.dropdown.dispatchEvent(new PointerEvent('pointerenter', { pointerType: $event.pointerType }))"
-                         x-on:pointerleave="$refs.dropdown.dispatchEvent(new PointerEvent('pointerleave', { pointerType: $event.pointerType }))"
+                         x-on:pointerenter="enter($event); $refs.dropdown.dispatchEvent(new PointerEvent('pointerenter', { pointerType: $event.pointerType }))"
+                         x-on:pointerleave="leave($event); $refs.dropdown.dispatchEvent(new PointerEvent('pointerleave', { pointerType: $event.pointerType }))"
                          x-bind:data-tsui-dropdown-size="size"
                          x-bind:data-tsui-dropdown-width="width"
                          role="submenu">
