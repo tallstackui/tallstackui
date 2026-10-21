@@ -67,7 +67,7 @@
                     ? '{{ $customization['grid.cols.'.$columns] }}'
                     : '{{ $customization['grid.single-cols'] }}'"
                  class="{{ $customization['grid.wrapper'] }}">
-            <template x-for="file in files" :key="file.uuid">
+            <template x-for="(file, index) in files" :key="file.uuid">
                 <div role="listitem"
                      x-on:click.stop
                      x-tooltip
@@ -132,6 +132,10 @@
                     <p x-show="file.error"
                        x-text="file.error"
                        class="{{ $customization['tile.error-msg'] }}"></p>
+
+                    @if ($tile)
+                        {{ $tile }}
+                    @endif
                 </div>
                 </template>
             </div>
