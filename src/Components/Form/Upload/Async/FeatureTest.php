@@ -116,3 +116,33 @@ it('can render overriding the global configuration', function () {
         ->toContain('chunk_size\\u0022:1024')
         ->toContain('retries\\u0022:9');
 });
+
+it('can render sortable', function () {
+    expect('<x-upload.async name="files" route="/api/uploads" multiple sortable />')
+        ->render()
+        ->toContain('sortable: true')
+        ->toContain('hold($event, file)')
+        ->toContain('draggable="false"');
+});
+
+it('cannot render sortable without multiple', function () {
+    expect('<x-upload.async name="files" route="/api/uploads" sortable />')
+        ->render()
+        ->toContain('sortable: false')
+        ->not->toContain('hold($event, file)');
+});
+
+it('can render the tile slot inside each tile', function () {
+    $component = <<<'BLADE'
+    <x-upload.async name="files" route="/api/uploads" multiple>
+        <x-slot:tile>
+            <span data-marker="cover" x-show="index === 0">Cover</span>
+        </x-slot:tile>
+    </x-upload.async>
+    BLADE;
+
+    expect($component)
+        ->render()
+        ->toContain('x-for="(file, index) in files"')
+        ->toContain('data-marker="cover"');
+});
