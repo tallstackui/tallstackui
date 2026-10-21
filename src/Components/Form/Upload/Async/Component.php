@@ -116,13 +116,13 @@ class Component extends TallStackUiComponent implements Customization
                 'error-msg' => 'absolute inset-x-0 bottom-0 z-10 truncate bg-red-500 px-2 py-1 text-center text-xs font-medium text-white',
             ],
             'lightbox' => [
-                'backdrop' => 'fixed inset-0 z-50 flex items-center justify-center bg-gray-500/80 dark:bg-dark-600/75',
-                'positioner' => 'relative m-5 max-h-[90vh] max-w-3xl',
+                'backdrop' => 'fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-8 dark:bg-dark-800/90',
+                'positioner' => 'relative max-h-full max-w-full',
                 'wrapper' => 'overflow-hidden rounded shadow-lg',
-                'image' => 'block h-auto max-h-[90vh] w-auto max-w-full object-contain',
+                'image' => 'block h-auto max-h-[85vh] w-auto max-w-full object-contain',
                 'caption' => 'absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-20 text-center text-sm text-white',
-                'close' => 'absolute -right-5 -top-10 h-10 w-10 cursor-pointer',
-                'close-icon' => 'dark:text-dark-300 h-5 w-5 text-white',
+                'close' => 'absolute right-4 top-4 z-10 inline-flex cursor-pointer items-center justify-center text-white transition hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
+                'close-icon' => 'h-6 w-6',
             ],
             'footer' => [
                 'wrapper' => 'mt-3 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-dark-700',

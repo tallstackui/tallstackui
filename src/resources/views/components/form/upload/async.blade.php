@@ -240,16 +240,17 @@
                  aria-modal="true"
                  class="{{ $customization['lightbox.backdrop'] }}"
                  dusk="tallstackui_upload_async_lightbox">
+                <button type="button"
+                        x-on:click.stop="collapse()"
+                        aria-label="Close preview"
+                        class="{{ $customization['lightbox.close'] }}"
+                        dusk="tallstackui_upload_async_lightbox_close">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('x-mark')"
+                                         internal
+                                         class="{{ $customization['lightbox.close-icon'] }}" />
+                </button>
                 <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
-                    <button type="button"
-                            x-on:click="collapse()"
-                            aria-label="Close preview"
-                            class="{{ $customization['lightbox.close'] }}">
-                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                             :icon="TallStackUi::icon('x-mark')"
-                                             internal
-                                             class="{{ $customization['lightbox.close-icon'] }}" />
-                    </button>
                     <div class="{{ $customization['lightbox.wrapper'] }}">
                         <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
                         <p x-text="preview.name"
