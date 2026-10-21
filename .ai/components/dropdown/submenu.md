@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A nested submenu within a Dropdown component that opens a secondary floating panel on click. Displays a chevron indicator for the submenu direction and supports icons and separators.
+A nested submenu within a Dropdown component that opens a secondary floating panel on click, or on hover when the parent `<x-dropdown>` has `hover`. Displays a chevron indicator for the submenu direction and supports icons and separators.
 
 ## Basic Usage
 
@@ -84,5 +84,22 @@ TallStackUi::customize()
 | edges               | Transparent borders growing the first and last row into the panel edge                       |
 
 The floating panel opens chained to the parent: it overlaps the parent panel by 24px on the main axis, so the overlap follows a flip to the opposite side. `floating.chain` lifts it 5px, and `edges` grows the first and last row by 4px through a transparent border — which keeps their hover fill reaching the panel edge while the text stays on the line of the trigger. A `pt-*`/`pb-*` utility would replace the row's own padding instead of extending it, and would have to be declared per dropdown size.
+
+## Hover
+
+When the parent `<x-dropdown>` has `hover`, the submenu opens 100ms after the pointer enters its trigger and closes 300ms after the pointer leaves both the trigger and its panel, so the parent stays open on the way between them. The short open delay keeps a diagonal path towards an open submenu panel from switching to every sibling the pointer crosses. Opening a submenu by hover closes the other submenus of the same panel. Like the parent, hover is restricted to `pointerType === 'mouse'`; the click toggle and the keyboard keep working alongside.
+
+```blade
+<x-dropdown text="Categories" hover>
+    <x-dropdown.submenu text="Vehicles" icon="truck">
+        <x-dropdown.items text="Cars" />
+        <x-dropdown.items text="Motorcycles" />
+    </x-dropdown.submenu>
+    <x-dropdown.submenu text="Electronics" icon="computer-desktop">
+        <x-dropdown.items text="Phones" />
+        <x-dropdown.items text="Laptops" />
+    </x-dropdown.submenu>
+</x-dropdown>
+```
 
 Size and width are inherited from the parent `<x-dropdown>` automatically (see `.ai/components/dropdown/main.md`). The submenu has no per-instance size or width props — its trigger button reads the parent's `data-tsui-dropdown-size` via Tailwind arbitrary variants, and its teleported floating panel reads `data-tsui-dropdown-size` / `data-tsui-dropdown-width` set on Alpine `init` from the closest ancestor.

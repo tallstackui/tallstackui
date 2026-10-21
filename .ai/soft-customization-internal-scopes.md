@@ -61,7 +61,7 @@ TallStackUi::customize()
 
 | Scope                       | Target           | Line(s) |
 |-----------------------------|------------------|---------|
-| `dropdown.submenu.floating` | `<x-floating />` | 55      |
+| `dropdown.submenu.floating` | `<x-floating />` | 50      |
 
 ### `editor`
 
