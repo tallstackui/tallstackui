@@ -10,6 +10,8 @@
         method: @js($method),
         multiple: @js((bool) $multiple),
         manual: @js((bool) $manual),
+        sortable: @js($sortable),
+        ghost: @js($customization['sortable.ghost']),
         disabled: @js($disabled),
         readonly: @js($readonly),
         limit: @js($limit),
@@ -67,13 +69,22 @@
                     ? '{{ $customization['grid.cols.'.$columns] }}'
                     : '{{ $customization['grid.single-cols'] }}'"
                  class="{{ $customization['grid.wrapper'] }}">
-            <template x-for="file in files" :key="file.uuid">
+            <template x-for="(file, index) in files" :key="file.uuid">
                 <div role="listitem"
                      x-on:click.stop
+                     @if ($sortable)
+                         x-on:pointerdown="hold($event, file)"
+                         x-on:touchmove="sorting && $event.preventDefault()"
+                         x-on:contextmenu="press && $event.preventDefault()"
+                         x-bind:class="{ '{{ $customization['sortable.placeholder'] }}': sorting === file.uuid }"
+                     @endif
                      x-tooltip
                      x-bind:x-tooltip="file.error"
                      data-tooltip-color="red"
-                     class="{{ $customization['tile.wrapper'] }}"
+                     @class([
+                         $customization['tile.wrapper'],
+                         $customization['sortable.tile'] => $sortable,
+                     ])
                      dusk="tallstackui_upload_async_tile">
                     {{-- An overlay rather than a ring on the tile itself: the
                          thumbnail covers the whole box and would paint over it. --}}
@@ -82,6 +93,7 @@
                         <img x-bind:src="file.preview"
                              x-bind:alt="file.real_name"
                              @if ($preview) x-on:click.stop="expand(file)" @endif
+                             @if ($sortable) draggable="false" @endif
                              @class([
                                  $customization['tile.image'],
                                  $customization['tile.image-clickable'] => $preview,
@@ -132,6 +144,10 @@
                     <p x-show="file.error"
                        x-text="file.error"
                        class="{{ $customization['tile.error-msg'] }}"></p>
+
+                    @if ($tile)
+                        {{ $tile }}
+                    @endif
                 </div>
                 </template>
             </div>
@@ -240,16 +256,17 @@
                  aria-modal="true"
                  class="{{ $customization['lightbox.backdrop'] }}"
                  dusk="tallstackui_upload_async_lightbox">
+                <button type="button"
+                        x-on:click.stop="collapse()"
+                        aria-label="Close preview"
+                        class="{{ $customization['lightbox.close'] }}"
+                        dusk="tallstackui_upload_async_lightbox_close">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('x-mark')"
+                                         internal
+                                         class="{{ $customization['lightbox.close-icon'] }}" />
+                </button>
                 <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
-                    <button type="button"
-                            x-on:click="collapse()"
-                            aria-label="Close preview"
-                            class="{{ $customization['lightbox.close'] }}">
-                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                             :icon="TallStackUi::icon('x-mark')"
-                                             internal
-                                             class="{{ $customization['lightbox.close-icon'] }}" />
-                    </button>
                     <div class="{{ $customization['lightbox.wrapper'] }}">
                         <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
                         <p x-text="preview.name"

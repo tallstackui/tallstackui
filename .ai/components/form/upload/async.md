@@ -44,6 +44,45 @@ An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns
 <x-upload.async wire:model="gallery" :route="route('uploads.gallery')" accept="image/*" multiple :preview="false" />
 ```
 
+The lightbox covers the screen with a dark backdrop and a close button in the top right corner of the screen. `Esc` or a click on the backdrop also closes it. There is no navigation between images.
+
+### Reordering
+
+`sortable` lets the user drag the tiles into a new order. It only works together with `multiple`.
+
+```blade
+<x-upload.async wire:model="photos" :route="route('uploads.photos')" accept="image/*" multiple sortable />
+```
+
+With a mouse, the tile lifts after a small move, so a plain click still opens the lightbox. On touch, the tile lifts after a long press (300 ms), so a swipe still scrolls the page. Near the top or bottom edge of the grid, the grid scrolls by itself while a tile is held.
+
+The bound value follows the order of the tiles. After each drop that changes the order, the array is synced like after an upload, and the `sorted` event is dispatched.
+
+### Tile Slot
+
+The `tile` slot is rendered inside every tile. The tiles are built in the browser, so the slot is plain HTML with Alpine, not PHP: it is copied into each tile and reads the tile's own `file` and `index`.
+
+```blade
+<x-upload.async wire:model="photos" :route="route('uploads.photos')" accept="image/*" multiple sortable>
+    <x-slot:tile>
+        <span x-show="uploaded[0] === file"
+              class="absolute left-1 top-6 z-10 rounded bg-primary-500 px-1.5 text-xs text-white">
+            Cover
+        </span>
+    </x-slot:tile>
+</x-upload.async>
+```
+
+Available inside the slot:
+
+| Name       | Description                                                                                |
+|------------|--------------------------------------------------------------------------------------------|
+| `file`     | The tile's file: `real_name`, `size`, `mime`, `status`, `progress`, `error`, `path`, `url` |
+| `index`    | Position of the tile in the grid, counting tiles that failed or were rejected              |
+| `uploaded` | Files already stored, in the order of the bound value. `uploaded[0] === file` is the first |
+
+`status` is one of `pending`, `uploading`, `success`, `error` or `rejected`. The tile is the positioning context: use `absolute` classes. The tile already shows the name at the top, the size at the bottom, a badge at the top right and the remove button at the bottom right.
+
 ## Attributes
 
 | Attribute   | Type                        | Default     | Description                                                    |
@@ -58,6 +97,7 @@ An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns
 | multiple    | bool                        | false       | Allows multiple file selection                                 |
 | preview     | bool                        | true        | Opens the image lightbox when a thumbnail is clicked           |
 | manual      | bool                        | false       | Stages the files and waits for the Send button                 |
+| sortable    | bool                        | false       | Lets the user drag the tiles into a new order, with `multiple` |
 | disabled    | bool                        | false       | Blocks drop, click and keyboard                                |
 | limit       | int\|null                   | null        | Maximum number of files, only meaningful with `multiple`       |
 | max-size    | int\|null                   | config      | Maximum megabytes per file, also enforced by the handler       |
@@ -70,6 +110,7 @@ An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns
 | retries     | int\|null                   | config      | Attempts per chunk on transient failures                       |
 | headers     | array\|null                 | null        | Extra HTTP headers. The CSRF token is injected automatically   |
 | footer      | ComponentSlot\|null         | null        | Replaces the built-in Send/Clear footer of manual mode         |
+| tile        | ComponentSlot\|null         | null        | Content rendered inside every tile, see Tile Slot              |
 | error       | string\|bool\|null          | translation | Component-level fallback error message                         |
 
 ## Slots
@@ -77,6 +118,7 @@ An image tile opens a fullscreen lightbox when clicked. `:preview="false"` turns
 | Slot   | Description                                                                                    |
 |--------|------------------------------------------------------------------------------------------------|
 | footer | Replaces the Send and Clear buttons rendered by manual mode. Ignored when `manual` is not set. |
+| tile   | Alpine content rendered inside every tile, with access to `file`, `index` and `uploaded`.      |
 
 ## Bound Value
 
@@ -197,6 +239,7 @@ Dispatched on the component root. All payloads arrive on `event.detail`.
 | error    | Definitive failure, retries exhausted                    | `{ file, error, status }`                   |
 | removed  | File removed from the grid                               | `{ file }`                                  |
 | complete | Whole queue finished, whatever the outcome               | `{ files }`                                 |
+| sorted   | A drop changed the order of the tiles, with `sortable`   | `{ file, from, to }`                        |
 
 ```blade
 <x-upload.async wire:model="files"
@@ -295,6 +338,9 @@ TallStackUi::customize()
 | tile.error-ring              | Ring drawn around a rejected or failed tile                     |
 | tile.error-badge             | Badge shown on a rejected or failed tile                        |
 | tile.error-msg               | Error message rendered over the tile                            |
+| sortable.tile                | Added to every tile while `sortable` is on                      |
+| sortable.placeholder         | The tile being dragged, left in its slot                        |
+| sortable.ghost               | The copy of the tile that follows the pointer                   |
 | lightbox.backdrop            | Fullscreen image preview backdrop                               |
 | lightbox.wrapper             | Preview image container                                         |
 | lightbox.image               | Preview image                                                   |

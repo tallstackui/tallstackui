@@ -266,9 +266,8 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_upload_async_tile img')
             ->waitFor('@tallstackui_upload_async_lightbox')
             ->assertSeeIn('@tallstackui_upload_async_lightbox', 'test.jpeg')
-            ->script('document.querySelector("[dusk=tallstackui_upload_async_lightbox] button").click()');
-
-        $this->assertTrue(true);
+            ->click('@tallstackui_upload_async_lightbox_close')
+            ->waitUntilMissing('@tallstackui_upload_async_lightbox');
     }
 
     #[Test]
@@ -318,6 +317,40 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_reorder_the_files_dragging_with_the_mouse(): void
+    {
+        Livewire::visit($this->sortable())
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@order', 'test.jpeg')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.pdf')
+            ->waitForTextIn('@order', 'test.jpeg,test.pdf')
+            ->assertSeeIn('@cover', 'test.jpeg')
+            ->tap(fn (Browser $browser) => $browser->script([$this->press(1, 'mouse'), $this->drop(0)]))
+            ->waitForTextIn('@order', 'test.pdf,test.jpeg')
+            ->assertSeeIn('@cover', 'test.pdf')
+            ->assertSeeIn('@sorted', '1>0')
+            ->assertMissing('@tallstackui_upload_async_ghost');
+    }
+
+    #[Test]
+    public function can_reorder_the_files_with_a_long_press_on_touch(): void
+    {
+        Livewire::visit($this->sortable())
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@order', 'test.jpeg')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.pdf')
+            ->waitForTextIn('@order', 'test.jpeg,test.pdf')
+            ->tap(fn (Browser $browser) => $browser->script($this->press(1, 'touch')))
+            ->pause(400)
+            ->assertPresent('@tallstackui_upload_async_ghost')
+            ->tap(fn (Browser $browser) => $browser->script($this->drop(0)))
+            ->waitForTextIn('@order', 'test.pdf,test.jpeg')
+            ->assertSeeIn('@cover', 'test.pdf')
+            ->assertSeeIn('@sorted', '1>0')
+            ->assertMissing('@tallstackui_upload_async_ghost');
+    }
+
+    #[Test]
     public function can_surface_a_server_side_validation_error(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -361,5 +394,86 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('test.jpeg')
             ->waitForTextIn('@count', '1')
             ->assertSeeIn('@name', 'test.jpeg');
+    }
+
+    #[Test]
+    public function cannot_reorder_when_the_finger_moves_before_the_long_press(): void
+    {
+        Livewire::visit($this->sortable())
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForTextIn('@order', 'test.jpeg')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.pdf')
+            ->waitForTextIn('@order', 'test.jpeg,test.pdf')
+            ->tap(fn (Browser $browser) => $browser->script([
+                $this->press(1, 'touch'),
+                "window.dispatchEvent(new PointerEvent('pointermove', { ...window.tsuiPointer, clientY: window.tsuiPointer.clientY - 40 }));",
+            ]))
+            ->pause(400)
+            ->assertMissing('@tallstackui_upload_async_ghost')
+            ->tap(fn (Browser $browser) => $browser->script($this->drop(0)))
+            ->pause(500)
+            ->assertSeeIn('@order', 'test.jpeg,test.pdf')
+            ->assertSeeIn('@cover', 'test.jpeg');
+    }
+
+    // Synthetic pointer events: WebDriver cannot hold a touch still long
+    // enough for the long press, nor say where the drag lands on a tile.
+    private function drop(int $index): string
+    {
+        return <<<JS
+            const rect = document.querySelectorAll('[dusk=tallstackui_upload_async_tile]')[{$index}].getBoundingClientRect();
+            const end = { ...window.tsuiPointer, clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 };
+
+            window.dispatchEvent(new PointerEvent('pointermove', { ...window.tsuiPointer, clientX: window.tsuiPointer.clientX - 20 }));
+            window.dispatchEvent(new PointerEvent('pointermove', end));
+            window.dispatchEvent(new PointerEvent('pointerup', end));
+        JS;
+    }
+
+    private function press(int $index, string $pointer): string
+    {
+        return <<<JS
+            const tile = document.querySelectorAll('[dusk=tallstackui_upload_async_tile]')[{$index}];
+            const rect = tile.getBoundingClientRect();
+
+            window.tsuiPointer = {
+                pointerId: 1,
+                pointerType: '{$pointer}',
+                button: 0,
+                buttons: 1,
+                bubbles: true,
+                clientX: rect.left + rect.width / 2,
+                clientY: rect.top + rect.height / 2,
+            };
+
+            tile.dispatchEvent(new PointerEvent('pointerdown', window.tsuiPointer));
+        JS;
+    }
+
+    private function sortable(): LivewireComponent
+    {
+        return new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files"
+                                    :route="route('async.upload')"
+                                    multiple
+                                    sortable
+                                    x-on:sorted="document.querySelector('[dusk=sorted]').textContent = $event.detail.from + '>' + $event.detail.to">
+                        <x-slot:tile>
+                            <span x-show="index === 0" x-text="file.real_name" class="absolute inset-0" dusk="cover"></span>
+                        </x-slot:tile>
+                    </x-upload.async>
+                    <p dusk="order">{{ implode(',', array_column($files, 'real_name')) }}</p>
+                    <p dusk="sorted" wire:ignore></p>
+                </div>
+                HTML;
+            }
+        };
     }
 }
