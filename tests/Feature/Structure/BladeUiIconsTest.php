@@ -2,11 +2,24 @@
 
 use BladeUI\Icons\BladeIconsServiceProvider;
 use BladeUI\Icons\Factory;
+use Illuminate\View\DynamicComponent;
 use Livewire\Component;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 
+// DynamicComponent keeps a static compiler with the component aliases of the
+// first render in the process, so the icons registered here would be unknown.
+function forgetDynamicComponentCompiler(): void
+{
+    Closure::bind(function (): void {
+        static::$compiler = null;
+        static::$componentClasses = [];
+    }, null, DynamicComponent::class)();
+}
+
 beforeEach(function () {
+    forgetDynamicComponentCompiler();
+
     $this->original = config('ts-ui.components.icon');
 
     // Without this, blade-icons registers its own <x-icon> over TallStackUI's.
@@ -28,6 +41,8 @@ afterEach(function () {
     config()->set('ts-ui.components.icon', $this->original);
 
     __ts_get_component_configuration('', flush: true);
+
+    forgetDynamicComponentCompiler();
 });
 
 it('can render a blade ui icon')
