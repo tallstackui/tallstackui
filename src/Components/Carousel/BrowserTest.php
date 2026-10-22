@@ -66,6 +66,96 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_dispatch_the_image_on_screen(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $payload = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="payload">{{ $payload }}</p>
+
+                    <x-carousel :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'title' => '1-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'title' => '2-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp',
+                            'title' => '3-foo',
+                        ],
+                    ]" x-on:next="$wire.set('payload', $event.detail.current + ':' + ($event.detail.image?.title ?? 'undefined'))"
+                       x-on:previous="$wire.set('payload', $event.detail.current + ':' + ($event.detail.image?.title ?? 'undefined'))" />
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('1-foo')
+            ->click('@tallstackui_carousel_next')
+            ->waitForTextIn('@payload', '2:2-foo')
+            ->click('@tallstackui_carousel_next')
+            ->waitForTextIn('@payload', '3:3-foo')
+            ->click('@tallstackui_carousel_next')
+            ->waitForTextIn('@payload', '1:1-foo')
+            ->click('@tallstackui_carousel_previous')
+            ->waitForTextIn('@payload', '3:3-foo')
+            ->click('@tallstackui_carousel_previous')
+            ->waitForTextIn('@payload', '2:2-foo');
+    }
+
+    #[Test]
+    public function can_dispatch_the_image_on_screen_from_the_lightbox(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $payload = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="payload">{{ $payload }}</p>
+
+                    <x-carousel clickable navigable :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'title' => '1-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'title' => '2-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp',
+                            'title' => '3-foo',
+                        ],
+                    ]" x-on:next="$wire.set('payload', $event.detail.current + ':' + ($event.detail.image?.title ?? 'undefined'))"
+                       x-on:previous="$wire.set('payload', $event.detail.current + ':' + ($event.detail.image?.title ?? 'undefined'))" />
+                </div>
+            HTML;
+            }
+        })
+            ->waitFor('@tallstackui_carousel_expand')
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->click('@tallstackui_carousel_expanded_next')
+            ->waitForTextIn('@payload', '2:2-foo')
+            ->click('@tallstackui_carousel_expanded_next')
+            ->waitForTextIn('@payload', '3:3-foo')
+            ->click('@tallstackui_carousel_expanded_next')
+            ->waitForTextIn('@payload', '1:1-foo')
+            ->click('@tallstackui_carousel_expanded_previous')
+            ->waitForTextIn('@payload', '3:3-foo');
+    }
+
+    #[Test]
     public function can_expand_a_backdrop_slide_when_clickable(): void
     {
         Livewire::visit(new class extends Component
