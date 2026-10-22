@@ -232,7 +232,7 @@ The main carousel position stays in sync with the lightbox: when the user closes
 ## Alpine.js Event Payloads
 
 ```blade
-<!-- $event.detail: { current: integer, image: object } -->
+<!-- $event.detail: { current: integer, image: object }; image is the slide now on screen (images[current - 1]), in the main view and in the lightbox -->
 <x-carousel :images="$images"
     x-on:next="alert('Navigated to the next image')"
     x-on:previous="alert('Navigated to the previous image')" />
