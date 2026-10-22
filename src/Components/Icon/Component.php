@@ -104,8 +104,9 @@ class Component extends TallStackUiComponent implements Customization
         }
 
         // x-dynamic-component builds a template out of the attribute names,
-        // so keeping [2xl] would compile to the invalid variable $2xl.
-        $attributes->setAttributes(Arr::except($attributes->getAttributes(), [...self::SIZES, ...self::COLORS]));
+        // so keeping [2xl] would compile to the invalid variable $2xl. Null
+        // values are dropped because BladeUI icons only accept strings.
+        $attributes->setAttributes(Arr::whereNotNull(Arr::except($attributes->getAttributes(), [...self::SIZES, ...self::COLORS])));
     }
 
     private function shorthands(ComponentAttributeBag $attributes, array $allowed): array

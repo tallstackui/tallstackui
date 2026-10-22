@@ -79,6 +79,8 @@ This is how every internal usage inside the package keeps its own sizing.
 
 Shorthands are consumed by the component and never reach the `<svg>`. They are not constructor properties, so IDE completion does not offer them: names like `2xl` are not valid PHP variables, which rules out declaring the scale as props.
 
+Every other attribute is forwarded to the `<svg>`. One bound to `null` is dropped, as Blade does, so `:x-show="$open ? 'show' : null"` is safe with BladeUI icon packages too.
+
 ## Attributes
 
 | Attribute | Type                        | Default | Description                                                                  |
