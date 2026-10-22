@@ -279,7 +279,7 @@ export default (
   event(type) {
     this.$refs.carousel.dispatchEvent(
       new CustomEvent(type, {
-        detail: { current: this.current, image: this.images[this.current] },
+        detail: { current: this.current, image: this.images[this.current - 1] },
       })
     );
   },
