@@ -81,7 +81,7 @@ Available inside the slot:
 | `index`    | Position of the tile in the grid, counting tiles that failed or were rejected              |
 | `uploaded` | Files already stored, in the order of the bound value. `uploaded[0] === file` is the first |
 
-`status` is one of `pending`, `uploading`, `success`, `error` or `rejected`. The tile is the positioning context: use `absolute` classes. The tile already shows the name at the top, the size at the bottom, a badge at the top right and the remove button at the bottom right.
+`status` is one of `pending`, `uploading`, `success`, `error` or `rejected`. The tile is the positioning context: use `absolute` classes. The tile already shows the name at the top, the size at the bottom, a badge at the top right and the remove button at the bottom right, lifted above the error message while the tile has one.
 
 ## Attributes
 
@@ -332,6 +332,7 @@ TallStackUi::customize()
 | tile.name-overlay            | File name gradient at the top of the tile                       |
 | tile.size-overlay            | File size gradient at the bottom of the tile                    |
 | tile.remove                  | Remove button of the tile                                       |
+| tile.remove-raised           | Lifts the remove button above the error message of a tile       |
 | tile.remove-icon             | Remove button icon                                              |
 | tile.progress                | Per-file progress bar                                           |
 | tile.success-mark            | Badge shown once the file is stored                             |
