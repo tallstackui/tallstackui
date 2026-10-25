@@ -111,6 +111,7 @@ class Component extends TallStackUiComponent implements Customization
                 'name-overlay' => 'absolute inset-x-0 top-0 block truncate bg-gradient-to-b from-black/60 to-transparent px-2 py-1 text-xs text-white',
                 'size-overlay' => 'absolute inset-x-0 bottom-0 block truncate bg-gradient-to-t from-black/60 to-transparent px-2 py-1 text-xs text-white',
                 'remove' => 'absolute bottom-1 right-1 z-10 cursor-pointer rounded-full bg-white/90 p-1 opacity-0 transition hover:bg-red-50 group-hover/tile:opacity-100 max-md:opacity-100 dark:bg-dark-800/90',
+                'remove-raised' => '-translate-y-6',
                 'remove-icon' => 'h-3.5 w-3.5 text-red-500',
                 'progress' => 'absolute bottom-0 left-0 z-10 h-1 bg-primary-500 transition-all',
                 'success-mark' => 'absolute right-1 top-1 z-10 rounded-full bg-green-500 p-1 text-white',

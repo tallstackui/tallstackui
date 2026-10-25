@@ -317,6 +317,34 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_remove_a_rejected_file_from_the_grid(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload.async wire:model.live="files" :route="route('async.upload')" accept="image/*" multiple />
+                </div>
+                HTML;
+            }
+        })
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.pdf')
+            ->waitForText('File type not allowed.')
+            // Clicks whatever sits on top of the button center, as a pointer
+            // would, so the error message painted over it fails the test.
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const rect = document.querySelector('[dusk=tallstackui_upload_async_remove]').getBoundingClientRect();
+                document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            JS))
+            ->waitUntilMissing('@tallstackui_upload_async_tile')
+            ->assertMissing('@tallstackui_upload_async_tile');
+    }
+
+    #[Test]
     public function can_reorder_the_files_dragging_with_the_mouse(): void
     {
         Livewire::visit($this->sortable())

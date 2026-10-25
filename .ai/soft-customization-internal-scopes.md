@@ -173,9 +173,9 @@ TallStackUi::customize()
 | Scope                     | Target         | Line(s) |
 |---------------------------|----------------|---------|
 | `form.upload.async.label` | `<x-label />`  | 33      |
-| `form.upload.async.hint`  | `<x-hint />`   | 188     |
-| `form.upload.async.clear` | `<x-button />` | 197     |
-| `form.upload.async.send`  | `<x-button />` | 205     |
+| `form.upload.async.hint`  | `<x-hint />`   | 189     |
+| `form.upload.async.clear` | `<x-button />` | 198     |
+| `form.upload.async.send`  | `<x-button />` | 206     |
 
 ### `layout/sidebar/item`
 
