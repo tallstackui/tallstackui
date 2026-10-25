@@ -114,6 +114,7 @@
 
                     <button type="button"
                             x-on:click.stop="remove(file)"
+                            x-bind:class="{ '{{ $customization['tile.remove-raised'] }}': file.error }"
                             aria-label="Remove file"
                             class="{{ $customization['tile.remove'] }}"
                             dusk="tallstackui_upload_async_remove">
