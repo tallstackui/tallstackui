@@ -23,7 +23,7 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
-    "@alpinejs/collapse": "^3.17.4",
+    "@alpinejs/collapse": "^3.17.5",
     "@tailwindcss/vite": "^4.3.1"
   }
 }
