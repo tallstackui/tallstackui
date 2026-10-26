@@ -10,9 +10,9 @@ export default (toast) => ({
   observer: null,
   listener: null,
   interval: null,
+  spent: 0,
+  resumed: null,
   init() {
-    let elapsed = 0;
-
     const time = this.toast.timeout * 10;
     const max = this.toast.timeout * 1000;
 
@@ -25,29 +25,27 @@ export default (toast) => ({
         return;
       }
 
+      this.animate(!this.frozen);
+
       // Kept on the instance so destroy() can reach it. A toast dropped by the
       // parent's flush() keeps `show === true`, so the self-clear below never
       // runs and the timer would outlive the card it belongs to.
       this.interval = setInterval(() => {
         if (!this.show) {
           this.stop();
-        } else if (!this.frozen) {
-          elapsed += time;
+        } else if (this.elapsed >= max) {
+          this.hide();
 
-          if (elapsed >= max) {
-            this.hide();
-
-            if (toast.hooks?.timeout) {
-              Livewire.find(toast.reference).call(
-                toast.hooks.timeout.method,
-                toast.hooks.timeout.params
-              );
-            }
-
-            event('toast:timeout', this.toast, false);
-
-            this.stop();
+          if (toast.hooks?.timeout) {
+            Livewire.find(toast.reference).call(
+              toast.hooks.timeout.method,
+              toast.hooks.timeout.params
+            );
           }
+
+          event('toast:timeout', this.toast, false);
+
+          this.stop();
         }
       }, time);
 
@@ -74,28 +72,20 @@ export default (toast) => ({
         this.animate(!this.frozen);
       });
 
+      // A hidden page may have its animations throttled or suspended,
+      // so the bar is put back on the clock when the tab comes back.
       this.listener = () => {
-        if (document.hidden) {
+        if (document.hidden || !progress) {
           return;
         }
 
-        const remaining = max - elapsed;
+        const animation = progress
+          .getAnimations()
+          .find((animation) => animation instanceof CSSAnimation);
 
-        if (remaining <= 2000) {
-          this.hide();
-
-          return;
+        if (animation) {
+          animation.currentTime = this.elapsed;
         }
-
-        if (!progress) {
-          return;
-        }
-
-        progress.style.animationDuration = max - elapsed + 'ms';
-        progress.classList.remove('animate-progress');
-        progress.offsetWidth;
-        progress.classList.add('animate-progress');
-        progress.style.animationDuration = max - elapsed + 'ms';
       };
 
       document.addEventListener('visibilitychange', this.listener);
@@ -129,10 +119,33 @@ export default (toast) => ({
     return this.paused === true || this.piled === true;
   },
   /**
+   * Read from the clock rather than counted in interval ticks: a busy main
+   * thread drops ticks, while the progress bar keeps going on real time.
+   *
+   * @return {Number}
+   */
+  get elapsed() {
+    if (this.resumed === null) {
+      return this.spent;
+    }
+
+    return this.spent + performance.now() - this.resumed;
+  },
+  /**
+   * Every pause and resume of the countdown goes through here,
+   * so the clock stops and starts along with the bar.
+   *
    * @param {Boolean} running
    * @return {void}
    */
   animate(running) {
+    if (running && this.resumed === null) {
+      this.resumed = performance.now();
+    } else if (!running && this.resumed !== null) {
+      this.spent = this.elapsed;
+      this.resumed = null;
+    }
+
     const progress = this.$refs.progress;
 
     if (!progress) {
