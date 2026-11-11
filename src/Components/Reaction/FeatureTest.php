@@ -14,10 +14,6 @@ beforeEach(function () {
     __ts_get_component_configuration(Component::class, flush: true);
 
     livewireContext();
-
-    // ReactionRuntime reads the Livewire component id, which the
-    // shared instance only carries after being explicitly assigned.
-    view()->shared('__livewire')->setId('reactions');
 });
 
 afterEach(function () {
