@@ -94,6 +94,10 @@ While the file is uploading, a spinning loading icon takes the place of the uplo
 
 Everything that lives inside the panel does not apply: the file list, `delete`, `preview`, `tip`, the `footer` slot and `close-after-upload`. `accept`, `multiple`, `x-on:upload` and the input text (`1 file sent`) work as usual. `direct` cannot be combined with `static`, which throws an exception.
 
+## Keyboard
+
+The input takes no typing, but `Tab` and `Shift+Tab` still move the focus through it.
+
 ## Livewire Integration
 
 ### Delete Method
