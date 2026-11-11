@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Upload;
 
+use Facebook\WebDriver\WebDriverKeys;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
@@ -753,6 +754,38 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('The photos field is required.')
             ->assertDontSee('There was some validation error.')
             ->assertScript("document.querySelector('[dusk=tallstackui_upload_input]').parentElement.classList.contains('ring-red-300')");
+    }
+
+    #[Test]
+    public function can_tab_out_of_the_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public mixed $photo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="before" text="Before" />
+
+                    <x-upload label="Photo" wire:model="photo" />
+
+                    <x-button dusk="after" text="After" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Photo')
+            ->keys('@tallstackui_upload_input', 'abc')
+            ->assertScript('document.activeElement.getAttribute("dusk")', 'tallstackui_upload_input')
+            ->assertScript('document.querySelector(\'[dusk="tallstackui_upload_input"]\').value.includes("abc")', false)
+            ->keys('@tallstackui_upload_input', '{tab}')
+            ->assertScript('document.activeElement.getAttribute("dusk") !== "tallstackui_upload_input"')
+            ->keys('@tallstackui_upload_input', ['{shift}', WebDriverKeys::TAB])
+            ->assertScript('document.activeElement.getAttribute("dusk") !== "tallstackui_upload_input"');
     }
 
     #[Test]
