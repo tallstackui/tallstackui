@@ -55,6 +55,9 @@ An emoji reaction picker using Google Noto Emoji icons. Displays a floating pane
 |------------|----------------------------------------|
 | x-on:react | Fires when a reaction emoji is clicked |
 
+Each `<x-reaction>` dispatches the event on its own trigger button, so several reactions in the same Livewire
+component (for example `react-method="post"` and `react-method="comment"`) only run their own `x-on:react`.
+
 ## Allowed Positions
 
 `auto`, `auto-start`, `auto-end`, `top`, `top-start`, `top-end`, `bottom`, `bottom-start`, `bottom-end`, `left`, `left-start`, `left-end`, `right`, `right-start`, `right-end`
