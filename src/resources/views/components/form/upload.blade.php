@@ -36,7 +36,7 @@
                          x-on:click="pick()"
                          x-ref="input"
                          class="cursor-pointer {{ $customization['input.caret'] }}"
-                         x-on:keydown="$event.preventDefault()"
+                         x-on:keydown="window.tallstackui_lockKeydown($event)"
                          spellcheck="false"
                          dusk="tallstackui_upload_input"
                          floatable>
