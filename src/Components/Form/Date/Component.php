@@ -76,7 +76,7 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
                 'days-header' => 'grid grid-cols-7 mb-3',
-                'days-grid' => 'grid grid-cols-7',
+                'days-grid' => 'grid grid-cols-7 grid-rows-6',
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
