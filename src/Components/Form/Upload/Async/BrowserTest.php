@@ -401,6 +401,77 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_sync_the_property_from_inside_a_modal(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public bool $modal = false;
+
+            public array $saved = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal wire title="Upload">
+                        <x-upload.async wire:model="files" :route="route('async.upload')" multiple />
+                        <button type="button" dusk="save" wire:click="save">Save</button>
+                    </x-modal>
+                    <button type="button" dusk="open" wire:click="$toggle('modal')">Open</button>
+                    <p dusk="saved">{{ implode(',', $saved) }}</p>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->saved = array_column($this->files, 'real_name');
+
+                $this->reset('files');
+            }
+        })
+            ->click('@open')
+            ->waitForText('Upload')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForText('test.jpeg')
+            ->waitFor('[dusk=tallstackui_upload_async_tile] .bg-green-500')
+            ->click('@save')
+            ->waitForTextIn('@saved', 'test.jpeg')
+            ->waitUntilMissing('@tallstackui_upload_async_tile');
+    }
+
+    #[Test]
+    public function can_sync_the_property_from_inside_a_slide(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public array $files = [];
+
+            public bool $slide = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-slide wire title="Upload">
+                        <x-upload.async wire:model.live="files" :route="route('async.upload')" multiple />
+                    </x-slide>
+                    <button type="button" dusk="open" wire:click="$toggle('slide')">Open</button>
+                    <p dusk="count">{{ count($files) }}</p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Upload')
+            ->attach('@tallstackui_upload_async_input', __DIR__.'/test.jpeg')
+            ->waitForText('test.jpeg')
+            ->waitForTextIn('@count', '1');
+    }
+
+    #[Test]
     public function can_upload_a_file_and_sync_it_to_livewire(): void
     {
         Livewire::visit(new class extends LivewireComponent
