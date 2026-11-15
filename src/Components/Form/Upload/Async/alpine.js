@@ -751,25 +751,17 @@ export default (options) => ({
     this.emit('complete', { files: this.uploaded });
   },
 
-  // Resolved from the DOM on demand. Doing it in init() is too early, the
-  // component is not registered yet; and the id PHP knows about is not the
-  // one the client ends up using, so the wire:id attribute is the only
-  // reliable bridge. options.wire is just the "are we inside Livewire" flag.
+  // Resolved on demand, never in init(). $wire finds the component the same
+  // way wire:model does, walking back through x-teleport: inside a modal or a
+  // slide the root lives under <body>, where a closest() lookup for the
+  // wire:id attribute finds nothing. options.wire is just the "are we inside
+  // Livewire" flag.
   bridge() {
     if (!options.wire || !window.Livewire) {
       return null;
     }
 
-    const host = this.$el.closest('[wire\\:id]');
-
-    if (!host) {
-      return null;
-    }
-
-    // Livewire 3 hands back a component that carries $wire; Livewire 4 hands
-    // back the $wire proxy itself.
-    const found = window.Livewire.find(host.getAttribute('wire:id'));
-    const wire = typeof found?.$wire?.set === 'function' ? found.$wire : found;
+    const wire = this.$wire;
 
     return typeof wire?.set === 'function' ? wire : null;
   },

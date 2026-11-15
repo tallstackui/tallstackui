@@ -11,6 +11,51 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_dispatch_the_react_event_on_the_reaction_that_was_clicked(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $origin = '';
+
+            public string $reaction = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="origin">{{ $origin }}</p>
+                    <p dusk="reaction">{{ $reaction }}</p>
+
+                    <div dusk="post">
+                        <x-reaction react-method="post" x-on:react="$wire.set('origin', 'post')" />
+                    </div>
+
+                    <div dusk="comment">
+                        <x-reaction react-method="comment" x-on:react="$wire.set('origin', 'comment')" />
+                    </div>
+                </div>
+                HTML;
+            }
+
+            public function comment(string $reaction): void
+            {
+                $this->reaction = "comment: $reaction";
+            }
+
+            public function post(string $reaction): void
+            {
+                $this->reaction = "post: $reaction";
+            }
+        })
+            ->click('@comment @tallstackui_reaction_button')
+            ->waitFor('@comment @tallstackui_reaction_thumbs-up')
+            ->click('@comment @tallstackui_reaction_thumbs-up')
+            ->waitForTextIn('@reaction', 'comment: thumbs-up')
+            ->waitForTextIn('@origin', 'comment')
+            ->assertDontSeeIn('@origin', 'post');
+    }
+
+    #[Test]
     public function can_open_and_close_the_panel_via_hover(): void
     {
         $browser = Livewire::visit(new class extends Component

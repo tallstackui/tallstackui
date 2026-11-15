@@ -13,7 +13,7 @@ class ReactionRuntime extends AbstractRuntime
         return [
             ...$this->bind()->only('entangle'),
             'extension' => $this->data('animated') === true ? 'gif' : 'png',
-            'id' => $this->livewire->getId(),
+            'id' => uniqid('tsui-reaction-'),
         ];
     }
 }

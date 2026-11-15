@@ -143,6 +143,8 @@ Following `wire:model` semantics, the array is synced on the next round trip. Us
 
 The tiles follow the property both ways. A change made on the server after the first render, such as `$this->reset('files')` once a record is saved or a list loaded into the property by an edit action, is reflected in the grid. Files still pending, uploading or failed stay where they are.
 
+Both directions also work inside `<x-modal>` and `<x-slide>`, which teleport their content to `<body>`. No `x-on:success` workaround with `$wire.set()` is needed there.
+
 ## Backend
 
 The endpoint is yours. The `Uploader` trait handles the chunk protocol:
