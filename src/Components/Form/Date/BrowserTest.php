@@ -1619,4 +1619,39 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', 'empty')
             ->assertInputValue('@tallstackui_date_input', '');
     }
+
+    #[Test]
+    public function keeps_the_same_height_across_months_with_different_week_counts(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2026-02-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-date label="DatePicker" wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('February')
+            ->tap(function (Browser $browser): void {
+                // February 2026 spans four weeks, March 2026 five: the picker must
+                // not change its height, otherwise a picker placed above the input
+                // moves its navigation away from the cursor between two clicks.
+                $height = fn (): int => (int) $browser->script(
+                    "return document.querySelector('[data-floating]').getBoundingClientRect().height;"
+                )[0];
+
+                $february = $height();
+
+                $browser->click('@tallstackui_date_next_month')->waitForText('March');
+
+                $this->assertSame($february, $height());
+            });
+    }
 }

@@ -12,7 +12,11 @@ export default (model, selectable) => ({
 
     // Watching covers the individual rows, "select all" and any external
     // change to the entangled property through a single path.
-    this.$watch('model', () => this.$dispatch('selected', { rows: this.model }));
+    this.$watch('model', () => {
+      this.checked();
+
+      this.$dispatch('selected', { rows: this.model });
+    });
 
     // The list of ids changes whenever Livewire re-renders the table
     // (pagination, filter, search). Re-syncing the "select all" checkbox

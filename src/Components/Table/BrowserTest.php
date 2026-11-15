@@ -715,6 +715,64 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function selectable_select_all_syncs_when_selection_changes_from_livewire(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public array $selected = [];
+
+            public function clear(): void
+            {
+                $this->selected = [];
+            }
+
+            public function everything(): void
+            {
+                $this->selected = [1, 2];
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ implode(',', $selected) }}</p>
+
+                    <x-button dusk="clear" wire:click="clear">Clear</x-button>
+                    <x-button dusk="everything" wire:click="everything">Everything</x-button>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+
+                    <x-table wire:model.live="selected" :$headers :$rows selectable />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@selected', '1,2')
+            ->assertChecked('@tallstackui_table_select_all')
+            ->click('@clear')
+            ->waitUntilMissingText('1,2')
+            ->pause(150)
+            ->assertNotChecked('input[type=checkbox][value="1"]')
+            ->assertNotChecked('@tallstackui_table_select_all')
+            ->click('@everything')
+            ->waitForTextIn('@selected', '1,2')
+            ->pause(150)
+            ->assertChecked('@tallstackui_table_select_all');
+    }
+
+    #[Test]
     public function selected_event_also_fires_on_select_all(): void
     {
         Livewire::visit(new class extends Component
