@@ -31,6 +31,7 @@ test('contains methods', function (string $component, string|array $methods) {
     ['Range', 'thumb'],
     ['Rating', 'background'],
     ['Stats', 'background'],
+    ['Switcher', 'text'],
     ['Toast', ['icon', 'text']],
     ['Toggle', 'background'],
     ['Tooltip', 'icon'],

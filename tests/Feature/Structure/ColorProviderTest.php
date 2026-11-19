@@ -31,6 +31,7 @@ use TallStackUi\Components\QrCode\Component as QrCode;
 use TallStackUi\Components\Rating\Component as Rating;
 use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Stats\Component as Stats;
+use TallStackUi\Components\Switcher\Component as Switcher;
 use TallStackUi\Components\Timeline\Items\Component as TimelineItems;
 use TallStackUi\Components\Timeline\Main\Component as Timeline;
 use TallStackUi\Components\Toast\Component as Toast;
@@ -73,6 +74,7 @@ test('should use attribute', function (string $component) {
     QrCode::class,
     Spinner::class,
     Stats::class,
+    Switcher::class,
     Timeline::class,
     TimelineItems::class,
     Toast::class,
@@ -115,6 +117,7 @@ test('attribute should only be used in the components', function () {
             QrCode::class,
             Spinner::class,
             Stats::class,
+            Switcher::class,
             Timeline::class,
             TimelineItems::class,
             Toast::class,

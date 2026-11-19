@@ -65,6 +65,38 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_paint_each_state_with_its_color(): void
+    {
+        $color = fn (string $state): string => "getComputedStyle(document.querySelector('[dusk=\"tallstackui_switcher_{$state}\"]')).color";
+
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-switcher on="Pause" off="Play" color-when-on="red" color-when-off="green" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertVisible('@tallstackui_switcher_off');
+
+        $off = $browser->script("return {$color('off')}")[0];
+
+        $browser->click('@tallstackui_switcher')
+            ->waitFor('@tallstackui_switcher_on')
+            ->waitUntilMissing('@tallstackui_switcher_off');
+
+        $on = $browser->script("return {$color('on')}")[0];
+
+        $this->assertNotSame($off, $on);
+        $this->assertNotSame($browser->script('return getComputedStyle(document.body).color')[0], $on);
+        $this->assertNotSame($browser->script('return getComputedStyle(document.body).color')[0], $off);
+    }
+
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
@@ -94,7 +126,7 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-switcher icon-on="sun" icon-off="moon" rotate />
+                    <x-switcher icon-when-on="sun" icon-when-off="moon" rotate />
                 </div>
                 HTML;
             }

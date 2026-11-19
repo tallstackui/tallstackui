@@ -26,13 +26,13 @@ it('can render')
     ->toContain('Follow');
 
 it('can render only icons')
-    ->expect('<x-switcher icon-on="sun" icon-off="moon" />')
+    ->expect('<x-switcher icon-when-on="sun" icon-when-off="moon" />')
     ->render()
     ->toContain('<svg')
     ->toContain('h-6 w-6');
 
 it('can render text with icons')
-    ->expect('<x-switcher on="Pause" off="Play" icon-on="pause" icon-off="play" />')
+    ->expect('<x-switcher on="Pause" off="Play" icon-when-on="pause" icon-when-off="play" />')
     ->render()
     ->toContain('<svg')
     ->toContain('Pause')
@@ -61,13 +61,13 @@ it('can render slots', function () {
 });
 
 it('can mix a state as text and the other as icon')
-    ->expect('<x-switcher on="Done" icon-off="check" />')
+    ->expect('<x-switcher on="Done" icon-when-off="check" />')
     ->render()
     ->toContain('Done')
     ->toContain('<svg');
 
 it('can render size variations', function (string $size, string $text, string $icon) {
-    expect("<x-switcher {$size} on=\"Foo\" off=\"Bar\" icon-on=\"sun\" icon-off=\"moon\" />")->render()
+    expect("<x-switcher {$size} on=\"Foo\" off=\"Bar\" icon-when-on=\"sun\" icon-when-off=\"moon\" />")->render()
         ->toContain($text)
         ->toContain($icon);
 })->with([
@@ -85,14 +85,55 @@ it('can render default size as md')
     ->not->toContain('text-lg');
 
 it('can render the icon on the left by default')
-    ->expect('<x-switcher on="Foo" off="Bar" icon-on="sun" icon-off="moon" />')
+    ->expect('<x-switcher on="Foo" off="Bar" icon-when-on="sun" icon-when-off="moon" />')
     ->render()
     ->not->toContain('flex-row-reverse');
 
 it('can render the icon on the right')
-    ->expect('<x-switcher on="Foo" off="Bar" icon-on="sun" icon-off="moon" position="right" />')
+    ->expect('<x-switcher on="Foo" off="Bar" icon-when-on="sun" icon-when-off="moon" position="right" />')
     ->render()
     ->toContain('flex-row-reverse');
+
+it('cannot render a color by default')
+    ->expect('<x-switcher on="Foo" off="Bar" />')
+    ->render()
+    ->not->toMatch('/text-(black|[a-z]+-500)/');
+
+it('can render a color for each state', function () {
+    $html = Blade::render('<x-switcher on="Foo" off="Bar" color-when-on="red" color-when-off="green" />');
+
+    $on = str($html)->after('tallstackui_switcher_on')->before('</span>')->value();
+    $off = str($html)->after('tallstackui_switcher_off')->before('</span>')->value();
+
+    expect($on)->toContain('text-red-500')
+        ->not->toContain('text-green-500')
+        ->and($off)->toContain('text-green-500')
+        ->not->toContain('text-red-500');
+});
+
+it('can render a color for a single state', function (string $attribute, string $painted, string $inherited) {
+    $html = Blade::render("<x-switcher on=\"Foo\" off=\"Bar\" {$attribute}=\"red\" />");
+
+    expect(str($html)->after("tallstackui_switcher_{$painted}")->before('</span>')->value())
+        ->toContain('text-red-500')
+        ->and(str($html)->after("tallstackui_switcher_{$inherited}")->before('</span>')->value())
+        ->not->toMatch('/text-(black|[a-z]+-500)/');
+})->with([
+    'on' => ['color-when-on', 'on', 'off'],
+    'off' => ['color-when-off', 'off', 'on'],
+]);
+
+it('can render all the colors', function (string $color) {
+    $class = $color === 'black' ? 'text-black' : "text-{$color}-500";
+
+    expect("<x-switcher on=\"Foo\" off=\"Bar\" color-when-on=\"{$color}\" color-when-off=\"{$color}\" />")->render()
+        ->toContain($class);
+})->with(colorsDataset());
+
+it('cannot render a color that does not exist')
+    ->expect('<x-switcher on="Foo" off="Bar" color-when-on="foo" />')
+    ->render()
+    ->not->toMatch('/text-(black|[a-z]+-500)/');
 
 it('can render fading by default')
     ->expect('<x-switcher on="Foo" off="Bar" />')
@@ -134,7 +175,7 @@ it('cannot render without the off state', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [off] state requires a text, a slot or an icon.');
 
-    expect('<x-switcher icon-on="sun" />')->render();
+    expect('<x-switcher icon-when-on="sun" />')->render();
 });
 
 it('can send the class to the wrapper and the rest to the checkbox', function () {
