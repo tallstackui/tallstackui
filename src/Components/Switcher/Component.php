@@ -5,22 +5,27 @@ namespace TallStackUi\Components\Switcher;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Colors\Components\SwitcherColors;
 use TallStackUi\Support\Runtime\Components\SwitcherRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('switcher')]
+#[ColorsThroughOf(SwitcherColors::class)]
 #[PassThroughRuntime(SwitcherRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $on = null,
         public ComponentSlot|string|null $off = null,
-        public ?string $iconOn = null,
-        public ?string $iconOff = null,
+        public ?string $iconWhenOn = null,
+        public ?string $iconWhenOff = null,
+        public ?string $colorWhenOn = null,
+        public ?string $colorWhenOff = null,
         public ?string $position = 'left',
         public ?bool $rotate = false,
         public ?bool $flip = false,
@@ -92,7 +97,7 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [rotate] and [flip] cannot be used together.');
         }
 
-        foreach (['on' => $this->iconOn, 'off' => $this->iconOff] as $state => $icon) {
+        foreach (['on' => $this->iconWhenOn, 'off' => $this->iconWhenOff] as $state => $icon) {
             if (blank($data[$state] ?? null) && blank($icon)) {
                 __ts_validation_exception($this, "The [$state] state requires a text, a slot or an icon.");
             }

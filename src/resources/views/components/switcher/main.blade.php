@@ -22,10 +22,11 @@
               $customization['content.reverse'] => $position === 'right',
               $customization['content.transition'] => !$ts_ui__flash,
               $customization['on.'.$effect],
+              $colors['on'] ?? '' => (bool) $colors['on'],
           ])>
-        @if ($iconOn)
+        @if ($iconWhenOn)
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                 :icon="$iconOn"
+                                 :icon="$iconWhenOn"
                                  internal
                                  class="{{ $customization['icon.sizes.'.$size] }}" />
         @endif
@@ -38,10 +39,11 @@
               $customization['content.reverse'] => $position === 'right',
               $customization['content.transition'] => !$ts_ui__flash,
               $customization['off.'.$effect],
+              $colors['off'] ?? '' => (bool) $colors['off'],
           ])>
-        @if ($iconOff)
+        @if ($iconWhenOff)
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                 :icon="$iconOff"
+                                 :icon="$iconWhenOff"
                                  internal
                                  class="{{ $customization['icon.sizes.'.$size] }}" />
         @endif
