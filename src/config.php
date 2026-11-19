@@ -1008,6 +1008,7 @@ return [
                 'select' => null,
             ],
         ],
+        'switcher' => Components\Switcher\Component::class,
         'tab' => [
             Components\Tab\Main\Component::class,
             /*
