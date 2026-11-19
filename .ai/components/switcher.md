@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 80+ Blade components for building modern web interfaces.
 
-A two-state control that swaps its own content: a text, an icon or both for the `on` state, another for the `off` state, and an animated transition between them. It is a native checkbox under the hood, so it binds to a boolean through `wire:model` or `x-model` and submits in a plain form like any checkbox. Use it for play/pause, follow/following, mute/unmute, like/unlike and similar pairs. For a labelled on/off form field use [Toggle](form/toggle.md); for cycling through a list of values use [Swap](swap.md).
+A two-state control that swaps its own content: a text, an icon or both for the `on` state, another for the `off` state, and an animated transition between them. Each state can also carry its own color. It is a native checkbox under the hood, so it binds to a boolean through `wire:model` or `x-model` and submits in a plain form like any checkbox. Use it for play/pause, follow/following, mute/unmute, like/unlike and similar pairs. For a labelled on/off form field use [Toggle](form/toggle.md); for cycling through a list of values use [Swap](swap.md).
 
 ## Basic Usage
 
@@ -12,15 +12,19 @@ A two-state control that swaps its own content: a text, an icon or both for the 
 ```
 
 ```blade
-<x-switcher wire:model="muted" icon-on="speaker-x-mark" icon-off="speaker-wave" aria-label="Mute" />
+<x-switcher wire:model="muted" icon-when-on="speaker-x-mark" icon-when-off="speaker-wave" aria-label="Mute" />
 ```
 
 ```blade
-<x-switcher wire:model.live="playing" on="Pause" off="Play" icon-on="pause" icon-off="play" />
+<x-switcher wire:model.live="playing" on="Pause" off="Play" icon-when-on="pause" icon-when-off="play" />
 ```
 
 ```blade
-<x-switcher wire:model="dark" icon-on="moon" icon-off="sun" rotate lg aria-label="Dark mode" />
+<x-switcher wire:model="dark" icon-when-on="moon" icon-when-off="sun" rotate lg aria-label="Dark mode" />
+```
+
+```blade
+<x-switcher wire:model="liked" icon-when-on="heart" icon-when-off="heart" color-when-on="red" color-when-off="gray" aria-label="Like" />
 ```
 
 The `on` and `off` also accept a slot, which is what you need when the content carries markup:
@@ -38,28 +42,41 @@ The `on` and `off` also accept a slot, which is what you need when the content c
 
 ## Attributes
 
-| Attribute | Type               | Default | Description                                                            |
-|-----------|--------------------|---------|------------------------------------------------------------------------|
-| on        | string\|slot\|null | null    | Content shown while the switcher is on (checked)                       |
-| off       | string\|slot\|null | null    | Content shown while the switcher is off (unchecked)                    |
-| icon-on   | string\|null       | null    | Icon shown while on, next to the `on` content when both are given      |
-| icon-off  | string\|null       | null    | Icon shown while off, next to the `off` content when both are given    |
-| position  | string\|null       | 'left'  | Side of the icon relative to the text: 'left' or 'right'               |
-| rotate    | bool               | false   | Rotates the content while it swaps                                     |
-| flip      | bool               | false   | Flips the content on the vertical axis while it swaps                  |
-| xs        | bool               | null    | Extra-small size                                                       |
-| sm        | bool               | null    | Small size                                                             |
-| md        | bool               | null    | Medium size (default)                                                  |
-| lg        | bool               | null    | Large size                                                             |
-| checked   | attribute          | —       | Starts on. Only needed outside Livewire, where there is no bound value |
-| disabled  | attribute          | —       | Dims the control and locks it. The value is not submitted              |
-| readonly  | attribute          | —       | Dims the control and locks it. The value is still submitted            |
+| Attribute      | Type               | Default | Description                                                            |
+|----------------|--------------------|---------|------------------------------------------------------------------------|
+| on             | string\|slot\|null | null    | Content shown while the switcher is on (checked)                       |
+| off            | string\|slot\|null | null    | Content shown while the switcher is off (unchecked)                    |
+| icon-when-on   | string\|null       | null    | Icon shown while on, next to the `on` content when both are given      |
+| icon-when-off  | string\|null       | null    | Icon shown while off, next to the `off` content when both are given    |
+| color-when-on  | string\|null       | null    | Color of the text and the icon while on. Inherits when omitted         |
+| color-when-off | string\|null       | null    | Color of the text and the icon while off. Inherits when omitted        |
+| position       | string\|null       | 'left'  | Side of the icon relative to the text: 'left' or 'right'               |
+| rotate         | bool               | false   | Rotates the content while it swaps                                     |
+| flip           | bool               | false   | Flips the content on the vertical axis while it swaps                  |
+| xs             | bool               | null    | Extra-small size                                                       |
+| sm             | bool               | null    | Small size                                                             |
+| md             | bool               | null    | Medium size (default)                                                  |
+| lg             | bool               | null    | Large size                                                             |
+| checked        | attribute          | —       | Starts on. Only needed outside Livewire, where there is no bound value |
+| disabled       | attribute          | —       | Dims the control and locks it. The value is not submitted              |
+| readonly       | attribute          | —       | Dims the control and locks it. The value is still submitted            |
 
 Without `rotate` or `flip` the content fades. `globals()->flash()` removes the transition, turning the swap into an instant change.
 
 Both states sit in the same grid cell, so the switcher is always as wide as the larger of the two and nothing around it moves when it swaps. The content aligns to the start of that cell, which keeps the icon in place while the text changes.
 
-The sizes set the text size and the icon size together. The component sets no color: text and icons inherit the color of where the switcher sits, so `class="text-red-500"` is enough to paint it.
+The sizes set the text size and the icon size together.
+
+## Colors
+
+By default the component sets no color: text and icons inherit the color of where the switcher sits, so `class="text-red-500"` on it paints both states alike. `color-when-on` and `color-when-off` paint one state each, and either can be used alone, leaving the other state inheriting:
+
+```blade
+<x-switcher on="Active" off="Inactive" color-when-on="green" color-when-off="red" />
+<x-switcher on="Following" off="Follow" color-when-on="primary" />
+```
+
+They take the color names of the library (`primary`, `secondary`, `black`, `red`, `green` and the rest of the palette) and resolve to a text color in the `500` shade (plain black for `black`), which the icon follows. A name outside the palette paints nothing. The color lands on the element of the state, so the content of an `on` or `off` slot inherits it too, unless it carries a color class of its own.
 
 The `class` attribute lands on the wrapper. Every other attribute — `wire:model`, `x-model`, `name`, `value`, `id`, `checked`, `aria-*`, `x-on:*` — lands on the checkbox.
 
@@ -75,7 +92,7 @@ The `class` attribute lands on the wrapper. Every other attribute — `wire:mode
 | on   | Content of the on state, in place of the `on` attribute   |
 | off  | Content of the off state, in place of the `off` attribute |
 
-`icon-on` and `icon-off` still render next to a slot. Sizes do not reach what is inside a slot beyond the inherited text size, so an icon written in the slot carries its own size classes.
+`icon-when-on` and `icon-when-off` still render next to a slot. Sizes do not reach what is inside a slot beyond the inherited text size, so an icon written in the slot carries its own size classes.
 
 ## Alpine.js Events
 
@@ -149,14 +166,12 @@ TallStackUi::customize()
 | off.flip           | The same for `flip`                                                      |
 | icon.sizes.*       | Icon size per size (`xs`, `sm`, `md`, `lg`)                              |
 
-The `on.*` and `off.*` blocks drive the state through `peer-checked:` variants, with no JavaScript involved. To color one state only, append to its block:
+The `on.*` and `off.*` blocks drive the state through `peer-checked:` variants, with no JavaScript involved.
 
-```php
-TallStackUi::customize('switcher', scope: 'like')
-    ->block('on.fade')
-    ->append('text-red-500');
+## Color Personalization
+
+```bash
+php artisan tallstackui:setup-color
 ```
 
-```blade
-<x-switcher scope="like" wire:model="liked" icon-on="heart" icon-off="heart" aria-label="Like" />
-```
+Publishes a `SwitcherColors` class with a single `textColors()` palette, shared by `color-when-on` and `color-when-off`.
