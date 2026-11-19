@@ -67,6 +67,7 @@
 - [Select Native](components/form/select/native.md)
 - [Select Styled](components/form/select/styled.md)
 - [Swap](components/swap.md)
+- [Switcher](components/switcher.md)
 - [Tag](components/form/tag.md)
 - [Textarea](components/form/textarea.md)
 - [Time Picker](components/form/time.md)
@@ -185,7 +186,7 @@ outright, since a button carries no value.
 Supported by `Input`, `Textarea`, `Password`, `Number`, `Currency`, `Color`,
 `Date`, `Time`, `Tag`, `Pin`, `Range`, `Checkbox`, `Radio`, `Toggle`, `Upload`,
 `Upload/Async`, `Autocomplete`, `Select/Native`, `Select/Styled`, `Input/Select`,
-`Swap` and the `Checkbox`/`Radio` groups.
+`Swap`, `Switcher` and the `Checkbox`/`Radio` groups.
 
 `Input/Select` passes its own lock down to the component in the `left`/`right`
 slot, so the compound control locks as one. A lock declared on the slot's own
