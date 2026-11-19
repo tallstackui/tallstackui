@@ -33,7 +33,7 @@ class CompileConfigurations
     public static function of(object $component): ?array
     {
         /** @var string|array|null $data */
-        $data = (match (true) { // @phpstan-ignore-line
+        $data = (match (true) {
             $component instanceof Autocomplete => fn () => self::autocomplete($component),
             $component instanceof Chart => fn () => self::chart($component),
             $component instanceof CommandPalette => fn () => self::commandPalette($component),
