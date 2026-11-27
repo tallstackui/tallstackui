@@ -5,6 +5,7 @@
     'collapsible' => null,
     'thinScroll' => null,
     'thickScroll' => null,
+    'tree' => null,
 ])
 
 @php
@@ -15,7 +16,8 @@
 @if ($visible)
     @if ($slot->isNotEmpty())
         <li x-data="{ show : @js($opened ?? \Illuminate\Support\Str::contains($slot, 'ts-ui-group-opened') ?? false), flyout : false, timer : null }"
-            @if ($collapsible) x-effect="if (! railed) flyout = false" @endif>
+            @if ($collapsible) x-effect="if (! railed) flyout = false" @endif
+            @if ($tree) x-bind:class="{ '{{ $customization['group.tree'] }}' : $refs.parent !== undefined }" @endif>
             <button type="button"
                     x-ref="button"
                     @class([$customization['group.button'], $customization['group.button.gap'] => ! $collapsible])
@@ -28,10 +30,12 @@
                         x-bind:class="{
                             '{{ $customization['group.button.gap'] }}' : ! railed,
                             '{{ $customization['group.button.collapsed'] }}' : railed,
+                            @if ($tree) '{{ $customization['group.button.tree'] }}' : $refs.parent !== undefined, @endif
                         }"
                     @else
                         x-on:click="show = ! show"
                         x-bind:aria-expanded="show"
+                        @if ($tree) x-bind:class="{ '{{ $customization['group.button.tree'] }}' : $refs.parent !== undefined }" @endif
                     @endif>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
@@ -114,7 +118,7 @@
         </li>
     @else
         <li class="{{ $customization['item.wrapper.base'] }}"
-            x-bind:class="{ '{{ $customization['item.wrapper.border'] }}' : $refs.parent !== undefined }">
+            x-bind:class="{ '{{ $tree ? $customization['item.wrapper.tree'] : $customization['item.wrapper.border'] }}' : $refs.parent !== undefined }">
             <a @if ($route || $href) href="{{ $route ?? $href }}" @endif
                @if ($active) aria-current="page" @endif
                {{ $attributes->class([
