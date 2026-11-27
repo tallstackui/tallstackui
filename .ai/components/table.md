@@ -81,6 +81,10 @@ With expandable rows:
 </x-table>
 ```
 
+The last row gives up its bottom divider while its sub content is collapsed, so the table
+never ends on a line stacked against the wrapper ring. That row carries
+`data-table-collapsed` for as long as it stays collapsed.
+
 With clickable row links:
 
 ```blade
