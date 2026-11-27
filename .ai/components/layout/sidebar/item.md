@@ -48,6 +48,42 @@ With `smart`, an item is active when the current route name fits `match` or when
 current URL is its `route`. Both can be used together, so the item above stays active on
 `orders.index` and on every child page such as `orders.show`.
 
+## Tree Lines
+
+The items of a group are tied to it by a tree connector: a trunk comes down from the group,
+each item gets its own curved branch, and the trunk stops at the branch of the last item
+instead of running past it. A group nested inside another group is connected the same way
+and draws its own trunk for its items. The lines are pure CSS, drawn with the `::before`
+and `::after` of the list items, so they follow items of any height.
+
+```blade
+<x-side-bar.item text="Reports" icon="chart-bar" opened>
+    <x-side-bar.item text="Overview" route="/reports" />
+    <x-side-bar.item text="Sales" opened>
+        <x-side-bar.item text="Monthly" route="/reports/sales/monthly" />
+        <x-side-bar.item text="Yearly" route="/reports/sales/yearly" />
+    </x-side-bar.item>
+</x-side-bar.item>
+```
+
+The collapsed rail shows no lines, since a group opens in a floating panel there. The first
+level of that panel has none either, because the panel header already names the group.
+
+`<x-side-bar :tree="false">`, or `'tree' => false` in the global configuration, brings back
+the plain left border of `item.wrapper.border`, which leaves a nested group without a line.
+
+The color is declared once per block, on the list item, and the lines inherit it. Changing
+it takes one replace on each of the two blocks:
+
+```php
+TallStackUi::customize()
+    ->sideBar('item')
+    ->block('item.wrapper.tree')
+    ->replace('border-primary-300', 'border-gray-300')
+    ->block('group.tree')
+    ->replace('border-primary-300', 'border-gray-300');
+```
+
 ## Attributes
 
 | Attribute   | Type               | Default | Description                                                             |
@@ -80,6 +116,7 @@ These attributes are inherited from the parent `<x-side-bar>` via `@aware`:
 | smart          | `<x-side-bar smart>` enables automatic route-based active state detection. An item never matches where there is no current route to compare against, which is the case on error views, or where the current route was declared without `->name()` |
 | navigate       | `<x-side-bar navigate>` adds `wire:navigate` to links                                                                                                                                                                                             |
 | navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links                                                                                                                                                                                 |
+| tree           | `<x-side-bar :tree="false">` replaces the tree lines of the groups with the plain left border                                                                                                                                                     |
 | collapsible    | `<x-side-bar collapsible>` enables collapsed sidebar behavior with tooltips                                                                                                                                                                       |
 
 ## Tooltips While Collapsed
@@ -104,40 +141,43 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                   | Purpose                                                      |
-|------------------------------|--------------------------------------------------------------|
-| group.button                 | Collapsible group toggle button styles                       |
-| group.button.gap             | Gap between the group icon, text and badge                   |
-| group.button.collapsed       | Centered alignment when sidebar is collapsed                 |
-| group.icon.base              | Group icon dimensions and color                              |
-| group.icon.collapse.base     | Chevron icon for group expand/collapse                       |
-| group.icon.collapse.rotate   | Chevron rotation when group is expanded                      |
-| group.group                  | Nested items list padding                                    |
-| group.text                   | Group text with overflow and transition handling             |
-| group.text.visible           | Group text visible state (sidebar expanded)                  |
-| group.text.hidden            | Group text hidden state (sidebar collapsed)                  |
-| group.badge                  | Group badge overflow and transition                          |
-| group.badge.visible          | Group badge visible state                                    |
-| group.badge.hidden           | Group badge hidden state                                     |
-| group.flyout.wrapper         | Floating panel frame shown when a collapsed group is hovered |
-| group.flyout.scroll          | Scroll container inside the panel frame, with its height cap |
-| group.flyout.scrollbar.thin  | Thin scrollbar, when the sidebar asks for one                |
-| group.flyout.scrollbar.thick | Thick scrollbar, when the sidebar asks for one               |
-| group.dot                    | Dot replacing the group badge on the collapsed rail          |
-| group.flyout.header          | Sticky group label at the top of the floating panel          |
-| group.flyout.items           | List wrapper for the items inside the floating panel         |
-| item.wrapper.base            | Single item list-item wrapper padding                        |
-| item.wrapper.border          | Left border for nested items within a group                  |
-| item.state.base              | Base styles for the item link (flex, font, transition)       |
-| item.state.gap               | Gap between the item icon, text and badge                    |
-| item.state.current           | Active/current state background and text color               |
-| item.state.normal            | Default/hover state text color                               |
-| item.state.collapsed         | Centered alignment when sidebar is collapsed                 |
-| item.icon                    | Item icon dimensions and color                               |
-| item.text                    | Item text overflow and transition                            |
-| item.text.visible            | Item text visible state                                      |
-| item.text.hidden             | Item text hidden state                                       |
-| item.badge                   | Item badge wrapper overflow and transition                   |
-| item.badge.visible           | Item badge visible state                                     |
-| item.badge.hidden            | Item badge hidden state                                      |
-| item.dot                     | Dot replacing the item badge on the collapsed rail           |
+| Block Name                   | Purpose                                                                      |
+|------------------------------|------------------------------------------------------------------------------|
+| group.button                 | Collapsible group toggle button styles                                       |
+| group.button.gap             | Gap between the group icon, text and badge                                   |
+| group.button.collapsed       | Centered alignment when sidebar is collapsed                                 |
+| group.button.tree            | Branch of the tree lines into a group nested inside another group            |
+| group.icon.base              | Group icon dimensions and color                                              |
+| group.icon.collapse.base     | Chevron icon for group expand/collapse                                       |
+| group.icon.collapse.rotate   | Chevron rotation when group is expanded                                      |
+| group.group                  | Nested items list padding                                                    |
+| group.tree                   | Indentation, line color and trunk of a group nested inside another group     |
+| group.text                   | Group text with overflow and transition handling                             |
+| group.text.visible           | Group text visible state (sidebar expanded)                                  |
+| group.text.hidden            | Group text hidden state (sidebar collapsed)                                  |
+| group.badge                  | Group badge overflow and transition                                          |
+| group.badge.visible          | Group badge visible state                                                    |
+| group.badge.hidden           | Group badge hidden state                                                     |
+| group.flyout.wrapper         | Floating panel frame shown when a collapsed group is hovered                 |
+| group.flyout.scroll          | Scroll container inside the panel frame, with its height cap                 |
+| group.flyout.scrollbar.thin  | Thin scrollbar, when the sidebar asks for one                                |
+| group.flyout.scrollbar.thick | Thick scrollbar, when the sidebar asks for one                               |
+| group.dot                    | Dot replacing the group badge on the collapsed rail                          |
+| group.flyout.header          | Sticky group label at the top of the floating panel                          |
+| group.flyout.items           | List wrapper for the items inside the floating panel                         |
+| item.wrapper.base            | Single item list-item wrapper padding                                        |
+| item.wrapper.border          | Left border for nested items within a group, when the tree lines are off     |
+| item.wrapper.tree            | Indentation, line color, branch and trunk of the tree lines for nested items |
+| item.state.base              | Base styles for the item link (flex, font, transition)                       |
+| item.state.gap               | Gap between the item icon, text and badge                                    |
+| item.state.current           | Active/current state background and text color                               |
+| item.state.normal            | Default/hover state text color                                               |
+| item.state.collapsed         | Centered alignment when sidebar is collapsed                                 |
+| item.icon                    | Item icon dimensions and color                                               |
+| item.text                    | Item text overflow and transition                                            |
+| item.text.visible            | Item text visible state                                                      |
+| item.text.hidden             | Item text hidden state                                                       |
+| item.badge                   | Item badge wrapper overflow and transition                                   |
+| item.badge.visible           | Item badge visible state                                                     |
+| item.badge.hidden            | Item badge hidden state                                                      |
+| item.dot                     | Dot replacing the item badge on the collapsed rail                           |
