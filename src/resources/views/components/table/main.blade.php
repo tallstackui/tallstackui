@@ -143,7 +143,9 @@
                             $customization['table.tr'],
                             $customization['row.striped'] => $striped && $loop->index % 2 === 0 && ! $highlighted($value),
                             $highlighted($value),
-                        ]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                            'data-[table-collapsed]:border-b-0' => $expandable && $loop->last && isset($sub_table),
+                        ]) @if ($livewire) wire:key="{{ $id }}" @endif
+                           @if ($expandable && $loop->last && isset($sub_table)) data-table-collapsed x-bind:data-table-collapsed="! expanded('{{ $id }}')" @endif>
                             @if ($expandable)
                                 <td @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact])>
                                     @isset($sub_table)
