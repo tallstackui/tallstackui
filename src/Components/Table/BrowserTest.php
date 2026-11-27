@@ -313,6 +313,49 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_expandable_dropping_the_divider_of_the_last_row_while_collapsed(): void
+    {
+        $divider = fn (int $child): string => "getComputedStyle(document.querySelector('tbody tr:nth-child({$child})')).borderBottomWidth";
+
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows expandable>
+                        @interact('sub_table', $row)
+                            <p dusk="sub-{{ $row['id'] }}">Details for {{ $row['name'] }}</p>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Bar')
+            ->assertScript($divider(1), '1px')
+            ->assertScript($divider(3), '0px')
+            ->click('tbody tr:nth-child(3) button')
+            ->waitForText('Details for Bar')
+            ->assertScript($divider(3), '1px')
+            ->assertScript($divider(4), '0px')
+            ->click('tbody tr:nth-child(3) button')
+            ->waitUntilMissingText('Details for Bar')
+            ->assertScript($divider(3), '0px');
+    }
+
+    #[Test]
     public function can_render_headless(): void
     {
         Livewire::visit(new class extends Component
