@@ -10,10 +10,9 @@ use TallStackUi\Support\Icons\IconGuideMap;
 
 trait BuildRawIcon
 {
-    // Laravel's dynamic component binds each attribute of a class-less icon
-    // again, which encodes a second time what the tag had already encoded.
-    // Its template tells when that happens, so the decoding never reaches
-    // an icon that prints the attributes as they are.
+    // Laravel's dynamic component binds every attribute of a class-less icon
+    // again, encoding twice what the tag already encoded. Its template tells
+    // when that happens, so a class-based icon never gets decoded attributes.
     public function forward(ComponentAttributeBag $attributes, ?string $path = null): ComponentAttributeBag
     {
         $decoded = array_map(
