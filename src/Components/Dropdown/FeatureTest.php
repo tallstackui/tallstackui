@@ -185,3 +185,20 @@ it('cannot render hover handlers by default', function () {
 
     expect($dropdown)->render()->not->toContain('pointerenter');
 });
+
+it('cannot encode the icon size twice', function (string $dropdown) {
+    expect($dropdown)->render()->toContain(e("[[data-tsui-dropdown-size='md']_&]:h-5 [[data-tsui-dropdown-size='md']_&]:w-5"));
+})->with([
+    'item' => <<<'HTML'
+    <x-dropdown text="Menu">
+        <x-dropdown.items text="Settings" icon="cog" />
+    </x-dropdown>
+    HTML,
+    'submenu' => <<<'HTML'
+    <x-dropdown text="Menu">
+        <x-dropdown.submenu text="More" icon="cog">
+            <x-dropdown.items text="Settings" />
+        </x-dropdown.submenu>
+    </x-dropdown>
+    HTML,
+]);

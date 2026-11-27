@@ -249,6 +249,27 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_the_item_icon_in_the_dropdown_size(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-dropdown text="FooBar">
+                            <x-dropdown.items text="Lorem" icon="cog" />
+                        </x-dropdown>
+                    </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_open_dropdown')
+            ->waitForText('Lorem')
+            ->assertScript("getComputedStyle(document.querySelector('[role=menuitem] svg')).width", '20px');
+    }
+
+    #[Test]
     public function can_render_with_action(): void
     {
         Livewire::visit(new class extends Component

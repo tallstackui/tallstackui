@@ -9,7 +9,7 @@
             {!! $left !!}
         @endif
         @if ($internal)
-            <x-dynamic-component :component="$raw('ts-ui::icon.')" {{ $attributes->class([$scale ? $customization['sizes.' . $scale] : '' => (bool) $scale, $tone ? $colors['text'] : '' => (bool) $tone, 'text-red-500' => $error]) }} />
+            <x-dynamic-component :component="$raw('ts-ui::icon.')" :attributes="$forward($attributes->class([$scale ? $customization['sizes.' . $scale] : '' => (bool) $scale, $tone ? $colors['text'] : '' => (bool) $tone, 'text-red-500' => $error]), 'ts-ui::icon.')" />
         @else
             <x-blade-ui :name="$raw()" {{ $attributes->class([$scale ? $customization['sizes.' . $scale] : '' => (bool) $scale, $tone ? $colors['text'] : '' => (bool) $tone, 'text-red-500' => $error]) }} />
         @endif

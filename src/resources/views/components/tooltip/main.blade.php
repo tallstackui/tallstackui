@@ -7,6 +7,6 @@
         <x-dynamic-component :component="$raw('ts-ui::icon.')"
                              data-position="{{ $position }}"
                              x-tooltip="{!! $sentence !!}"
-                {{ $attributes->merge($settings)->class([$customization['sizes.' . $size], $colors['icon']]) }} />
+                :attributes="$forward($attributes->merge($settings)->class([$customization['sizes.' . $size], $colors['icon']]), 'ts-ui::icon.')" />
     </div>
 @endunless

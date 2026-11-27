@@ -79,3 +79,11 @@ it('keeps the upload icon visibility in direct mode with a blade ui icon', funct
         }
     })->assertSeeHtml('x-show="!uploading"');
 });
+
+it('keeps a bound attribute encoded once on a blade ui icon', function () {
+    $title = '<b>"Foo" & \'bar\'</b>';
+
+    expect('<x-icon icon="tabler.upload" :$title />')->render(['title' => $title])
+        ->toContain('title="'.e($title).'"')
+        ->not->toContain('<b>');
+});

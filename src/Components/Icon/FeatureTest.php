@@ -149,3 +149,29 @@ it('can be softly customized using scope', function () {
 
     expect('<x-icon icon="users" />')->render()->not->toContain('foo-bar-baz');
 });
+
+it('cannot encode an attribute twice', function (string $component) {
+    $value = "[[data-tsui-dropdown-size='md']_&]:h-5";
+
+    expect(str_replace('{static}', $value, $component))->render(['value' => $value])->toContain('"'.e($value).'"');
+})->with([
+    'bound class' => '<x-icon icon="users" :class="$value" />',
+    'class directive' => '<x-icon icon="users" @class([$value]) />',
+    'bound attribute' => '<x-icon icon="users" :title="$value" />',
+    'echoed attribute' => '<x-icon icon="users" title="{{ $value }}" />',
+    'static class' => '<x-icon icon="users" class="{static}" />',
+]);
+
+it('cannot encode a softly customized block twice', function () {
+    TallStackUi::customize()->icon()->block('sizes.md', '[&>svg]:h-full');
+
+    expect('<x-icon icon="users" />')->render()->toContain('"'.e('[&>svg]:h-full').'"');
+});
+
+it('cannot decode what a bound attribute carries', function () {
+    $title = '<b>"Foo" & \'bar\'</b> &lt;';
+
+    expect('<x-icon icon="users" :$title />')->render(['title' => $title])
+        ->toContain('title="'.e($title).'"')
+        ->not->toContain('<b>');
+});
