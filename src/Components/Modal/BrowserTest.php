@@ -438,9 +438,10 @@ class BrowserTest extends BrowserTestCase
     {
         // The breakpoints are Tailwind's own: sm at 640px and md at 768px. Each
         // width below sits far enough from the edges that the gap between the
-        // window and the viewport cannot flip the assertion.
+        // window and the viewport cannot flip the assertion. Chrome 158 reports
+        // flex-end as flow-end, so both spellings count as the same value.
         $alignment = fn (Browser $browser): string => $browser->script(
-            "return getComputedStyle(document.querySelector('#modal .min-h-full')).alignItems;"
+            "return getComputedStyle(document.querySelector('#modal .min-h-full')).alignItems.replace('flow-', 'flex-');"
         )[0];
 
         Livewire::visit(new class extends Component
