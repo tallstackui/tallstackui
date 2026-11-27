@@ -607,3 +607,39 @@ describe('align', function () {
         expect('<x-table :headers="[[\'index\' => \'name\', \'align\' => \'middle\']]" />')->render();
     });
 });
+
+describe('expandable', function () {
+    it('marks only the last row as collapsed', function (array $headers) {
+        $rows = [['name' => 'Foo', 'email' => 'foo@bar.com'], ['name' => 'Bar', 'email' => 'bar@bar.com']];
+
+        $component = <<<'BLADE'
+        <x-table :$headers :$rows expandable>
+            @interact('sub_table', $row)
+                Sub
+            @endinteract
+        </x-table>
+        BLADE;
+
+        $html = expect($component)
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->value;
+
+        preg_match_all('/<tr\s[^>]*>/', $html, $trs);
+
+        [$first, , $last] = $trs[0];
+
+        expect($first)->not->toContain('data-table-collapsed')
+            ->not->toContain('border-b-0')
+            ->and($last)->toContain('data-table-collapsed x-bind:data-table-collapsed')
+            ->toContain('data-[table-collapsed]:border-b-0');
+    })->with('table.headers');
+
+    it('marks no row without a sub table', function (array $headers) {
+        $rows = [['name' => 'Foo', 'email' => 'foo@bar.com'], ['name' => 'Bar', 'email' => 'bar@bar.com']];
+
+        expect('<x-table :$headers :$rows expandable />')
+            ->render(['headers' => $headers, 'rows' => $rows])
+            ->not->toContain('data-table-collapsed')
+            ->not->toContain('border-b-0');
+    })->with('table.headers');
+});
