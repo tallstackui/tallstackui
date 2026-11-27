@@ -74,6 +74,67 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function draws_the_tree_lines_of_a_group_down_to_its_last_item(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-layout>
+                        <x-slot:menu>
+                            <x-side-bar>
+                                <x-side-bar.item text="Users" icon="users" href="#" />
+                                <x-side-bar.item text="Settings" icon="cog-6-tooth" opened>
+                                    <x-side-bar.item text="General" href="#" />
+                                    <x-side-bar.item text="Advanced" opened>
+                                        <x-side-bar.item text="Cache" href="#" />
+                                    </x-side-bar.item>
+                                    <x-side-bar.item text="Privacy" href="#" />
+                                </x-side-bar.item>
+                            </x-side-bar>
+                        </x-slot:menu>
+                        Content
+                    </x-layout>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 900)
+            ->waitForText('Content')
+            ->pause(400)
+            ->tap(function (Browser $browser): void {
+                $lines = $browser->script(<<<'JS'
+                    const visible = (tag, text) => Array.from(document.querySelectorAll(tag)).find((element) => element.offsetParent !== null && element.textContent.trim() === text);
+                    const width = (element, pseudo, side) => parseFloat(getComputedStyle(element, pseudo)[side]) || 0;
+
+                    const line = (text) => {
+                        const item = visible('a', text).closest('li');
+
+                        return { branch: width(item, '::before', 'borderBottomWidth'), trunk: width(item, '::after', 'borderLeftWidth') };
+                    };
+
+                    const group = visible('button', 'Advanced');
+
+                    return {
+                        top: line('Users'),
+                        first: line('General'),
+                        last: line('Privacy'),
+                        nested: { branch: width(group, '::before', 'borderBottomWidth'), trunk: width(group.closest('li'), '::after', 'borderLeftWidth') },
+                        only: line('Cache'),
+                    };
+                JS)[0];
+
+                Assert::assertSame(['branch' => 0, 'trunk' => 0], $lines['top'], 'an item outside a group has nothing to be connected to');
+                Assert::assertSame(['branch' => 1, 'trunk' => 1], $lines['first'], 'an item followed by another one carries its branch and the trunk going down');
+                Assert::assertSame(['branch' => 1, 'trunk' => 1], $lines['nested'], 'a group inside a group is connected like any other item');
+                Assert::assertSame(['branch' => 1, 'trunk' => 0], $lines['last'], 'the trunk must stop at the branch of the last item');
+                Assert::assertSame(['branch' => 1, 'trunk' => 0], $lines['only'], 'the only item of a group is also its last one');
+            });
+    }
+
+    #[Test]
     public function opens_the_flyout_of_a_group_when_collapsed(): void
     {
         Livewire::visit($this->sidebar())

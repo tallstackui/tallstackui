@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use TallStackUi\Components\Layout\SideBar\Item\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -43,6 +44,48 @@ it('sizes the collapsed group flyout from the trigger to the viewport', function
         ->toContain('data-flyout-scroll')
         ->toContain('max-h-[calc(100dvh-2rem)]')
         ->not->toContain('min(24rem');
+});
+
+it('connects the items of a group through the tree lines', function () {
+    $component = <<<'HTML'
+    <x-side-bar>
+        <x-side-bar.item text="Settings">
+            <x-side-bar.item text="General" href="#" />
+            <x-side-bar.item text="Advanced">
+                <x-side-bar.item text="Cache" href="#" />
+            </x-side-bar.item>
+        </x-side-bar.item>
+    </x-side-bar>
+    HTML;
+
+    $tree = app(Component::class)->customization();
+
+    expect($component)->render()
+        ->toContain($tree['item.wrapper.tree'])
+        ->toContain($tree['group.tree'])
+        ->toContain($tree['group.button.tree'])
+        ->not->toContain($tree['item.wrapper.border']);
+});
+
+it('keeps the plain border when the tree lines are turned off', function () {
+    $component = <<<'HTML'
+    <x-side-bar :tree="false">
+        <x-side-bar.item text="Settings">
+            <x-side-bar.item text="General" href="#" />
+            <x-side-bar.item text="Advanced">
+                <x-side-bar.item text="Cache" href="#" />
+            </x-side-bar.item>
+        </x-side-bar.item>
+    </x-side-bar>
+    HTML;
+
+    $tree = app(Component::class)->customization();
+
+    expect($component)->render()
+        ->toContain($tree['item.wrapper.border'])
+        ->not->toContain($tree['item.wrapper.tree'])
+        ->not->toContain($tree['group.tree'])
+        ->not->toContain($tree['group.button.tree']);
 });
 
 it('does not match when the current route has no name', function () {
