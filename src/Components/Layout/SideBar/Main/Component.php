@@ -22,6 +22,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $thinScroll = null,
         public ?bool $thickScroll = null,
         public ?bool $collapsible = null,
+        public ?bool $tree = null,
     ) {
         //
     }
@@ -87,6 +88,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         $this->smart ??= __ts_get_component_configuration(self::class, 'smart') ?? false;
         $this->collapsible ??= __ts_get_component_configuration(self::class, 'collapsible') ?? false;
+        $this->tree ??= __ts_get_component_configuration(self::class, 'tree') ?? true;
 
         if ($this->navigate === null && $this->navigateHover === null) {
             $this->navigate = __ts_get_component_configuration(self::class, 'navigate') ?? false;

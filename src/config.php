@@ -871,6 +871,7 @@ return [
             | thick-scroll: applies the custom scrollbar to the items list by default.
             | navigate: adds wire:navigate to every item by default.
             | navigate-hover: adds wire:navigate.hover to every item by default.
+            | tree: connects the items of a group to it through tree lines by default.
             */
             [
                 'smart' => false,
@@ -879,6 +880,7 @@ return [
                 'thick-scroll' => false,
                 'navigate' => false,
                 'navigate-hover' => false,
+                'tree' => true,
             ],
         ],
         'side-bar.item' => Components\Layout\SideBar\Item\Component::class,

@@ -15,6 +15,7 @@ afterEach(function () {
         'thick-scroll' => false,
         'navigate' => false,
         'navigate-hover' => false,
+        'tree' => true,
     ]);
 
     __ts_get_component_configuration(Component::class, flush: true);
@@ -112,4 +113,40 @@ it('can suppress the global navigate through the inline prop', function () {
 
     expect('<x-side-bar navigate-hover><x-side-bar.item text="Home" /></x-side-bar>')->render()
         ->toContain('wire:navigate.hover');
+});
+
+it('can turn the tree lines off through the global configuration', function () {
+    config()->set('ts-ui.components.side-bar.1.tree', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-side-bar>
+        <x-side-bar.item text="Settings">
+            <x-side-bar.item text="General" />
+        </x-side-bar.item>
+    </x-side-bar>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('border-outline')
+        ->not->toContain('before:rounded-bl-lg');
+});
+
+it('can bring the tree lines back through the inline prop', function () {
+    config()->set('ts-ui.components.side-bar.1.tree', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-side-bar tree>
+        <x-side-bar.item text="Settings">
+            <x-side-bar.item text="General" />
+        </x-side-bar.item>
+    </x-side-bar>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('before:rounded-bl-lg')
+        ->not->toContain('border-outline');
 });

@@ -42,6 +42,7 @@ class Component extends TallStackUiComponent implements Customization
                 'button' => 'text-primary-500 hover:bg-primary-50/50 dark:hover:bg-dark-600/50 flex w-full items-center rounded-md p-2 text-left text-sm font-semibold transition-all dark:text-white cursor-pointer',
                 'button.gap' => 'gap-x-3',
                 'button.collapsed' => 'relative justify-center',
+                'button.tree' => 'relative border-inherit before:absolute before:-left-4 before:top-0 before:h-[calc(50%+1px)] before:w-3.5 before:rounded-bl-lg before:border-b before:border-l before:border-inherit',
                 'icon' => [
                     'base' => 'text-primary-500 h-6 w-6 shrink-0 dark:text-white',
                     'collapse' => [
@@ -50,6 +51,7 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                 ],
                 'group' => 'px-2 pl-5',
+                'tree' => 'relative pl-4 border-primary-300 dark:border-dark-600 not-last:after:absolute not-last:after:inset-y-0 not-last:after:left-0 not-last:after:border-l not-last:after:border-inherit',
                 'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
                 'text.visible' => 'opacity-100 max-w-48',
                 'text.hidden' => 'opacity-0 max-w-0',
@@ -70,6 +72,7 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => [
                     'base' => 'py-0.5',
                     'border' => 'border-outline border-l border-primary-200 dark:border-dark-700 pl-2',
+                    'tree' => 'relative pl-4 border-primary-300 dark:border-dark-600 before:absolute before:left-0 before:top-0 before:h-[calc(50%+1px)] before:w-3.5 before:rounded-bl-lg before:border-b before:border-l before:border-inherit not-last:after:absolute not-last:after:inset-y-0 not-last:after:left-0 not-last:after:border-l not-last:after:border-inherit',
                 ],
                 'state' => [
                     'base' => 'group flex items-center rounded-md p-2 text-sm font-semibold transition-all',

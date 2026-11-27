@@ -49,6 +49,7 @@ A responsive sidebar navigation component with mobile slide-out drawer and deskt
 | thin-scroll     | bool\|null         | false   | Applies thin soft scrollbar styling to the sidebar items area      |
 | thick-scroll    | bool\|null         | false   | Applies thick custom scrollbar styling to the sidebar items area   |
 | collapsible     | bool\|null         | false   | Enables sidebar collapse/expand toggling from the header           |
+| tree            | bool\|null         | true    | Connects the items of a group to it through tree lines             |
 
 Every default above except the slots comes from the global configuration, so the
 `Default` column describes the shipped configuration rather than a value hardcoded
@@ -67,12 +68,14 @@ in the component.
         'thick-scroll' => false,
         'navigate' => false,
         'navigate-hover' => false,
+        'tree' => true,
     ],
 ],
 ```
 
 The inline prop always wins, including the negative form: with `'collapsible' => true`
-configured, `:collapsible="false"` pins a single sidebar open. `navigate`/`navigate-hover`
+configured, `:collapsible="false"` pins a single sidebar open, and `:tree="false"` trades
+the tree lines of a single sidebar for the plain left border. `navigate`/`navigate-hover`
 and `thin-scroll`/`thick-scroll` are mutually exclusive pairs, so declaring either side
 of a pair inline suppresses the configured default of both sides of that pair.
 
