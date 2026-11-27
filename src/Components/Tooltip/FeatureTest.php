@@ -66,3 +66,18 @@ it('cannot emit the flash data attribute when the global excludes the component'
 
     expect(TallStackUi::directives()->script())->not->toContain('data-tsui-tooltip-flash');
 });
+
+it('cannot encode an attribute twice', function (string $component) {
+    $value = "[[data-tsui-dropdown-size='md']_&]:h-5";
+
+    expect($component)->render(['value' => $value])->toContain(e($value).'"');
+})->with([
+    'bound class' => '<x-tooltip text="Foo bar" :class="$value" />',
+    'bound attribute' => '<x-tooltip text="Foo bar" :title="$value" />',
+]);
+
+it('can keep the text encoded once', function () {
+    $text = '<b>"Foo" & \'bar\'</b> &lt;';
+
+    expect('<x-tooltip :$text />')->render(['text' => $text])->toContain('x-tooltip="'.e($text).'"');
+});
